@@ -9,12 +9,14 @@
 /*   Updated: 2023/10/30 18:08:46 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
- #include "minishell.h"
+ #include "../minishell.h"
 
- int		main(int argc, char **argv, char **envp)
+ int		main(int ac, char **av, char **envp)
  {
-
-
-
+    if (ac)
+    {
+        ft_printf("%s", av[0]);
+        ft_printf("\n El envp:%s", envp[0]);
+    }
     return (0);
  }

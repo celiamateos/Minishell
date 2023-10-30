@@ -33,22 +33,27 @@ RM = rm -f
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a
 SRC = ./src/minishell.c
+OBJ = $(SRC:.c=.o)
 INCLUDE = minishell.h
 
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT) $(INCLUDE)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) 
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+
+$(LIBFT):
+	@echo "${COLOR_BLUE} ◎ $(BROWN)Compiling   ${MAGENTA}→   $(COLOR_YELLOW)$<"
+	@make -C $(LIBFT_DIR)
+	@echo "$(COLOR_GREEN) Created libft $(COLOR_RESET)"
 
 %.o: %.c
 	@echo "${BLANCO_T} ◎ $(BROWN)Compiling 🛠️  ${MAGENTA}→   $(COLOR_CYAN)$< $(COLOR_RESET)"
-	@$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 	@echo "$(COLOR_BLUE) Created! 😸 $(COLOR_RESET)"
 
 clean:
 	@rm -f $(OBJ) $(LIBFT)
 	@make clean -C $(LIBFT_DIR)
-#@echo "$(COLOR_RED) Cleaned files .o $(COLOR_RESET)"
 
 fclean: clean
 	@rm -f $(NAME)

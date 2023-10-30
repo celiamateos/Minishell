@@ -63,7 +63,9 @@ SRC = ft_isalpha.c \
 	  ./ft_printf/ft_putnbr_pf.c \
 	  ./ft_printf/ft_putptr_pf.c \
 	  ./ft_printf/ft_puthex.c \
-	  ./ft_printf/ft_putun.c
+	  ./ft_printf/ft_putun.c \
+	  ./get_next_line/get_next_line.c \
+	  ./get_next_line/get_next_line_utils.c
 SRC_BONUS = ft_lstnew_bonus.c \
 			ft_lstadd_front_bonus.c \
 			ft_lstsize_bonus.c \
@@ -78,22 +80,22 @@ OBJ_BONUS = $(SRC_BONUS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(LIB) $(NAME) $(OBJ)
+	@$(LIB) $(NAME) $(OBJ)
 
 bonus: $(OBJ) $(OBJ_BONUS)
-	ar rc $(NAME) $(OBJ_BONUS) $(OBJ)
+	@ar rc $(NAME) $(OBJ_BONUS) $(OBJ)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+	@$(CC) $(CFLAGS) -c -o $@ $<
 
 Coment:
 	echo $(TEXT)
 clean:
-	rm -rdf $(OBJ)
-	rm -rdf $(OBJ_BONUS)
+	@rm -rdf $(OBJ)
+	@rm -rdf $(OBJ_BONUS)
 
 fclean: clean
-	rm -rdf $(NAME)
+	@rm -rdf $(NAME)
 
 re: fclean all
 

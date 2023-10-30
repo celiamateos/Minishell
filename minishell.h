@@ -16,15 +16,15 @@
 
 # include <unistd.h>
 # include <stdio.h>
-# include <string.h> //??
-# include <stdlib.h> // Malloc, free
+# include <string.h> 
+# include <stdlib.h> 
 # include <fcntl.h>
-# include <stdarg.h> // va_arg, etc.
+# include <stdarg.h> 
 # include <limits.h> 
-# include <sys/wait.h> // waitpid, pipex.
+# include <sys/wait.h> 
 # include "./libft/libft.h" 
-# include <errno.h> //Código de error
+# include <errno.h> 
 
-int		main(int argc, char **argv, char **envp);
+int		main(int ac, char **av, char **envp);
 
 #endif
