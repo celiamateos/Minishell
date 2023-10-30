@@ -9,8 +9,17 @@
 #    Updated: 2023/10/30 19:39:44 by daviles-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+# Color Aliases
+DEFAULT = \033[0;39m
+GRAY = \033[0;90m
+RED = \033[0;91m
+GREEN = \033[0;92m
+YELLOW = \033[0;93m
+BLUE = \033[0;94m
+MAGENTA = \033[0;95m
+CYAN = \033[0;96m
+WHITE = \033[0;97m
 
-TEXT = "It 's up to you to figure it out for yourselves!"
 NAME = libft.a
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
@@ -76,6 +85,14 @@ SRC_BONUS = ft_lstnew_bonus.c \
 			ft_lstiter_bonus.c 
 OBJ = $(SRC:.c=.o)
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
+PRINTF = printf
+
+SRC_COUNT_TOT := $(shell expr $(shell echo -n 50 | wc -w) - $(shell ls -l $(OBJ_DIR) 2>&1 | grep ".o" | wc -l) + 1)
+ifeq ($(shell test $(SRC_COUNT_TOT) -le 0; echo $$?),0)
+	SRC_COUNT_TOT := $(shell echo -n $(SRC) | wc -w)
+endif
+SRC_COUNT := 0
+SRC_PCT = $(shell expr 100 \* $(SRC_COUNT) / $(SRC_COUNT_TOT))
 
 all: $(NAME)
 
@@ -83,13 +100,13 @@ $(NAME): $(OBJ)
 	@$(LIB) $(NAME) $(OBJ)
 
 bonus: $(OBJ) $(OBJ_BONUS)
-	@ar rc $(NAME) $(OBJ_BONUS) $(OBJ)
+	ar rc $(NAME) $(OBJ_BONUS) $(OBJ)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c -o $@ $<
-
-Coment:
-	echo $(TEXT)
+	@$(eval SRC_COUNT = $(shell expr $(SRC_COUNT) + 1))
+	@$(PRINTF) "\r%100s\r[ %d/%d (%d%%) ] Compiling libft $(BLUE)$<$(DEFAULT)..." "" $(SRC_COUNT) $(SRC_COUNT_TOT) $(SRC_PCT)
+	@$(CC) -I ~/.brew/opt/readline/include -I /usr/local/opt/readline/include $(CFLAGS) $(CDEBUG) -c $< -o $@
 clean:
 	@rm -rdf $(OBJ)
 	@rm -rdf $(OBJ_BONUS)

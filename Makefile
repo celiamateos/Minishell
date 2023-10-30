@@ -27,7 +27,8 @@ PURPLE = \x1b[1;35m
 
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -lreadline #-fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=thread
+CCLANG = -lreadline
 RM = rm -f
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a
@@ -41,7 +42,7 @@ INCLUDE = include/minishell.h
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT) $(INCLUDE)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(CCLANG) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 	@echo "${COLOR_BLUE} ◎ $(BROWN)Compiling   ${MAGENTA}→   $(COLOR_YELLOW)$<"
@@ -50,7 +51,7 @@ $(LIBFT):
 
 %.o: %.c
 	@echo "${BLANCO_T} ◎ $(BROWN)Compiling 🛠️  ${MAGENTA}→   $(COLOR_CYAN)$< $(COLOR_RESET)"
-	$(CC) $(CFLAGS) -c -o $@ $<
+	@$(CC) $(CFLAGS) -c -o $@ $<
 	@echo "$(COLOR_BLUE) Created! 😸 $(COLOR_RESET)"
 
 clean:

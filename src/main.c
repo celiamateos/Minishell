@@ -13,10 +13,15 @@
 
  int		main(int ac, char **av, char **envp)
  {
-    if (ac)
+    (void)ac;
+    (void)av;
+    (void)envp;
+    char *line;
+
+    while (42)
     {
-        ft_printf("%s", av[0]);
-        ft_printf("\n El envp:%s", envp[0]);
+        line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
+        free(line);
     }
     return (0);
  }

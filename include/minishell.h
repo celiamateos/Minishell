@@ -23,7 +23,16 @@
 # include <limits.h> 
 # include <sys/wait.h> 
 # include "../libft/libft.h" 
-# include <errno.h> 
+# include <errno.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+
+typedef struct s_token
+{
+	char			*content;
+	struct s_token	*next;
+    struct s_token  *prev;
+}					t_token;
 
 int		main(int ac, char **av, char **envp);
 
