@@ -6,10 +6,10 @@
 /*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:08:45 by cmateos           #+#    #+#             */
-/*   Updated: 2023/10/30 18:08:46 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/10/30 19:34:23 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
- #include "../minishell.h"
+ #include "../include/minishell.h"
 
  int		main(int ac, char **av, char **envp)
  {
