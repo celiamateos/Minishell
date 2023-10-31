@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
  # include "../include/minishell.h"
-
-t_token	*ft_lstnew(void *content)
+ //Crea un nuevo nodo con content char *, void *next y void*prev.
+/*@brief ALOCA MEMORIA*/
+t_token	*ft_dlstnew(void *content)
 {
 	t_token	*node;
 
@@ -23,8 +24,8 @@ t_token	*ft_lstnew(void *content)
 	node->prev = NULL;
 	return (node);
 }
-
-void	ft_lstadd_back(t_token **lst, t_token *new)
+ //Añade un nodo al final de la lista
+void	ft_dlstadd_back(t_token **lst, t_token *new)
 {
 	t_token	*temp;
 
@@ -43,4 +44,63 @@ void	ft_lstadd_back(t_token **lst, t_token *new)
 	}
 }
 
+//Añade un nodo al principio de la lista
+void	ft_dlstadd_front(t_token **lst, t_token *new)
+{
+	if (lst)
+	{
+		if (*lst)
+		{
+			new->next = *lst;
+			(*lst)->prev = new;
+		}
+		*lst = new;
+	}
+}
+ //Recibe un nodo y recorre la lista hacia alante, retorna el último nodo de la lista
+t_token	*ft_dlstlast(t_token *lst)
+{
+	t_token	*lastnode;
+
+	lastnode = lst;
+	if (lastnode)
+	{
+		while (lastnode->next != NULL)
+			lastnode = lastnode->next;
+	}
+	return (lastnode);
+}
+ //Recibe un nodo y recorre la lista hacia atras, retorna el primer nodo de la lista
+t_token *ft_dlstfirst(t_token *lst)
+{
+	t_token *first_node;
+
+	first_node = lst;
+	if (first_node)
+	{
+		while (first_node->prev != NULL)
+			first_node = first_node->prev;
+	}
+	return (first_node);
+}
+ //Recibe el primer nodo de una lista y retorna el número de nodos total de la lista.
+int	ft_lstsize(t_token *lst)
+{
+	int		i;
+	t_token	*temp;
+
+	temp = lst;
+	i = 0;
+	if (temp)
+	{
+		while (temp->next != NULL)
+		{
+			temp = temp->next;
+			i++;
+		}
+		if (temp->next == NULL)
+			i++;
+	}
+	return (i);
+}
 

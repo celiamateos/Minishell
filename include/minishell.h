@@ -36,4 +36,12 @@ typedef struct s_token
 
 int		main(int ac, char **av, char **envp);
 
+
+//FUNCIONES LISTAS
+t_token	*ft_dlstnew(void *content);
+void	ft_dlstadd_back(t_token **lst, t_token *new);
+void	ft_dlstadd_front(t_token **lst, t_token *new);
+t_token	*ft_dlstlast(t_token *lst);
+t_token *ft_dlstfirst(t_token *lst);
+
 #endif
