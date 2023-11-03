@@ -6,7 +6,7 @@
 /*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 21:22:11 by cmateos           #+#    #+#             */
-/*   Updated: 2023/10/30 21:22:21 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/10/31 04:45:25 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
  # include "../include/minishell.h"
@@ -38,7 +38,7 @@ void	ft_dlstadd_back(t_token **lst, t_token *new)
 	}
 	else
 	{
-		temp = ft_lstlast(*lst);
+		temp = ft_dlstlast(*lst);
 		temp->next = new;
 		new->prev = temp;
 	}
@@ -84,7 +84,7 @@ t_token *ft_dlstfirst(t_token *lst)
 	return (first_node);
 }
  //Recibe el primer nodo de una lista y retorna el número de nodos total de la lista.
-int	ft_lstsize(t_token *lst)
+int	ft_dlstsize(t_token *lst)
 {
 	int		i;
 	t_token	*temp;

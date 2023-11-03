@@ -6,7 +6,7 @@
 /*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:09:14 by cmateos           #+#    #+#             */
-/*   Updated: 2023/10/30 19:35:38 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/10/31 04:55:41 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,8 @@ void	ft_dlstadd_back(t_token **lst, t_token *new);
 void	ft_dlstadd_front(t_token **lst, t_token *new);
 t_token	*ft_dlstlast(t_token *lst);
 t_token *ft_dlstfirst(t_token *lst);
+int		ft_dlstsize(t_token *lst);
 
+// parser
+t_token	*init_tokens(void);
 #endif
