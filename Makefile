@@ -34,7 +34,7 @@ LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a
 
 SRC_DIR = src
-SRC = $(addprefix $(SRC_DIR)/, main.c parse.c ft_double_list.c \
+SRC = $(addprefix $(SRC_DIR)/, main.c parse.c ft_double_list.c enviroment.c \
 	  init_tokens.c )
 
 OBJ = $(SRC:.c=.o)

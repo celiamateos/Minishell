@@ -39,8 +39,17 @@ typedef struct s_tree
 	
 }					t_tree;
 
+typedef struct s_env
+{
+	char **array;
+	long	env_size;
+	long	env_elements;
+}					t_env;
+
 int		main(int ac, char **av, char **envp);
 
+//ENVIROMENT
+int	init_env(char **envp, t_env *env);
 
 //FUNCIONES LISTAS
 t_token	*ft_dlstnew(void *content);
