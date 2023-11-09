@@ -27,7 +27,7 @@ PURPLE = \x1b[1;35m
 
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 CCLANG = -lreadline
 RM = rm -f
 LIBFT_DIR = libft/
