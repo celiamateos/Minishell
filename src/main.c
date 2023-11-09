@@ -6,7 +6,7 @@
 /*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:08:45 by cmateos           #+#    #+#             */
-/*   Updated: 2023/10/31 05:15:26 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:31:36 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
  #include "../include/minishell.h"
@@ -48,12 +48,12 @@ void	print_prev(t_token *tokens)
     (void)ac;
     (void)av;
     (void)envp;
-//    char *line;
+    char *line;
 	t_token	*tokens;
 
 	tokens = NULL;
-	tokens = init_tokens();
-	while (tokens->next)
+	//tokens = init_tokens();
+/*	while (tokens->next)
 	{
 		print_next(tokens);
 		tokens = tokens->next;
@@ -62,13 +62,24 @@ void	print_prev(t_token *tokens)
 	{
 		print_prev(tokens);
 		tokens = tokens->prev;
-	}
-/*    while (42)
+	}*/
+   while (42)
     {
-        line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
-        free(line);
+    	line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
+     	
+	tokens = init_tokens(line);
+	while (tokens->next)
+		while (tokens->next)
+		{
+			print_next(tokens);
+			tokens = tokens->next;
+		}
+		while (tokens->prev)
+		{
+			print_prev(tokens);
+			tokens = tokens->prev;
+		}
+		free(line);
     }
-	*/
-
     return (0);
  }
