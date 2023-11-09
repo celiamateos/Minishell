@@ -6,7 +6,7 @@
 /*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:09:14 by cmateos           #+#    #+#             */
-/*   Updated: 2023/11/08 22:31:19 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/09 03:46:59 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,21 @@ typedef struct s_token
 
 typedef struct s_tree
 {
-	
-}					t_tree;
+	struct s_tree	*right;
+	struct s_tree	*left;
+}	t_tree;
+
+typedef struct s_shell_sack
+{
+	char			*line;
+	char			*l-expanded;
+	s_list			*tokens;
+	int				last_exit;
+	int				history_fd;
+	t_list			*cmd_list;
+	char			**envp;
+	char			**history
+}	t_tree;
 
 int		main(int ac, char **av, char **envp);
 
