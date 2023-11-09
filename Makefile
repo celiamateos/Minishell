@@ -6,7 +6,7 @@
 #    By: imurugar <imurugar@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/01 17:06:22 by cmateos-          #+#    #+#              #
-#    Updated: 2023/10/31 04:48:28 by daviles-         ###   ########.fr        #
+#    Updated: 2023/11/08 22:32:46 by daviles-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a
 
 SRC_DIR = src
-SRC = $(addprefix $(SRC_DIR)/, main.c parse.c ft_double_list.c)
+SRC = $(addprefix $(SRC_DIR)/, main.c parse.c ft_double_list.c \
+	  init_tokens.c )
 
 OBJ = $(SRC:.c=.o)
 INCLUDE = include/minishell.h

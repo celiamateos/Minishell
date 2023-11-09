@@ -6,7 +6,7 @@
 /*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:09:14 by cmateos           #+#    #+#             */
-/*   Updated: 2023/10/31 04:55:41 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:31:19 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ typedef struct s_token
     struct s_token  *prev;
 }					t_token;
 
+typedef struct s_tree
+{
+	
+}					t_tree;
+
 int		main(int ac, char **av, char **envp);
 
 
@@ -46,5 +51,5 @@ t_token *ft_dlstfirst(t_token *lst);
 int		ft_dlstsize(t_token *lst);
 
 // parser
-t_token	*init_tokens(void);
+t_token	*init_tokens(char *line);
 #endif
