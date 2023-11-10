@@ -6,40 +6,44 @@
 /*   By: daviles- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 01:21:01 by daviles-          #+#    #+#             */
-/*   Updated: 2023/11/10 01:21:25 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/10 03:06:11 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
-void	print_next(t_dlist *tokens)
+void	print_next(t_dlist **tokens)
 {
-	if (!tokens->prev)
+	t_token	*token;
+
+	if (!(*tokens)->prev)
 	{
-		printf("content: %s next: %s\n", tokens->content,
-				(tokens->next)->content);
-		tokens = tokens->next;
+		token = (*tokens)->content;
+		printf("content: %s next: %s\n", token->value,
+				((*tokens)->next)->content);
+		(*tokens) = (*tokens)->next;
 	}
-	else if (tokens->next)
+	else if ((*tokens)->next)
 	{
-		printf("content: %s next: %s prev: %s\n", tokens->content,
-				(tokens->next)->content, (tokens->prev)->content);
-		tokens = tokens->next;
+		token = (*tokens)->content;
+		printf("content: %s next: %s prev: %s\n", token->value,
+				((*tokens)->next)->content, ((*tokens)->prev)->content);
+		(*tokens) = (*tokens)->next;
 	}
 }
 
-void	print_prev(t_dlist *tokens)
+void	print_prev(t_dlist **tokens)
 {
-	if (!tokens->next)
+	if (!(*tokens)->next)
 	{
-		printf("content: %s prev: %s\n", tokens->content,
-				(tokens->prev)->content);
-		tokens = tokens->prev;
+		printf("content: %s prev: %s\n", (*tokens)->content,
+				((*tokens)->prev)->content);
+		(*tokens) = (*tokens)->prev;
 	}
-	else if (tokens->prev)
+	else if ((*tokens)->prev)
 	{
-		printf("content: %s next: %s prev: %s\n", tokens->content,
-				(tokens->next)->content, (tokens->prev)->content);
-		tokens = tokens->prev;
+		printf("content: %s next: %s prev: %s\n", (*tokens)->content,
+				((*tokens)->next)->content, ((*tokens)->prev)->content);
+		(*tokens) = (*tokens)->prev;
 	}
 }
 

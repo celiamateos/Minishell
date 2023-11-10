@@ -6,7 +6,7 @@
 /*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:09:14 by cmateos           #+#    #+#             */
-/*   Updated: 2023/11/10 01:57:00 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/10 02:39:02 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 
 typedef struct s_dlist
 {
-	char		*content;
+	void		*content;
 	struct s_dlist	*next;
 	struct s_dlist	*prev;
 }					t_dlist;
@@ -74,8 +74,8 @@ t_dlist *ft_dlstfirst(t_dlist *lst);
 int		ft_dlstsize(t_dlist *lst);
 
 // utils
-void	print_next(t_dlist *tokens);
-void	print_prev(t_dlist *tokens);
+void	print_next(t_dlist **tokens);
+void	print_prev(t_dlist **tokens);
 // init_sack
 void	clean_init(t_shell_sack *sack);
 void	init_sack(t_shell_sack *sack, char *line, char **envp);
@@ -84,7 +84,7 @@ char	*expand_var(char *line, int i, char **envp);
 char	*get_varname(char *expanded, int i);
 // init_tokens
 t_dlist	*lexer(char *line);
-void	init_tokens(t_dlist **list, char *line);
+void	init_tokens(t_dlist *list, char *line);
 void	*get_next_token(char *line, int *i);
 int		ft_isoperator(char	c);
 int		get_token_type(char *value);

@@ -6,7 +6,7 @@
 /*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:08:45 by cmateos           #+#    #+#             */
-/*   Updated: 2023/11/10 01:45:35 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/10 02:40:08 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
  #include "../include/minishell.h"
@@ -30,12 +30,12 @@
 		if (line == 0)
 			return (0);
 		tokens = lexer(line);
-		while (tokens->next)
+/*		while (tokens->next)
 		{
 			print_next(tokens);
 			tokens = tokens->next;
 		}
-
+*/
 		free(line);
     }
     return (0);
