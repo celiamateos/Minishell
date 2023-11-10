@@ -6,17 +6,17 @@
 /*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 21:22:11 by cmateos           #+#    #+#             */
-/*   Updated: 2023/10/31 04:45:25 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/09 18:18:34 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
  # include "../include/minishell.h"
  //Crea un nuevo nodo con content char *, void *next y void*prev.
 /*@brief ALOCA MEMORIA*/
-t_token	*ft_dlstnew(void *content)
+t_dlist	*ft_dlstnew(void *content)
 {
-	t_token	*node;
+	t_dlist	*node;
 
-	node = (t_token *)malloc(sizeof (t_token));
+	node = (t_dlist *)malloc(sizeof (t_dlist));
 	if (node == NULL)
 		return (NULL);
 	node->content = content;
@@ -25,9 +25,9 @@ t_token	*ft_dlstnew(void *content)
 	return (node);
 }
  //Añade un nodo al final de la lista
-void	ft_dlstadd_back(t_token **lst, t_token *new)
+void	ft_dlstadd_back(t_dlist **lst, t_dlist *new)
 {
-	t_token	*temp;
+	t_dlist	*temp;
 
 	if (!new)
 		return ;
@@ -45,7 +45,7 @@ void	ft_dlstadd_back(t_token **lst, t_token *new)
 }
 
 //Añade un nodo al principio de la lista
-void	ft_dlstadd_front(t_token **lst, t_token *new)
+void	ft_dlstadd_front(t_dlist **lst, t_dlist *new)
 {
 	if (lst)
 	{
@@ -58,9 +58,9 @@ void	ft_dlstadd_front(t_token **lst, t_token *new)
 	}
 }
  //Recibe un nodo y recorre la lista hacia alante, retorna el último nodo de la lista
-t_token	*ft_dlstlast(t_token *lst)
+t_dlist	*ft_dlstlast(t_dlist *lst)
 {
-	t_token	*lastnode;
+	t_dlist	*lastnode;
 
 	lastnode = lst;
 	if (lastnode)
@@ -71,9 +71,9 @@ t_token	*ft_dlstlast(t_token *lst)
 	return (lastnode);
 }
  //Recibe un nodo y recorre la lista hacia atras, retorna el primer nodo de la lista
-t_token *ft_dlstfirst(t_token *lst)
+t_dlist *ft_dlstfirst(t_dlist *lst)
 {
-	t_token *first_node;
+	t_dlist *first_node;
 
 	first_node = lst;
 	if (first_node)
@@ -84,10 +84,10 @@ t_token *ft_dlstfirst(t_token *lst)
 	return (first_node);
 }
  //Recibe el primer nodo de una lista y retorna el número de nodos total de la lista.
-int	ft_dlstsize(t_token *lst)
+int	ft_dlstsize(t_dlist *lst)
 {
 	int		i;
-	t_token	*temp;
+	t_dlist	*temp;
 
 	temp = lst;
 	i = 0;

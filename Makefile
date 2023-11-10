@@ -6,7 +6,7 @@
 #    By: imurugar <imurugar@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/01 17:06:22 by cmateos-          #+#    #+#              #
-#    Updated: 2023/11/08 22:32:46 by daviles-         ###   ########.fr        #
+#    Updated: 2023/11/10 01:40:03 by daviles-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ PURPLE = \x1b[1;35m
 
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 CCLANG = -lreadline
 RM = rm -f
 LIBFT_DIR = libft/
@@ -35,7 +35,7 @@ LIBFT = $(LIBFT_DIR)libft.a
 
 SRC_DIR = src
 SRC = $(addprefix $(SRC_DIR)/, main.c parse.c ft_double_list.c \
-	  init_tokens.c )
+	  init_tokens.c init_sack.c utils.c)
 
 OBJ = $(SRC:.c=.o)
 INCLUDE = include/minishell.h

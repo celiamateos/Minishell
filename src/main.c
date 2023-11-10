@@ -6,42 +6,10 @@
 /*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:08:45 by cmateos           #+#    #+#             */
-/*   Updated: 2023/11/08 22:31:36 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/10 01:45:35 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
  #include "../include/minishell.h"
-
-void	print_next(t_token *tokens)
-{
-	if (!tokens->prev)
-	{
-		printf("content: %s next: %s\n", tokens->content, 
-				(tokens->next)->content);
-		tokens = tokens->next;
-	}
-	else if (tokens->next)
-	{
-		printf("content: %s next: %s prev: %s\n", tokens->content,
-				(tokens->next)->content, (tokens->prev)->content);
-		tokens = tokens->next;
-	}
-}
-
-void	print_prev(t_token *tokens)
-{
-	if (!tokens->next)
-	{
-		printf("content: %s prev: %s\n", tokens->content, 
-				(tokens->prev)->content);
-		tokens = tokens->prev;
-	}
-	else if (tokens->prev)
-	{
-		printf("content: %s next: %s prev: %s\n", tokens->content,
-				(tokens->next)->content, (tokens->prev)->content);
-		tokens = tokens->prev;
-	}
-}
 
  int		main(int ac, char **av, char **envp)
  {
@@ -49,36 +17,25 @@ void	print_prev(t_token *tokens)
     (void)av;
     (void)envp;
     char *line;
-	t_token	*tokens;
+	t_shell_sack	*sack;
+	t_dlist			*tokens;
 
 	tokens = NULL;
-	//tokens = init_tokens();
-/*	while (tokens->next)
+	sack = NULL;
+//	clean_init(sack);
+	while (42)
 	{
-		print_next(tokens);
-		tokens = tokens->next;
-	}
-	while (tokens->prev)
-	{
-		print_prev(tokens);
-		tokens = tokens->prev;
-	}*/
-   while (42)
-    {
-    	line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
-     	
-	tokens = init_tokens(line);
-	while (tokens->next)
+		line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
+	//	init_sack(sack, line, sack->envp);
+		if (line == 0)
+			return (0);
+		tokens = lexer(line);
 		while (tokens->next)
 		{
 			print_next(tokens);
 			tokens = tokens->next;
 		}
-		while (tokens->prev)
-		{
-			print_prev(tokens);
-			tokens = tokens->prev;
-		}
+
 		free(line);
     }
     return (0);
