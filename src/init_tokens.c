@@ -6,7 +6,7 @@
 /*   By: daviles- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:07:18 by daviles-          #+#    #+#             */
-/*   Updated: 2023/11/10 15:18:16 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/10 18:54:37 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/minishell.h"
@@ -24,12 +24,14 @@ int	get_token_type(char *value)
 		return (CMD);
 }
 
-int	ft_isoperator(char	c, int *quotes[2])
+int	ft_isoperator(char	c, int *quotes)
 {
 	if (c == '"')
 		quotes[0] = !quotes[0];
-	if (c == '\'')
+	else if (c == '\'')
 		quotes[1] = !quotes[1];
+	if (quotes[0] || quotes[1])
+		return (0);
 	if (c == '|' || c == '<' || c == '>' || c == ';' || c == '&')
 		return (1);
 	return (0);
@@ -41,15 +43,15 @@ void	*get_next_token(char *line, int *i)
 	int		start;
 	int		quotes[2];
 
-	quotes = {0, 0};
+	quotes[0] = 0;
+	quotes[1] = 0;
 	start = *i;
-	if (ft_isoperator(line[*i], &quotes))
-		while (ft_isoperator(line[*i]) && line[*i])
+	if (ft_isoperator(line[*i], quotes))
+		while (ft_isoperator(line[*i], quotes) && line[*i])
 			*i = *i + 1;
 	else
-		while (!ft_isoperator(line[*i]) && line[*i])
+		while (!ft_isoperator(line[*i], quotes) && line[*i])
 			*i = *i + 1;
-	printf("dquotes = %d squotes = %d\n", quotes[0], quotes[1]);
 	token = malloc(sizeof(t_token));
 	token->value = ft_substr(line, start, (size_t)(*i - start));
 	token->type = get_token_type(token->value);
@@ -65,7 +67,6 @@ t_dlist	*init_tokens(char *line)
 	list = ft_dlstnew(get_next_token(line, &i));
 	while (line[i])
 		ft_dlstadd_back(&list, ft_dlstnew(get_next_token(line, &i)));
-	//print_tokenlist(list);
 	return (list);
 }
 
