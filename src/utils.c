@@ -6,7 +6,7 @@
 /*   By: daviles- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 01:21:01 by daviles-          #+#    #+#             */
-/*   Updated: 2023/11/10 03:06:11 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/10 15:10:34 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/minishell.h"
@@ -47,3 +47,14 @@ void	print_prev(t_dlist **tokens)
 	}
 }
 
+void	print_tokenlist(t_dlist *list)
+{
+	t_token	*token;
+
+	while (list->next)
+	{
+		token = list->content;
+		printf("token->value: %s type: %d\n", token->value, token->type);
+		list = list->next;
+	}
+}
