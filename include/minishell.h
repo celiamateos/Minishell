@@ -50,6 +50,11 @@ int		main(int ac, char **av, char **envp);
 
 //ENVIROMENT
 int	init_env(char **envp, t_env *env);
+void ft_free_env(char **env);
+void print_env(char **env);
+size_t ft_arraylen(char **array);
+int is_valid_to_export(char *s);
+int	search_env(char **env, char *word);
 
 //FUNCIONES LISTAS
 t_token	*ft_dlstnew(void *content);
