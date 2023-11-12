@@ -43,43 +43,42 @@ void	print_prev(t_token *tokens)
 	}
 }
 
+void	leaks(void)
+{
+	system("leaks -q minishell");
+}
+
  int		main(int ac, char **av, char **envp)
  {
     (void)ac;
     (void)av;
     (void)envp;
-    char *line;
-	t_token	*tokens;
+    // char *line;
 
-	tokens = NULL;
-	//tokens = init_tokens();
-/*	while (tokens->next)
-	{
-		print_next(tokens);
-		tokens = tokens->next;
-	}
-	while (tokens->prev)
-	{
-		print_prev(tokens);
-		tokens = tokens->prev;
-	}*/
-   while (42)
-    {
-    	line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
+	t_env	*env = NULL;
+	// t_token	*tokens;
+	// tokens = NULL;
+
+	// atexit(leaks);
+	if (init_env(envp, env))
+		return (1);
+
+//    while (42)
+//     {
+//     	line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
      	
-	tokens = init_tokens(line);
-	while (tokens->next)
-		while (tokens->next)
-		{
-			print_next(tokens);
-			tokens = tokens->next;
-		}
-		while (tokens->prev)
-		{
-			print_prev(tokens);
-			tokens = tokens->prev;
-		}
-		free(line);
-    }
+// 	tokens = init_tokens(line);
+// 		while (tokens->next)
+// 		{
+// 			print_next(tokens);
+// 			tokens = tokens->next;
+// 		}
+// 		while (tokens->prev)
+// 		{
+// 			print_prev(tokens);
+// 			tokens = tokens->prev;
+// 		}
+// 		free(line);
+//     }
     return (0);
  }
