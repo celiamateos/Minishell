@@ -45,51 +45,35 @@ size_t ft_arraylen(char **array)
 	size_t i;
 
 	i = 0;
+	if (!array)
+		return(i);
 	while (array[i])
 		i++;
 	return (i);
 }
 
-//Verificar si incluye la variable en enviroment, si no muestra un error.
-//True si es valido para exportar: Ej export VARIABLE="contenido"
-//False si no es valido. Ej export 13fabVAR = "hola"
-int is_valid_to_export(char *s)
-{
-	int i;
 
-    i = 0;
-	if (!ft_isalpha(s[i]))
-		return (0);
-	while (s[i] && s[i] != '=')
-	{
-		if (!ft_isalpha(s[i]) && !ft_isalnum(s[i]) && s[i] != '_')
-			return (0);
-		i++;
-	}
-	if (s[i] != '=' || s[i] == '\0')
-		return (0);
-	return (1);
-}
 
-//Busca una variable en una función.
-// Retorna 0 si la variable no existe
-// Retorna 1 si la variable ya existe y hay que sustituirla.
-//Retorna -1 si el env no existe, o sea ERROR.
+//Siver para buscar si una variable existe en el enviroment
+//Busca una variable en una función. (busca hasta el = iclusive)
 // Retorna el número de línea en la que aparece la variable, -1 si no la encuentra.
-int	search_env(char **env, char *word)
+int	search_env_pos(char **env, char *word, char limit)
 {
-	int i = -1;
-	int j = 0;
+	size_t i = -1;
+	size_t j = 0;
 
 	if (!env || !word)
 		return (-1);
+	while ((word[j] != limit && word[j]))
+		j++;
 	while (env[++i])
 	{
-		while (env[i][j] == word[j] && env[i][j] && word[j] && env[i][j] != '=')
-			j++;
-		if (env[i][j] == '=' || word[j] == '\0')
+		if (!ft_strncmp(env[i], word, j))
+		{
+			printf("CHAR: %c", env[i][j]);
+			if (env[i][j] == '=' || env[i][j] == '\0')
 			return (i);
-		j = 0;
+		}
 	}
 	return (-1);
 }

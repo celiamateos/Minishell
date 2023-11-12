@@ -55,7 +55,7 @@ int unset(t_env *env, char *del)
         {
             env->array = realloc_unset(env, pos);
             if (!env->array)
-                return (free(env), 1);
+                return (1);
         }
     }
     return (0);
