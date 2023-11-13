@@ -56,7 +56,7 @@ void	ft_free_error_arr(char **mem, long i)
 
 // Alloca memoria para struct t_env.
 //Toma el tamaño del env (número de lineas)
-// Alloca memoria para env->array
+// Alloca memoria para env->env
 // Retorna 1 en caso de error. 
 int	init_env(char **envp, t_env *env)
 {
@@ -65,12 +65,13 @@ int	init_env(char **envp, t_env *env)
 		return (1);
 	if (envp)
 	{
-		printf("\nENV ORIGINAL:\n");
-		print_env(envp);
-		env->array = alloc_first_envp(env, envp);
-		if (!env->array)
+		// printf("\nENV ORIGINAL:\n");
+		// print_env(envp);
+		env->env = alloc_first_envp(env, envp);
+		if (!env->env)
 			return (1);
-		print_env(env->array);
+		env->pre_export_elements = 0;
+		// print_env(env->env);
 	}
 
 	printf("\nenv_elements: %ld\n", env->env_elements);
@@ -81,11 +82,13 @@ int	init_env(char **envp, t_env *env)
 		free(env);
 		return (1);
 	}
-
+	// env->pre_export_elements = NULL;
+	env->pre_export = add_pre_export_list(env, "VARIABLE1");
 	printf("\n\nENV despues de unset_change:\n\n\n");
-	print_env(env->array);
+	print_env(env->pre_export);
 	printf("\nenv_elements: %ld\n", env->env_elements);
-	ft_free_env(env->array);
+	ft_free_env(env->env);
+	ft_free_env(env->pre_export);
 	free(env);
 	return (0);
 }

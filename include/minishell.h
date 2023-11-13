@@ -55,9 +55,10 @@ typedef struct s_tree
 
 typedef struct s_env
 {
-	char ***variables;
-	char **array;
+	char **pre_export;
+	char **env;
 	size_t	env_elements;
+	size_t	pre_export_elements;
 }					t_env;
 
 typedef struct s_shell_sack
@@ -81,8 +82,11 @@ char **realloc_export_add(t_env *env, char *new);
 int is_valid_to_export(char *s);
 int	search_env_pos(char **env, char *word, char limit);
 
+char **add_pre_export_list(t_env *env, char *line);
+
 int unset(t_env *env, char *del);
 char **realloc_unset(t_env *env, size_t pos);
+
 
 void ft_free_env(char **env);
 void	ft_free_error_arr(char **mem, long i);
