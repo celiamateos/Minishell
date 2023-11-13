@@ -22,30 +22,33 @@ void	leaks(void)
     (void)av;
     (void)envp;
 	t_env	*env = NULL;
-    char *line;
-	t_shell_sack	*sack;
-	t_dlist			*tokens;
+    // char *line;
+	// t_shell_sack	*sack;
+	// t_dlist			*tokens;
 
 	// atexit(leaks);
-	tokens = NULL;
-	sack = NULL;
+	// tokens = NULL;
+	//  sack = NULL;
 	if (init_env(envp, env))
 		return (1);
 //	clean_init(sack);
-	while (42)
-	{
-		line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
-	//	init_sack(sack, line, sack->envp);
-		if (line == 0)
-			return (0);
-		tokens = lexer(line);
-/*		while (tokens->next)
-		{
-			print_next(tokens);
-			tokens = tokens->next;
-		}
-*/
-		free(line);
-    }
+// 	while (42)
+// 	{
+// 		line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
+// 	//	init_sack(sack, line, sack->envp);
+// 		if (line == 0)
+// 			return (0);
+// 		// tokens = lexer(line);
+// /*		while (tokens->next)
+// 		{
+// 			print_next(tokens);
+// 			tokens = tokens->next;
+// 		}
+// */
+// 		free(line);
+//     }
+	// 	ft_free_env(env->env);
+	// // // ft_free_env(env->pre_export);
+	// free(env);
     return (0);
  }

@@ -27,7 +27,7 @@ PURPLE = \x1b[1;35m
 
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS = -g3 -fsanitize=address
 CCLANG = -lreadline
 RM = rm -f
 LIBFT_DIR = libft/
@@ -37,7 +37,7 @@ SRC_DIR = src
 
 SRC = $(addprefix $(SRC_DIR)/, main.c parse.c ft_double_list.c \
 	  init_tokens.c init_sack.c utils.c \
-	  c enviroment.c enviroment_utils.c unset.c export.c)
+	  enviroment.c enviroment_utils.c unset.c export.c)
 
 OBJ = $(SRC:.c=.o)
 INCLUDE = include/minishell.h

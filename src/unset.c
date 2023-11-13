@@ -25,19 +25,19 @@ char **realloc_unset(t_env *env, size_t pos)
     j = 0;
     temp = (char **)malloc(env->env_elements * sizeof(char *));
     if (!temp)
-        return(ft_free_env(env->array), NULL);
+        return(ft_free_env(env->env), NULL);
     while (++i < env->env_elements - 1)
     {
        if (i == pos)
             j++;
-        temp[i] = ft_substr(env->array[j], 0, ft_strlen(env->array[j]));
+        temp[i] = ft_substr(env->env[j], 0, ft_strlen(env->env[j]));
         if (!temp[i])
-            return(ft_free_error_arr(temp, i), ft_free_env(env->array), NULL);
+            return(ft_free_error_arr(temp, i), ft_free_env(env->env), NULL);
         j++;
     }
     temp[i] = NULL;
     env->env_elements -= 1;
-    ft_free_env(env->array);
+    ft_free_env(env->env);
     return (temp);
 }
 
@@ -48,13 +48,13 @@ int unset(t_env *env, char *del)
 {
 	long pos;
 
-    if (env->array)
+    if (env->env)
     {
-        pos = search_env_pos(env->array, del, '\0');
+        pos = search_env_pos(env->env, del, '\0');
 	    if (pos >= 0)
         {
-            env->array = realloc_unset(env, pos);
-            if (!env->array)
+            env->env = realloc_unset(env, pos);
+            if (!env->env)
                 return (1);
         }
     }
