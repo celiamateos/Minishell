@@ -60,9 +60,9 @@ typedef struct s_env
 	size_t	env_elements;
 	size_t	pre_export_elements;
 	char	*order; //print_cmd_export. Falta incluir fd para pipex
-	int		index;
+	size_t		index;
 	size_t	count;
-	int		i;
+	size_t		i;
 }					t_env;
 
 typedef struct s_shell_sack
@@ -80,7 +80,7 @@ int		main(int ac, char **av, char **envp);
 //ENVIROMENT
 int	init_env(char **envp, t_env *env);
 
-int export(t_env *env, char *new);
+void export(t_env *env, char *new);
 char **realloc_export_exchange(t_env *env, char *new, size_t pos);
 char **realloc_export_add(t_env *env, char *new);
 int is_valid_to_export(char *s);
@@ -88,9 +88,10 @@ int	search_env_pos(char **env, char *word, char limit);
 char **realloc_unset_pre_export_list(t_env *env, size_t pos);
 char **realloc_add_pre_export_list(t_env *env, char *line);
 void    print_export_list(t_env *env);
+void 	is_valid_to_pre_export(t_env *env, char *new, long pos);
 
 
-int unset(t_env *env, char *del);
+int unset(t_env *env, char *del, int check);
 char **realloc_unset(t_env *env, size_t pos);
 
 

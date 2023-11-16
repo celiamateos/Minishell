@@ -9,19 +9,7 @@
 /*   Updated: 2023/11/16 10:51:01 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../include/minishell.h"
-
-int search_equal(char *order, char **env)
-{
-	int i = -1;
-	while (env[++i])
-	{
-		if (strcmp(order, env[i]) == 0)
-			break ;
-	}
-	return i;
-}
 
 void init_values(int *tab, t_env *env)
 {
@@ -34,6 +22,21 @@ void init_values(int *tab, t_env *env)
 	env->count = 0;
 }
 
+//Retorna el indice de la string guardada en char *order
+//Para ser printeada y marcada como tal en int *tab
+int search_equal(char *order, char **env)
+{
+	int i = -1;
+	while (env[++i])
+	{
+		if (strcmp(order, env[i]) == 0)
+			break ;
+	}
+	return i;
+}
+
+
+//Bucle en el que actualiza en char *order, la sring menor de la lista que aun no ha sido printeada
 void	search_lower_alpha(t_env *env, int *tab)
 {
 		while (env->env[env->i])
@@ -45,6 +48,10 @@ void	search_lower_alpha(t_env *env, int *tab)
 		}
 }
 
+//Putstring en STD_OUT del enviroment ordenado alfabeticamente.
+//No llamar a esta funcion si no existe el enviroment
+//No aloca memoria
+//Tab es un array en el que se marca con 0 u 1 si una string (por su indice) ya ha sido printead
 void    print_export_list(t_env *env)
 {
 	int 	tab[env->env_elements];

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
-//Recibe el envp, alloca memoria exacta para su copia.
+//@brief Recibe el envp, alloca memoria exacta para su copia.
 //Si el envp no existe (env -i ./minishell), aloca
 //un char** de size 2, uno para '\0' y otro para el NULL, hay que hacer eso?
 char **alloc_first_envp(t_env *env, char **src)
@@ -45,9 +45,9 @@ char **alloc_first_envp(t_env *env, char **src)
 	return (result);
 }
 
-
-
-
+//@brief ALOCA MEMORIA para t_env y char **env->env para hacer una copia del envp
+//Liberar char **env->env y t_env en main o salida de errores.
+//@return 1 en caso de error
 int	init_env(char **envp, t_env *env)
 {
 	env = ft_calloc(1, sizeof(t_env));
@@ -64,22 +64,22 @@ int	init_env(char **envp, t_env *env)
 		print_env(env->env);
 	}
 
-	printf("\nenv_elements: %ld\n", env->env_elements);
+	// printf("\nenv_elements: %ld\n", env->env_elements);
 
-
-	print_export_list(env);
-	// env->pre_export = NULL;
-	// env->pre_export = ft_calloc(1, sizeof(char **));
-	// env->pre_export[0] = NULL;
-	// env->pre_export = realloc_add_pre_export_list(env, "VARIABLE3=eeeei");
-	// env->pre_export = realloc_add_pre_export_list(env, "VARIABLE2=hola que tal");
-	// env->pre_export = realloc_add_pre_export_list(env, "VARIABLE3=ke coño pasa??");
-	// // unset(env, "VARIABLE1");
-	// printf("\n\nENV despues pre export add list:\n\n\n");
-	// print_env(env->pre_export);
-	// printf("\nenv_elements: %ld\n", env->pre_export_elements);
-	ft_free_env(env->env);
+	// env->pre_export = realloc_add_pre_export_list(env, "hola=k tal");
+	// // env->pre_export = realloc_add_pre_export_list(env, "BIEN=k tal");
+	// // env->pre_export = realloc_add_pre_export_list(env, "PRUEBA=k tal");
+	
+	// // print_env(env->pre_export);
+	// export(env, "hola");
+	// // // unset(env, "VARIABLE1");
+	// // printf("\n\nENV despues pre export add list:\n\n\n");
+	// print_env(env->env);
+	// // print_env(env->pre_export);
+	// // printf("\nenv_elements: %ld\n", env->pre_export_elements);
+	// ft_free_env(env->env);
 	// ft_free_env(env->pre_export);
-	free(env);
+	// free(env);
 	return (0);
 }
+//Mazo loco que fsanitize sin liberar no da leaks y liberando si

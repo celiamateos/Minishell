@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
+//@brief ALOCA MEMORIA!
 //Realloca el array env, omitiendo la línea que se desea eliminar.
 //Retorna NULL en caso de fallo en la reserva de memoria, liberando lo alocado previamente en esta función.
 char **realloc_unset(t_env *env, size_t pos)
@@ -41,7 +42,10 @@ char **realloc_unset(t_env *env, size_t pos)
     return (temp);
 }
 
-//Igual que la de arriba, pero con la lista de variables de entorno listas para ser exportadas
+/*@brief ALOCA MEMORIA!
+Realloca el array pre_export, omitiendo la línea que se desea eliminar.
+@return NULL en caso de fallo en la reserva de memoria, liberando lo alocado previamente en esta función.
+*/
 char **realloc_unset_pre_export_list(t_env *env, size_t pos)
 {
     char **temp;
@@ -70,14 +74,21 @@ char **realloc_unset_pre_export_list(t_env *env, size_t pos)
     return (temp);
 }
 
-//Revisa si la posicion de la linea que quieres borrar existe. (line 53)
-//Retorna 1 en caso de fallo en alguna reserva de memoria.  (line:58)
-//Habría que liberar env struct si esta funcion retorna 1. (line:58)
-int unset(t_env *env, char *del)
+/*
+@brief Revisa si la posicion de la linea que quieres borrar existe. 
+Retorna 1 en caso de fallo en alguna reserva de memoria.  
+Habría que liberar env struct si esta funcion retorna 1. 
+@param del La linea a borrar
+@return 1 en caso de error, 0 si todo ok
+@param check es un indicador para saber si hay que hacer unset en char **env (1) o en char **pre_export (0) o en ambas (2);
+Esto es util porque al usar el comando unset a secas, elimina la variable de las 2 listas,
+pero se puede reutilizar esta funcion para el uso de: VARIABLE="hola"; export VARIABLE;
+VARIABLE se añade primero a pre_export, despues se mueve de pre_export a env y se elimina de pre_export. */
+int unset(t_env *env, char *del, int check)
 {
 	long pos;
 
-    if (env->env)
+    if (env->env && (check == 2 || check == 1))
     {
         pos = search_env_pos(env->env, del, '\0');
 	    if (pos >= 0)
@@ -87,7 +98,7 @@ int unset(t_env *env, char *del)
                 return (1);
         }
     }
-    if (env->pre_export)
+    if (env->pre_export && (check == 2 || check == 0))
     {
         pos = search_env_pos(env->pre_export, del, '\0');
 	    if (pos >= 0)

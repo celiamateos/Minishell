@@ -10,77 +10,37 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/minishell.h"
-//Añade variables a char **env->pre_export_list para su posterior exportacion
-//Ejemplo: VARIABLE1="hola" .... muchos otros comandos distintos... export VARIABLE1 (se incluye VARIABLE1 en el enviroment)
-///segfault aquiiiiiiiiii
-char **realloc_add_pre_export_list(t_env *env, char *line)
-{
-    char **temp;
-    long    check;
-    size_t i;
 
-    if (!env || !line)
-        return (NULL);
-    check = env->pre_export_elements;
-    temp = (char **)malloc(env->pre_export_elements + 2 * sizeof(char *));
-    if (!temp)
-        return(NULL);
-    i = -1;
-    while (++i < env->pre_export_elements + 1)
-    {
-        if (check > 0 && env->pre_export[i])
-        {
-            temp[i] = ft_strdup(env->pre_export[i]);
-            if (!temp[i])
-                return (ft_free_error_arr(temp, i), NULL); //Aqui habria que liberar pre_export en caso de q exista
-            check--;
-        }
-        else
-        {
-            temp[i] = ft_strdup(line);
-            if (!temp[i])
-                return (ft_free_error_arr(temp, i), NULL); // Aqui igual
-        }
-    }
-    temp[env->pre_export_elements + 1] = NULL;
-    if (env->pre_export_elements > 0)
-        ft_free_env(env->pre_export);
-    env->pre_export_elements += 1;
-    return (temp);
-}
-
-
-//Verificar si incluye la variable en enviroment, si no muestra un error.
+/*@brief Verifica si incluye la variable en enviroment, si no muestra un error.
 //True si es valido para exportar: Ej export VARIABLE="contenido"
 //False si no es valido. Ej export 13fabVAR = "hola"
-//
+*/
 int is_valid_to_export(char *s)
 {
 	int i;
 
     i = 0;
-	if (!ft_isalpha(s[i]))
-		return (0);
+	if (!ft_isalpha(s[i]) && !s[i] != '_')
+		return (1);
 	while (s[i] && s[i] != '=')
 	{
 		if (!ft_isalpha(s[i]) && !ft_isalnum(s[i]) && s[i] != '_')
-			return (ft_putstr_fd("export: not a valid identifier", 2), 0);
+			return (ft_putstr_fd("export: not a valid identifier", 2), 1);
 		i++;
 	}
 	if (s[i] == '=')
     {
         if (s[i - 1] == ' ' || s[i + 1] == ' ')
-		    return (ft_putstr_fd("export: not a valid identifier", 2), 0);
+		    return (ft_putstr_fd("export: not a valid identifier", 2), 1);
     }
-    else if (s[i] == '\0')
-    {
-        return (0);
-        //Funcion revisar si está en ***variables.
-    }
-	return (1);
+    if (s[i] == '\0')
+        return (1);
+	return (0);
 }
 
-//Añade una nueva variable al final del enviroment
+//@brief Añade una nueva variable al final del enviroment
+//@param new la nueva variable
+//@return NULL en caso de error, liberando lo previamente alocado y env.
 char **realloc_export_add(t_env *env, char *new)
 {
     char **temp;
@@ -106,7 +66,10 @@ char **realloc_export_add(t_env *env, char *new)
 }
 
 
-//Intercambia una variable existente por una nueva con el mismo nombre.
+//@brief Intercambia una variable existente por una nueva con el mismo nombre.
+//@param new la nueva variable
+//@param pos la posicion en la que se encuentra la variable en el enviroment
+//@return NULL en caso de error, liberando lo previamente alocado y env.
 char **realloc_export_exchange(t_env *env, char *new, size_t pos)
 {
     char **temp;
@@ -130,33 +93,29 @@ char **realloc_export_exchange(t_env *env, char *new, size_t pos)
     return (temp);
 }
 
-int export(t_env *env, char *new)
+/*
+@brief ALOCA MEMORIA.
+@param new la nueva variable a añadir al enviroment u al pre->export
+*/
+void export(t_env *env, char *new)
 {
 	long pos;
 
 	if (new == NULL)
-    {
-        print_export_list(env);
-        return (0);
-    }
+        return (print_export_list(env));
 	pos = search_env_pos(env->env, new, '=');
-	if (!is_valid_to_export(new))
-	{
-        //Una funcion que busque en char ***variables si previamente ha sido añadida
-		ft_putstr_fd("export: not a valid identifier", 2);
-		return (ft_free_env(env->env), 1);
-	}
+	if (is_valid_to_export(new))
+        return (is_valid_to_pre_export(env, new, pos));
 	if (pos >= 0)
     {
 		env->env = realloc_export_exchange(env, new, pos);
         if (!env->env)
-            return (1);
+            return ; //ft_error malloc en realloc_export_exchange // liberar t_env
     }
 	else
     {
 	    env->env = realloc_export_add(env, new);
         if (!env->env)
-            return (1);
+            return ; //ft_error malloc en realloc_export_add // liberar t_env
     }
-	return (0);
 }
