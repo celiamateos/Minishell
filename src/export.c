@@ -10,44 +10,44 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/minishell.h"
-
-char **add_pre_export_list(t_env *env, char *line)
+//Añade variables a char **env->pre_export_list para su posterior exportacion
+//Ejemplo: VARIABLE1="hola" .... muchos otros comandos distintos... export VARIABLE1 (se incluye VARIABLE1 en el enviroment)
+///segfault aquiiiiiiiiii
+char **realloc_add_pre_export_list(t_env *env, char *line)
 {
-    int i = 0;
     char **temp;
     long    check;
+    size_t i;
 
+    if (!env || !line)
+        return (NULL);
     check = env->pre_export_elements;
     temp = (char **)malloc(env->pre_export_elements + 2 * sizeof(char *));
     if (!temp)
         return(NULL);
-    while (i < env->pre_export_elements + 1)
+    i = -1;
+    while (++i < env->pre_export_elements + 1)
     {
-        if (check > 0)
+        if (check > 0 && env->pre_export[i])
         {
             temp[i] = ft_strdup(env->pre_export[i]);
             if (!temp[i])
-                return (ft_free_error_arr(temp, i), NULL);
+                return (ft_free_error_arr(temp, i), NULL); //Aqui habria que liberar pre_export en caso de q exista
             check--;
-            i++;
         }
         else
         {
-            printf("\nI: %ld", i);
             temp[i] = ft_strdup(line);
             if (!temp[i])
-                return (ft_free_error_arr(temp, i), NULL);
-            i++;
+                return (ft_free_error_arr(temp, i), NULL); // Aqui igual
         }
     }
-    printf("\nI: %ld", i);
-    temp[i] = NULL;
-    if (env->pre_export)
+    temp[env->pre_export_elements + 1] = NULL;
+    if (env->pre_export_elements > 0)
         ft_free_env(env->pre_export);
+    env->pre_export_elements += 1;
     return (temp);
 }
-
-
 
 
 //Verificar si incluye la variable en enviroment, si no muestra un error.
@@ -133,8 +133,12 @@ char **realloc_export_exchange(t_env *env, char *new, size_t pos)
 int export(t_env *env, char *new)
 {
 	long pos;
-	/*if (new == NULL)
-	 una funcion para mostrar lo que muestra export asecas*/
+
+	if (new == NULL)
+    {
+        print_export_list(env);
+        return (0);
+    }
 	pos = search_env_pos(env->env, new, '=');
 	if (!is_valid_to_export(new))
 	{

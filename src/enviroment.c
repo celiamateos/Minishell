@@ -26,7 +26,7 @@ char **alloc_first_envp(t_env *env, char **src)
 		result = (char **)malloc((env->env_elements + 1) * sizeof(char *));
 		if (!result)
 			return (NULL);
-		while (++i < ft_arraylen(src))
+		while (++i < env->env_elements)
 		{
 			result[i] = ft_strdup(src[i]);
 			if (!result)
@@ -46,18 +46,8 @@ char **alloc_first_envp(t_env *env, char **src)
 }
 
 
-//Libera las lineas previas malokeadas en caso de error.
-void	ft_free_error_arr(char **mem, long i)
-{
-    while (i > 0)
-        free(mem[--i]);
-    free(mem);
-}
 
-// Alloca memoria para struct t_env.
-//Toma el tamaño del env (número de lineas)
-// Alloca memoria para env->env
-// Retorna 1 en caso de error. 
+
 int	init_env(char **envp, t_env *env)
 {
 	env = ft_calloc(1, sizeof(t_env));
@@ -65,30 +55,31 @@ int	init_env(char **envp, t_env *env)
 		return (1);
 	if (envp)
 	{
-		// printf("\nENV ORIGINAL:\n");
-		// print_env(envp);
+		printf("\nENV ORIGINAL:\n");
+		print_env(envp);
 		env->env = alloc_first_envp(env, envp);
 		if (!env->env)
 			return (1);
 		env->pre_export_elements = 0;
-		// print_env(env->env);
+		print_env(env->env);
 	}
 
 	printf("\nenv_elements: %ld\n", env->env_elements);
 
 
-	if (export(env, "PATtrH="))
-	{
-		free(env);
-		return (1);
-	}
-	// env->pre_export_elements = NULL;
-	env->pre_export = add_pre_export_list(env, "VARIABLE1");
-	printf("\n\nENV despues de unset_change:\n\n\n");
-	print_env(env->pre_export);
-	printf("\nenv_elements: %ld\n", env->env_elements);
+	print_export_list(env);
+	// env->pre_export = NULL;
+	// env->pre_export = ft_calloc(1, sizeof(char **));
+	// env->pre_export[0] = NULL;
+	// env->pre_export = realloc_add_pre_export_list(env, "VARIABLE3=eeeei");
+	// env->pre_export = realloc_add_pre_export_list(env, "VARIABLE2=hola que tal");
+	// env->pre_export = realloc_add_pre_export_list(env, "VARIABLE3=ke coño pasa??");
+	// // unset(env, "VARIABLE1");
+	// printf("\n\nENV despues pre export add list:\n\n\n");
+	// print_env(env->pre_export);
+	// printf("\nenv_elements: %ld\n", env->pre_export_elements);
 	ft_free_env(env->env);
-	ft_free_env(env->pre_export);
+	// ft_free_env(env->pre_export);
 	free(env);
 	return (0);
 }

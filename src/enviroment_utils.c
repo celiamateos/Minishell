@@ -10,18 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/minishell.h"
+//Libera las lineas previas malokeadas en caso de error.
+void	ft_free_error_arr(char **mem, long i)
+{
+    while (i > 0)
+        free(mem[--i]);
+    free(mem);
+}
+
 
 //Libera struct env y el env array.
 //se puede meter dentro de otra despues.
 void ft_free_env(char **env)
 {
-	int i = -1;
-	if (env)
-	{
-		while (env[++i])
-			free(env[i]);
-		free(env);
-	}
+	int i;
+	
+	i = -1;
+	if (!env)
+		return ;
+	while (env[++i])
+		free(env[i]);
+	free(env);
 }
 
 // Print enviroment
@@ -51,8 +60,6 @@ size_t ft_arraylen(char **array)
 		i++;
 	return (i);
 }
-
-
 
 //Siver para buscar si una variable existe en el enviroment
 //Busca una variable en una función. (busca hasta el = iclusive)

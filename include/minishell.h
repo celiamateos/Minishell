@@ -55,10 +55,14 @@ typedef struct s_tree
 
 typedef struct s_env
 {
-	char **pre_export;
-	char **env;
+	char	**pre_export; //Export list
+	char	**env; //El enviroment
 	size_t	env_elements;
 	size_t	pre_export_elements;
+	char	*order; //print_cmd_export. Falta incluir fd para pipex
+	int		index;
+	size_t	count;
+	int		i;
 }					t_env;
 
 typedef struct s_shell_sack
@@ -69,7 +73,7 @@ typedef struct s_shell_sack
 	struct s_tree	*tree_list;
 	int				last_exit;
 	int				history_fd;
-	char			**envp;
+	char			**envp; //Usar t_env *env en su lugar
 }	t_shell_sack;
 
 int		main(int ac, char **av, char **envp);
@@ -81,8 +85,10 @@ char **realloc_export_exchange(t_env *env, char *new, size_t pos);
 char **realloc_export_add(t_env *env, char *new);
 int is_valid_to_export(char *s);
 int	search_env_pos(char **env, char *word, char limit);
+char **realloc_unset_pre_export_list(t_env *env, size_t pos);
+char **realloc_add_pre_export_list(t_env *env, char *line);
+void    print_export_list(t_env *env);
 
-char **add_pre_export_list(t_env *env, char *line);
 
 int unset(t_env *env, char *del);
 char **realloc_unset(t_env *env, size_t pos);
