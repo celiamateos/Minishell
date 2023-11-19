@@ -6,7 +6,7 @@
 /*   By: daviles- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:07:18 by daviles-          #+#    #+#             */
-/*   Updated: 2023/11/10 19:57:48 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/19 19:14:35 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/minishell.h"
@@ -75,6 +75,6 @@ t_dlist	*lexer(char *line)
 	t_dlist	*list;
 
 	list = init_tokens(line);
-	print_tokenlist(list);
+//	print_tokenlist(list);
 	return (list);
 }

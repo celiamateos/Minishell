@@ -6,21 +6,24 @@
 /*   By: daviles- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:18:55 by daviles-          #+#    #+#             */
-/*   Updated: 2023/11/10 18:57:25 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/19 19:40:55 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"../include/minishell.h"
 
-void	clean_init(t_shell_sack *sack)
+int	clean_init(t_shell_sack **sack)
 {
-	sack->line = NULL;
-	sack->l_expanded = NULL;
-	sack->token_list = NULL;
-	sack->tree_list = NULL;
-	sack->last_exit = 0;
-	sack->history_fd = -1;
-	sack->envp = NULL;
-
+	*sack = (t_shell_sack *)malloc(sizeof(t_shell_sack));
+	if (!*sack)
+		return (1);
+	(*sack)->line = NULL;
+	(*sack)->l_expanded = NULL;
+	(*sack)->token_list = NULL;
+	(*sack)->tree_list = NULL;
+	(*sack)->last_exit = 0;
+	(*sack)->history_fd = -1;
+	(*sack)->env = NULL;
+	return (0);
 }
 
 char	*get_varname(char *expanded, int i)

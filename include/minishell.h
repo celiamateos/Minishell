@@ -6,7 +6,7 @@
 /*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:09:14 by cmateos           #+#    #+#             */
-/*   Updated: 2023/11/19 16:46:35 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/19 20:47:52 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_shell_sack
 	struct s_tree	*tree_list;
 	int				last_exit;
 	int				history_fd;
-	char			**envp; //Usar t_env *env en su lugar
+	struct s_env			*env; //Usar t_env *env en su lugar
 }	t_shell_sack;
 
 int		main(int ac, char **av, char **envp);
@@ -113,7 +113,7 @@ void	print_next(t_dlist **tokens);
 void	print_prev(t_dlist **tokens);
 void	print_tokenlist(t_dlist *list);
 // init_sack
-void	clean_init(t_shell_sack *sack);
+int	clean_init(t_shell_sack **sack);
 void	init_sack(t_shell_sack *sack, char *line, char **envp);
 char	*expand_line(char *line, char **envp);
 char	*expand_var(char *line, int i, char **envp);
@@ -125,7 +125,7 @@ void	*get_next_token(char *line, int *i);
 int		ft_isoperator(char	c, int *quotes);
 int		get_token_type(char *value);
 // init_tree
-void    init_tree(t_dlist *tokens);
+void    init_tree(t_shell_sack **sack);
 void    insert_leaf(t_tree **tree, t_dlist *token_list);
 t_tree  *new_leaf(t_token *token);
 void 	print_preorder(t_tree *node);
