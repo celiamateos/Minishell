@@ -6,7 +6,7 @@
 /*   By: daviles- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 18:57:40 by daviles-          #+#    #+#             */
-/*   Updated: 2023/11/19 21:59:22 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/20 16:44:58 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/minishell.h"
@@ -57,10 +57,15 @@ void	insert_leaf(t_tree **tree, t_dlist *token_list)
 		}
 		else if (token->type == PIPE)
 		{
+
+//			aux_leaf = *tree;
+//			while (aux_leaf->content->type == PIPE)
+//				aux_leaf = aux_leaf->right;
 			if ((*tree)->content->type == PIPE)
 				insert_leaf(&(*tree)->right, token_list);
 			else
 			{
+				printf("NOT PIPE\n");
 				leaf = new_leaf(token);
 				aux_leaf = *tree;
 				leaf->left = aux_leaf;
@@ -103,5 +108,5 @@ void	init_tree(t_shell_sack **sack)
        		printf("%s\n", token->value);
 		tree = tree->right;
 	}
-	*/
+*/
 }
