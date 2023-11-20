@@ -31,6 +31,8 @@ void	leaks(void)
 	  sack = NULL;
 	if (init_env(envp, env))
 		return (1);
+
+	get_pwd();
 // 	clean_init(&sack);
 // //	sack->env = env;
 // 	while (42)

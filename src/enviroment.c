@@ -79,9 +79,9 @@ int	init_env(char **envp, t_env *env)
 	//  printf("\npre_export elements %ld", env->pre_export_elements);
 	print_env(env->pre_export);
 	// // printf("\nenv_elements: %ld\n", env->pre_export_elements);
-	// ft_free_env(env->env);
-	// ft_free_env(env->pre_export);
-	// free(env);
+	ft_free_env(env->env);
+	ft_free_env(env->pre_export);
+	free(env);
 	return (0);
 }
 //Mazo loco que fsanitize sin liberar no da leaks y liberando si
