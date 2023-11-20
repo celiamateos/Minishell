@@ -55,27 +55,29 @@ int	init_env(char **envp, t_env *env)
 		return (1);
 	if (envp)
 	{
-//		printf("\nENV ORIGINAL:\n");
-//		print_env(envp);
+		printf("\nENV ORIGINAL:\n");
+		print_env(envp);
 		env->env = alloc_first_envp(env, envp);
 		if (!env->env)
 			return (1);
 		env->pre_export_elements = 0;
-//		print_env(env->env);
+		print_env(env->env);
 	}
 
 	// printf("\nenv_elements: %ld\n", env->env_elements);
 
 	// env->pre_export = realloc_add_pre_export_list(env, "hola=k tal");
-	// // env->pre_export = realloc_add_pre_export_list(env, "BIEN=k tal");
+	// // env->pre_export = realloc_add_pre_export_list(env, "BIEN=keee tal");
 	// // env->pre_export = realloc_add_pre_export_list(env, "PRUEBA=k tal");
-	
+	// env->pre_export = realloc_add_pre_export_list(env, "hola=k taool");
 	// // print_env(env->pre_export);
+	export(env, "hola");
 	// export(env, "hola");
 	// // // unset(env, "VARIABLE1");
-	// // printf("\n\nENV despues pre export add list:\n\n\n");
-	// print_env(env->env);
-	// // print_env(env->pre_export);
+	printf("\n\nENV despues pre export add list:\n\n\n");
+	print_env(env->env);
+	//  printf("\npre_export elements %ld", env->pre_export_elements);
+	print_env(env->pre_export);
 	// // printf("\nenv_elements: %ld\n", env->pre_export_elements);
 	// ft_free_env(env->env);
 	// ft_free_env(env->pre_export);
