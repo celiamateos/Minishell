@@ -88,8 +88,9 @@ int is_valid_to_export(char *s);
 int	search_env_pos(char **env, char *word, char limit);
 char **realloc_unset_pre_export_list(t_env *env, size_t pos);
 char **realloc_add_pre_export_list(t_env *env, char *line);
+void pre_export_new_variable(t_env *env, char *line);
 void    print_export_list(t_env *env);
-void 	is_valid_to_pre_export(t_env *env, char *new, long pos);
+void 	already_added_pre_export_list(t_env *env, char *new, long pos);
 int unset(t_env *env, char *del, int check);
 char **realloc_unset(t_env *env, size_t pos);
 

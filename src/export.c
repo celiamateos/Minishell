@@ -95,7 +95,10 @@ char **realloc_export_exchange(t_env *env, char *new, size_t pos)
 
 /*
 @brief ALOCA MEMORIA.
-@param new la nueva variable a añadir al enviroment u al pre->export
+@param new la nueva variable a añadir al enviroment pre->export
+// (export variable_nueva=contenido / export variable_existente)
+//
+//(variable=contenido) -> llamar a funcion realloc_add_pre_export();
 */
 void export(t_env *env, char *new)
 {
@@ -105,7 +108,7 @@ void export(t_env *env, char *new)
         return (print_export_list(env));
 	pos = search_env_pos(env->env, new, '=');
 	if (is_valid_to_export(new))
-        return (is_valid_to_pre_export(env, new, pos));
+        return (already_added_pre_export_list(env, new, pos));
 	if (pos >= 0)
     {
 		env->env = realloc_export_exchange(env, new, pos);
