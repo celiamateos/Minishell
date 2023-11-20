@@ -6,74 +6,102 @@
 /*   By: daviles- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 18:57:40 by daviles-          #+#    #+#             */
-/*   Updated: 2023/11/10 19:57:43 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/19 21:59:22 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
-void btree_apply_prefix(t_btree *root, void (*applyf)(void *))
+void print_preorder(t_tree *node) 
 {
-	
+	t_token	*token;
+
+	if (node != NULL) 
+	{
+		token = node->content;
+       		printf("%s\n", token->value);
+	        print_preorder(node->left);
+	        print_preorder(node->right);
+    	}
 }
 
-void	print_tree(void *content)
+t_tree	*new_leaf(t_token *token)
 {
-	t_token	token;
+	t_tree	*leaf;
 
-	token = content;
-	printf("%s\n", token->value);
-}
-
-t_tree	new_leaf(t_token *token)
-{
-	t_tree	leaf;
-
-	if (!token)
-		return (NULL);
 	leaf = malloc(sizeof(t_tree));
+	if (!leaf)
+		return (NULL);
 	leaf->content = token;
 	leaf->left = NULL;
 	leaf->right = NULL;
 	return (leaf);
 }
 
-void	add_left_tree(t_tree *tree, t_tree *leaf)
+void	insert_leaf(t_tree **tree, t_dlist *token_list)
 {
-	if (!leaf || !tree)
+	t_token	*token;
+	t_tree	*leaf;
+	t_tree	*aux_leaf;
+
+	if (token_list == NULL || !*tree || !tree)
 		return ;
-	tree->left = leaf;
-}
-
-void	add_right_tree(t_tree *tree, t_tree *leaf)
-{
-	if (!leaf || !tree)
-		return ;
-	tree->right = leaf;
-}
-
-void	init_tree(t_dlist *tokens)
-{
-	t_tree	*tree_node;
-	t_tree	*root;
-	t_token	token;
-
-//	tree = NULL;
-	tree_node = new_leaf(tokens->content);
-	tokens = tokens->next;
-	root = tree_node;
-	while (tokens)
+	while (token_list)
 	{
-		token = tokens->content;
-		if (token->type == PIPE)
+		token = token_list->content;
+		if (token->type == CMD)
 		{
-			root = new_leaf(tokens->content);
-			add_left_tree(root, tree_node);
+			if ((*tree)->right == NULL)
+				(*tree)->right = new_leaf(token);
+			else
+				insert_leaf(&(*tree)->right, token_list);
 		}
-		else if (token->type == CMD)
+		else if (token->type == PIPE)
 		{
-			//go next token and check if is operator
-			tree_node = new_leaf(tokens->content);
+			if ((*tree)->content->type == PIPE)
+				insert_leaf(&(*tree)->right, token_list);
+			else
+			{
+				leaf = new_leaf(token);
+				aux_leaf = *tree;
+				leaf->left = aux_leaf;
+				*tree = leaf;
+			}
+//			insert_leaf(&(leaf)->right, token_list->next);
+	//		aux_leaf = leaf;
+	
 		}
-		tokens = tokens->next;
+		else if (token->type == REDIR)
+		{
+			if ((*tree)->right == NULL)
+				(*tree)->right = new_leaf(token);
+			else
+				insert_leaf(&(*tree)->right, token_list);
+	
+		}
+		token_list = token_list->next;
 	}
+}
+
+void	init_tree(t_shell_sack **sack)
+{
+	t_tree	*tree;
+	t_tree	**root;
+	t_token	*token;
+	t_dlist	*token_list;
+	t_tree	*leaf;
+	t_tree	*aux_leaf;
+
+	token_list = (*sack)->token_list;
+	tree = new_leaf(token_list->content);
+	token_list = token_list->next;
+	*root = tree; // guardar en sack
+	insert_leaf(&tree, token_list);
+	print_preorder(tree);
+/*	while (tree)
+	{
+		token = tree->content;
+       		printf("%s\n", token->value);
+		tree = tree->right;
+	}
+	*/
 }

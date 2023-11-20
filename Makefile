@@ -6,7 +6,7 @@
 #    By: imurugar <imurugar@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/01 17:06:22 by cmateos-          #+#    #+#              #
-#    Updated: 2023/11/10 01:40:03 by daviles-         ###   ########.fr        #
+#    Updated: 2023/11/19 15:40:24 by daviles-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ LIBFT = $(LIBFT_DIR)libft.a
 SRC_DIR = src
 
 SRC = $(addprefix $(SRC_DIR)/, main.c parse.c ft_double_list.c \
-	  init_tokens.c init_sack.c utils.c \
+	  init_tokens.c init_sack.c utils.c init_tree.c \
 	  enviroment.c enviroment_utils.c unset.c export.c print_export_list.c \
 	  pre_export.c)
 

@@ -55,13 +55,13 @@ int	init_env(char **envp, t_env *env)
 		return (1);
 	if (envp)
 	{
-		printf("\nENV ORIGINAL:\n");
-		print_env(envp);
+//		printf("\nENV ORIGINAL:\n");
+//		print_env(envp);
 		env->env = alloc_first_envp(env, envp);
 		if (!env->env)
 			return (1);
 		env->pre_export_elements = 0;
-		print_env(env->env);
+//		print_env(env->env);
 	}
 
 	// printf("\nenv_elements: %ld\n", env->env_elements);
