@@ -31,23 +31,23 @@ void	leaks(void)
 	  sack = NULL;
 	if (init_env(envp, env))
 		return (1);
-
-	get_pwd();
-// 	clean_init(&sack);
-// //	sack->env = env;
-// 	while (42)
-//  	{
-//  		line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
-// //	 	init_sack(sack, line, sack->envp);
-//  		if (line == 0)
-//  			return (0);
-// 		sack->token_list = lexer(line);
-// 		print_tokenlist(sack->token_list);
-// 		init_tree(&sack);
-//  		free(line);
-// 	}
-	// 	ft_free_env(env->env);
-	// // // ft_free_env(env->pre_export);
-	// free(env);
+	clean_init(&sack);
+	sack->env = env;
+	while (42)
+ 	{
+ 		line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
+	 	init_sack(sack, line, sack->envp);
+ 		if (line == 0)
+ 			return (0);
+		sack->token_list = lexer(line);
+		print_tokenlist(sack->token_list);
+		// init_tree(&sack);
+        if (*line) 
+            add_history(line);
+ 		free(line);
+	}
+		ft_free_env(env->env);
+	ft_free_env(env->pre_export);
+	free(env);
     return (0);
  }
