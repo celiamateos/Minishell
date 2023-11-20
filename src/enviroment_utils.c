@@ -40,7 +40,7 @@ void print_env(char **env)
 	int i = 0;
 
 	printf("\n");
-	if (!env)
+	if (!env || !env[i])
 		return ;
 	while (env[i])
 	{
@@ -63,7 +63,7 @@ size_t ft_arraylen(char **array)
 }
 
 //@brief Busca si una variable existe en el enviroment
-//@param limit delimitador hasta el cual comparar si existe (limit inclusive)
+//@param limit delimitador (caracter) hasta el cual comparar si existe (limit inclusive)
 //@return El número de línea en la que aparece la variable, -1 si no la encuentra.
 int	search_env_pos(char **env, char *word, char limit)
 {
@@ -80,7 +80,7 @@ int	search_env_pos(char **env, char *word, char limit)
 	{
 		if (!ft_strncmp(env[i], word, j))
 		{
-			printf("CHAR: %c", env[i][j]);
+			// printf("\nCHAR:%c", env[i][j]);
 			if (env[i][j] == '=' || env[i][j] == '\0')
 				return (i);
 		}

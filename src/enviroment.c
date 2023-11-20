@@ -6,7 +6,7 @@
 /*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 03:41:52 by cmateos           #+#    #+#             */
-/*   Updated: 2023/11/19 19:39:47 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/09 03:41:53 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/minishell.h"
@@ -50,36 +50,17 @@ char **alloc_first_envp(t_env *env, char **src)
 //@return 1 en caso de error
 int	init_env(char **envp, t_env *env)
 {
-	env = ft_calloc(1, sizeof(t_env));
 	if (!env)
 		return (1);
 	if (envp)
 	{
-//		printf("\nENV ORIGINAL:\n");
-//		print_env(envp);
+		// printf("\nENV ORIGINAL:\n");
+		// print_env(envp);
 		env->env = alloc_first_envp(env, envp);
 		if (!env->env)
 			return (1);
 		env->pre_export_elements = 0;
-//		print_env(env->env);
+		// print_env(env->env);
 	}
-
-	// printf("\nenv_elements: %ld\n", env->env_elements);
-
-	// env->pre_export = realloc_add_pre_export_list(env, "hola=k tal");
-	// // env->pre_export = realloc_add_pre_export_list(env, "BIEN=k tal");
-	// // env->pre_export = realloc_add_pre_export_list(env, "PRUEBA=k tal");
-	
-	// // print_env(env->pre_export);
-	// export(env, "hola");
-	// // // unset(env, "VARIABLE1");
-	// // printf("\n\nENV despues pre export add list:\n\n\n");
-	// print_env(env->env);
-	// // print_env(env->pre_export);
-	// // printf("\nenv_elements: %ld\n", env->pre_export_elements);
-	// ft_free_env(env->env);
-	// ft_free_env(env->pre_export);
-	// free(env);
 	return (0);
 }
-//Mazo loco que fsanitize sin liberar no da leaks y liberando si
