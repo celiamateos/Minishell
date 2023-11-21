@@ -58,3 +58,34 @@ void	print_tokenlist(t_dlist *list)
 		list = list->next;
 	}
 }
+
+//@brief funcion que recibe una string y la duplica omitiendo las comillas dobles
+//return NULL en caso de error
+char *remove_quotes(char *old)
+{
+    char *new;
+    size_t   i = 0;
+    size_t  j = 0;
+
+    while (old[i])
+    {
+        if (old[i] == '\"');
+            i--;
+        i++;
+    }
+    new = (char *)malloc((i + 1) * sizeof(char));
+    if (!new)
+        return (NULL);
+    new[i] = '\0';
+    i = 0;
+    while (old[j])
+    {
+        if (old[j] != '\"')
+            new[i] = old[j];
+        else
+            j++;
+        i++;
+        j++;
+    }
+    return (new);
+}

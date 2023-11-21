@@ -78,30 +78,24 @@ typedef struct s_shell_sack
 }	t_shell_sack;
 
 int		main(int ac, char **av, char **envp);
+
 //ENVIROMENT
 int	init_env(char **envp, t_env *env);
-
-void export(t_env *env, char *new);
-char **realloc_export_exchange(t_env *env, char *new, size_t pos);
-char **realloc_export_add(t_env *env, char *new);
-int is_valid_to_export(char *s);
-int	search_env_pos(char **env, char *word, char limit);
-char **realloc_unset_pre_export_list(t_env *env, size_t pos);
-char **realloc_add_pre_export_list(t_env *env, char *line);
-void pre_export_new_variable(t_env *env, char *line);
+void	export(t_env *env, char *new);
+char	**realloc_export_exchange(t_env *env, char *new, size_t pos);
+char	**realloc_export_add(t_env *env, char *new);
+int		is_valid_to_export(char *s);
+int		search_env_pos(char **env, char *word, char limit);
+char	**realloc_unset_pre_export_list(t_env *env, size_t pos);
+char	**realloc_add_pre_export_list(t_env *env, char *line);
+void	pre_export_new_variable(t_env *env, char *line);
 void    print_export_list(t_env *env);
 void 	already_added_pre_export_list(t_env *env, char *new, long pos);
-int unset(t_env *env, char *del, int check);
-char **realloc_unset(t_env *env, size_t pos);
+int		unset(t_env *env, char *del, int check);
+char 	**realloc_unset(t_env *env, size_t pos);
 
 //PWD
 void    get_pwd(void);
-
-
-void ft_free_env(char **env);
-void	ft_free_error_arr(char **mem, long i);
-void print_env(char **env);
-size_t ft_arraylen(char **array);
 
 //FUNCIONES LISTAS
 t_dlist	*ft_dlstnew(void *content);
@@ -115,6 +109,12 @@ int		ft_dlstsize(t_dlist *lst);
 void	print_next(t_dlist **tokens);
 void	print_prev(t_dlist **tokens);
 void	print_tokenlist(t_dlist *list);
+void	ft_free_env(char **env);
+void	ft_free_error_arr(char **mem, long i);
+void 	print_env(char **env);
+size_t 	ft_arraylen(char **array);
+char *	remove_quotes(char *old);
+
 // init_sack
 int	clean_init(t_shell_sack **sack);
 void	init_sack(t_shell_sack *sack, char *line, char **envp);
@@ -132,7 +132,6 @@ void    init_tree(t_shell_sack **sack);
 void    insert_leaf(t_tree **tree, t_dlist *token_list);
 t_tree  *new_leaf(t_token *token);
 void 	print_preorder(t_tree *node);
-
 
 
 #endif

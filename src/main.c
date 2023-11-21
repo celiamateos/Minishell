@@ -40,6 +40,8 @@ void	ft_free_pruebas(t_env *env)
 	env = ft_calloc(1, sizeof(t_env));
 	if (init_env(envp, env))
 		return (1);
+	char *new = "variable="contenido"";
+	export(env, new);
 	clean_init(&sack);
 	sack->env = env;
 	while (42)
