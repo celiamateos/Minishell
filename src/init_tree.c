@@ -53,27 +53,35 @@ void	insert_leaf(t_tree **tree, t_dlist *token_list)
 			if ((*tree)->right == NULL)
 				(*tree)->right = new_leaf(token);
 			else
-				insert_leaf(&(*tree)->right, token_list);
+			{
+				printf("Token CMD, tree->right not empty\n");
+				aux_leaf = *tree;
+			while (aux_leaf->right)
+				aux_leaf = aux_leaf->right;
+			aux_leaf->right = new_leaf(token);
+			//insert_leaf(&(*tree)->right, token_list);
+			}
 		}
 		else if (token->type == PIPE)
 		{
-
-//			aux_leaf = *tree;
-//			while (aux_leaf->content->type == PIPE)
-//				aux_leaf = aux_leaf->right;
 			if ((*tree)->content->type == PIPE)
-				insert_leaf(&(*tree)->right, token_list);
+			{
+				aux_leaf = *tree;
+				while ((aux_leaf->right)->content->type == PIPE)
+					aux_leaf = aux_leaf->right;
+				leaf = new_leaf(token);
+				leaf->left = aux_leaf->right;
+				aux_leaf->right = leaf;
+//				insert_leaf(&(*tree)->right, token_list);
+			}
 			else
 			{
-				printf("NOT PIPE\n");
+				
 				leaf = new_leaf(token);
 				aux_leaf = *tree;
 				leaf->left = aux_leaf;
 				*tree = leaf;
-			}
-//			insert_leaf(&(leaf)->right, token_list->next);
-	//		aux_leaf = leaf;
-	
+			}	
 		}
 		else if (token->type == REDIR)
 		{
@@ -99,7 +107,7 @@ void	init_tree(t_shell_sack **sack)
 	token_list = (*sack)->token_list;
 	tree = new_leaf(token_list->content);
 	token_list = token_list->next;
-	*root = tree; // guardar en sack
+	//*root = tree; // guardar en sack
 	insert_leaf(&tree, token_list);
 	print_preorder(tree);
 /*	while (tree)

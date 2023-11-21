@@ -50,7 +50,7 @@ void	ft_free_pruebas(t_env *env)
  			return (0);
 		sack->token_list = lexer(line);
 		print_tokenlist(sack->token_list);
-		// init_tree(&sack);
+		init_tree(&sack);
 		if (*line) 
             add_history(line);
  		free(line);
