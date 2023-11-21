@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
-//@brief Recibe el envp, alloca memoria exacta para su copia.
+//@brief  ????? Recibe el envp, alloca memoria exacta para su copia.
 //Si el envp no existe (env -i ./minishell), aloca
 //un char** de size 2, uno para '\0' y otro para el NULL, hay que hacer eso?
 char **alloc_first_envp(t_env *env, char **src)
@@ -45,8 +45,8 @@ char **alloc_first_envp(t_env *env, char **src)
 	return (result);
 }
 
-//@brief ALOCA MEMORIA para t_env y char **env->env para hacer una copia del envp
-//Liberar char **env->env y t_env en main o salida de errores.
+//@brief ALOCA MEMORIA char **env->env para hacer una copia del envp
+//Liberar char **env->env y en main o salida de errores.
 //@return 1 en caso de error
 int	init_env(char **envp, t_env *env)
 {
