@@ -29,8 +29,11 @@
 
 # define CMD 0
 # define PIPE 1
-# define REDIR 2
-# define OPER 3
+# define HEREDOC 2
+# define REDIR_IN 3
+# define REDIR_OUT 4
+# define APPEND_OUT 5
+# define OPER 6
 
 typedef struct s_dlist
 {

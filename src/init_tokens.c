@@ -3,21 +3,84 @@
 /*                                                        :::      ::::::::   */
 /*   init_tokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daviles- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: daviles- <daviles-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:07:18 by daviles-          #+#    #+#             */
-/*   Updated: 2023/11/19 19:14:35 by daviles-         ###   ########.fr       */
+/*   Updated: 2023/11/21 21:59:42 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
+
+void	save_redir_filename(char *line, int *i)
+{
+	*i = *i + 1;
+	if (ft_isspace(line[*i]))
+	{
+		while (ft_isspace(line[*i]) && line[*i] != '\0')
+			*i = *i + 1;
+	}
+	while (ft_isalpha(line[*i]))
+	{
+			*i = *i + 1;
+	}
+}
+
+int	valid_filename(char *value, int i)
+{
+	if (ft_isalpha(value[i]))
+			return (1);	
+	else if (value[i] == ' ')
+	{
+		while (ft_isspace(value[i]))
+			i++;
+		if (ft_isalpha(value[i]))
+			return (1);
+		else
+			return (0); //Deberiamos retornar error?
+	}
+		return (0); //Deberiamos retornar error?
+}
+
 int	get_token_type(char *value)
 {
+	int	i;
+
+	i = 0;
 	if (!ft_strncmp(value, "|", 2))
 		return (PIPE);
-	else if (!ft_strncmp(value, "<", 2) || !ft_strncmp(value, "<<", 3) \
-			|| !ft_strncmp(value, ">", 2) || !ft_strncmp(value, ">>", 3))
-		return (REDIR);
+	else if (!ft_strncmp(value, "<<", 2))
+	{
+		i = 2;
+		if (valid_filename(value, i))
+			return (HEREDOC);	
+		else
+			return (CMD); //Deberiamos retornar error?
+	}
+	else if (value[i] == '<')
+	{
+		i = 1;
+		if (valid_filename(value, i))
+			return (REDIR_IN);	
+		else
+			return (CMD); //Deberiamos retornar error?
+	}
+	else if (!ft_strncmp(value, ">>", 2))
+	{
+		i = 2;
+		if (valid_filename(value, i))
+			return (APPEND_OUT);	
+		else
+			return (CMD); //Deberiamos retornar error?
+	}
+	else if (value[i] == '>')
+	{
+		i = 1;
+		if (valid_filename(value, i))
+			return (REDIR_OUT);	
+		else
+			return (CMD); //Deberiamos retornar error?
+	}
 	else if (!ft_strncmp(value, "&&", 3) || !ft_strncmp(value, "||", 3))
 		return (OPER);
 	else
@@ -48,7 +111,12 @@ void	*get_next_token(char *line, int *i)
 	start = *i;
 	if (ft_isoperator(line[*i], quotes))
 		while (ft_isoperator(line[*i], quotes) && line[*i])
-			*i = *i + 1;
+		{
+			 if (line[*i] == '<' || line[*i] == '>' )
+			 	save_redir_filename(line, i);
+			else
+				*i = *i + 1;
+		}
 	else
 		while (!ft_isoperator(line[*i], quotes) && line[*i])
 			*i = *i + 1;
