@@ -97,6 +97,9 @@ char 	**realloc_unset(t_env *env, size_t pos);
 //PWD
 void    get_pwd(void);
 
+//CD
+void    cd(char *pathname);
+
 //FUNCIONES LISTAS
 t_dlist	*ft_dlstnew(void *content);
 void	ft_dlstadd_back(t_dlist **lst, t_dlist *new);

@@ -1,0 +1,16 @@
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo "$ARG"
+
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ ARG=123;
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo "$ARG"
+123
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo '$ARG'
+$ARG
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo ""$ARG""
+123
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo''$ARG''
+echo123: command not found
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo ''$ARG''
+123
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo "'$ARG'"
+'123'
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ 
