@@ -11,6 +11,26 @@
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
+void	leaf_isredirect(t_tree ***root, t_dlist *token_list)
+{
+	t_tree	**tree;
+	t_tree	*aux_leaf;
+	t_tree	*leaf;
+	t_token	*token;
+	
+	token = token_list->content;
+	tree = *root;
+	if ((*tree)->right == NULL)
+		(*tree)->right = new_leaf(token);
+	else
+	{
+		aux_leaf = *tree;
+		while (aux_leaf->right)
+			aux_leaf = aux_leaf->right;
+		aux_leaf->right = new_leaf(token);
+	}	
+}
+
 void	leaf_ispipe(t_tree ***root, t_dlist *token_list)
 {
 	t_tree	**tree;
@@ -31,7 +51,6 @@ void	leaf_ispipe(t_tree ***root, t_dlist *token_list)
 	}
 	else
 	{
-		
 		leaf = new_leaf(token);
 		aux_leaf = *tree;
 		leaf->left = aux_leaf;
@@ -44,18 +63,42 @@ void	leaf_iscmd(t_tree ***root, t_dlist *token_list)
 	t_tree	**tree;
 	t_tree	*aux_leaf;
 	t_token	*token;
+	t_tree	*leaf;
 	
 	token = token_list->content;
 	tree = *root;
-	if ((*tree)->right == NULL)
-		(*tree)->right = new_leaf(token);
+	if ((*tree)->content->type >= HEREDOC)
+	{
+		leaf = new_leaf(token);
+		aux_leaf = *tree;
+		if ((*tree)->content->type <= REDIR_IN)
+			leaf->left = aux_leaf;
+		else
+			leaf->right = aux_leaf;
+		*tree = leaf;
+	}
 	else
 	{
-		aux_leaf = *tree;
-		while (aux_leaf->right)
-			aux_leaf = aux_leaf->right;
-		aux_leaf->right = new_leaf(token);
-	}	
+		if ((*tree)->right == NULL)
+			(*tree)->right = new_leaf(token);
+		else
+		{
+			aux_leaf = *tree;
+			while ((aux_leaf->right)->right)
+				aux_leaf = aux_leaf->right;
+			if ((aux_leaf->right)->content->type >= HEREDOC)
+			{
+				leaf = new_leaf(token);
+				if ((aux_leaf->right)->content->type <= REDIR_IN)
+					leaf->left = aux_leaf->right;
+				else
+					leaf->right = aux_leaf->right;
+				aux_leaf->right = leaf;
+			}
+			else
+				(aux_leaf->right)->right = new_leaf(token);
+		}
+	}
 }
 
 void print_preorder(t_tree *node) 
@@ -103,13 +146,9 @@ void	insert_leaf(t_tree **tree, t_dlist *token_list)
 		{
 			leaf_ispipe(&tree, token_list);
 		}
-		else if (token->type == REDIR)
+		else if (token->type >= HEREDOC)
 		{
-			if ((*tree)->right == NULL)
-				(*tree)->right = new_leaf(token);
-			else
-				insert_leaf(&(*tree)->right, token_list);
-	
+			leaf_isredirect(&tree, token_list);
 		}
 		token_list = token_list->next;
 	}
@@ -128,7 +167,7 @@ void	init_tree(t_shell_sack **sack)
 	token_to = NULL;
 	// while (token_list)
 	// {
-	// 	if (token->type == OPER)
+	// 	if (token->type == OPER)w
 	// 	{
 	// 		token_to = token_list->content;
 	// 		break
