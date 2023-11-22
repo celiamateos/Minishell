@@ -11,13 +11,14 @@
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
-
 //@brief Intenta acceder a la ruta pasada como parametro, en caso de error muestra un mensaje.
+// No tengo muy claro si hay que guardar la ruta de la raiz al inicio de la ejecucion para indicar que vaya a la raiz cuando pathname sea null
+//Probar cuando el arbol ya esté okey
 void    cd(char *pathname)
 {
     int ret;
 
     ret = chdir(pathname);
     if (ret == -1)
-        ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", 2);
+        ft_putstr_fd("cd: No such file or directory", 2);
 }
