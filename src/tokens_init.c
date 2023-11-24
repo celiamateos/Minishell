@@ -11,6 +11,25 @@
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
+int	check_emptyorspace(char *str)
+{
+	int	i;
+	int	space;
+
+	i = 0;
+	space = 0;
+	if (!str || str == NULL)
+		return (1);	
+	while (str[i])
+	{
+		if (isspace(str[i]))
+			space++;
+		i++;
+	}
+	if (i == space)
+		return (1);
+	return (0);
+}
 
 void	save_redir_filename(char *line, int *i)
 {
@@ -20,7 +39,7 @@ void	save_redir_filename(char *line, int *i)
 		while (ft_isspace(line[*i]) && line[*i] != '\0')
 			*i = *i + 1;
 	}
-	while (ft_isalpha(line[*i]))
+	while (ft_isalnum(line[*i]))
 	{
 			*i = *i + 1;
 	}
@@ -28,13 +47,13 @@ void	save_redir_filename(char *line, int *i)
 
 int	valid_filename(char *value, int i)
 {
-	if (ft_isalpha(value[i]))
+	if (ft_isalnum(value[i]))
 			return (1);	
 	else if (value[i] == ' ')
 	{
 		while (ft_isspace(value[i]))
 			i++;
-		if (ft_isalpha(value[i]))
+		if (ft_isalnum(value[i]))
 			return (1);
 		else
 			return (0); //Deberiamos retornar error?
@@ -105,6 +124,7 @@ void	*get_next_token(char *line, int *i)
 	t_token	*token;
 	int		start;
 	int		quotes[2];
+	char	*aux;
 
 	quotes[0] = 0;
 	quotes[1] = 0;
@@ -120,21 +140,33 @@ void	*get_next_token(char *line, int *i)
 	else
 		while (!ft_isoperator(line[*i], quotes) && line[*i])
 			*i = *i + 1;
-	token = malloc(sizeof(t_token));
-	token->value = ft_substr(line, start, (size_t)(*i - start));
-	token->type = get_token_type(token->value);
-	return ((void *)token);
+	aux = ft_substr(line, start, (size_t)(*i - start));
+	if (aux && !check_emptyorspace(aux))
+	{
+		token = malloc(sizeof(t_token));
+		token->value = aux;
+		token->type = get_token_type(token->value);
+		return ((void *)token);
+	}
+	return (NULL);
 }
 
 t_dlist	*init_tokens(char *line)
 {
 	int		i;
 	t_dlist	*list;
+	t_token	*token;
 
 	i = 0;
-	list = ft_dlstnew(get_next_token(line, &i));
+	token = get_next_token(line, &i);
+	if (token != NULL)
+		list = ft_dlstnew(token);
 	while (line[i])
-		ft_dlstadd_back(&list, ft_dlstnew(get_next_token(line, &i)));
+	{
+		token = get_next_token(line, &i);
+		if (token != NULL)
+			ft_dlstadd_back(&list, ft_dlstnew(token));
+	}
 	return (list);
 }
 

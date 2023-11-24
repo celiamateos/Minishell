@@ -35,6 +35,8 @@
 # define REDIR_OUT 5
 # define APPEND_OUT 6
 
+# define COUNT 10 //to check priunt2Dtree
+
 typedef struct s_dlist
 {
 	void		*content;
@@ -134,8 +136,9 @@ int		get_token_type(char *value);
 void    init_tree(t_shell_sack **sack);
 void    insert_leaf(t_tree **tree, t_dlist *token_list);
 t_tree  *new_leaf(t_token *token);
+// tree_utils
 void 	print_preorder(t_tree *node);
-
-
+void	print2D(t_tree* root);
+void	print2DUtil(t_tree *root, int space);
 
 #endif

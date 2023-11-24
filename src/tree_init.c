@@ -178,5 +178,6 @@ void	init_tree(t_shell_sack **sack)
 	tree = new_leaf(token_list->content);
 	token_list = token_list->next;
 	insert_leaf(&tree, token_list);
-	print_preorder(tree);
+	print2D(tree);
+	//print_preorder(tree);
 }
