@@ -58,3 +58,9 @@ void	print_tokenlist(t_dlist *list)
 		list = list->next;
 	}
 }
+
+void	print_token(char *msj, t_token	*token)
+{
+	printf("%s: ", msj);
+	printf("token->value: %s type: %d\n", token->value, token->type);
+}

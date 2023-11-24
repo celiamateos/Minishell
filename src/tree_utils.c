@@ -46,3 +46,16 @@ void print2D(t_tree* root)
     // Pass initial space count as 0
     print2DUtil(root, 0);
 }
+
+void print_preorder(t_tree *node) 
+{
+	t_token	*token;
+
+	if (node != NULL) 
+	{
+		token = node->content;
+       		printf("%s\n", token->value);
+	        print_preorder(node->left);
+	        print_preorder(node->right);
+    	}
+}

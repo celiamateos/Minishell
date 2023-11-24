@@ -116,10 +116,6 @@ t_dlist	*ft_dlstlast(t_dlist *lst);
 t_dlist *ft_dlstfirst(t_dlist *lst);
 int		ft_dlstsize(t_dlist *lst);
 
-// utils
-void	print_next(t_dlist **tokens);
-void	print_prev(t_dlist **tokens);
-void	print_tokenlist(t_dlist *list);
 // init_sack
 int	clean_init(t_shell_sack **sack);
 void	init_sack(t_shell_sack *sack, char *line, char **envp);
@@ -132,10 +128,21 @@ t_dlist	*init_tokens(char *line);
 void	*get_next_token(char *line, int *i);
 int		ft_isoperator(char	c, int *quotes);
 int		get_token_type(char *value);
+// token_utils
+void	print_next(t_dlist **tokens);
+void	print_prev(t_dlist **tokens);
+void	print_tokenlist(t_dlist *list);
+void	print_token(char *msj, t_token	*token);
 // init_tree
 void    init_tree(t_shell_sack **sack);
-void    insert_leaf(t_tree **tree, t_dlist *token_list);
+void	insert_leaf(t_tree **tree, t_dlist **token_list, t_dlist *token_end);
 t_tree  *new_leaf(t_token *token);
+// init_tree
+void	leaf_iscmd(t_tree ***root, t_dlist *token_list);
+void	leaf_ispipe(t_tree ***root, t_dlist *token_list);
+void	leaf_isredirect(t_tree ***root, t_dlist *token_list);
+void	leaf_isoper(t_tree ***root, t_dlist *token_list);
+
 // tree_utils
 void 	print_preorder(t_tree *node);
 void	print2D(t_tree* root);
