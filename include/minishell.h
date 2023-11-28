@@ -35,6 +35,7 @@
 # define REDIR_IN 5
 # define REDIR_OUT 6
 # define APPEND_OUT 7
+# define FN_ERROR 8
 
 # define COUNT 10 //to check priunt2Dtree
 

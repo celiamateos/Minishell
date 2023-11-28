@@ -31,34 +31,63 @@ int	check_emptyorspace(char *str)
 	return (0);
 }
 
+int	find_nextquote(char *str, char quote)
+{
+	int	i;
+	int	closed;
+
+	i = 0;
+	closed = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == quote)
+		{
+			closed = 1;
+			break;
+		}
+		i++;
+	}
+	if (closed)
+		return (i);
+	else
+		return (-1);
+}
+
+int	valid_filename(char *value, int i)
+{
+	if (ft_isspace(value[i]))
+		while (ft_isspace(value[i]))
+			i++;
+	if (!ft_isalnum(value[i]))
+		return (0); //Deberiamos retornar error?
+	else
+		i++;
+	while (value[i] != '\0')
+	{
+		if (ft_isalnum(value[i]) || value[i] == '.' || value[i] == '_' || value[i] == '-')
+			i++;
+		else if (ft_isspace(value[i]))
+			break;
+		else
+			return (0); //Deberiamos retornar error?
+	}
+		return (1);
+}
+
 void	save_redir_filename(char *line, int *i)
 {
 	*i = *i + 1;
+	if (line[*i] == '<' || line[*i] == '>')
+		*i = *i + 1;
 	if (ft_isspace(line[*i]))
 	{
 		while (ft_isspace(line[*i]) && line[*i] != '\0')
 			*i = *i + 1;
 	}
-	while (ft_isalnum(line[*i]))
+	while (ft_isalnum(line[*i]) || line[*i] == '.' || line[*i] == '_' || line[*i] == '-')
 	{
 			*i = *i + 1;
 	}
-}
-
-int	valid_filename(char *value, int i)
-{
-	if (ft_isalnum(value[i]))
-			return (1);	
-	else if (value[i] == ' ')
-	{
-		while (ft_isspace(value[i]))
-			i++;
-		if (ft_isalnum(value[i]))
-			return (1);
-		else
-			return (0); //Deberiamos retornar error?
-	}
-		return (0); //Deberiamos retornar error?
 }
 
 void	print_tokenlist(t_dlist *list)

@@ -24,7 +24,7 @@ int	get_token_type(char *value)
 		if (valid_filename(value, i))
 			return (HEREDOC);	
 		else
-			return (CMD); //Deberiamos retornar error?
+			return (FN_ERROR); //Deberiamos retornar error? Filename error
 	}
 	else if (value[i] == '<')
 	{
@@ -32,7 +32,7 @@ int	get_token_type(char *value)
 		if (valid_filename(value, i))
 			return (REDIR_IN);	
 		else
-			return (CMD); //Deberiamos retornar error?
+			return (FN_ERROR); 
 	}
 	else if (!ft_strncmp(value, ">>", 2))
 	{
@@ -40,7 +40,7 @@ int	get_token_type(char *value)
 		if (valid_filename(value, i))
 			return (APPEND_OUT);	
 		else
-			return (CMD); //Deberiamos retornar error?
+			return (FN_ERROR); 
 	}
 	else if (value[i] == '>')
 	{
@@ -48,7 +48,7 @@ int	get_token_type(char *value)
 		if (valid_filename(value, i))
 			return (REDIR_OUT);	
 		else
-			return (CMD); //Deberiamos retornar error?
+			return (FN_ERROR); 
 	}
 	else if (!ft_strncmp(value, "&&", 3) || !ft_strncmp(value, "||", 3))
 		return (OPER);
