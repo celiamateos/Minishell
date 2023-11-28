@@ -11,42 +11,7 @@
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
-void	leaf_isoper(t_tree ***root, t_dlist *token_list)
-{
-	t_tree	**tree;
-	t_tree	*aux_leaf;
-	t_tree	*leaf;
-	t_token	*token;
-	
-	token = token_list->content;
-	tree = *root;
-	aux_leaf = *tree;
-	leaf = new_leaf(token);
-	leaf->left = aux_leaf;
-	**root = leaf;
-}
-
-void	leaf_isredirect(t_tree ***root, t_dlist *token_list)
-{
-	t_tree	**tree;
-	t_tree	*aux_leaf;
-	t_tree	*leaf;
-	t_token	*token;
-	
-	token = token_list->content;
-	tree = *root;
-	if ((*tree)->right == NULL)
-		(*tree)->right = new_leaf(token);
-	else
-	{
-		aux_leaf = *tree;
-		while (aux_leaf->right)
-			aux_leaf = aux_leaf->right;
-		aux_leaf->right = new_leaf(token);
-	}	
-}
-
-void	leaf_ispipe(t_tree ***root, t_dlist *token_list)
+void	leaf_isoperpipe(t_tree ***root, t_dlist *token_list)
 {
 	t_tree	**tree;
 	t_tree	*aux_leaf;
@@ -70,6 +35,42 @@ void	leaf_ispipe(t_tree ***root, t_dlist *token_list)
 		aux_leaf = *tree;
 		leaf->left = aux_leaf;
 		*tree = leaf;
+	}	
+}
+
+void	leaf_isparenthesis(t_tree ***root, t_dlist *token_list)
+{
+	t_tree	**tree;
+	t_tree	*aux_leaf;
+	t_tree	*leaf;
+	t_token	*token;
+	
+	token = token_list->content;
+	tree = *root;
+	aux_leaf = *tree;
+	leaf = new_leaf(token);
+	leaf->left = aux_leaf;
+	**root = leaf;
+}
+
+void	leaf_isredirect(t_tree ***root, t_dlist *token_list)
+{
+	t_tree	**tree;
+	t_tree	*aux_leaf;
+	t_tree	*leaf;
+	t_token	*token;
+	
+	// check redirection after command
+	token = token_list->content;
+	tree = *root;
+	if ((*tree)->right == NULL)
+		(*tree)->right = new_leaf(token);
+	else
+	{
+		aux_leaf = *tree;
+		while (aux_leaf->right)
+			aux_leaf = aux_leaf->right;
+		aux_leaf->right = new_leaf(token);
 	}	
 }
 
@@ -144,17 +145,17 @@ void	insert_leaf(t_tree **tree, t_dlist **token_list, t_dlist *token_end)
 		{
 			leaf_iscmd(&tree, (*token_list));
 		}
-		else if (token->type == PIPE)
+		else if (token->type == PIPE || token->type == OPER)
 		{
-			leaf_ispipe(&tree, (*token_list));
+			leaf_isoperpipe(&tree, (*token_list));
 		}
 		else if (token->type >= HEREDOC)
 		{
 			leaf_isredirect(&tree, (*token_list));
 		}
-		else if (token->type == OPER)
+		else if (token->type == PARENT)
 		{
-			leaf_isoper(&tree, (*token_list));
+			leaf_isoperpipe(&tree, (*token_list));
 		}
 		(*token_list) = (*token_list)->next;
 	}

@@ -11,56 +11,6 @@
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
-int	check_emptyorspace(char *str)
-{
-	int	i;
-	int	space;
-
-	i = 0;
-	space = 0;
-	if (!str || str == NULL)
-		return (1);	
-	while (str[i])
-	{
-		if (isspace(str[i]))
-			space++;
-		i++;
-	}
-	if (i == space)
-		return (1);
-	return (0);
-}
-
-void	save_redir_filename(char *line, int *i)
-{
-	*i = *i + 1;
-	if (ft_isspace(line[*i]))
-	{
-		while (ft_isspace(line[*i]) && line[*i] != '\0')
-			*i = *i + 1;
-	}
-	while (ft_isalnum(line[*i]))
-	{
-			*i = *i + 1;
-	}
-}
-
-int	valid_filename(char *value, int i)
-{
-	if (ft_isalnum(value[i]))
-			return (1);	
-	else if (value[i] == ' ')
-	{
-		while (ft_isspace(value[i]))
-			i++;
-		if (ft_isalnum(value[i]))
-			return (1);
-		else
-			return (0); //Deberiamos retornar error?
-	}
-		return (0); //Deberiamos retornar error?
-}
-
 int	get_token_type(char *value)
 {
 	int	i;

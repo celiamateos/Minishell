@@ -30,10 +30,11 @@
 # define CMD 0
 # define PIPE 1
 # define OPER 2
-# define HEREDOC 3
-# define REDIR_IN 4
-# define REDIR_OUT 5
-# define APPEND_OUT 6
+# define PARENT 3
+# define HEREDOC 4
+# define REDIR_IN 5
+# define REDIR_OUT 6
+# define APPEND_OUT 7
 
 # define COUNT 10 //to check priunt2Dtree
 
@@ -129,20 +130,20 @@ void	*get_next_token(char *line, int *i);
 int		ft_isoperator(char	c, int *quotes);
 int		get_token_type(char *value);
 // token_utils
-void	print_next(t_dlist **tokens);
-void	print_prev(t_dlist **tokens);
 void	print_tokenlist(t_dlist *list);
 void	print_token(char *msj, t_token	*token);
+int		check_emptyorspace(char *str);
+int		valid_filename(char *value, int i);
+void	save_redir_filename(char *line, int *i);
 // init_tree
 void    init_tree(t_shell_sack **sack);
 void	insert_leaf(t_tree **tree, t_dlist **token_list, t_dlist *token_end);
 t_tree  *new_leaf(t_token *token);
 // init_tree
 void	leaf_iscmd(t_tree ***root, t_dlist *token_list);
-void	leaf_ispipe(t_tree ***root, t_dlist *token_list);
 void	leaf_isredirect(t_tree ***root, t_dlist *token_list);
-void	leaf_isoper(t_tree ***root, t_dlist *token_list);
-
+void	leaf_isoperpipe(t_tree ***root, t_dlist *token_list);
+void	leaf_isparenthesis(t_tree ***root, t_dlist *token_list);
 // tree_utils
 void 	print_preorder(t_tree *node);
 void	print2D(t_tree* root);

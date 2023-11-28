@@ -11,40 +11,54 @@
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
-void	print_next(t_dlist **tokens)
+int	check_emptyorspace(char *str)
 {
-	t_token	*token;
+	int	i;
+	int	space;
 
-	if (!(*tokens)->prev)
+	i = 0;
+	space = 0;
+	if (!str || str == NULL)
+		return (1);	
+	while (str[i])
 	{
-		token = (*tokens)->content;
-		printf("content: %s next: %s\n", token->value,
-				(char *)((*tokens)->next)->content);
-		(*tokens) = (*tokens)->next;
+		if (isspace(str[i]))
+			space++;
+		i++;
 	}
-	else if ((*tokens)->next)
+	if (i == space)
+		return (1);
+	return (0);
+}
+
+void	save_redir_filename(char *line, int *i)
+{
+	*i = *i + 1;
+	if (ft_isspace(line[*i]))
 	{
-		token = (*tokens)->content;
-		printf("content: %s next: %s prev: %s\n", token->value,
-				(char *)((*tokens)->next)->content, (char *)((*tokens)->prev)->content);
-		(*tokens) = (*tokens)->next;
+		while (ft_isspace(line[*i]) && line[*i] != '\0')
+			*i = *i + 1;
+	}
+	while (ft_isalnum(line[*i]))
+	{
+			*i = *i + 1;
 	}
 }
 
-void	print_prev(t_dlist **tokens)
+int	valid_filename(char *value, int i)
 {
-	if (!(*tokens)->next)
+	if (ft_isalnum(value[i]))
+			return (1);	
+	else if (value[i] == ' ')
 	{
-		printf("content: %s prev: %s\n", (char *)(*tokens)->content,
-				(char *)((*tokens)->prev)->content);
-		(*tokens) = (*tokens)->prev;
+		while (ft_isspace(value[i]))
+			i++;
+		if (ft_isalnum(value[i]))
+			return (1);
+		else
+			return (0); //Deberiamos retornar error?
 	}
-	else if ((*tokens)->prev)
-	{
-		printf("content: %s next: %s prev: %s\n", (char *)(*tokens)->content,
-				(char *)((*tokens)->next)->content, (char *)((*tokens)->prev)->content);
-		(*tokens) = (*tokens)->prev;
-	}
+		return (0); //Deberiamos retornar error?
 }
 
 void	print_tokenlist(t_dlist *list)
