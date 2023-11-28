@@ -19,37 +19,13 @@ int	get_token_type(char *value)
 	if (!ft_strncmp(value, "|", 2))
 		return (PIPE);
 	else if (!ft_strncmp(value, "<<", 2))
-	{
-		i = 2;
-		if (valid_filename(value, i))
-			return (HEREDOC);	
-		else
-			return (FN_ERROR); //Deberiamos retornar error? Filename error
-	}
+		return (HEREDOC);	
 	else if (value[i] == '<')
-	{
-		i = 1;
-		if (valid_filename(value, i))
-			return (REDIR_IN);	
-		else
-			return (FN_ERROR); 
-	}
+		return (REDIR_IN);	
 	else if (!ft_strncmp(value, ">>", 2))
-	{
-		i = 2;
-		if (valid_filename(value, i))
-			return (APPEND_OUT);	
-		else
-			return (FN_ERROR); 
-	}
+		return (APPEND_OUT);	
 	else if (value[i] == '>')
-	{
-		i = 1;
-		if (valid_filename(value, i))
-			return (REDIR_OUT);	
-		else
-			return (FN_ERROR); 
-	}
+		return (REDIR_OUT);	
 	else if (!ft_strncmp(value, "&&", 3) || !ft_strncmp(value, "||", 3))
 		return (OPER);
 	else
