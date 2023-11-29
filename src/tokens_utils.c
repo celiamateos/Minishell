@@ -89,9 +89,21 @@ void	save_redir_filename(char *line, int *i)
 			*i = *i + 1;
 	}
 }
-void	get_cmd_args(t_dlist *token_list)
+void	get_cmd_args(t_shell_sack **sack)
 {
-	
+	t_token	*token;
+	t_dlist	*token_list;
+
+	token_list = (*sack)->token_list;
+	while (token_list)
+	{
+		token = token_list->content;
+		if (token->type == CMD)
+		{
+			token->cmds = ft_split(token->value, ' ');
+		}
+		token_list = token_list->next;
+	}
 }
 
 void	print_tokenlist(t_dlist *list)
@@ -110,4 +122,20 @@ void	print_token(char *msj, t_token	*token)
 {
 	printf("%s: ", msj);
 	printf("token->value: %s type: %d\n", token->value, token->type);
+}
+
+void	print_token_args(t_dlist *token_list)
+{
+	t_token	*token;
+
+	while(token_list)
+	{
+		token = token_list->content;
+		if (token->type == CMD)
+		{
+			printf("token->value: %s type: %d\n", token->value, token->type);
+			ft_print_strarray(token->cmds);
+		}
+		token_list = token_list->next;
+	}
 }

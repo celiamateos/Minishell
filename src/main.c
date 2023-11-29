@@ -53,7 +53,7 @@ void	ft_free_pruebas(t_env *env)
 			print_tokenlist(sack->token_list);
 			//get_cmd_args(token_);
 			init_tree(&sack);
-			print2D(sack->tree_list);
+			//print2D(sack->tree_list);
 			//print_preorder(tree);
 		}
 		if (*line) 

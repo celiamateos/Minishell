@@ -133,10 +133,11 @@ int		get_token_type(char *value);
 // token_utils
 void	print_tokenlist(t_dlist *list);
 void	print_token(char *msj, t_token	*token);
+void	print_token_args(t_dlist *token_list);
 int		check_emptyorspace(char *str);
 int		valid_filename(char *value, int i);
 void	save_redir_filename(char *line, int *i);
-void	get_cmd_args(t_dlist *token_list);
+void	get_cmd_args(t_shell_sack **sack);
 // init_tree
 void    init_tree(t_shell_sack **sack);
 void	insert_leaf(t_tree **tree, t_dlist **token_list);
