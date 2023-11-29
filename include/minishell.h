@@ -30,12 +30,13 @@
 # define CMD 0
 # define PIPE 1
 # define OPER 2
-# define PARENT 3
-# define HEREDOC 4
-# define REDIR_IN 5
-# define REDIR_OUT 6
-# define APPEND_OUT 7
-# define FN_ERROR 8
+# define PARENT_OP 3
+# define PARENT_CL 4
+# define HEREDOC 5
+# define REDIR_IN 6
+# define REDIR_OUT 7
+# define APPEND_OUT 8
+# define FN_ERROR 9
 
 # define COUNT 10 //to check priunt2Dtree
 
@@ -138,13 +139,14 @@ int		valid_filename(char *value, int i);
 void	save_redir_filename(char *line, int *i);
 // init_tree
 void    init_tree(t_shell_sack **sack);
-void	insert_leaf(t_tree **tree, t_dlist **token_list, t_dlist *token_end);
+void	insert_leaf(t_tree **tree, t_dlist **token_list);
 t_tree  *new_leaf(t_token *token);
 // init_tree
 void	leaf_iscmd(t_tree ***root, t_dlist *token_list);
 void	leaf_isredirect(t_tree ***root, t_dlist *token_list);
 void	leaf_isoperpipe(t_tree ***root, t_dlist *token_list);
-void	leaf_isparenthesis(t_tree ***root, t_dlist *token_list);
+void	leaf_isparenthesis_cl(t_tree ***root, t_dlist *token_list);
+void	leaf_isparenthesis_op(t_tree ***root, t_dlist *token_list);
 // tree_utils
 void 	print_preorder(t_tree *node);
 void	print2D(t_tree* root);

@@ -28,6 +28,10 @@ int	get_token_type(char *value)
 		return (REDIR_OUT);	
 	else if (!ft_strncmp(value, "&&", 3) || !ft_strncmp(value, "||", 3))
 		return (OPER);
+	else if (value[i] == '(')
+		return (PARENT_OP);	
+	else if (value[i] == ')')
+		return (PARENT_CL);	
 	else
 		return (CMD);
 }
@@ -40,7 +44,7 @@ int	ft_isoperator(char	c, int *quotes)
 		quotes[1] = !quotes[1];
 	if (quotes[0] || quotes[1])
 		return (0);
-	if (c == '|' || c == '<' || c == '>' || c == ';' || c == '&')
+	if (c == '|' || c == '<' || c == '>' || c == ';' || c == '&' || c == '(' || c == ')')
 		return (1);
 	return (0);
 }
