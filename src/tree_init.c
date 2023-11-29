@@ -186,42 +186,11 @@ void	init_tree(t_shell_sack **sack)
 	t_dlist	*token_list;
 	t_tree	*leaf;
 	t_tree	*aux_leaf;
-	int		p_status;
 
-	p_status = 0;
 	token_list = (*sack)->token_list;
 	token_to = token_list;
-	// while (token_list)
-	//  {
-	// 	token = token_list->content;
-	// 	if (token->type == OPER)
-	// 	{
-	// 		token_to = token_list;
-	// 		break;
-	// 	}
-	// 	token_list = token_list->next;
-	// }
-	// token_list = (*sack)->token_list;
-	// tree = new_leaf(token_list->content);
-	// token_list = token_list->next;
-	// insert_leaf(&tree, &token_list, token_to->next);
-	// token = token_list->content;
-	// if (token->type == PARENT_OP)
-	// {
-	// 	p_status++;
-	// 	token_list = token_list->next;
-	// }
-	
 	tree = new_leaf(token_list->content);
 	token_list = token_list->next;
 	insert_leaf(&tree, &token_list);	
-//	insert_leaf(&tree, &token_list, token_to);
-	
-	
-	
-	// tree = new_leaf(token_list->content);
-	// token_list = token_list->next;
-	// insert_leaf(&tree, token_list);
-	print2D(tree);
-	//print_preorder(tree);
+	(*sack)->tree_list = tree;
 }

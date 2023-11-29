@@ -50,9 +50,11 @@ void	ft_free_pruebas(t_env *env)
 		if (*line && !check_emptyorspace(line))
 		{
 			init_sack(sack, line, sack->envp);
- 			sack->token_list = lexer(line);
 			print_tokenlist(sack->token_list);
+			//get_cmd_args(token_);
 			init_tree(&sack);
+			print2D(sack->tree_list);
+			//print_preorder(tree);
 		}
 		if (*line) 
             add_history(line);

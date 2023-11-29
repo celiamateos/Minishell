@@ -126,7 +126,6 @@ char	*expand_line(char *line, char **envp);
 char	*expand_var(char *line, int i, char **envp);
 char	*get_varname(char *expanded, int i);
 // init_tokens
-t_dlist	*lexer(char *line);
 t_dlist	*init_tokens(char *line);
 void	*get_next_token(char *line, int *i);
 int		ft_isoperator(char	c, int *quotes);
@@ -137,6 +136,7 @@ void	print_token(char *msj, t_token	*token);
 int		check_emptyorspace(char *str);
 int		valid_filename(char *value, int i);
 void	save_redir_filename(char *line, int *i);
+void	get_cmd_args(t_dlist *token_list);
 // init_tree
 void    init_tree(t_shell_sack **sack);
 void	insert_leaf(t_tree **tree, t_dlist **token_list);

@@ -63,7 +63,10 @@ void	*get_next_token(char *line, int *i)
 		while (ft_isoperator(line[*i], quotes) && line[*i])
 		{
 			 if (line[*i] == '<' || line[*i] == '>')
-			 	save_redir_filename(line, i);
+			 {
+				save_redir_filename(line, i);
+				break;
+			 }
 			else
 				*i = *i + 1;
 		}
@@ -103,11 +106,3 @@ t_dlist	*init_tokens(char *line)
 	return (list);
 }
 
-t_dlist	*lexer(char *line)
-{
-	t_dlist	*list;
-
-	list = init_tokens(line);
-//	print_tokenlist(list);
-	return (list);
-}

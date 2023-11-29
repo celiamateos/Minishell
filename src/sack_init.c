@@ -90,5 +90,7 @@ void	init_sack(t_shell_sack *sack, char *line, char **envp)
 {
 	sack->line = ft_strtrim(line, " \t\v\n\r");
 	sack->l_expanded = expand_line(sack->line, envp);
+	sack->token_list = init_tokens(line);
+	get_cmd_args(sack->token_list);
 }
 

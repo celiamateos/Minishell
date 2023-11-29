@@ -89,6 +89,10 @@ void	save_redir_filename(char *line, int *i)
 			*i = *i + 1;
 	}
 }
+void	get_cmd_args(t_dlist *token_list)
+{
+	
+}
 
 void	print_tokenlist(t_dlist *list)
 {
