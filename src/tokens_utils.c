@@ -11,6 +11,27 @@
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
+void  *get_last_cmd(t_dlist **token_list)
+{
+	t_token	*token;
+	t_token	*token_next;
+
+	token_next = NULL;
+	while ((*token_list))
+	{
+		token = (*token_list)->content;
+		if ((*token_list)->next)
+		token_next = (*token_list)->next->content;
+		if (!(*token_list)->next && token->type == CMD)
+			return ((*token_list)->content);
+		else if (!((*token_list)->next)->next && token_next->type \
+		 >= HEREDOC && token->type == CMD)
+		 	return ((*token_list)->content);
+			(*token_list) = (*token_list)->next;
+	}
+	return ((*token_list)->content);
+}
+
 int	check_emptyorspace(char *str)
 {
 	int	i;

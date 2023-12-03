@@ -79,6 +79,10 @@ typedef struct s_shell_sack
 	char			*l_expanded;
 	struct s_dlist	*token_list;
 	struct s_tree	*tree_list;
+	int				new_pipes[2];
+	int				old_pipes[2];
+	int				redirs[2];
+	int				last_pid;
 	int				last_exit;
 	int				history_fd;
 	char			**envp; //Usar t_env *env en su lugar
@@ -138,6 +142,7 @@ int		check_emptyorspace(char *str);
 int		valid_filename(char *value, int i);
 void	save_redir_filename(char *line, int *i);
 void	get_cmd_args(t_shell_sack **sack);
+void  *get_last_cmd(t_dlist **token_list);
 // init_tree
 void    init_tree(t_shell_sack **sack);
 void	insert_leaf(t_tree **tree, t_dlist **token_list);
@@ -152,5 +157,6 @@ void	leaf_isparenthesis_op(t_tree ***root, t_dlist *token_list);
 void 	print_preorder(t_tree *node);
 void	print2D(t_tree* root);
 void	print2DUtil(t_tree *root, int space);
+// execute
 
 #endif

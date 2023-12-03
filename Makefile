@@ -38,7 +38,7 @@ SRC_DIR = src
 SRC = $(addprefix $(SRC_DIR)/, main.c parse.c ft_double_list.c \
 	  tokens_init.c sack_init.c tokens_utils.c tree_init.c \
 	  enviroment.c enviroment_utils.c unset.c export.c print_export_list.c \
-	  pre_export.c pwd.c tree_utils.c)
+	  pre_export.c pwd.c tree_utils.c main_utils.c )
 
 OBJ = $(SRC:.c=.o)
 INCLUDE = include/minishell.h
