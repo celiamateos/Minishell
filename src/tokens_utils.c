@@ -15,21 +15,23 @@ void  *get_last_cmd(t_dlist **token_list)
 {
 	t_token	*token;
 	t_token	*token_next;
+	t_dlist	*aux_list;
 
+	aux_list = *token_list;
 	token_next = NULL;
-	while ((*token_list))
+	while (aux_list)
 	{
-		token = (*token_list)->content;
-		if ((*token_list)->next)
-		token_next = (*token_list)->next->content;
-		if (!(*token_list)->next && token->type == CMD)
-			return ((*token_list)->content);
-		else if (!((*token_list)->next)->next && token_next->type \
+		token = aux_list->content;
+		if (aux_list->next)
+		token_next = aux_list->next->content;
+		if (!aux_list->next && token->type == CMD)
+			return (aux_list->content);
+		else if (!(aux_list->next)->next && token_next->type \
 		 >= HEREDOC && token->type == CMD)
-		 	return ((*token_list)->content);
-			(*token_list) = (*token_list)->next;
+		 	return (aux_list->content);
+			aux_list = aux_list->next;
 	}
-	return ((*token_list)->content);
+	return (aux_list->content);
 }
 
 int	check_emptyorspace(char *str)

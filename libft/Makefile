@@ -26,6 +26,7 @@ CFLAGS = -Wall -Wextra -Werror
 LIB = ar rc
 SRC = ft_isalpha.c \
 	  ft_isspace.c ft_strposchr.c ft_print_strarray.c \
+	  ft_freematrix.c \
 	  ft_isdigit.c \
 	  ft_isalnum.c \
 	  ft_isascii.c \

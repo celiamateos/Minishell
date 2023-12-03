@@ -82,6 +82,7 @@ typedef struct s_shell_sack
 	int				new_pipes[2];
 	int				old_pipes[2];
 	int				redirs[2];
+	t_token			*last_token;
 	int				last_pid;
 	int				last_exit;
 	int				history_fd;
@@ -158,5 +159,22 @@ void 	print_preorder(t_tree *node);
 void	print2D(t_tree* root);
 void	print2DUtil(t_tree *root, int space);
 // execute
+void	exeute(t_shell_sack **sack);
+void    run_preorder(t_tree *node, t_shell_sack **sack);
+void    run_node(t_shell_sack **sack, t_tree *node);
+void    run_cmd(t_shell_sack **sack, t_tree *node);
+void    run_pipe(t_shell_sack **sack, t_tree *node);
+// execute_utils
+void	ft_close(int fd1, int fd2);
+void    check_redirect(t_shell_sack **sack, t_tree *node);
+void    open_redirect(t_shell_sack **sack, t_tree *node);
+// cmd_utils from pipex
+int	check_route(char *av);
+int	check_path(char **env);
+char	*get_path(char *cmd, char **env);
+char	*getcmd_withpath(char *cmd, char **cmds, char **env);
+
+// main_utils 
+void	ft_perror_exit(char *msj); //error handling
 
 #endif
