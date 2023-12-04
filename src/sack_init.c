@@ -23,6 +23,10 @@ int	clean_init(t_shell_sack **sack)
 	(*sack)->tree_list = NULL;
 	(*sack)->last_exit = 0;
 	(*sack)->history_fd = -1;
+	(*sack)->old_pipes[0] = 0;
+	(*sack)->old_pipes[1] = 1;
+	(*sack)->new_pipes[0] = 0;
+	(*sack)->new_pipes[1] = 1;
 	(*sack)->env = NULL;
 	return (0);
 }

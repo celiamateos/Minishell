@@ -159,14 +159,14 @@ void 	print_preorder(t_tree *node);
 void	print2D(t_tree* root);
 void	print2DUtil(t_tree *root, int space);
 // execute
-void	exeute(t_shell_sack **sack);
+void	execute(t_shell_sack **sack);
 void    run_preorder(t_tree *node, t_shell_sack **sack);
 void    run_node(t_shell_sack **sack, t_tree *node);
 void    run_cmd(t_shell_sack **sack, t_tree *node);
 void    run_pipe(t_shell_sack **sack, t_tree *node);
 // execute_utils
 void	ft_close(int fd1, int fd2);
-void    check_redirect(t_shell_sack **sack, t_tree *node);
+void    check_redirect(t_shell_sack ***sack, t_tree *node);
 void    open_redirect(t_shell_sack **sack, t_tree *node);
 // cmd_utils from pipex
 int	check_route(char *av);

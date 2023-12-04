@@ -28,15 +28,18 @@ void    open_redirect(t_shell_sack **sack, t_tree *node)
         ft_perror_exit("Open error");
 }
 
-void    check_redirect(t_shell_sack **sack, t_tree *node)
+void    check_redirect(t_shell_sack ***sack_orig, t_tree *node)
 {
     t_token *token;
+    t_shell_sack    **sack;
 
+    sack = *sack_orig;
     token = node->content;
     if (node->left && token->type >= HEREDOC)
         open_redirect(sack, node->left);
     if (node->right && token->type >= HEREDOC)
         open_redirect(sack, node->right);   
+    printf("oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
 }
 
 void	ft_close(int fd1, int fd2)
