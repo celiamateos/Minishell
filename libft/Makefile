@@ -3,13 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+         #
+#    By: daviles- <daviles-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/11 13:03:04 by cmateos-          #+#    #+#              #
-#    Updated: 2023/10/30 19:39:44 by daviles-         ###   ########.fr        #
+#    Updated: 2023/11/21 21:34:14 by daviles-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-# Color Aliases
+
 DEFAULT = \033[0;39m
 GRAY = \033[0;90m
 RED = \033[0;91m
@@ -25,6 +25,8 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 LIB = ar rc
 SRC = ft_isalpha.c \
+	  ft_isspace.c ft_strposchr.c ft_print_strarray.c \
+	  ft_freematrix.c \
 	  ft_isdigit.c \
 	  ft_isalnum.c \
 	  ft_isascii.c \

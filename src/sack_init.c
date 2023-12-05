@@ -13,6 +13,7 @@
 
 int	clean_init(t_shell_sack **sack)
 {
+	// check to use memset to initialize in one line
 	*sack = (t_shell_sack *)malloc(sizeof(t_shell_sack));
 	if (!*sack)
 		return (1);
@@ -22,6 +23,10 @@ int	clean_init(t_shell_sack **sack)
 	(*sack)->tree_list = NULL;
 	(*sack)->last_exit = 0;
 	(*sack)->history_fd = -1;
+	(*sack)->old_pipes[0] = 0;
+	(*sack)->old_pipes[1] = 1;
+	(*sack)->new_pipes[0] = 0;
+	(*sack)->new_pipes[1] = 1;
 	(*sack)->env = NULL;
 	return (0);
 }
@@ -90,5 +95,11 @@ void	init_sack(t_shell_sack *sack, char *line, char **envp)
 {
 	sack->line = ft_strtrim(line, " \t\v\n\r");
 	sack->l_expanded = expand_line(sack->line, envp);
+	sack->token_list = init_tokens(line); // enviar linea expandida y verificada de errores
+	get_cmd_args(&sack);
+	sack->last_token = get_last_cmd(&sack->token_list);
+	//print_token("Last cmd", sack->last_token);
+	//sack->last_token = get_last_cmd(&sack->token_list);
+	//print_token_args(sack->token_list);
 }
 

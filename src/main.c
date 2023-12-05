@@ -46,12 +46,19 @@ void	ft_free_pruebas(t_env *env)
 	while (42)
  	{
  		line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
-	 	init_sack(sack, line, sack->envp);
- 		if (line == 0)
+	 	if (line == 0)
  			return (0);
-		sack->token_list = lexer(line);
-		// print_tokenlist(sack->token_list);
-		init_tree(&sack);
+		if (*line && !check_emptyorspace(line))
+		{
+			init_sack(sack, line, sack->envp);
+			//print_tokenlist(sack->token_list);
+			//get_cmd_args(token_);
+			init_tree(&sack);
+			execute(&sack);
+			//print2D(sack->tree_list);
+			//print_preorder(sack->tree_list);
+		}
+
 		if (*line) 
             add_history(line);
  		free(line);

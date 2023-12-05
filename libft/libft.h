@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: daviles- <daviles-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 19:23:13 by cmateos-          #+#    #+#             */
-/*   Updated: 2023/07/11 18:09:48 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/11/21 21:59:06 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <stdlib.h>
@@ -89,5 +90,9 @@ size_t	ft_strlen_gnl(char *str);
 char	*ft_strchr_gnl(char *s, int c);
 char	*ft_strjoin_gnl(char *s1, char *s2);
 //size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+int     ft_strposchr(const char *s, int c);
+int     ft_isspace(int c);
+void    ft_print_strarray (char **array);
+void	ft_freematrix(char ***matrix);
 
 #endif

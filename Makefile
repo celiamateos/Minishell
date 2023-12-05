@@ -36,9 +36,10 @@ LIBFT = $(LIBFT_DIR)libft.a
 SRC_DIR = src
 
 SRC = $(addprefix $(SRC_DIR)/, main.c parse.c ft_double_list.c \
-	  init_tokens.c init_sack.c utils.c init_tree.c \
+	  tokens_init.c sack_init.c tokens_utils.c tree_init.c \
 	  enviroment.c enviroment_utils.c unset.c export.c print_export_list.c \
-	  pre_export.c pwd.c cd.c)
+	  pre_export.c pwd.c tree_utils.c main_utils.c \
+	  execute.c execute_utils.c cmd_utils.c )
 
 OBJ = $(SRC:.c=.o)
 INCLUDE = include/minishell.h
