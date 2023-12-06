@@ -45,7 +45,7 @@ void	ft_free_pruebas(t_env *env)
 	sack->env = env;
 	while (42)
  	{
- 		line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
+ 		line = readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
 	 	if (line == 0)
  			return (0);
 		if (*line && !check_emptyorspace(line))

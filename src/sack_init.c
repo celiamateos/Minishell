@@ -91,15 +91,65 @@ char	*expand_line(char *line, char **envp)
 	return (expanded);
 }
 
+int	search_char(char *s, char c, int i)
+{
+	int check = '\'';
+	int error = 0;
+
+	if (c == '\'')
+		check == '\"';
+	while (s[i] && error < 2)
+	{
+		if (s[i] == check)
+			error++;
+		if (s[i] == '\"')
+			return (0);
+		i++;
+	}
+
+	return (1);
+}
+
+int check_errors_initsack(char *s)
+{
+
+	int i = 0;
+	int d_quotes = 0;
+	int s_quotes = 0;
+
+	if (!s || s[i] == '\0')
+		return 1; //No se si hay que proteger aqui.
+	//comprobar comillas dobles.
+	while (s[i])
+	{
+		if (s[i] == '\"')
+		{
+			if (search_char(s, '\"', i + 1))
+				printf("Error, OPEN D_QUOTES\n");
+		}
+		else if (s[i] == '\'')
+			if (search_char(s, '\'', i + 1))
+				printf("Error, OPEN S_QUOTES\n");
+		i++;
+	}
+	//comprobar comillas simples.
+	return (0);
+}
+
+
 void	init_sack(t_shell_sack *sack, char *line, char **envp)
 {
 	sack->line = ft_strtrim(line, " \t\v\n\r");
-	sack->l_expanded = expand_line(sack->line, envp);
+	// sack->l_expanded = expand_line(sack->line, envp);
+	if (check_errors_initsack(line))
+		return ; //no se si aqui hay q liberar yo creo q si
+	//expand
 	sack->token_list = init_tokens(line); // enviar linea expandida y verificada de errores
 	get_cmd_args(&sack);
 	sack->last_token = get_last_cmd(&sack->token_list);
 	//print_token("Last cmd", sack->last_token);
 	//sack->last_token = get_last_cmd(&sack->token_list);
 	//print_token_args(sack->token_list);
+
 }
 

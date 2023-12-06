@@ -12,8 +12,10 @@
 #include "../../include/minishell.h"
 
 //@brief Intenta acceder a la ruta pasada como parametro, en caso de error muestra un mensaje.
-// No tengo muy claro si hay que guardar la ruta de la raiz al inicio de la ejecucion para indicar que vaya a la raiz cuando pathname sea null
-//Probar cuando el arbol ya esté okey
+// cd sin argumentos busca $HOME y si no existe 
+// da el error:    bash: cd: HOME not set
+// Cada vez que se usa cd, hay que actualizar PWD Y OLDPWD en el enviroment
+// Tambien hay que actualizar SHLVL en el enviroment cada vvez q se ejecuta minishell
 void    cd(char *pathname)
 {
     int ret;

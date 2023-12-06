@@ -28,8 +28,6 @@ void already_added_pre_export_list(t_env *env, char *new, long pos)
         return (ft_putstr_fd("export: not a valid identifier", 2));
 }
 
-
-
 char **realloc_exchange_pre_export(t_env *env, char *new, size_t pos)
 {
     char **temp;

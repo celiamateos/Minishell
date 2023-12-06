@@ -46,6 +46,9 @@ char **alloc_first_envp(t_env *env, char **src)
 
 //@brief ALOCA MEMORIA char **env->env para hacer una copia del envp
 //Liberar char **env->env y en main o salida de errores.
+// FALTA INCREMENTAR SHLVL +1 cada vez que se ejecuta minishell. Si SHLVL ha sido eliminado, al volver a correr bash o al hacer exit, shlvl=1 
+// Gestionar error si SHVL es mayor de 1000 (creo) da el siguiente error:
+// bash: warning: shell level (1000) too high, resetting to 1
 //@return 1 en caso de error
 int	init_env(char **envp, t_env *env)
 {

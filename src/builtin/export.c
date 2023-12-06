@@ -106,9 +106,6 @@ void export(t_env *env, char *new)
 
 	if (new == NULL)
         return (print_export_list(env));
-    // printf("\nold: %s", new);
-    // new = remove_quotes(new);
-    // printf("\nnew: %s", new);
 	pos = search_env_pos(env->env, new, '=');
 	if (is_valid_to_export(new))
         return (already_added_pre_export_list(env, new, pos));
