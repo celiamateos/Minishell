@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/20 06:37:18 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 /*@brief PWD, pendiente gestionar fallos en caso de error*/
 
@@ -30,5 +30,6 @@ void    get_pwd(void)
         return ;
     }
     ft_putstr_fd(buffer, 1);
+    ft_putstr_fd("\n", 1);
     free(buffer);
 }

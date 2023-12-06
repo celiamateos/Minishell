@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/16 10:51:01 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void init_values(int *tab, t_env *env)
 {

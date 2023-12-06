@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/12 03:36:17 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 /*@brief Verifica si incluye la variable en enviroment, si no muestra un error.
 //True si es valido para exportar: Ej export VARIABLE="contenido"

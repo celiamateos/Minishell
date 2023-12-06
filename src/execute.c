@@ -37,8 +37,9 @@ void    run_cmd(t_shell_sack **sack, t_tree *node)
         ft_perror_exit("Fork error");
     else if ((*sack)->last_pid == 0)
 	{
-        printf("oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-//        check_isbuiltin(sack, node);
+        // printf("oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+        if (!check_isbuiltin(sack, node))
+            return ;
 		cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
 		// if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1
 		// 	|| dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
@@ -75,6 +76,7 @@ void    run_node(t_shell_sack **sack, t_tree *node)
     }
     else if (token->type == CMD)
     {
+
         run_cmd(sack, node);
     }
     else if (token->type == PIPE)

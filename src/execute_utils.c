@@ -39,7 +39,7 @@ void    check_redirect(t_shell_sack ***sack_orig, t_tree *node)
         open_redirect(sack, node->left);
     if (node->right && token->type >= HEREDOC)
         open_redirect(sack, node->right);   
-    printf("oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+    // printf("oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
 }
 
 void	ft_close(int fd1, int fd2)

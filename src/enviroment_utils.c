@@ -39,7 +39,6 @@ void print_env(char **env)
 {
 	int i = 0;
 
-	printf("\n");
 	if (!env || !env[i])
 		return ;
 	while (env[i])

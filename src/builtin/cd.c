@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/21 20:55:18 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 //@brief Intenta acceder a la ruta pasada como parametro, en caso de error muestra un mensaje.
 // No tengo muy claro si hay que guardar la ruta de la raiz al inicio de la ejecucion para indicar que vaya a la raiz cuando pathname sea null
@@ -18,7 +18,13 @@ void    cd(char *pathname)
 {
     int ret;
 
+    if (!pathname)
+    {
+        chdir("/"); //Aqui falta algo jeje
+        ft_putstr_fd("a la raiz\n", 1);
+        return ;
+    }
     ret = chdir(pathname);
     if (ret == -1)
-        ft_putstr_fd("cd: No such file or directory", 2);
+        ft_putstr_fd("cd: No such file or directory\n", 2);
 }

@@ -52,10 +52,10 @@ void	ft_free_pruebas(t_env *env)
 		{
 			init_sack(sack, line, sack->envp);
 			//print_tokenlist(sack->token_list);
-			//get_cmd_args(token_);
+			// get_cmd_args(token_);
 			init_tree(&sack);
 			execute(&sack);
-			//print2D(sack->tree_list);
+			// print2D(sack->tree_list);
 			//print_preorder(sack->tree_list);
 		}
 

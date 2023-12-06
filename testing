@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Example using a range of numbers
+while true
+do
+	make && ./minishell
+	sleep 3
+	clear
+done
+
