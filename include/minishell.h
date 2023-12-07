@@ -144,6 +144,8 @@ int		valid_filename(char *value, int i);
 void	save_redir_filename(char *line, int *i);
 void	get_cmd_args(t_shell_sack **sack);
 void  *get_last_cmd(t_dlist **token_list);
+char	*fix_tokenvalues(char *value);
+void	ft_cpypipes(int *old_pipe, int *new_pipe);
 // init_tree
 void    init_tree(t_shell_sack **sack);
 void	insert_leaf(t_tree **tree, t_dlist **token_list);
@@ -167,7 +169,7 @@ void    run_pipe(t_shell_sack **sack, t_tree *node);
 // execute_utils
 void	ft_close(int fd1, int fd2);
 void    check_redirect(t_shell_sack ***sack, t_tree *node);
-void    open_redirect(t_shell_sack **sack, t_tree *node);
+void    open_redirect(t_shell_sack ****sack_orig, t_tree *node);
 // cmd_utils from pipex
 int	check_route(char *av);
 int	check_path(char **env);
