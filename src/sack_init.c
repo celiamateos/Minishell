@@ -93,47 +93,7 @@ int	clean_init(t_shell_sack **sack)
 // 	return (expanded);
 // }
 
-int	search_char(char *s, char c, int i)
-{
 
-	if (!s || !s[i])
-		return (0);
-	while (s[i])
-	{
-		if (s[i] == c)
-			return (i);
-		i++;
-	}
-	return (0);
-}
-
-void check_open_quotes(t_shell_sack *sack, char *s)
-{
-	int i;
-	
-	i = -1;
-	if (!s || s[i + 1] == '\0')
-		return ; //No se si hay que proteger aqui.
-	while (s[++i])
-	{
-		if (s[i] == '\"')
-		{
-			sack->d_quotes = !sack->d_quotes;
-			if (!search_char(s, '\"', i + 1))
-				break ;
-			i = search_char(s, '\"', i + 1);
-			sack->d_quotes = !sack->d_quotes;
-		}
-		else if (s[i] == '\'')
-		{
-			sack->s_quotes = !sack->s_quotes;
-			if (!search_char(s, '\'', i + 1))
-				break ;
-			i = search_char(s, '\'', i + 1);
-			sack->s_quotes = !sack->s_quotes;
-		}
-	}
-}
 
 int check_errors_initsack(t_shell_sack *sack)
 {
@@ -156,31 +116,53 @@ int check_errors_initsack(t_shell_sack *sack)
 	return (0);
 }
 
+char **realloc_split_line(t_shell_sack *sack, char **arr, int i)
+{
+	int pos;
+	char **temp;
+
+	pos = search_env_pos(sack->env->env, arr[++i], '=');
+	printf("pos: %d\n", pos);
+
+	return (NULL);
+}
 
 void	expand_line(t_shell_sack *sack)
 {
-	// int i = -1;
-	// char **split_line;
-	if (!search_char(sack->line, '\"', 0))
+	int i = -1;
+	char **split_line;
+	// primero buscar si hay comillas y si no hay 
+	//hacer substring directamente a l_exxpanded 
+	//y despues ya expandir echo.
+	while (sack->line[++i])
 	{
-		sack->l_expanded = remove_quotes(sack->line); //bucle infinito en esta funcion, revisar.
-		if (!sack->l_expanded)
-			return ;
+		if (sack->line[i] == '\"')
+		{
+			sack->l_expanded = remove_quotes(sack->line, '\"');
+			if (!sack->l_expanded)
+				return ;	
+		}
+		else if (sack->line[i] == '\'')
+		{
+			sack->l_expanded = remove_quotes(sack->line, '\'');
+			if (!sack->l_expanded)
+				return ;	
+		}
 	}
-
 	// free(sack->line);
 	printf("sack->line: %s\n", sack->l_expanded);
-	// split_line = ft_split(sack->line, ' ');
-	// if (!split_line)
-	// 	return (NULL);
-	// while (split_line[++i])
-	// {
-	// 	if (split_line[i][0] == '$')
-	// 	{
-	// 		split_line = realloc_split_line(split_line);
-	// 		i = -1;
-	// 	}
-	// }
+	split_line = ft_split(sack->l_expanded, ' ');
+	if (!split_line)
+		return ; //Gestion de errores?
+	i = -1;
+	while (split_line[++i])
+	{
+		if (split_line[i][0] == '$')
+		{
+			split_line = realloc_split_line(sack, split_line, i);
+			// i = -1;
+		}
+	}
 	
 }
 
@@ -189,6 +171,7 @@ int	sack_init(t_shell_sack *sack, char *line, char **envp)
 	sack->line = ft_strtrim(line, " \t\v\n\r");
 	if (check_errors_initsack(sack))
 		return (1); //no se si aqui hay q liberar yo creo q si
+	printf("sack line antes: %s\n", sack->line);
 	expand_line(sack);
 	sack->token_list = init_tokens(line); // enviar linea expandida y verificada de errores
 	get_cmd_args(&sack);

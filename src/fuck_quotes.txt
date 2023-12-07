@@ -1,0 +1,23 @@
+^C
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell/src$ '"hola"'
+"hola": command not found
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell/src$ echo '"hola"'
+"hola"
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell/src$ bash
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell/src$ echo 'hola'
+hola
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell/src$ echo '"hola'
+"hola
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell/src$ echo $user
+
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell/src$ echo $USER
+cmateos-
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell/src$ echo $'user'
+user
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell/src$ echo $"user"
+user
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell/src$ echo "$USER"
+cmateos-
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell/src$ echo '$USER'
+$USER
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell/src$ 

@@ -18,7 +18,7 @@
 
 
 
-int		main(int ac, char **av, char **envp);
+// int		main(int ac, char **av, char **envp);
 
 //ENVIROMENT && BUILTINS
 int	init_env(char **envp, t_env *env);
@@ -39,6 +39,7 @@ void    ft_free_env(char **env);
 int  check_isbuiltin(t_shell_sack **sack, t_tree *node);
 void    get_pwd(void);
 void    cd(char *pathname);
+
 
 
 //FUNCIONES LISTAS
@@ -106,7 +107,7 @@ void	ft_perror_exit(char *msj); //error handling
 //parse
 
 //expander
-char    *remove_quotes(char *old);
+char *remove_quotes(char *old, char c);
 void    expand_line(t_shell_sack *sack);
 int     check_errors_initsack(t_shell_sack *sack);
 void    check_open_quotes(t_shell_sack *sack, char *s);
