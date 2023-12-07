@@ -164,8 +164,8 @@ void	print2DUtil(t_tree *root, int space);
 void	execute(t_shell_sack **sack);
 void    run_preorder(t_tree *node, t_shell_sack **sack);
 void    run_node(t_shell_sack **sack, t_tree *node);
-void    run_cmd(t_shell_sack **sack, t_tree *node);
-void    run_pipe(t_shell_sack **sack, t_tree *node);
+void    run_cmd(t_shell_sack ***sack_orig, t_tree *node);
+void    run_pipe(t_shell_sack ***sack_orig, t_tree *node);
 // execute_utils
 void	ft_close(int fd1, int fd2);
 void    check_redirect(t_shell_sack ***sack, t_tree *node);

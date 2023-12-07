@@ -11,25 +11,29 @@
 /* ************************************************************************** */
 #include"../include/minishell.h"
 
-void    run_pipe(t_shell_sack **sack, t_tree *node)
+void    run_pipe(t_shell_sack ***sack_orig, t_tree *node)
 {
-    
-        (*sack)->old_pipes[0] = (*sack)->new_pipes[0];
-	    (*sack)->old_pipes[1] = (*sack)->new_pipes[1];
+     t_shell_sack    **sack;
+
+    sack = *sack_orig;
+    (*sack)->old_pipes[0] = (*sack)->new_pipes[0];
+    (*sack)->old_pipes[1] = (*sack)->new_pipes[1];
     if (pipe((*sack)->new_pipes) == -1)
 		ft_perror_exit("Pipe error");
     
 }
 
-void    run_cmd(t_shell_sack **sack, t_tree *node)
+void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 {
     t_token *token;
    	char	*cmd;
+    t_shell_sack    **sack;
 
+    sack = *sack_orig;
     token = node->content;
    // if (node->content == get_last_cmd(&(*sack)->token_list))
 
-        check_redirect(&sack, node);
+    check_redirect(&sack, node);
     (*sack)->last_pid = fork();
     if ((*sack)->last_pid < 0)
         ft_perror_exit("Fork error");
@@ -46,12 +50,13 @@ void    run_cmd(t_shell_sack **sack, t_tree *node)
             ft_perror_exit("Dup2 error IN");
         if (node->content != (*sack)->last_token)
         {
-           // close((*sack)->new_pipes[0]);
-            if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
-                ft_perror_exit("Dup2 error OUT");
+            close((*sack)->new_pipes[0]);
+            if ((*sack)->new_pipes[1] != 1 )
+                if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
+                    ft_perror_exit("Dup2 error OUT");
         }
         ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
-	    ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+	    close((*sack)->old_pipes[0]);
 		execve(cmd, token->cmds, (*sack)->env->env);// change for our env
 		ft_perror_exit(cmd);
     }
@@ -75,11 +80,11 @@ void    run_node(t_shell_sack **sack, t_tree *node)
     }
     else if (token->type == CMD)
     {
-        run_cmd(sack, node);
+        run_cmd(&sack, node);
     }
     else if (token->type == PIPE)
     {
-        run_pipe(sack, node);
+        run_pipe(&sack, node);
     }
 }
 
