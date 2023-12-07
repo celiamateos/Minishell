@@ -84,3 +84,23 @@ void check_open_quotes(t_shell_sack *sack, char *s)
 		}
 	}
 }
+
+void	expand_quotes(t_shell_sack *sack)
+{
+	int i = -1;
+	while (sack->line[++i])
+	{
+		if (sack->line[i] == '\"')
+		{
+			sack->l_expanded = remove_quotes(sack->line, '\"');
+			if (!sack->l_expanded)
+				return ;	
+		}
+		else if (sack->line[i] == '\'')
+		{
+			sack->l_expanded = remove_quotes(sack->line, '\'');
+			if (!sack->l_expanded)
+				return ;	
+		}
+	}
+}

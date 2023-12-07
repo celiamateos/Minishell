@@ -108,7 +108,8 @@ void	ft_perror_exit(char *msj); //error handling
 
 //expander
 char *remove_quotes(char *old, char c);
-void    expand_line(t_shell_sack *sack);
+int     expand_line(t_shell_sack *sack);
+void	expand_quotes(t_shell_sack *sack);
 int     check_errors_initsack(t_shell_sack *sack);
 void    check_open_quotes(t_shell_sack *sack, char *s);
 int	    search_char(char *s, char c, int i);

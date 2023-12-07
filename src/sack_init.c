@@ -119,51 +119,51 @@ int check_errors_initsack(t_shell_sack *sack)
 char **realloc_split_line(t_shell_sack *sack, char **arr, int i)
 {
 	int pos;
-	char **temp;
+	char *temp;
 
-	pos = search_env_pos(sack->env->env, arr[++i], '=');
+	temp = ft_substr(arr[i], 1, ft_strlen(arr[i]));
+	// i += 1;
+	pos = search_env_pos(sack->env->env, temp, '\0'); // aqui me kedaooo, no puedo mas..........
 	printf("pos: %d\n", pos);
 
 	return (NULL);
 }
 
-void	expand_line(t_shell_sack *sack)
+
+int	expand_line(t_shell_sack *sack)
 {
-	int i = -1;
+	int i;
 	char **split_line;
 	// primero buscar si hay comillas y si no hay 
 	//hacer substring directamente a l_exxpanded 
 	//y despues ya expandir echo.
-	while (sack->line[++i])
+	if (ft_strchr(sack->line, '\"') || ft_strchr(sack->line, '\''))
 	{
-		if (sack->line[i] == '\"')
-		{
-			sack->l_expanded = remove_quotes(sack->line, '\"');
-			if (!sack->l_expanded)
-				return ;	
-		}
-		else if (sack->line[i] == '\'')
-		{
-			sack->l_expanded = remove_quotes(sack->line, '\'');
-			if (!sack->l_expanded)
-				return ;	
-		}
+		expand_quotes(sack);
+		printf("sack->l_expanded QUOTES: %s\n", sack->l_expanded);
 	}
-	// free(sack->line);
-	printf("sack->line: %s\n", sack->l_expanded);
-	split_line = ft_split(sack->l_expanded, ' ');
+	else
+		sack->l_expanded = sack->line;
+	split_line = ft_split(sack->l_expanded, ' ');	
 	if (!split_line)
-		return ; //Gestion de errores?
-	i = -1;
-	while (split_line[++i])
+		return (1); //Gestion de errores?
+	i = 0;
+	while (split_line[i])
 	{
 		if (split_line[i][0] == '$')
 		{
+			printf("AKIII");
 			split_line = realloc_split_line(sack, split_line, i);
-			// i = -1;
+			if (!split_line)
+				return (1); //LIBERAR ???
 		}
+		i++;
 	}
-	
+	// free(sack->line);
+	sack->line = ft_strdup(sack->l_expanded);
+	if (!sack->line)
+		return (1); //Proteger de errores ?
+	free (sack->l_expanded);
 }
 
 int	sack_init(t_shell_sack *sack, char *line, char **envp)
@@ -172,7 +172,9 @@ int	sack_init(t_shell_sack *sack, char *line, char **envp)
 	if (check_errors_initsack(sack))
 		return (1); //no se si aqui hay q liberar yo creo q si
 	printf("sack line antes: %s\n", sack->line);
-	expand_line(sack);
+	if (expand_line(sack))
+		return (1); //liberar ??
+	printf("sack->l_expanded: %s\n", sack->line);
 	sack->token_list = init_tokens(line); // enviar linea expandida y verificada de errores
 	get_cmd_args(&sack);
 	sack->last_token = get_last_cmd(&sack->token_list);
