@@ -20,7 +20,7 @@
 
 int		main(int ac, char **av, char **envp);
 
-//ENVIROMENT
+//ENVIROMENT && BUILTINS
 int	init_env(char **envp, t_env *env);
 void	export(t_env *env, char *new);
 char	**realloc_export_exchange(t_env *env, char *new, size_t pos);
@@ -34,12 +34,12 @@ void    print_export_list(t_env *env);
 void 	already_added_pre_export_list(t_env *env, char *new, long pos);
 int		unset(t_env *env, char *del, int check);
 char 	**realloc_unset(t_env *env, size_t pos);
-
-//PWD
+size_t 	ft_arraylen(char **array);
+void    ft_free_env(char **env);
+int  check_isbuiltin(t_shell_sack **sack, t_tree *node);
 void    get_pwd(void);
-
-//CD
 void    cd(char *pathname);
+
 
 //FUNCIONES LISTAS
 t_dlist	*ft_dlstnew(void *content);
@@ -49,19 +49,12 @@ t_dlist	*ft_dlstlast(t_dlist *lst);
 t_dlist *ft_dlstfirst(t_dlist *lst);
 int		ft_dlstsize(t_dlist *lst);
 
-
-// utils
-void	ft_free_error_arr(char **mem, long i);
-void 	print_env(char **env);
-size_t 	ft_arraylen(char **array);
-char *	remove_quotes(char *old);
-
 // init_sack
 int	clean_init(t_shell_sack **sack);
-void	init_sack(t_shell_sack *sack, char *line, char **envp);
-char	*expand_line(char *line, char **envp);
-char	*expand_var(char *line, int i, char **envp);
-char	*get_varname(char *expanded, int i);
+int sack_init(t_shell_sack *sack, char *line, char **envp);
+// char	*expand_line(char *line, char **envp);
+// char	*expand_var(char *line, int i, char **envp);
+// char	*get_varname(char *expanded, int i);
 // init_tokens
 t_dlist	*init_tokens(char *line);
 void	*get_next_token(char *line, int *i);
@@ -109,5 +102,14 @@ char	*getcmd_withpath(char *cmd, char **cmds, char **env);
 
 // main_utils 
 void	ft_perror_exit(char *msj); //error handling
+
+//parse
+
+//expander
+char    *remove_quotes(char *old);
+void    expand_line(t_shell_sack *sack);
+int     check_errors_initsack(t_shell_sack *sack);
+void    check_open_quotes(t_shell_sack *sack, char *s);
+int	    search_char(char *s, char c, int i);
 
 #endif

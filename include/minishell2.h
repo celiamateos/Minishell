@@ -85,6 +85,8 @@ typedef struct s_shell_sack
 	int				last_pid;
 	int				last_exit;
 	int				history_fd;
+	int				d_quotes;
+	int				s_quotes;
 	char			**envp; 
 	struct s_env	*env;
 }	t_shell_sack;

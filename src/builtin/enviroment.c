@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/09 03:41:53 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 //@brief  ????? Recibe el envp, alloca memoria exacta para su copia.
 //Si el envp no existe (env -i ./minishell), aloca
 //un char** de size 2, uno para '\0' y otro para el NULL, hay que hacer eso?

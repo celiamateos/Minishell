@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/10 09:15:08 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 /*@brief Libera las lineas previas malokeadas en caso de error.
 @param mem array a liberar
 @param i linea donde ocurrió el error
