@@ -1,0 +1,76 @@
+# **************************************************************************** #^M$$
+#                                                                              #^M$$
+#                                                         :::      ::::::::    #^M$$
+#    Makefile                                           :+:      :+:    :+:    #^M$$
+#                                                     +:+ +:+         +:+      #^M$$
+#    By: imurugar <imurugar@student.42madrid.com    +#+  +:+       +#+         #^M$$
+#                                                 +#+#+#+#+#+   +#+            #^M$$
+#    Created: 2023/09/01 17:06:22 by cmateos-          #+#    #+#              #^M$$
+#    Updated: 2023/11/19 15:40:24 by daviles-         ###   ########.fr        #^M$$
+#                                                                              #^M$$
+# **************************************************************************** #^M$$
+^M$$
+COLOR_RESET = \x1b[0m^M$$
+COLOR_RED = \x1b[0;31m^M$$
+COLOR_RED_N = \x1b[1;31m^M$$
+COLOR_GREEN = \x1b[1;32m^M$$
+COLOR_YELLOW = \x1b[1;33m^M$$
+COLOR_BLUE = \x1b[1;34m^M$$
+COLOR_MAGENTA = \x1b[1;35m^M$$
+COLOR_CYAN = \x1b[0;36m^M$$
+BLANCO_T = \x1b[37m^M$$
+BLANCO_F = \x1b[47m^M$$
+MAGENTA = \033[0;95m^M$$
+BROWN =	\033[0;38;2;184;143;29m^M$$
+PURPLE = \x1b[1;35m^M$$
+^M$$
+^M$$
+NAME = minishell^M$$
+CC = gcc^M$$
+CFLAGS = -g3 -fsanitize=address^M$$
+CCLANG = -lreadline^M$$
+RM = rm -f^M$$
+LIBFT_DIR = libft/^M$$
+LIBFT = $(LIBFT_DIR)libft.a^M$$
+^M$$
+SRC_DIR = src^M$$
+^M$$
+SRC = $(addprefix $(SRC_DIR)/, main.c parse.c ft_double_list.c \^M$$
+	  tokens_init.c sack_init.c tokens_utils.c tree_init.c \^M$$
+	  enviroment.c enviroment_utils.c unset.c export.c print_export_list.c \^M$$
+	  pre_export.c pwd.c tree_utils.c main_utils.c \^M$$
+	  execute.c execute_utils.c cmd_utils.c )^M$$
+^M$$
+OBJ = $(SRC:.c=.o)^M$$
+INCLUDE = include/minishell.h^M$$
+^M$$
+all: $(NAME)^M$$
+^M$$
+$(NAME): $(OBJ) $(LIBFT) $(INCLUDE)^M$$
+	$(CC) $(CFLAGS) $(OBJ) $(CCLANG) $(LIBFT) -o $(NAME)^M$$
+^M$$
+$(LIBFT):^M$$
+	@echo "${COLOR_BLUE} M-bM-^WM-^N $(BROWN)Compiling   ${MAGENTA}M-bM-^FM-^R   $(COLOR_YELLOW)$<"^M$$
+	@make -C $(LIBFT_DIR)^M$$
+	@echo "$(COLOR_GREEN) Created libft $(COLOR_RESET)"^M$$
+^M$$
+%.o: %.c^M$$
+	@echo "${BLANCO_T} M-bM-^WM-^N $(BROWN)Compiling M-pM-^_M-^[M- M-oM-8M-^O  ${MAGENTA}M-bM-^FM-^R   $(COLOR_CYAN)$< $(COLOR_RESET)"^M$$
+	@$(CC) $(CFLAGS) -c -o $@ $<^M$$
+	@echo "$(COLOR_BLUE) Created! M-pM-^_M-^XM-8 $(COLOR_RESET)"^M$$
+^M$$
+clean:^M$$
+	@rm -f $(OBJ) $(LIBFT)^M$$
+	@make clean -C $(LIBFT_DIR)^M$$
+^M$$
+fclean: clean^M$$
+	@rm -f $(NAME)^M$$
+	@make fclean -C $(LIBFT_DIR)^M$$
+	@echo "$(COLOR_RED_N) Cleaned all! M-pM-^_M-'M-9 $(COLOR_RESET)"^M$$
+^M$$
+normi:^M$$
+	norminette^M$$
+^M$$
+re: fclean all^M$$
+^M$$
+.PHONY: all, clean, fclean, re^M$$

@@ -19,7 +19,7 @@ char	*fix_tokenvalues(char *value)
 
 	i = 0;
 	start = 0;
-	aux = ft_strtrim(value, "<> ");
+	aux = ft_strtrim(value, "<> \n\t");
 	free (value);
 	return (aux);
 }

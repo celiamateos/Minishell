@@ -59,16 +59,16 @@ int    check_redirect(t_shell_sack ***sack_orig, t_tree *node)
             i = 1;
             open_redirect(&sack_orig, node->right);   
         }
-        printf("REDIRECT oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-        printf("REDIRECT new_pipes 0 %d 1 %d\n", (*sack)->new_pipes[0], (*sack)->new_pipes[1]);
+        // printf("REDIRECT oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+        // printf("REDIRECT new_pipes 0 %d 1 %d\n", (*sack)->new_pipes[0], (*sack)->new_pipes[1]);
     }
     return (i);
 }
 
 void	ft_close(int fd1, int fd2)
 {
-    if (fd1)
+    if (fd1 > 2) //To protect to close fds standard
 	    close(fd1);
-	if (fd2)
+	if (fd2 > 2)
         close(fd2);
 }
