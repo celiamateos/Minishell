@@ -60,6 +60,11 @@ void	ft_free_pruebas(t_env *env)
 		if (*line) 
             add_history(line);
  		free(line);
+		//reset sack and free tokens and list?
+	sack->old_pipes[0] = 0;
+	sack->old_pipes[1] = 1;
+	sack->new_pipes[0] = 0;
+	sack->new_pipes[1] = 1;
 	}
 	ft_free_pruebas(env);
     return (0);

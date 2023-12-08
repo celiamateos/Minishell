@@ -37,19 +37,32 @@ void    open_redirect(t_shell_sack ****sack_orig, t_tree *node)
         ft_perror_exit("Open error");
 }
 
-void    check_redirect(t_shell_sack ***sack_orig, t_tree *node)
+int    check_redirect(t_shell_sack ***sack_orig, t_tree *node)
 {
-    t_token *token;
+    t_token         *token;
     t_shell_sack    **sack;
+    int             i;
 
-    sack = *sack_orig;
-    token = node->content;
-    if (node->left && node->left->content->type >= HEREDOC)
-        open_redirect(&sack_orig, node->left);
-    if (node->right && node->right->content->type >= HEREDOC)
-        open_redirect(&sack_orig, node->right);   
-    printf("REDIRECT oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-    printf("REDIRECT new_pipes 0 %d 1 %d\n", (*sack)->new_pipes[0], (*sack)->new_pipes[1]);
+    
+	if (node != NULL) 
+	{	
+        i = 0;
+        sack = *sack_orig;
+        token = node->content;
+        if (node->left && node->left->content->type >= HEREDOC)
+        {
+            i = 1;
+            open_redirect(&sack_orig, node->left);
+        }
+        if (node->right && node->right->content->type >= HEREDOC)
+        {
+            i = 1;
+            open_redirect(&sack_orig, node->right);   
+        }
+        printf("REDIRECT oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+        printf("REDIRECT new_pipes 0 %d 1 %d\n", (*sack)->new_pipes[0], (*sack)->new_pipes[1]);
+    }
+    return (i);
 }
 
 void	ft_close(int fd1, int fd2)

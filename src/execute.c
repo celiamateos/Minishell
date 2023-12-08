@@ -16,10 +16,15 @@ void    run_pipe(t_shell_sack ***sack_orig, t_tree *node)
      t_shell_sack    **sack;
 
     sack = *sack_orig;
-    (*sack)->old_pipes[0] = (*sack)->new_pipes[0];
-    (*sack)->old_pipes[1] = (*sack)->new_pipes[1];
+    if (node->content != (*sack)->last_token)
+    {
+        (*sack)->old_pipes[0] = (*sack)->new_pipes[0];
+        (*sack)->old_pipes[1] = (*sack)->new_pipes[1];
+    }
     if (pipe((*sack)->new_pipes) == -1)
 		ft_perror_exit("Pipe error");
+         printf("Pipe oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+         printf("Pipe new_pipes 0 %d 1 %d\n", (*sack)->new_pipes[0], (*sack)->new_pipes[1]);
     
 }
 
@@ -39,22 +44,36 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         ft_perror_exit("Fork error");
     else if ((*sack)->last_pid == 0)
 	{
-        // printf("oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-        // printf("new_pipes 0 %d 1 %d\n", (*sack)->new_pipes[0], (*sack)->new_pipes[1]);
 //        check_isbuiltin(sack, node);
 		cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
 		// if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1
 		// 	|| dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
 		// 	ft_perror_exit("Dup2 error");
-        if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1)
-            ft_perror_exit("Dup2 error IN");
+        if ((*sack)->old_pipes[0] != 0 )
+            if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1)
+                ft_perror_exit("Dup2 error IN");
+        else
+            if (dup2(0, STDIN_FILENO) == -1)
+                ft_perror_exit("Dup2 error IN");
+
         if (node->content != (*sack)->last_token)
         {
             close((*sack)->new_pipes[0]);
             if ((*sack)->new_pipes[1] != 1 )
                 if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
                     ft_perror_exit("Dup2 error OUT");
+            else
+                if (dup2(1, STDOUT_FILENO) == -1)
+                    ft_perror_exit("Dup2 error OUT");
         }
+        // close((*sack)->new_pipes[0]);
+        //     if ((*sack)->new_pipes[1] != 1 )
+        //         if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
+        //             ft_perror_exit("Dup2 error OUT");
+        //     else
+        //         if (dup2(1, STDOUT_FILENO) == -1)
+        //             ft_perror_exit("Dup2 error OUT");
+
         ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
 	    close((*sack)->old_pipes[0]);
 		execve(cmd, token->cmds, (*sack)->env->env);// change for our env
@@ -62,7 +81,8 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
     }
     ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
 	waitpid((*sack)->last_pid, NULL, 0);
-    ft_cpypipes((*sack)->old_pipes, (*sack)->new_pipes);
+    if (node->content != (*sack)->last_token)
+        ft_cpypipes((*sack)->old_pipes, (*sack)->new_pipes);
 }
 
 void    run_node(t_shell_sack **sack, t_tree *node)
@@ -92,7 +112,7 @@ void    run_preorder(t_tree *node, t_shell_sack **sack)
 {
 	if (node != NULL) 
 	{	
-        printf("TKEN: %s\n", node->content->value);
+         printf("TKEN: %s\n", node->content->value);
         run_node(sack, node);
         run_preorder(node->left, sack);
         run_preorder(node->right, sack);
