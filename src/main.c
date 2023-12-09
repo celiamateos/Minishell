@@ -50,20 +50,24 @@ void	ft_free_pruebas(t_env *env)
  			return (0);
 		if (*line && !check_emptyorspace(line))
 		{
-			if (!sack_init(sack, line))
-			{
-				//print_tokenlist(sack->token_list);
-				// get_cmd_args(token_);
-				init_tree(&sack);
-				execute(&sack);
-				// print2D(sack->tree_list);
-				//print_preorder(sack->tree_list);
-			}
+
+			init_sack(sack, line, sack->envp);
+			//print_tokenlist(sack->token_list);
+			
+			init_tree(&sack);
+			execute(&sack);
+			//print2D(sack->tree_list);
+			//print_preorder(sack->tree_list);
 		}
 
 		if (*line) 
             add_history(line);
  		free(line);
+		//reset sack and free tokens and list?
+	sack->old_pipes[0] = 0;
+	sack->old_pipes[1] = 1;
+	sack->new_pipes[0] = 0;
+	sack->new_pipes[1] = 1;
 	}
 	ft_free_pruebas(env);
     return (0);

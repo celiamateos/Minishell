@@ -11,6 +11,19 @@
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
+char	*fix_tokenvalues(char **value)
+{
+	char	*aux;
+	int		i;
+	int		start;
+
+	i = 0;
+	start = 0;
+	aux = ft_strtrim(*value, "<> \n\t");
+	free (*value);
+	return (aux);
+}
+
 void  *get_last_cmd(t_dlist **token_list)
 {
 	t_token	*token;
@@ -103,6 +116,7 @@ int	valid_filename(char *value, int i)
 void	save_redir_filename(char *line, int *i)
 {
 	*i = *i + 1;
+
 	if (line[*i] == '<' || line[*i] == '>')
 		*i = *i + 1;
 	if (ft_isspace(line[*i]))

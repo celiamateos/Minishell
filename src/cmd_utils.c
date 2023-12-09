@@ -66,6 +66,7 @@ char	*get_path(char *cmd, char **env)
 char	*getcmd_withpath(char *cmd, char **cmds, char **env)
 {
 	char	*path_cmd;
+	char	*aux;
 
 	path_cmd = NULL;
 
@@ -73,8 +74,12 @@ char	*getcmd_withpath(char *cmd, char **cmds, char **env)
 		path_cmd = cmd;
 	else
 	{
-		if (get_path(cmd, env))
-			path_cmd = ft_strjoin(get_path(cmd, env), cmd);
+		aux = get_path(cmd, env);
+		if (aux)
+		{
+			path_cmd = ft_strjoin(aux, cmd);
+			free(aux);
+		}
 	}
 	return (path_cmd);
 }
