@@ -82,7 +82,7 @@ void	*get_next_token(char *line, int *i)
 		token = malloc(sizeof(t_token));
 		token->value = aux;
 		token->type = get_token_type(token->value);
-		token->value = fix_tokenvalues(aux);
+		token->value = fix_tokenvalues(&aux);
 		return ((void *)token);
 	}
 	else//If is empty free

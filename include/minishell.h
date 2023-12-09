@@ -144,7 +144,7 @@ int		valid_filename(char *value, int i);
 void	save_redir_filename(char *line, int *i);
 void	get_cmd_args(t_shell_sack **sack);
 void 	*get_last_cmd(t_dlist **token_list);
-char	*fix_tokenvalues(char *value);
+char	*fix_tokenvalues(char **value);
 void	ft_cpypipes(int *old_pipe, int *new_pipe);
 // init_tree
 void    init_tree(t_shell_sack **sack);
@@ -178,5 +178,6 @@ char	*getcmd_withpath(char *cmd, char **cmds, char **env);
 
 // main_utils 
 void	ft_perror_exit(char *msj); //error handling
+int		wait_exitcode(int last_pid);
 
 #endif

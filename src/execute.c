@@ -54,10 +54,14 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
         ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
 		execve(cmd, token->cmds, (*sack)->env->env);// check if it is our env
-		ft_perror_exit(cmd);
+		ft_freematrix(&token->cmds);
+        free(cmd);
+        ft_perror_exit(cmd); //Free everything?
     }
     ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
-	waitpid((*sack)->last_pid, NULL, 0);
+    (*sack)->last_exit = wait_exitcode((*sack)->last_pid);
+    printf("EXITCODE: %d\n", (*sack)->last_exit);
+	//waitpid((*sack)->last_pid, NULL, 0);
     ft_cpypipes((*sack)->old_pipes, (*sack)->new_pipes);
     (*sack)->new_pipes[1]  = 1; //add on cpy pipes?
 }

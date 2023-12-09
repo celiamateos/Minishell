@@ -16,3 +16,31 @@ void	ft_perror_exit(char *msj)
 	perror(msj);
 	exit(1);
 }
+
+// @brief Wait for the PID received to exit, and returns exitcode.
+int	wait_exitcode(int last_pid)
+{
+	int	curr_pid;
+	int	exit_code;
+	int	status;
+
+	exit_code = -1;
+	curr_pid = 0;
+	while (curr_pid != -1)
+	{
+		curr_pid = waitpid(-1, &status, 0);
+		if (curr_pid == last_pid)
+		{
+			if (WIFEXITED(status))
+			{
+				exit_code = WEXITSTATUS(status);
+				printf("STATUS :%d\n",WIFEXITED(status));
+			}
+			else if (WIFSIGNALED(status))
+				exit_code = WTERMSIG(status) + 128;
+		}
+	}
+	return (exit_code);	
+}
+
+//void	free_sack(t_shell_sack **sack)
