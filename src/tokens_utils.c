@@ -28,8 +28,11 @@ void  *get_last_cmd(t_dlist **token_list)
 			return (aux_list->content);
 		else if (!(aux_list->next)->next && token_next->type \
 		 >= HEREDOC && token->type == CMD)
+		{
 		 	return (aux_list->content);
 			aux_list = aux_list->next;
+		}
+
 	}
 	return (aux_list->content);
 }

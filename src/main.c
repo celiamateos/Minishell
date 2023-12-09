@@ -50,7 +50,7 @@ void	ft_free_pruebas(t_env *env)
  			return (0);
 		if (*line && !check_emptyorspace(line))
 		{
-			if (!sack_init(sack, line, sack->envp))
+			if (!sack_init(sack, line))
 			{
 				//print_tokenlist(sack->token_list);
 				// get_cmd_args(token_);

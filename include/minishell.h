@@ -39,6 +39,8 @@ void    ft_free_env(char **env);
 int  check_isbuiltin(t_shell_sack **sack, t_tree *node);
 void    get_pwd(void);
 void    cd(char *pathname);
+void print_env(char **env);
+void	ft_free_error_arr(char **mem, long i);
 
 
 
@@ -52,7 +54,7 @@ int		ft_dlstsize(t_dlist *lst);
 
 // init_sack
 int	clean_init(t_shell_sack **sack);
-int sack_init(t_shell_sack *sack, char *line, char **envp);
+int sack_init(t_shell_sack *sack, char *line);
 // char	*expand_line(char *line, char **envp);
 // char	*expand_var(char *line, int i, char **envp);
 // char	*get_varname(char *expanded, int i);
@@ -109,7 +111,8 @@ void	ft_perror_exit(char *msj); //error handling
 //expander
 char *remove_quotes(char *old, char c);
 int     expand_line(t_shell_sack *sack);
-void	expand_quotes(t_shell_sack *sack);
+int expand_dolar(t_shell_sack *sack);
+int	expand_quotes(t_shell_sack *sack);
 int     check_errors_initsack(t_shell_sack *sack);
 void    check_open_quotes(t_shell_sack *sack, char *s);
 int	    search_char(char *s, char c, int i);

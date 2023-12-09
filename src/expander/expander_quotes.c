@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/19 19:22:15 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 /*@brief aloca memoria para una copia sin comillas
 @param old la string a copiar
@@ -57,50 +57,31 @@ int	search_char(char *s, char c, int i)
 	return (0);
 }
 
-void check_open_quotes(t_shell_sack *sack, char *s)
-{
-	int i;
-	
-	i = -1;
-	if (!s || s[i + 1] == '\0')
-		return ; //No se si hay que proteger aqui.
-	while (s[++i])
-	{
-		if (s[i] == '\"')
-		{
-			sack->d_quotes = !sack->d_quotes;
-			if (!search_char(s, '\"', i + 1))
-				break ;
-			i = search_char(s, '\"', i + 1);
-			sack->d_quotes = !sack->d_quotes;
-		}
-		else if (s[i] == '\'')
-		{
-			sack->s_quotes = !sack->s_quotes;
-			if (!search_char(s, '\'', i + 1))
-				break ;
-			i = search_char(s, '\'', i + 1);
-			sack->s_quotes = !sack->s_quotes;
-		}
-	}
-}
 
-void	expand_quotes(t_shell_sack *sack)
+//APARECE UN SIMBOLO RARO AL FINAL SI SE COMBINAN VARIAS PALABRAS CON COMILLAS ENTRECAPSULADAS...
+int	expand_quotes(t_shell_sack *sack)
 {
 	int i = -1;
-	while (sack->line[++i])
+	if (ft_strchr(sack->line, '\"') || ft_strchr(sack->line, '\''))
 	{
-		if (sack->line[i] == '\"')
+		while (sack->line[++i])
 		{
-			sack->l_expanded = remove_quotes(sack->line, '\"');
-			if (!sack->l_expanded)
-				return ;	
-		}
-		else if (sack->line[i] == '\'')
-		{
-			sack->l_expanded = remove_quotes(sack->line, '\'');
-			if (!sack->l_expanded)
-				return ;	
+			if (sack->line[i] == '\"')
+			{
+				sack->l_expanded = remove_quotes(sack->line, '\"');
+				if (!sack->l_expanded)
+					return (1);	
+			}
+			else if (sack->line[i] == '\'')
+			{
+				sack->l_expanded = remove_quotes(sack->line, '\'');
+				if (!sack->l_expanded)
+					return (1);	
+			}
 		}
 	}
+	else
+		sack->l_expanded = ft_strdup(sack->line);
+	printf("sack->l_expanded QUOTES: %s\n", sack->l_expanded);
+	return (0);
 }

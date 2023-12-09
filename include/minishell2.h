@@ -76,6 +76,7 @@ typedef struct s_shell_sack
 {
 	char			*line;
 	char			*l_expanded;
+	int				pos;
 	struct s_dlist	*token_list;
 	struct s_tree	*tree_list;
 	int				new_pipes[2];
@@ -87,7 +88,7 @@ typedef struct s_shell_sack
 	int				history_fd;
 	int				d_quotes;
 	int				s_quotes;
-	char			**envp; 
+	char			**envp;
 	struct s_env	*env;
 }	t_shell_sack;
 
