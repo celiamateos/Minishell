@@ -22,7 +22,7 @@ static char *get_varcontent(char *var)
 	var_expanded = ft_substr(var, (i + 1), (ft_strlen(var) - i));
 	if (!var)
 		return (NULL);
-	printf("var_expandIO:%s\n", var_expanded);
+	// printf("var_expandIO:%s\n", var_expanded);
 	return (var_expanded);
 }
 
@@ -35,7 +35,7 @@ char *get_varname(t_shell_sack *sack, char **old, int i)
 		return (NULL);
 	sack->pos = search_env_pos(sack->env->env, new_var, '\0');
     free (new_var);
-	printf("pos: %d\n", sack->pos);
+	// printf("pos: %d\n", sack->pos);
 	if (sack->pos >= 0)
 		new_var = get_varcontent(sack->env->env[sack->pos]);
 	else
@@ -54,8 +54,7 @@ char **realloc_split_line(t_shell_sack *sack, char **old, int i)
     new_var = get_varname(sack, old, i);
     if (!new_var)
         return (NULL);
-    printf("new_var: %s\n", new_var);
-
+    // printf("new_var: %s\n", new_var);
 	new = (char **)malloc((ft_arraylen(old) + 1) * sizeof(char *));
 	if (!new)
 		return (free(new_var), NULL); //pproteger y free arr aqui
@@ -87,28 +86,39 @@ int expand_dolar(t_shell_sack *sack)
 	if (!split_line)
 		return (1);
 	len = ft_arraylen(split_line);
-	printf("len array:%d\n", len);
+
 	i = 0;
 	temp = split_line;
-	if (len >= 1)
-	{
-		while (len-- >= 0)
-		{
-			if (temp[i] && temp[i][0] == '$') // check_valid_expanddolar(parseo)
-			{
-				temp = realloc_split_line(sack, split_line, i);
-				if (!temp)
-					return (1); //LIBERAR ???
-				printf("Este es temp despues de la vuelta num %d\n", i);
-				free (split_line);
-				split_line = temp;
-				print_env(split_line);
-				i = 0;
-			}
-			i++;
-		}
-	}
-    else
 
+    while (len-- >= 0)
+    {
+        if (temp[i] && temp[i][0] == '$') // check_valid_expanddolar(parseo)
+        {
+            temp = realloc_split_line(sack, split_line, i);
+            if (!temp)
+                return (1); //LIBERAR ???
+            printf("Este es temp despues de la vuelta num %d\n", i);
+            free (split_line);
+            split_line = temp;
+            print_env(split_line);
+            i = 0;
+        }
+        i++;
+    }
+    free(sack->l_expanded);
+	char *temp_var;
+	len = ft_arraylen(split_line);
+	printf("len array:%d\n", len);
+	i = 1;
+	sack->l_expanded = ft_strdup(split_line[0]);
+	while (len-- > 1)
+	{
+		// temp_var = sack->l_expanded;
+		temp_var = ft_strjoin(sack->l_expanded, " ");
+		free(sack->l_expanded);
+		sack->l_expanded = ft_strjoin(temp_var, split_line[i]);
+		free(temp_var);
+		i++;
+	}    
     return (0);
 }

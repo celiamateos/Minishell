@@ -32,7 +32,7 @@ char *remove_quotes(char *old, char type)
     new = (char *)malloc((i - quotes + 1) * sizeof(char));
     if (!new)
         return (NULL);
-    new[i - quotes] = '\0';
+    new[i - quotes - 1] = '\0';
     i = 0;
     while (i < (ft_strlen(old) - quotes))
     {
@@ -57,8 +57,6 @@ int	search_char(char *s, char c, int i)
 	return (0);
 }
 
-
-//APARECE UN SIMBOLO RARO AL FINAL SI SE COMBINAN VARIAS PALABRAS CON COMILLAS ENTRECAPSULADAS...
 int	expand_quotes(t_shell_sack *sack)
 {
 	int i = -1;
