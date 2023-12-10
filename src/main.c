@@ -51,7 +51,7 @@ void	ft_free_pruebas(t_env *env)
 		if (*line && !check_emptyorspace(line))
 		{
 
-			init_sack(sack, line, sack->envp);
+			sack_init(sack, line);
 			//print_tokenlist(sack->token_list);
 			
 			init_tree(&sack);

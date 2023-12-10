@@ -21,7 +21,7 @@
 // int		main(int ac, char **av, char **envp);
 
 //ENVIROMENT && BUILTINS
-int	init_env(char **envp, t_env *env);
+int	    init_env(char **envp, t_env *env);
 void	export(t_env *env, char *new);
 char	**realloc_export_exchange(t_env *env, char *new, size_t pos);
 char	**realloc_export_add(t_env *env, char *new);
@@ -36,10 +36,11 @@ int		unset(t_env *env, char *del, int check);
 char 	**realloc_unset(t_env *env, size_t pos);
 size_t 	ft_arraylen(char **array);
 void    ft_free_env(char **env);
-int  check_isbuiltin(t_shell_sack **sack, t_tree *node);
+int     check_isbuiltin(t_shell_sack **sack, t_tree *node);
 void    get_pwd(void);
-void    cd(char *pathname);
-void print_env(char **env);
+int    cd(t_shell_sack *sack, char *pathname);
+int     cmd_echo(t_shell_sack *sack, char *line);
+void    print_env(char **env);
 void	ft_free_error_arr(char **mem, long i);
 int     check_isbuiltin(t_shell_sack **sack, t_tree *node);
 

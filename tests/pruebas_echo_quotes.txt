@@ -57,4 +57,24 @@ bash
 
 hB
 
-En este ejemplo, h indica que el shell está en modo de historial (history enabled), y B indica que es un shell de inicio (shell started as a login shell). Recuerda que la salida puede variar.
+fEn este ejemplo, h indica que el shell está en modo de historial (history enabled), y B indica que es un shell de➜  minishell git:(celia) ✗ ./minishell
+
+
+
+Esto esta mal:
+
+minishell ▸  echo "$USER"
+cmateos-
+minishell ▸ echo '$USER'
+cmateos-
+minishell ▸ echo "'$USER'"
+'$USER'
+minishell ▸
+
+ bash:
+➜  minishell git:(celia) ✗ echo "$USER"
+cmateos-
+➜  minishell git:(celia) ✗ echo "'$USER'"
+'cmateos-'
+➜  minishell git:(celia) ✗ echo '$USER'
+$USER

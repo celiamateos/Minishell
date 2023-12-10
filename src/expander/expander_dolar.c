@@ -97,10 +97,10 @@ int expand_dolar(t_shell_sack *sack)
             temp = realloc_split_line(sack, split_line, i);
             if (!temp)
                 return (1); //LIBERAR ???
-            printf("Este es temp despues de la vuelta num %d\n", i);
+            // printf("Este es temp despues de la vuelta num %d\n", i);
             free (split_line);
             split_line = temp;
-            print_env(split_line);
+            // print_env(split_line);
             i = 0;
         }
         i++;
@@ -108,7 +108,7 @@ int expand_dolar(t_shell_sack *sack)
     free(sack->l_expanded);
 	char *temp_var;
 	len = ft_arraylen(split_line);
-	printf("len array:%d\n", len);
+	// printf("len array:%d\n", len);
 	i = 1;
 	sack->l_expanded = ft_strdup(split_line[0]);
 	while (len-- > 1)

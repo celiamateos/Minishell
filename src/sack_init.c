@@ -166,12 +166,11 @@ int	sack_init(t_shell_sack *sack, char *line)
 	sack->line = ft_strtrim(line, " \t\v\n\r");
 	if (check_errors_initsack(sack))
 		return (1); //no se si aqui hay q liberar yo creo q si
-	printf("sack line antes: %s\n", sack->line);
+	// printf("sack line antes: %s\n", sack->line);
 	if (expand_line(sack))
 		return (1); //liberar ??
-	printf("sack->l_expanded:%s\n", sack->l_expanded);
-	return (1);
-	sack->token_list = init_tokens(line); // enviar linea expandida y verificada de errores
+	// printf("sack->l_expanded:%s\n", sack->l_expanded);
+	sack->token_list = init_tokens(sack->l_expanded); // enviar linea expandida y verificada de errores
 	get_cmd_args(&sack);
 	sack->last_token = get_last_cmd(&sack->token_list); //check if is needed
 	//print_token("Last cmd", sack->last_token);

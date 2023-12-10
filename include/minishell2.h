@@ -67,6 +67,9 @@ typedef struct s_env
 	size_t	env_elements;
 	size_t	pre_export_elements;
 	char	*order; //print_cmd_export. Falta incluir fd para pipex
+	char	*pwd;
+	char	*oldpwd;
+	char	*shlvl;	
 	size_t	index;
 	size_t	count;
 	size_t	i;

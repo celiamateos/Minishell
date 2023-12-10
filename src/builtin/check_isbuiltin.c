@@ -18,7 +18,7 @@ int  check_isbuiltin(t_shell_sack **sack, t_tree *node)
     cmd = node->content->cmds[0];
     
     if (!ft_strncmp(cmd, "cd", ft_strlen(cmd)))
-        cd(node->content->cmds[1]);
+        cd(*sack, node->content->cmds[1]);
     if (!ft_strncmp(cmd, "pwd", ft_strlen(cmd)))
         get_pwd();
     if (!ft_strncmp(cmd, "export", ft_strlen(cmd)))
@@ -27,7 +27,8 @@ int  check_isbuiltin(t_shell_sack **sack, t_tree *node)
         print_env((*sack)->env->env);
     if (!ft_strncmp(cmd, "unset", ft_strlen(cmd)))
         unset((*sack)->env, node->content->cmds[1], 2);
-    // if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
+    if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
+        cmd_echo(*sack, node->content->cmds[1]);
     
     // if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
 
