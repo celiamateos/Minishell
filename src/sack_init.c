@@ -97,7 +97,7 @@ void	init_sack(t_shell_sack *sack, char *line, char **envp)
 	sack->l_expanded = expand_line(sack->line, envp);
 	sack->token_list = init_tokens(line); // enviar linea expandida y verificada de errores
 	get_cmd_args(&sack);
-	sack->last_token = get_last_cmd(&sack->token_list); //check if is needed
+	//sack->last_token = get_last_cmd(&sack->token_list); //check if is needed
 	//print_token("Last cmd", sack->last_token);
 	//sack->last_token = get_last_cmd(&sack->token_list);
 	//print_token_args(sack->token_list);

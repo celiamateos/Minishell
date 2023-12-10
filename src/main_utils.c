@@ -34,12 +34,12 @@ int	wait_exitcode(int last_pid)
 			if (WIFEXITED(status))
 			{
 				exit_code = WEXITSTATUS(status);
-				printf("STATUS :%d Exit_code: \n",WIFEXITED(status), exit_code);
+//				printf("STATUS :%d Exit_code: \n",WIFEXITED(status), exit_code);
 			}
 			else if (WIFSIGNALED(status))
 			{
 				exit_code = WTERMSIG(status) + 128;
-				printf("STATUS :%d STATUS :%d Exit_codeSIG: \n",WIFEXITED(status), exit_code);
+//				printf("STATUS :%d STATUS :%d Exit_codeSIG: \n",WIFEXITED(status), exit_code);
 			}
 		}
 	}

@@ -11,12 +11,26 @@
 /* ************************************************************************** */
 #include"../include/minishell.h"
 
-void	ft_cpypipes(int *old_pipe, int *new_pipe)
+/* @brief Find in tree the next cmd token or parenthesis. Used to add
+ operator flag, that in execution it will execute or not depends on exitcode*/
+t_tree *findnext_cmdleaf(t_tree **node)
 {
-	old_pipe[0] = new_pipe[0];
-	old_pipe[1] = new_pipe[1];
+    t_token *token;
+
+    token = (*node)->content;
+    if (token->type != CMD || token->type != PARENT_CL)
+    {
+        if ((*node)->left != NULL) 
+            if (((*node)->left)->content->type == CMD || ((*node)->left)->content->type == PARENT_CL)
+                return((*node)->left);
+        if ((*node)->right != NULL) 
+            if (((*node)->right)->content->type == CMD || ((*node)->right)->content->type == PARENT_CL)
+                return((*node)->right);
+    }
+    return((*node));
 }
 
+/* @brief assign fd and open attreibutes deppends on redirection */
 void    open_redirect(t_shell_sack ****sack_orig, t_tree *node)
 {
     t_token *token;
@@ -37,6 +51,8 @@ void    open_redirect(t_shell_sack ****sack_orig, t_tree *node)
         ft_perror_exit("Open error");
 }
 
+/* @brief check if cmd has redirection, and if it has, calls open_redirect 
+to assign fds*/
 int    check_redirect(t_shell_sack ***sack_orig, t_tree *node)
 {
     t_token         *token;
@@ -65,6 +81,13 @@ int    check_redirect(t_shell_sack ***sack_orig, t_tree *node)
     return (i);
 }
 
+void	ft_cpypipes(int *old_pipe, int *new_pipe)
+{
+	old_pipe[0] = new_pipe[0];
+	old_pipe[1] = new_pipe[1];
+}
+
+/* @brief Close fds sended as parameters. Has protection to not close STDs*/
 void	ft_close(int fd1, int fd2)
 {
     if (fd1 > 2) //To protect to close fds standard
