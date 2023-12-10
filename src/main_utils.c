@@ -17,7 +17,7 @@ void	ft_perror_exit(char *msj)
 	exit(1);
 }
 
-// @brief Wait for the PID received to exit, and returns exitcode.
+// @brief Wait for the PID received to end, and returns exitcode.
 int	wait_exitcode(int last_pid)
 {
 	int	curr_pid;
@@ -34,10 +34,13 @@ int	wait_exitcode(int last_pid)
 			if (WIFEXITED(status))
 			{
 				exit_code = WEXITSTATUS(status);
-				printf("STATUS :%d\n",WIFEXITED(status));
+				printf("STATUS :%d Exit_code: \n",WIFEXITED(status), exit_code);
 			}
 			else if (WIFSIGNALED(status))
+			{
 				exit_code = WTERMSIG(status) + 128;
+				printf("STATUS :%d STATUS :%d Exit_codeSIG: \n",WIFEXITED(status), exit_code);
+			}
 		}
 	}
 	return (exit_code);	
