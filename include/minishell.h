@@ -82,7 +82,7 @@ void    ft_free_env(char **env);
 int    print_env(char **env);
 
 //BUILTINS
-void    get_pwd(void);
+int    get_pwd(void);
 int    cd(t_shell_sack *sack, char *pathname);
 int     cmd_echo(t_shell_sack *sack, char *line);
 void	ft_free_error_arr(char **mem, long i);

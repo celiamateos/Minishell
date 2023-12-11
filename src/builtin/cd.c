@@ -29,10 +29,9 @@ void    free_cd(char *s1, char*s2, char *s3)
         free(s3);
 }
 
-int cd_path(t_shell_sack *sack,  char *pathname)
+int cd_path(t_shell_sack *sack,  char *pathname, char *pwd, char *old_pwd)
 {
-    char *pwd = ft_strdup(sack->env->pwd);
-    char *old_pwd = ft_strdup(sack->env->oldpwd);
+
     char *temp;
 
         temp = get_varcontent(pwd);
@@ -55,6 +54,7 @@ int cd_path(t_shell_sack *sack,  char *pathname)
         free (sack->env->pwd);
         sack->env->pwd = temp;
         // free (temp);
+        return (0);
 }
 
 //@brief Intenta acceder a la ruta pasada como parametro, en caso de error muestra un mensaje.
@@ -72,7 +72,8 @@ int    cd(t_shell_sack *sack, char *pathname)
 
 
     clean_cd(sack);
-
+    char *pwd = ft_strdup(sack->env->pwd);
+    char *old_pwd = ft_strdup(sack->env->oldpwd);
     if (!pathname)
     {
         chdir("/"); //Aqui falta algo jeje
@@ -93,7 +94,7 @@ int    cd(t_shell_sack *sack, char *pathname)
         ret = chdir(pathname);
         if (ret == -1)
             return (ft_putstr_fd("cd: No such file or directory\n", 2), 1);
-        cd_path(sack, pathname);
+        cd_path(sack, pathname, &pwd, &old_pwd);
 
     }
 
