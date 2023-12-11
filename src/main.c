@@ -32,15 +32,12 @@ void	ft_free_pruebas(t_env *env)
 	t_env		*env;
 	char 		*line;
 	t_shell_sack	*sack;
-	t_dlist		*tokens;
 
 	//atexit(leaks);
-	 tokens = NULL;
-	  sack = NULL;
+	sack = NULL;
 	env = ft_calloc(1, sizeof(t_env));
 	if (init_env(envp, env))
 		return (1);
-
 	clean_init(&sack);
 	sack->env = env;
 	while (42)
@@ -50,13 +47,14 @@ void	ft_free_pruebas(t_env *env)
  			return (0);
 		if (*line && !check_emptyorspace(line))
 		{
-
 			if (!sack_init(sack, line))
 			{
 				init_tree(&sack);
 				execute(&sack);
-				print2D(sack->tree_list);
+				// print2D(sack->tree_list);
 			}
+			free_sack(&sack);
+			//	 print2D(sack->tree_list);
 			//print_tokenlist(sack->token_list);
 			//print_preorder(sack->tree_list);
 		}

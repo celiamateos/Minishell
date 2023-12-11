@@ -38,7 +38,7 @@ void	leaf_isoperpipe(t_tree ***root, t_dlist *token_list)
 	}	
 }
 
-void	leaf_isparenthesis_cl(t_tree ***root, t_dlist *token_list)
+void	leaf_isparenthesis_cl(t_tree ***root)
 {
 	t_tree	**tree;
 	t_tree	*aux_leaf;
@@ -63,7 +63,6 @@ void	leaf_isparenthesis_op(t_tree ***root, t_dlist *token_list)
 {
 	t_tree	**tree;
 	t_tree	*aux_leaf;
-	t_tree	*leaf;
 	t_token	*token;
 	
 	token = token_list->content;
@@ -83,7 +82,6 @@ void	leaf_isredirect(t_tree ***root, t_dlist *token_list)
 {
 	t_tree	**tree;
 	t_tree	*aux_leaf;
-	t_tree	*leaf;
 	t_token	*token;
 	
 	token = token_list->content;
@@ -173,7 +171,7 @@ void	insert_leaf(t_tree **tree, t_dlist **token_list)
 		else if (token->type == PARENT_OP)
 			leaf_isparenthesis_op(&tree, (*token_list));
 		else if (token->type == PARENT_CL)
-			leaf_isparenthesis_cl(&tree, (*token_list));
+			leaf_isparenthesis_cl(&tree);
 		(*token_list) = (*token_list)->next;
 	}
 }
@@ -181,14 +179,9 @@ void	insert_leaf(t_tree **tree, t_dlist **token_list)
 void	init_tree(t_shell_sack **sack)
 {
 	t_tree	*tree;
-	t_token	*token;
-	t_dlist	*token_to;
 	t_dlist	*token_list;
-	t_tree	*leaf;
-	t_tree	*aux_leaf;
 
 	token_list = (*sack)->token_list;
-	token_to = token_list;
 	tree = new_leaf(token_list->content);
 	token_list = token_list->next;
 	insert_leaf(&tree, &token_list);	

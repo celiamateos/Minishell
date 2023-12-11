@@ -135,7 +135,7 @@ t_tree  *new_leaf(t_token *token);
 void	leaf_iscmd(t_tree ***root, t_dlist *token_list);
 void	leaf_isredirect(t_tree ***root, t_dlist *token_list);
 void	leaf_isoperpipe(t_tree ***root, t_dlist *token_list);
-void	leaf_isparenthesis_cl(t_tree ***root, t_dlist *token_list);
+void	leaf_isparenthesis_cl(t_tree ***root);
 void	leaf_isparenthesis_op(t_tree ***root, t_dlist *token_list);
 // tree_utils
 void 	print_preorder(t_tree *node);
@@ -162,7 +162,7 @@ char	*get_path(char *cmd, char **env);
 char	*getcmd_withpath(char *cmd, char **cmds, char **env);
 
 // main_utils 
-void	ft_perror_exit(char *msj); //error handling
+void	ft_perror_exit(char *msj, t_shell_sack ***sack); //error handling
 int		wait_exitcode(int last_pid);
 
 //parse

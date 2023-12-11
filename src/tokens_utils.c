@@ -14,11 +14,7 @@
 char	*fix_tokenvalues(char **value)
 {
 	char	*aux;
-	int		i;
-	int		start;
 
-	i = 0;
-	start = 0;
 	aux = ft_strtrim(*value, "<> \n\t");
 	free (*value);
 	return (aux);
