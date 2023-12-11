@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daviles- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,39 +11,38 @@
 /* ************************************************************************** */
 #include"../include/minishell.h"
 
-void	ft_perror_exit(char *msj)
+void    free_tree(t_tree **node) 
 {
-	perror(msj);
-	exit(1); //check error code for exit
-}
-
-// @brief Wait for the PID received to end, and returns exitcode.
-int	wait_exitcode(int last_pid)
-{
-	int	curr_pid;
-	int	exit_code;
-	int	status;
-
-	exit_code = -1;
-	curr_pid = 0;
-	while (curr_pid != -1)
+	if (*node && node != NULL) 
 	{
-		curr_pid = waitpid(-1, &status, 0);
-		if (curr_pid == last_pid)
-		{
-			if (WIFEXITED(status))
-			{
-				exit_code = WEXITSTATUS(status);
-//				printf("STATUS :%d Exit_code: \n",WIFEXITED(status), exit_code);
-			}
-			else if (WIFSIGNALED(status))
-			{
-				exit_code = WTERMSIG(status) + 128;
-//				printf("STATUS :%d STATUS :%d Exit_codeSIG: \n",WIFEXITED(status), exit_code);
-			}
-		}
-	}
-	return (exit_code);	
+	        print_preorder((*node)->left);
+	        print_preorder((*node)->right);
+            free_token((*node)->content);
+    	}
 }
 
-//void	free_sack(t_shell_sack **sack)
+void    free_sack(t_shell_sack **sack)
+{
+    if (sack || *sack)
+    {
+        free((*sack)->line);
+        free((*sack)->l_expanded);
+        if ((*sack)->token_list)
+            ft_dlstclear(&(*sack)->token_list,free_token);
+        if ((*sack)->tree_list)
+            free_tree(&(*sack)->tree_list);
+    }
+}
+
+void    free_token(void *content)
+{
+    t_token *token;
+
+    token = content;
+    if (content)
+    {
+        free(token->value);
+        ft_freematrix(&token->cmds);
+    }
+    free(content);
+}

@@ -139,9 +139,9 @@ void	get_cmd_args(t_shell_sack **sack)
 	{
 		token = token_list->content;
 		if (token->type == CMD)
-		{
 			token->cmds = ft_split(token->value, ' ');
-		}
+		else
+			token->cmds = ft_split("NULL", ' ');
 		token_list = token_list->next;
 	}
 }

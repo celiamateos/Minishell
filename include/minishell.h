@@ -127,7 +127,14 @@ void	ft_dlstadd_front(t_dlist **lst, t_dlist *new);
 t_dlist	*ft_dlstlast(t_dlist *lst);
 t_dlist *ft_dlstfirst(t_dlist *lst);
 int		ft_dlstsize(t_dlist *lst);
+void	ft_dlstclear(t_dlist **lst, void (*del_dlst)(void *));
+void	ft_dlstdelone(t_dlist *lst, void (*del_dlst)(void *));
+void	del_dlst(void *content);
 
+// Frees
+void    free_token(void *content);
+void    free_sack(t_shell_sack **sack);
+void    free_tree(t_tree **node);
 // init_sack
 int	clean_init(t_shell_sack **sack);
 void	init_sack(t_shell_sack *sack, char *line, char **envp);
