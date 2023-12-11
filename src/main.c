@@ -56,7 +56,7 @@ void	ft_free_pruebas(t_env *env)
 			
 			init_tree(&sack);
 			execute(&sack);
-			//print2D(sack->tree_list);
+			print2D(sack->tree_list);
 			//print_preorder(sack->tree_list);
 		}
 

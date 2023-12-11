@@ -17,19 +17,62 @@
 #include "minishell2.h"
 
 
+// typedef struct s_token
+// {
+// 	char		*value;
+// 	char		**cmds;
+// 	int			type;
+// 	int			oper;
+// }					t_token;
 
-// int		main(int ac, char **av, char **envp);
+// typedef struct s_tree
+// {
+// 	struct s_tree	*right;
+// 	struct s_tree	*left;
+// 	struct s_token	*content;
+// }	t_tree;
 
-//ENVIROMENT && BUILTINS
-int	    init_env(char **envp, t_env *env);
-void	export(t_env *env, char *new);
-char	**realloc_export_exchange(t_env *env, char *new, size_t pos);
-char	**realloc_export_add(t_env *env, char *new);
-int		is_valid_to_export(char *s);
-int		search_env_pos(char **env, char *word, char limit);
-char	**realloc_unset_pre_export_list(t_env *env, size_t pos);
-char	**realloc_add_pre_export_list(t_env *env, char *line);
-void	pre_export_new_variable(t_env *env, char *line);
+// typedef struct s_env
+// {
+// 	char	**pre_export; //Export list
+// 	char	**env; //El enviroment
+// 	size_t	env_elements;
+// 	size_t	pre_export_elements;
+// 	char	*order; //print_cmd_export. Falta incluir fd para pipex
+// 	size_t		index;
+// 	size_t	count;
+// 	size_t		i;
+// }					t_env;
+
+// typedef struct s_shell_sack
+// {
+// 	char			*line;
+// 	char			*l_expanded;
+// 	struct s_dlist	*token_list;
+// 	struct s_tree	*tree_list;
+// 	int				new_pipes[2];
+// 	int				old_pipes[2];
+// 	int				redirs[2];
+// 	t_token			*last_token;
+// 	int				last_pid;
+// 	int				last_exit;
+// 	int				history_fd;
+// 	char			**envp; //Usar t_env *env en su lugar
+// 	struct s_env			*env; //Usar t_env *env en su lugar
+// }	t_shell_sack;
+
+int		main(int ac, char **av, char **envp);
+//ENVIROMENT
+int	init_env(char **envp, t_env *env);
+
+void export(t_env *env, char *new);
+char **realloc_export_exchange(t_env *env, char *new, size_t pos);
+char **realloc_export_add(t_env *env, char *new);
+int is_valid_to_export(char *s);
+int	search_env_pos(char **env, char *word, char limit);
+char **realloc_unset_pre_export_list(t_env *env, size_t pos);
+char **realloc_add_pre_export_list(t_env *env, char *line);
+void pre_export_new_variable(t_env *env, char *line);
 void    print_export_list(t_env *env);
 void 	already_added_pre_export_list(t_env *env, char *new, long pos);
 int		unset(t_env *env, char *del, int check);
@@ -97,10 +140,12 @@ void    run_node(t_shell_sack **sack, t_tree *node);
 void    run_cmd(t_shell_sack ***sack_orig, t_tree *node);
 void    run_pipe(t_shell_sack ***sack_orig, t_tree *node);
 
+void    run_oper(t_shell_sack ***sack_orig, t_tree *node);
 // execute_utils
 void	ft_close(int fd1, int fd2);
 int 	check_redirect(t_shell_sack ***sack, t_tree *node);
 void    open_redirect(t_shell_sack ****sack_orig, t_tree *node);
+t_tree *findnext_cmdleaf(t_tree **node);
 // cmd_utils from pipex
 int		check_route(char *av);
 int		check_path(char **env);

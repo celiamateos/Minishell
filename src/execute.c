@@ -11,6 +11,21 @@
 /* ************************************************************************** */
 #include"../include/minishell.h"
 
+void    run_oper(t_shell_sack ***sack_orig, t_tree *node)
+{
+    t_shell_sack    **sack;
+    t_token         *token;
+    t_tree          *aux_node;
+
+    sack = *sack_orig;
+    aux_node = findnext_cmdleaf(&node->right);
+    if (aux_node != NULL) // maybe its not possible to get emtpy
+    {
+
+        print_token("Next cmd", aux_node->content);
+    }
+}
+
 void    run_pipe(t_shell_sack ***sack_orig, t_tree *node)
 {
      t_shell_sack    **sack;
@@ -45,7 +60,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 	{
         // printf("oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
         if (!check_isbuiltin(sack, node))
-            return ;
+            ft_perror_exit("ERROR CHECK_ISBUITIN");
 
 		cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
         if ((*sack)->old_pipes[0] != 0 )
@@ -53,7 +68,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
                 ft_perror_exit("Dup2 error IN");
         if ((*sack)->new_pipes[1] != 1 )
             if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
-                ft_perror_exit("Dup2 error AAOUT");
+                ft_perror_exit("Dup2 error OUT");
         ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
         ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
 		execve(cmd, token->cmds, (*sack)->env->env);// check if it is our env
@@ -79,18 +94,25 @@ void    run_node(t_shell_sack **sack, t_tree *node)
     token = node->content;
     if (token->type >= HEREDOC)
     {
-        // check_redirect(node);
-        // open_redirect(node);
         // Do nothing?
     }
     else if (token->type == CMD)
     {
 
-        run_cmd(&sack, node);
+        if (token->oper == AND && (*sack)->last_exit == 0)
+            run_cmd(&sack, node);
+        else if (token->oper == OR && (*sack)->last_exit != 0)
+            run_cmd(&sack, node);
+        else
+            run_cmd(&sack, node);
     }
     else if (token->type == PIPE)
     {
         run_pipe(&sack, node);
+    }
+    else if (token->type == OPER)
+    {
+        run_oper(&sack, node);
     }
 }
 

@@ -24,6 +24,7 @@ char	*fix_tokenvalues(char **value)
 	return (aux);
 }
 
+/* check if is neccesary, if not erase cause has segfault when last token is ()*/
 void  *get_last_cmd(t_dlist **token_list)
 {
 	t_token	*token;
@@ -36,8 +37,10 @@ void  *get_last_cmd(t_dlist **token_list)
 	{
 		token = aux_list->content;
 		if (aux_list->next)
-		token_next = aux_list->next->content;
+			token_next = aux_list->next->content;
 		if (!aux_list->next && token->type == CMD)
+			return (aux_list->content);
+		else if (!aux_list->next && token->type == CMD)
 			return (aux_list->content);
 		else if (!(aux_list->next)->next && token_next->type \
 		 >= HEREDOC && token->type == CMD)
@@ -45,7 +48,6 @@ void  *get_last_cmd(t_dlist **token_list)
 		 	return (aux_list->content);
 			aux_list = aux_list->next;
 		}
-
 	}
 	return (aux_list->content);
 }

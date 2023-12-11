@@ -31,13 +31,14 @@
 # define OPER 2
 # define PARENT_OP 3
 # define PARENT_CL 4
-# define HEREDOC 5
-# define REDIR_IN 6
-# define REDIR_OUT 7
-# define APPEND_OUT 8
-# define FN_ERROR 9
-
-# define COUNT 10 //to check priunt2Dtree
+# define ASSIGN 5
+# define HEREDOC 6
+# define REDIR_IN 7
+# define REDIR_OUT 8
+# define APPEND_OUT 9
+# define FN_ERROR 10
+# define AND 21
+# define OR 22
 
 typedef struct s_dlist
 {
