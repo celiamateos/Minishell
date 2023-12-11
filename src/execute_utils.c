@@ -11,6 +11,27 @@
 /* ************************************************************************** */
 #include"../include/minishell.h"
 
+/* @brief to take off lines on run_node. Check conditions of execution 
+of operators.*/
+int check_opercondition(t_shell_sack **sack, t_tree **node)
+{
+   	t_token	*token;
+
+    token = (*node)->content;
+    if (token->oper == AND && (*sack)->last_exit == 0)
+    {
+        //printf("Cumple &&");
+        return (1);
+    }
+    else if (token->oper == OR && (*sack)->last_exit != 0)
+    {
+        //printf("Cumple ||");
+        return (1);
+    }
+    else
+        return (0);
+}
+
 /* @brief Find in tree the next cmd token or parenthesis. Used to add
  operator flag, that in execution it will execute or not depends on exitcode*/
 t_tree *findnext_cmdleaf(t_tree **node)
@@ -47,8 +68,11 @@ void    open_redirect(t_shell_sack ****sack_orig, t_tree *node)
         (*sack)->new_pipes[1] = open(token->value, O_WRONLY | O_CREAT | O_TRUNC, 0666);
     else if (token->type == APPEND_OUT)
         (*sack)->new_pipes[1] = open(token->value, O_RDWR | O_CREAT | O_APPEND, 0666);
-    if ((*sack)->new_pipes[0] == -1 || (*sack)->new_pipes[1] == -1)
-        ft_perror_exit("Open error");
+    if ((*sack)->old_pipes[0] == -1 || (*sack)->new_pipes[1] == -1)
+        {
+            (*sack)->last_exit = 1; //check error code
+            ft_perror_exit("Open error");
+        }
 }
 
 /* @brief check if cmd has redirection, and if it has, calls open_redirect 

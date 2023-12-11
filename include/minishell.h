@@ -97,7 +97,14 @@ void	ft_dlstadd_front(t_dlist **lst, t_dlist *new);
 t_dlist	*ft_dlstlast(t_dlist *lst);
 t_dlist *ft_dlstfirst(t_dlist *lst);
 int		ft_dlstsize(t_dlist *lst);
+void	ft_dlstclear(t_dlist **lst, void (*del_dlst)(void *));
+void	ft_dlstdelone(t_dlist *lst, void (*del_dlst)(void *));
+void	del_dlst(void *content);
 
+// Frees
+void    free_token(void *content);
+void    free_sack(t_shell_sack **sack);
+void    free_tree(t_tree **node);
 // init_sack
 int	clean_init(t_shell_sack **sack);
 int sack_init(t_shell_sack *sack, char *line);
@@ -137,7 +144,7 @@ void	print2DUtil(t_tree *root, int space);
 // execute
 void	execute(t_shell_sack **sack);
 void    run_preorder(t_tree *node, t_shell_sack **sack);
-void    run_node(t_shell_sack **sack, t_tree *node);
+void    run_node(t_shell_sack **sack, t_tree **node);
 void    run_cmd(t_shell_sack ***sack_orig, t_tree *node);
 void    run_pipe(t_shell_sack ***sack_orig, t_tree *node);
 
@@ -147,6 +154,7 @@ void	ft_close(int fd1, int fd2);
 int 	check_redirect(t_shell_sack ***sack, t_tree *node);
 void    open_redirect(t_shell_sack ****sack_orig, t_tree *node);
 t_tree *findnext_cmdleaf(t_tree **node);
+int		check_opercondition(t_shell_sack **sack, t_tree **node);
 // cmd_utils from pipex
 int		check_route(char *av);
 int		check_path(char **env);

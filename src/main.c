@@ -34,7 +34,7 @@ void	ft_free_pruebas(t_env *env)
 	t_shell_sack	*sack;
 	t_dlist		*tokens;
 
-	// atexit(leaks);
+	//atexit(leaks);
 	 tokens = NULL;
 	  sack = NULL;
 	env = ft_calloc(1, sizeof(t_env));
