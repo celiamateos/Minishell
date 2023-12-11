@@ -167,7 +167,7 @@ void	print2DUtil(t_tree *root, int space);
 // execute
 void	execute(t_shell_sack **sack);
 void    run_preorder(t_tree *node, t_shell_sack **sack);
-void    run_node(t_shell_sack **sack, t_tree *node);
+void    run_node(t_shell_sack **sack, t_tree **node);
 void    run_cmd(t_shell_sack ***sack_orig, t_tree *node);
 void    run_pipe(t_shell_sack ***sack_orig, t_tree *node);
 void    run_oper(t_shell_sack ***sack_orig, t_tree *node);
@@ -176,6 +176,7 @@ void	ft_close(int fd1, int fd2);
 int 	check_redirect(t_shell_sack ***sack, t_tree *node);
 void    open_redirect(t_shell_sack ****sack_orig, t_tree *node);
 t_tree *findnext_cmdleaf(t_tree **node);
+int		check_opercondition(t_shell_sack **sack, t_tree **node);
 // cmd_utils from pipex
 int		check_route(char *av);
 int		check_path(char **env);
