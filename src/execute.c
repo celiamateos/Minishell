@@ -59,8 +59,13 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
     else if ((*sack)->last_pid == 0)
 	{
         // printf("oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-        if (check_isbuiltin(sack, node))
-            return ;
+        if (!check_isbuiltin(sack, node))
+        {
+            printf("is builtin\n");
+            if (execute_builtin(sack, node))
+                printf("Builtin falló\n");
+            return ; //Aqui no se si retun o que jeje
+        }
 
 		cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
         if ((*sack)->old_pipes[0] != 0 )

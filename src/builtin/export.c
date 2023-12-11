@@ -100,7 +100,7 @@ char **realloc_export_exchange(t_env *env, char *new, size_t pos)
 //
 //(variable=contenido) -> llamar a funcion realloc_add_pre_export();
 */
-void export(t_env *env, char *new)
+int export(t_env *env, char *new)
 {
 	long pos;
 
@@ -108,18 +108,19 @@ void export(t_env *env, char *new)
     //     return (print_export_list(env));
 	pos = search_env_pos(env->env, new, '=');
 	if (is_valid_to_export(new))
-        return (already_added_pre_export_list(env, new, pos));
+        return (already_added_pre_export_list(env, new, pos), 0);
 	if (pos >= 0)
     {
 		env->env = realloc_export_exchange(env, new, pos);
         if (!env->env)
-            return ; //ft_error malloc en realloc_export_exchange // liberar t_env
+            return (1); //ft_error malloc en realloc_export_exchange // liberar t_env
     }
 	else
     {
 	    env->env = realloc_export_add(env, new);
         if (!env->env)
-            return ; //ft_error malloc en realloc_export_add // liberar t_env
+            return (1); //ft_error malloc en realloc_export_add // liberar t_env
     }
     free (new);
+    return (0);
 }
