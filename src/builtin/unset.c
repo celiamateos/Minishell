@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/12 03:37:12 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 //@brief ALOCA MEMORIA!
 //Realloca el array env, omitiendo la línea que se desea eliminar.

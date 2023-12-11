@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/16 10:51:01 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void init_values(int *tab, t_env *env)
 {
@@ -48,6 +48,24 @@ void	search_lower_alpha(t_env *env, int *tab)
 		}
 }
 
+
+//Con la peculiaridad de k printea el contenido de la variable entre comillas dobles
+ft_putstr_fd_export(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	ft_putstr_fd("\ndeclare -x ", 1);
+	while (s[i] != '\0')
+	{
+		write (fd, &s[i], 1);
+		if (s[i] == '=')
+			ft_putstr_fd("\"", 1);
+		i++;
+	}
+	ft_putstr_fd("\"", 1);
+}
+
 //Putstring en STD_OUT del enviroment ordenado alfabeticamente.
 //No llamar a esta funcion si no existe el enviroment
 //No aloca memoria
@@ -67,8 +85,7 @@ void    print_export_list(t_env *env)
 				env->i++;
 			if (tab[(int)env->index] == 0)
 			{
-				ft_putstr_fd("\ndeclare -x ", 1);
-				ft_putstr_fd(env->env[env->index], 1);
+				ft_putstr_fd_export(env->env[env->index], 1);
 				tab[(int)env->index] = 1;
 				env->count++;
 			}

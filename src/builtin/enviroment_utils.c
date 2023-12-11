@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/10 09:15:08 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 /*@brief Libera las lineas previas malokeadas en caso de error.
 @param mem array a liberar
 @param i linea donde ocurrió el error
@@ -35,18 +35,18 @@ void ft_free_env(char **env)
 }
 
 //@brief Print enviroment
-void print_env(char **env)
+int print_env(char **env)
 {
 	int i = 0;
 
-	printf("\n");
 	if (!env || !env[i])
-		return ;
+		return (1);
 	while (env[i])
 	{
-		printf("line:%d  %s\n", i, env[i]);
+		printf("%d  %s\n", i, env[i]);
 		i++;
 	}
+	return (0);
 }
 
 //@brief Return len array.

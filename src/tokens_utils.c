@@ -14,11 +14,7 @@
 char	*fix_tokenvalues(char **value)
 {
 	char	*aux;
-	int		i;
-	int		start;
 
-	i = 0;
-	start = 0;
 	aux = ft_strtrim(*value, "<> \n\t");
 	free (*value);
 	return (aux);
@@ -44,8 +40,10 @@ void  *get_last_cmd(t_dlist **token_list)
 			return (aux_list->content);
 		else if (!(aux_list->next)->next && token_next->type \
 		 >= HEREDOC && token->type == CMD)
+		{
 		 	return (aux_list->content);
-		aux_list = aux_list->next;
+			aux_list = aux_list->next;
+		}
 	}
 	return (aux_list->content);
 }

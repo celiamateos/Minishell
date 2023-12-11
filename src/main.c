@@ -32,11 +32,9 @@ void	ft_free_pruebas(t_env *env)
 	t_env		*env;
 	char 		*line;
 	t_shell_sack	*sack;
-	t_dlist		*tokens;
 
 	//atexit(leaks);
-	 tokens = NULL;
-	  sack = NULL;
+	sack = NULL;
 	env = ft_calloc(1, sizeof(t_env));
 	if (init_env(envp, env))
 		return (1);
@@ -44,22 +42,23 @@ void	ft_free_pruebas(t_env *env)
 	sack->env = env;
 	while (42)
  	{
- 		line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
+ 		line = readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
 	 	if (line == 0)
  			return (0);
 		if (*line && !check_emptyorspace(line))
 		{
-			init_sack(sack, line, sack->envp);
-			print_tokenlist(sack->token_list);
-			// print_tokenlist(sack->token_list);
-			init_tree(&sack);
-			execute(&sack);
-			ft_dlstclear(&(sack)->token_list,free_token);
-			printf("AQUI\n");
-			//print2D(sack->tree_list);
+			if (!sack_init(sack, line))
+			{
+				init_tree(&sack);
+				execute(&sack);
+				// print2D(sack->tree_list);
+			}
+			free_sack(&sack);
+			//	 print2D(sack->tree_list);
+			//print_tokenlist(sack->token_list);
 			//print_preorder(sack->tree_list);
 		}
-		if (*line) 
+		if (*line)
             add_history(line);
  		free(line);
 		//reset sack and free tokens and list?

@@ -71,7 +71,7 @@ void    open_redirect(t_shell_sack ****sack_orig, t_tree *node)
     if ((*sack)->old_pipes[0] == -1 || (*sack)->new_pipes[1] == -1)
         {
             (*sack)->last_exit = 1; //check error code
-            ft_perror_exit("Open error");
+            ft_perror_exit("Open error", (*sack_orig));
         }
 }
 
@@ -82,6 +82,7 @@ int    check_redirect(t_shell_sack ***sack_orig, t_tree *node)
     t_token         *token;
     t_shell_sack    **sack;
     int             i;
+
 
     
 	if (node != NULL) 
