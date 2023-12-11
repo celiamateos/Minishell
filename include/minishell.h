@@ -160,10 +160,10 @@ int		wait_exitcode(int last_pid);
 //parse
 
 //expander
-char *remove_quotes(char *old, char c);
+char    *remove_quotes(char *old, char c);
 int     expand_line(t_shell_sack *sack);
-int expand_dolar(t_shell_sack *sack);
-int	expand_quotes(t_shell_sack *sack);
+int     expand_dolar(t_shell_sack *sack);
+int	    expand_quotes(t_shell_sack *sack);
 int     check_errors_initsack(t_shell_sack *sack);
 void    check_open_quotes(t_shell_sack *sack, char *s);
 int	    search_char(char *s, char c, int i);

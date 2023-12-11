@@ -29,39 +29,50 @@ void    free_cd(char *s1, char*s2, char *s3)
         free(s3);
 }
 
-int cd_path(t_shell_sack *sack,  char *pathname, char *pwd, char *old_pwd)
+int cd_root(t_shell_sack *sack, char *pwd, char *old_pwd)
 {
-
     char *temp;
 
-        temp = get_varcontent(pwd);
-        if (!temp)
-            return (free_cd(pwd, old_pwd, temp), 1);
-        sack->env->oldpwd = ft_strjoin("OLDPWD=", temp);
-        free (temp);
-        if (!sack->env->oldpwd)
-            return (free_cd(pwd, old_pwd, temp), 1);
-        temp = get_varcontent(pwd);
-        if (!temp)
-            return (free_cd(pwd, old_pwd, temp), 1);
-        sack->env->pwd = ft_strjoin(temp, pathname);
-        free (temp);
-        if (!sack->env->pwd)
-            return (free_cd(pwd, old_pwd, temp), 1);
-        temp = ft_strjoin("/", sack->env->pwd);
-        if (!temp)
-            return (free_cd(pwd, old_pwd, temp), 1);
-        free (sack->env->pwd);
-        sack->env->pwd = temp;
-        // free (temp);
-        return (0);
+    temp = get_varcontent(pwd);
+    if (!temp)
+        return (free_cd(pwd, old_pwd, temp), 1);
+    sack->env->oldpwd = ft_strjoin("OLDPWD=", temp);
+    if (!sack->env->oldpwd)
+        return (free_cd(pwd, old_pwd, temp), 1);
+    free (temp);
+    sack->env->pwd = ft_strjoin("PWD=", "/");
+    if (!sack->env->pwd)
+        return (free_cd(pwd, old_pwd, temp), 1);
+    return (0);
+}
+
+int cd_path(t_shell_sack *sack,  char *pathname, char *pwd, char *old_pwd)
+{
+    char *temp;
+
+    temp = get_varcontent(pwd);
+    if (!temp)
+        return (free_cd(pwd, old_pwd, temp), 1);
+    sack->env->oldpwd = ft_strjoin("OLDPWD=", temp);
+    if (!sack->env->oldpwd)
+        return (free_cd(pwd, old_pwd, temp), 1);
+    free (temp);
+    sack->env->pwd = ft_strjoin(pwd, "/");
+    if (!sack->env->pwd)
+        return (free_cd(pwd, old_pwd, temp), 1);
+    temp = ft_strjoin(sack->env->pwd, pathname);
+    if (!temp)
+        return (free_cd(pwd, old_pwd, temp), free(sack->env->pwd), 1);
+    free (sack->env->pwd);
+    sack->env->pwd = ft_strdup(temp);
+    if (!sack->env->pwd)
+        return (free_cd(pwd, old_pwd, temp), 1);
+    free (temp);
+    return (0);
 }
 
 //@brief Intenta acceder a la ruta pasada como parametro, en caso de error muestra un mensaje.
-// cd sin argumentos busca $HOME y si no existe 
-// da el error:    bash: cd: HOME not set
-// Cada vez que se usa cd, hay que actualizar PWD Y OLDPWD en el enviroment
-// Tambien hay que actualizar SHLVL en el enviroment cada vvez q se ejecuta minishell
+// SOLO FUNCIONA AL LLAMAR A CD LA PRIMERA VEZ DESPUES DE EJECUTAR MINISHELL, NO SE SI ESPROBLEMA DE ESTO O DEL EXECUTE
 int    cd(t_shell_sack *sack, char *pathname)
 {
     int ret;
@@ -70,31 +81,17 @@ int    cd(t_shell_sack *sack, char *pathname)
     // int     len_pwd = ;
     // int     len_oldpwd;
 
-
-    clean_cd(sack);
     char *pwd = ft_strdup(sack->env->pwd);
     char *old_pwd = ft_strdup(sack->env->oldpwd);
+    clean_cd(sack);
     if (!pathname)
-    {
-        chdir("/"); //Aqui falta algo jeje
-        // ft_putstr_fd("a la raiz\n", 1);
-        // temp = get_varcontent(pwd);
-        // if (!temp)
-        //     return (free_cd(pwd, old_pwd, temp), 1);
-        // sack->env->oldpwd = ft_strjoin("OLDPWD=", temp); 
-        // if (!sack->env->oldpwd)
-        //     return (free_cd(pwd, old_pwd, temp), 1);
-        // sack->env->pwd = ft_strdup("PWD=/");
-        // if (!sack->env->pwd)
-        //     return (free_cd(pwd, old_pwd, temp), 1);
-
-    }
+        cd_root(sack, pwd, old_pwd);
     else
     {   
         ret = chdir(pathname);
         if (ret == -1)
             return (ft_putstr_fd("cd: No such file or directory\n", 2), 1);
-        cd_path(sack, pathname, &pwd, &old_pwd);
+        cd_path(sack, pathname, pwd, old_pwd);
 
     }
 
@@ -102,6 +99,8 @@ int    cd(t_shell_sack *sack, char *pathname)
     printf("OLDPWD: %s\n", sack->env->oldpwd);
     export(sack->env, sack->env->pwd);
     export(sack->env, sack->env->oldpwd);
+    free (pwd);
+    free (old_pwd);
     return (0);
 
 }
