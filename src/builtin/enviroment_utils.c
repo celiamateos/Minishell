@@ -43,7 +43,7 @@ void print_env(char **env)
 		return ;
 	while (env[i])
 	{
-		printf("line:%d  %s\n", i, env[i]);
+		printf("%d  %s\n", i, env[i]);
 		i++;
 	}
 }

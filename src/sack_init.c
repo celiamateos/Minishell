@@ -34,6 +34,7 @@ int	clean_init(t_shell_sack **sack)
 	return (0);
 }
 
+
 // char	*get_varname(char *expanded, int i)
 // {
 // 	int		len;
@@ -153,7 +154,6 @@ int	expand_line(t_shell_sack *sack)
 		return (1);
 
 
-
 	// sack->line = ft_strdup(sack->l_expanded);
 	// if (!sack->line)
 	// 	return (1); //Proteger de errores ?
@@ -163,19 +163,27 @@ int	expand_line(t_shell_sack *sack)
 
 int	sack_init(t_shell_sack *sack, char *line)
 {
+	free(sack->line);
 	sack->line = ft_strtrim(line, " \t\v\n\r");
 	if (check_errors_initsack(sack))
 		return (1); //no se si aqui hay q liberar yo creo q si
 	// printf("sack line antes: %s\n", sack->line);
 	if (expand_line(sack))
 		return (1); //liberar ??
-	// printf("sack->l_expanded:%s\n", sack->l_expanded);
-	sack->token_list = init_tokens(sack->l_expanded); // enviar linea expandida y verificada de errores
+	printf("sack->l_expanded:%s\n", sack->l_expanded);
+	// free (line);
+	line = ft_strdup(sack->l_expanded);
+	// line = ft_substr(sack->l_expanded, 0, ft_strlen(sack->l_expanded));
+		// return (1);
+	// line = sack->l_expanded;
+	free (sack->l_expanded);
+	sack->token_list = init_tokens(line); // enviar linea expandida y verificada de errores
 	get_cmd_args(&sack);
 	//sack->last_token = get_last_cmd(&sack->token_list); //check if is needed
 	//print_token("Last cmd", sack->last_token);
 	//sack->last_token = get_last_cmd(&sack->token_list);
 	//print_token_args(sack->token_list);
+	free(line);
 	return (0);
 }
 

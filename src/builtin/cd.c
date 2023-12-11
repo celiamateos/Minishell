@@ -19,6 +19,16 @@ void    clean_cd(t_shell_sack *sack)
         free(sack->env->oldpwd);
 }
 
+void    free_cd(char *s1, char*s2, char *s3)
+{
+    if (s1)
+        free(s1);
+    if (s2)
+        free (s2);
+    if (s3)
+        free(s3);
+}
+
 //@brief Intenta acceder a la ruta pasada como parametro, en caso de error muestra un mensaje.
 // cd sin argumentos busca $HOME y si no existe 
 // da el error:    bash: cd: HOME not set
@@ -27,34 +37,76 @@ void    clean_cd(t_shell_sack *sack)
 int    cd(t_shell_sack *sack, char *pathname)
 {
     int ret;
+    // char *temp;
+    // char *line;
+    // int     len_pwd = ;
+    // int     len_oldpwd;
+    char *pwd = ft_strdup(sack->env->pwd);
+    char *old_pwd = ft_strdup(sack->env->oldpwd);
     char *temp;
-    char *line;
 
     clean_cd(sack);
+
     if (!pathname)
     {
         chdir("/"); //Aqui falta algo jeje
         // ft_putstr_fd("a la raiz\n", 1);
-        sack->env->oldpwd = ft_strdup(sack->env->pwd);
+        temp = get_varcontent(pwd);
+        if (!temp)
+            return (free_cd(pwd, old_pwd, temp), 1);
+        sack->env->oldpwd = ft_strjoin("OLDPWD=", temp); 
         if (!sack->env->oldpwd)
-            return (1);
+            return (free_cd(pwd, old_pwd, temp), 1);
         sack->env->pwd = ft_strdup("PWD=/");
         if (!sack->env->pwd)
-            return (1);
-        export(sack->env, sack->env->pwd);
-         return (0);
+            return (free_cd(pwd, old_pwd, temp), 1);
+        // sack->env->oldpwd = ft_strjoin("OLDPWD=", temp);
+        // free (temp);
+        // if (!sack->env->oldpwd)
+        //     return (free_cd(pwd, old_pwd, temp), 1);
+        // temp = get_varcontent(pwd);
+        //  if (!temp)
+        //     return (free_cd(pwd, old_pwd, temp), 1);
+        // sack->env->pwd = ft_strjoin(temp, pathname);
+        // free (temp);
+        // if (!sack->env->pwd)
+        //     return (free_cd(pwd, old_pwd, temp), 1);
+        // temp = ft_strjoin("/", sack->env->pwd);
+        // if (!temp)
+        //     return (free_cd(pwd, old_pwd, temp), 1);
+        // free (sack->env->pwd);
+        // sack->env->pwd = temp;
     }
-    ret = chdir(pathname);
-    if (ret == -1)
-        return (ft_putstr_fd("cd: No such file or directory\n", 2), 1);
     else
-    {
-        sack->env->oldpwd = ft_strdup(sack->env->pwd);
+    {   
+        ret = chdir(pathname);
+        if (ret == -1)
+            return (ft_putstr_fd("cd: No such file or directory\n", 2), 1);
+        temp = get_varcontent(pwd);
+        if (!temp)
+            return (free_cd(pwd, old_pwd, temp), 1);
+        sack->env->oldpwd = ft_strjoin("OLDPWD=", temp);
+        free (temp);
         if (!sack->env->oldpwd)
-            return (1);
-        sack->env->pwd = ft_strjoin("PWD=", pathname);
-        if (!sack->env->pwd);
-            return (1);
-        export(sack->env, sack->env->pwd);
+            return (free_cd(pwd, old_pwd, temp), 1);
+        temp = get_varcontent(pwd);
+        if (!temp)
+            return (free_cd(pwd, old_pwd, temp), 1);
+        sack->env->pwd = ft_strjoin(temp, pathname);
+        free (temp);
+        if (!sack->env->pwd)
+            return (free_cd(pwd, old_pwd, temp), 1);
+        temp = ft_strjoin("/", sack->env->pwd);
+        if (!temp)
+            return (free_cd(pwd, old_pwd, temp), 1);
+        free (sack->env->pwd);
+        sack->env->pwd = temp;
     }
+
+    printf("PWD: %s\n", sack->env->pwd);
+    printf("OLDPWD: %s\n", sack->env->oldpwd);
+    export(sack->env, sack->env->pwd);
+    export(sack->env, sack->env->oldpwd);
+    return (free_cd(pwd, old_pwd, temp), 0);
+
 }

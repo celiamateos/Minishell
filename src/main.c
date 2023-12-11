@@ -51,16 +51,16 @@ void	ft_free_pruebas(t_env *env)
 		if (*line && !check_emptyorspace(line))
 		{
 
-			sack_init(sack, line);
+			if (!sack_init(sack, line))
+			{
+				init_tree(&sack);
+				execute(&sack);
+				print2D(sack->tree_list);
+			}
 			//print_tokenlist(sack->token_list);
-			
-			init_tree(&sack);
-			execute(&sack);
-			print2D(sack->tree_list);
 			//print_preorder(sack->tree_list);
 		}
-
-		if (*line) 
+		if (*line)
             add_history(line);
  		free(line);
 		//reset sack and free tokens and list?

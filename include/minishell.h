@@ -166,5 +166,6 @@ int	expand_quotes(t_shell_sack *sack);
 int     check_errors_initsack(t_shell_sack *sack);
 void    check_open_quotes(t_shell_sack *sack, char *s);
 int	    search_char(char *s, char c, int i);
+char    *get_varcontent(char *var);
 
 #endif

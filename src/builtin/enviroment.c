@@ -34,7 +34,7 @@ char **alloc_first_envp(t_env *env, char **src)
 	}
 	else
 	{
-		result = (char **)malloc(2 * sizeof(char *));
+		result = (char **)malloc(2 * sizeof(char *)); //Aqui hay que crear un enviroment si no existiera envp, al menos con: shlvl, pwd, oldpwd, 
 		if (!result)
 			return (NULL);
 		result[i + 1] = '\0';
@@ -43,6 +43,28 @@ char **alloc_first_envp(t_env *env, char **src)
 	result[i] = NULL;
 	return (result);
 }
+
+int	init_pwd(t_env *env)
+{
+	int pos;
+
+	pos = search_env_pos(env->env, "PWD=", '=');
+	if (pos >= 0)
+	{
+		env->pwd = ft_strdup(env->env[pos]);
+		if (!env->pwd)
+			return (1);
+	}
+	pos = search_env_pos(env->env, "OLDPWD=", '=');
+	if (pos >= 0)
+	{
+		env->oldpwd = ft_strdup(env->env[pos]);
+		if (!env->oldpwd)
+			return (1);
+	}
+	return (0);
+}
+
 
 //@brief ALOCA MEMORIA char **env->env para hacer una copia del envp
 //Liberar char **env->env y en main o salida de errores.
@@ -62,6 +84,8 @@ int	init_env(char **envp, t_env *env)
 		if (!env->env)
 			return (1);
 		env->pre_export_elements = 0;
+		if (init_pwd(env))
+			return (1);
 		// print_env(env->env);
 	}
 	return (0);

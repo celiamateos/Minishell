@@ -18,7 +18,7 @@ int  check_isbuiltin(t_shell_sack **sack, t_tree *node)
     cmd = node->content->cmds[0];
     
     if (!ft_strncmp(cmd, "cd", ft_strlen(cmd)))
-        cd(*sack, node->content->cmds[1]);
+        return (cd(*sack, node->content->cmds[1]));
     if (!ft_strncmp(cmd, "pwd", ft_strlen(cmd)))
         get_pwd();
     if (!ft_strncmp(cmd, "export", ft_strlen(cmd)))

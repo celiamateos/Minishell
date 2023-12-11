@@ -59,8 +59,8 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
     else if ((*sack)->last_pid == 0)
 	{
         // printf("oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-        if (!check_isbuiltin(sack, node))
-            ft_perror_exit("ERROR CHECK_ISBUITIN");
+        if (check_isbuiltin(sack, node))
+            return ;
 
 		cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
         if ((*sack)->old_pipes[0] != 0 )
@@ -78,7 +78,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
     }
     ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
     (*sack)->last_exit = wait_exitcode((*sack)->last_pid);
-    printf("EXITCODE: %d\n", (*sack)->last_exit);
+    // printf("EXITCODE: %d\n", (*sack)->last_exit);
 	//waitpid((*sack)->last_pid, NULL, 0);
     ft_cpypipes((*sack)->old_pipes, (*sack)->new_pipes);
     (*sack)->new_pipes[1]  = 1; //add on cpy pipes?

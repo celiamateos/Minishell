@@ -13,7 +13,7 @@
 
 /*@brief Alloca memoria. Recibe la variable a expandir ej: USER=cmateos-
 return la variable a expandir. Ej: cmateos- */
-static char *get_varcontent(char *var)
+char *get_varcontent(char *var)
 {
 	char *var_expanded;
 	int	i;
@@ -37,11 +37,19 @@ char *get_varname(t_shell_sack *sack, char **old, int i)
     free (new_var);
 	// printf("pos: %d\n", sack->pos);
 	if (sack->pos >= 0)
+	{
 		new_var = get_varcontent(sack->env->env[sack->pos]);
+		if (!new_var)
+			return (NULL); //proteger aqui
+	}
 	else
-		return (ft_strdup(""));
-	if (!new_var)
-		return (NULL); //proteger aqui
+	{
+		new_var = (char *)malloc(1 * sizeof (char));
+		if (!new_var)
+			return (NULL);
+		new_var[0] = '\0';
+	}
+	// new_var = ft_calloc(1, sizeof(char *));
     return (new_var);
 }
 
@@ -98,13 +106,14 @@ int expand_dolar(t_shell_sack *sack)
             if (!temp)
                 return (1); //LIBERAR ???
             // printf("Este es temp despues de la vuelta num %d\n", i);
-            free (split_line);
+            ft_free_env(split_line);
             split_line = temp;
-            // print_env(split_line);
+	         // print_env(split_line);
             i = 0;
         }
         i++;
     }
+
     free(sack->l_expanded);
 	char *temp_var;
 	len = ft_arraylen(split_line);
@@ -119,6 +128,7 @@ int expand_dolar(t_shell_sack *sack)
 		sack->l_expanded = ft_strjoin(temp_var, split_line[i]);
 		free(temp_var);
 		i++;
-	}    
+	}
+	ft_free_env(split_line);
     return (0);
 }

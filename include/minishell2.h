@@ -40,6 +40,8 @@
 # define AND 21
 # define OR 22
 
+# define COUNT 10 //to check priunt2Dtree
+
 typedef struct s_dlist
 {
 	void		*content;
@@ -52,6 +54,7 @@ typedef struct s_token
 	char		*value;
 	char		**cmds;
 	int			type;
+	int			oper;
 }					t_token;
 
 typedef struct s_tree

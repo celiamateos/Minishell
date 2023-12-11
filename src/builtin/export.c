@@ -104,8 +104,8 @@ void export(t_env *env, char *new)
 {
 	long pos;
 
-	if (new == NULL)
-        return (print_export_list(env));
+	// if (new == NULL)
+    //     return (print_export_list(env));
 	pos = search_env_pos(env->env, new, '=');
 	if (is_valid_to_export(new))
         return (already_added_pre_export_list(env, new, pos));

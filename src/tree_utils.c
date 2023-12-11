@@ -34,7 +34,7 @@ void print2DUtil(t_tree *root, int space)
     for (int i = COUNT; i < space; i++)
         printf(" ");
 	token = root->content;
-	printf("%s\n", token->value);
+	// printf("%s\n", token->value);
  
     // Process left child
     print2DUtil(root->left, space);
