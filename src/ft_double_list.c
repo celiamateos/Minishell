@@ -116,8 +116,10 @@ void	ft_dlstdelone(t_dlist *lst, void (*del_dlst)(void *))
 		return ;
 		print_token("TestDEL ", lst->content);
 	if (lst)
-		del_dlst(lst->content);
+	{
+	del_dlst(lst->content);
 	free(lst);
+	}	
 }
 
 void	ft_dlstclear(t_dlist **lst, void (*del_dlst)(void *))
@@ -125,8 +127,8 @@ void	ft_dlstclear(t_dlist **lst, void (*del_dlst)(void *))
 	t_dlist	*temp;
 
 	temp = *lst;
-	if (!del_dlst || !*lst)
-		return ;
+	// if (!del_dlst || !*lst)
+	// 	return ;
 	while (*lst && lst)
 	{
 		temp = (*lst)->next;

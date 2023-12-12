@@ -55,7 +55,7 @@ void	ft_free_pruebas(t_env *env)
 			}
 			print_tokenlist(sack->token_list);
 			free_sack(&sack);
-			//	 print2D(sack->tree_list);
+			// print2D(sack->tree_list);
 			//print_preorder(sack->tree_list);
 		}
 		if (*line)

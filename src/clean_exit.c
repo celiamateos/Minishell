@@ -33,7 +33,7 @@ void    free_sack(t_shell_sack **sack)
      //   free((*sack)->l_expanded);
         //print2D((*sack)->tree_list);
         if ((*sack)->token_list)
-            ft_dlstclear(&(*sack)->token_list, free_token);
+            ft_dlstclear(&(*sack)->token_list, &free_token);
         // if ((*sack)->tree_list)
         free_tree(&(*sack)->tree_list);
     }
@@ -42,11 +42,13 @@ void    free_sack(t_shell_sack **sack)
 void    free_token(void *content)
 {
     t_token *token;
+    char    *value;
 
     token = content;
+    value =  token->value;
     if (content)
     {
-        if(token->value)
+        if(value != NULL && token->value)
             free(token->value);
         if (&token->cmds)
             ft_freematrix(&token->cmds);
