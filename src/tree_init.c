@@ -45,10 +45,11 @@ void	leaf_isparenthesis_cl(t_tree ***root, t_dlist *token_list)
 	t_tree	*last_parent;
 	t_token	*token;
 	t_token	*aux_token;
+	char	*value;
 	
 	tree = *root;
 	aux_leaf = *tree;
-	token = token_list->content;
+	//token = token_list->content;
 	aux_token = aux_leaf->content;
 	while (aux_leaf->right)
 	{
@@ -57,8 +58,10 @@ void	leaf_isparenthesis_cl(t_tree ***root, t_dlist *token_list)
 		aux_leaf = aux_leaf->right;
 		aux_token = aux_leaf->content;
 	}
+	value = last_parent->content->value;
 	last_parent->content->type = PARENT_CL;
 	last_parent->content->value = ft_strdup("()");
+	free(value);
 }
 
 void	leaf_isparenthesis_op(t_tree ***root, t_dlist *token_list)
