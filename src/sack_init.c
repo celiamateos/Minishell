@@ -170,7 +170,7 @@ int	sack_init(t_shell_sack *sack, char *line)
 	// printf("sack line antes: %s\n", sack->line);
 	if (expand_line(sack))
 		return (1); //liberar ??
-	printf("sack->l_expanded:%s\n", sack->l_expanded);
+	//printf("sack->l_expanded:%s\n", sack->l_expanded);
 	// free (line);
 	line = ft_strdup(sack->l_expanded);
 	// line = ft_substr(sack->l_expanded, 0, ft_strlen(sack->l_expanded));
