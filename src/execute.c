@@ -59,8 +59,11 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         ft_perror_exit("Fork error", sack_orig);
     else if ((*sack)->last_pid == 0)
 	{
-        check_redirect(&sack, node);
-        // printf("oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+        if(check_redirect(&sack, node))
+        {
+            (*sack)->last_exit = 1; //check error code
+            ft_perror_exit("Open error", sack_orig);
+        }
         if (!check_isbuiltin(sack, node))
         {
             printf("is builtin\n");
