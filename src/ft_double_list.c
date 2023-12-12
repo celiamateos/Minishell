@@ -114,11 +114,10 @@ void	ft_dlstdelone(t_dlist *lst, void (*del_dlst)(void *))
 {
 	if (!del_dlst)
 		return ;
-		print_token("TestDEL ", lst->content);
 	if (lst)
 	{
-	del_dlst(lst->content);
-	free(lst);
+		del_dlst(lst->content);
+		free(lst);
 	}	
 }
 
