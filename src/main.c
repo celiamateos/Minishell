@@ -20,9 +20,9 @@ void	leaks(void)
 void	ft_free_pruebas(t_shell_sack **sack)
 {
 	free_sack(&(*sack));
-	// ft_free_env(env->env);
-	// ft_free_env(env->pre_export);
-	// free(env);
+	ft_free_env((*sack)->env->env);
+	ft_free_env((*sack)->env->pre_export);
+	free((*sack)->env);
 }
 
  int		main(int ac, char **av, char **envp)

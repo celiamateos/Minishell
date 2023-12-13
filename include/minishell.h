@@ -154,6 +154,7 @@ void    run_oper(t_shell_sack ***sack_orig, t_tree *node);
 void	ft_close(int fd1, int fd2);
 int 	check_redirect(t_shell_sack ***sack, t_tree *node);
 int     open_redirect(t_shell_sack ****sack_orig, t_tree *node);
+void    ft_heredoc(t_shell_sack *****sack_orig, char *eof);
 t_tree *findnext_cmdleaf(t_tree **node);
 int		check_opercondition(t_shell_sack **sack, t_tree **node);
 // cmd_utils from pipex

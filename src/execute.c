@@ -79,6 +79,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         }
 
 		cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
+        // printf("Pipe heredoc: %d\n", (*sack)->old_pipes[0]);
         if ((*sack)->old_pipes[0] != 0 )
             if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1)
                 ft_perror_exit("Dup2 error IN", sack_orig);
