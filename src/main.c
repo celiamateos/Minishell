@@ -16,14 +16,6 @@ void	leaks(void)
 	system("leaks -q minishell");
 }
 
-//Mete lo que quieras aquí para liberar si todo ha ido bien al final del main
-void	ft_free_pruebas(t_env *env)
-{
-	ft_free_env(env->env);
-	ft_free_env(env->pre_export);
-	free(env);
-}
-
  int		main(int ac, char **av, char **envp)
  {
     (void)ac;
@@ -67,6 +59,6 @@ void	ft_free_pruebas(t_env *env)
 	sack->new_pipes[0] = 0;
 	sack->new_pipes[1] = 1;
 	}
-	ft_free_pruebas(env);
+	ft_clearenv(sack);
     return (0);
  }

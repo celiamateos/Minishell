@@ -16,51 +16,6 @@
 
 #include "minishell2.h"
 
-
-// typedef struct s_token
-// {
-// 	char		*value;
-// 	char		**cmds;
-// 	int			type;
-// 	int			oper;
-// }					t_token;
-
-// typedef struct s_tree
-// {
-// 	struct s_tree	*right;
-// 	struct s_tree	*left;
-// 	struct s_token	*content;
-// }	t_tree;
-
-// typedef struct s_env
-// {
-// 	char	**pre_export; //Export list
-// 	char	**env; //El enviroment
-// 	size_t	env_elements;
-// 	size_t	pre_export_elements;
-// 	char	*order; //print_cmd_export. Falta incluir fd para pipex
-// 	size_t		index;
-// 	size_t	count;
-// 	size_t		i;
-// }					t_env;
-
-// typedef struct s_shell_sack
-// {
-// 	char			*line;
-// 	char			*l_expanded;
-// 	struct s_dlist	*token_list;
-// 	struct s_tree	*tree_list;
-// 	int				new_pipes[2];
-// 	int				old_pipes[2];
-// 	int				redirs[2];
-// 	t_token			*last_token;
-// 	int				last_pid;
-// 	int				last_exit;
-// 	int				history_fd;
-// 	char			**envp; //Usar t_env *env en su lugar
-// 	struct s_env			*env; //Usar t_env *env en su lugar
-// }	t_shell_sack;
-
 int		main(int ac, char **av, char **envp);
 //ENVIROMENT
 int	init_env(char **envp, t_env *env);
@@ -164,6 +119,7 @@ char	*getcmd_withpath(char *cmd, char **cmds, char **env);
 // main_utils 
 void	ft_perror_exit(char *msj, t_shell_sack ***sack); //error handling
 int		wait_exitcode(int last_pid);
+void	ft_clearenv(t_shell_sack *sack);
 
 //parse
 

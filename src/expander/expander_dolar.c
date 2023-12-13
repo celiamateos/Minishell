@@ -58,12 +58,13 @@ char **realloc_split_line(t_shell_sack *sack, char **old, int i)
     int index;
     char **new;
     char *new_var;
+	int check = 2;
 
     new_var = get_varname(sack, old, i);
-    if (!new_var)
-        return (NULL);
+    if (new_var[0] == '\0')
+        check--;
     // printf("new_var: %s\n", new_var);
-	new = (char **)malloc((ft_arraylen(old) + 1) * sizeof(char *));
+	new = (char **)malloc((ft_arraylen(old) + check) * sizeof(char *));
 	if (!new)
 		return (free(new_var), NULL); //pproteger y free arr aqui
 	index = 0;
@@ -71,7 +72,9 @@ char **realloc_split_line(t_shell_sack *sack, char **old, int i)
 	{	
 		// printf("pos:%d, i:%d\n", pos, i);
 		if (index == i) ///no va encontrar pos cuando la variable no exista en el env
-			new[index] = ft_substr(new_var, 0, ft_strlen(new_var));
+			new[index] = ft_strdup(new_var);
+		// if (index == i && check == 1) ///no va encontrar pos cuando la variable no exista en el env
+		// 	new[index] = ft_strdup(new_var);
 		else
 			new[index] = ft_strdup(old[index]);
 		if (!new[index])
@@ -90,7 +93,8 @@ int expand_dolar(t_shell_sack *sack)
 	char **split_line;
 	char **temp;
 
-    split_line = ft_split(sack->l_expanded, ' ');
+
+    split_line = ft_split(sack->line, ' ');
 	if (!split_line)
 		return (1);
 	len = ft_arraylen(split_line);
@@ -100,6 +104,7 @@ int expand_dolar(t_shell_sack *sack)
 
     while (len-- >= 0)
     {
+
         if (temp[i] && temp[i][0] == '$') // check_valid_expanddolar(parseo)
         {
             temp = realloc_split_line(sack, split_line, i);
@@ -114,7 +119,7 @@ int expand_dolar(t_shell_sack *sack)
         i++;
     }
 
-    free(sack->l_expanded);
+    // free(sack->l_expanded);
 	char *temp_var;
 	len = ft_arraylen(split_line);
 	// printf("len array:%d\n", len);
