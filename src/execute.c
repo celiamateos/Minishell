@@ -11,6 +11,10 @@
 /* ************************************************************************** */
 #include"../include/minishell.h"
 
+/* @brief When an operator is found on tree node, find next nearest command or
+parenthesis at his right. Then change the value of the paremeter token->oper 
+to respective operator.
+@parameters This function receive the sack and current tree node. */
 void    run_oper(t_shell_sack ***sack_orig, t_tree *node)
 {
     t_shell_sack    **sack;
@@ -20,7 +24,7 @@ void    run_oper(t_shell_sack ***sack_orig, t_tree *node)
     sack = *sack_orig;
     token = (node)->content;
     aux_node = findnext_cmdleaf(&node->right);
-    if (aux_node != NULL) // maybe its not possible to get emtpy
+    if (aux_node != NULL) // maybe its not possible to get emtpy or should return error
     {
        	if (!ft_strncmp(token->value, "||", 3))
             aux_node->content->oper = OR;
@@ -28,7 +32,9 @@ void    run_oper(t_shell_sack ***sack_orig, t_tree *node)
             aux_node->content->oper = AND;
     }
 }
-
+/*@brief Creates new pipes and backup the old ones. 
+Protect to not allow pipe in last node to not change std.
+    (DAVID -I have tocheck thath)*/
 void    run_pipe(t_shell_sack ***sack_orig, t_tree *node)
 {
      t_shell_sack    **sack;
@@ -81,7 +87,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
                 ft_perror_exit("Dup2 error OUT", sack_orig);
         ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
         ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-		execve(cmd, token->cmds, (*sack)->env->env);// check if it is our env
+		execve(cmd, token->cmds, (*sack)->env->env);
         ft_perror_exit(cmd, sack_orig); //Free everything?
 		// ft_freematrix(&token->cmds);
         // free(cmd);
@@ -125,7 +131,7 @@ void    run_node(t_shell_sack **sack, t_tree **node)
     }
 }
 
-/* @brief Runs executor trough tree. This is the most common way but there's others.check_opercondition*/
+/* @brief Runs executor trough tree. This is the most common way but there's others.*/
 void    run_preorder(t_tree *node, t_shell_sack **sack)
 {
 	if (node != NULL) 

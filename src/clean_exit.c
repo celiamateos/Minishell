@@ -31,10 +31,9 @@ void    free_sack(t_shell_sack **sack)
         if((*sack)->line)
             free((*sack)->line);
      //   free((*sack)->l_expanded);
-        //print2D((*sack)->tree_list);
         if ((*sack)->token_list)
             ft_dlstclear(&(*sack)->token_list, &free_token);
-        // if ((*sack)->tree_list)
+        if ((*sack)->tree_list)
         free_tree(&(*sack)->tree_list);
     }
 }
@@ -59,7 +58,12 @@ void    free_token(void *content)
 void	ft_perror_exit(char *msj, t_shell_sack ***sack)
 {
 	perror(msj);
-	if (sack)
+    //print2D((**sack)->tree_list);
+	//if (sack)
         free_sack(&(**sack));
-	exit(1); //check error code for exit
+    // ft_free_env((**sack)->env->env);
+	// ft_free_env((**sack)->env->pre_export);
+	// free((**sack)->env->env);
+    free((**sack));
+    exit(1); //check error code for exit
 }

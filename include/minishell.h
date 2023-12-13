@@ -102,6 +102,7 @@ void	ft_dlstdelone(t_dlist *lst, void (*del_dlst)(void *));
 void	del_dlst(void *content);
 
 // Frees
+void	ft_free_pruebas(t_shell_sack **sack);
 void    free_token(void *content);
 void    free_sack(t_shell_sack **sack);
 void    free_tree(t_tree **node);
