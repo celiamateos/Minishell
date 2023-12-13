@@ -11,12 +11,6 @@
 /* ************************************************************************** */
 #include"../include/minishell.h"
 
-void	ft_perror_exit(char *msj)
-{
-	perror(msj);
-	exit(1);
-}
-
 // @brief Wait for the PID received to end, and returns exitcode.
 int	wait_exitcode(int last_pid)
 {

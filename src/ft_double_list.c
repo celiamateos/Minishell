@@ -104,3 +104,34 @@ int	ft_dlstsize(t_dlist *lst)
 	return (i);
 }
 
+void	del_dlst(void *content)
+{
+	if (content)
+		free (content);
+}
+
+void	ft_dlstdelone(t_dlist *lst, void (*del_dlst)(void *))
+{
+	if (!del_dlst)
+		return ;
+	if (lst)
+	{
+		del_dlst(lst->content);
+		free(lst);
+	}	
+}
+
+void	ft_dlstclear(t_dlist **lst, void (*del_dlst)(void *))
+{
+	t_dlist	*temp;
+
+	temp = *lst;
+	// if (!del_dlst || !*lst)
+	// 	return ;
+	while (*lst && lst)
+	{
+		temp = (*lst)->next;
+		ft_dlstdelone(*lst, del_dlst);
+		*lst = temp;
+	}
+}
