@@ -60,7 +60,7 @@ void    ft_heredoc(t_shell_sack *****sack_orig, char *eof)
 	t_shell_sack **sack;
 
     sack = ***sack_orig;
-    // (*sack)->old_pipes[0] = open("tmp/.heredoc", O_RDWR | O_CREAT | O_TRUNC, 0666);
+    // (*sack)->old_pipes[0] = open(".heredoc", O_RDWR | O_CREAT | O_TRUNC, 0666);
 	fd_in = (*sack)->old_pipes[0];
 	while (1)
 	{
@@ -91,9 +91,9 @@ int    open_redirect(t_shell_sack ****sack_orig, t_tree *node)
     if (token->type == HEREDOC)
     {
 
-        (*sack)->old_pipes[0] = open("tmp/.heredoc", O_RDWR | O_CREAT | O_TRUNC, 0666);
+        (*sack)->old_pipes[0] = open(".heredoc", O_RDWR | O_CREAT | O_TRUNC, 0666);
         ft_heredoc(&sack_orig, token->value);
-        (*sack)->old_pipes[0] = open("tmp/.heredoc", O_RDONLY, 0666);
+        (*sack)->old_pipes[0] = open(".heredoc", O_RDONLY, 0666);
         (*sack)->heredoc = 1;
     }
     else if (token->type == REDIR_IN)
