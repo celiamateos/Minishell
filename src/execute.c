@@ -72,7 +72,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         }
         if (!check_isbuiltin(sack, node))
         {
-            printf("is builtin\n");
+            // printf("is builtin\n");
             if (execute_builtin(sack, node))
                 perror_free_exit("Builtin error", sack_orig);
             return ;

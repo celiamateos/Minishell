@@ -64,7 +64,9 @@ void    ft_heredoc(t_shell_sack *****sack_orig, char *eof)
 	fd_in = (*sack)->old_pipes[0];
 	while (1)
 	{
-		write(1, "heredoc> ", 9);
+		// write(1, "heredoc> ", 9);
+        ft_putstr_fd("\033[0;36mheredoc >\033[0m", 1);
+		// write(1, "\033[0;36mheredoc >\033[0m", 25);
 		line = get_next_line(0);
 		if (line == 0)
 			break ;
