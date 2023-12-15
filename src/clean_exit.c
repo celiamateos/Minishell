@@ -59,7 +59,8 @@ void	ft_perror_exit(char *msj, t_shell_sack ***sack)
 {
 	perror(msj);
     //print2D((**sack)->tree_list);
-	//if (sack)
+	if ((**sack)->heredoc)
+        unlink("tmp/.heredoc");
     free_sack(&(**sack));
     // ft_free_env((**sack)->env->env);
 	// ft_free_env((**sack)->env->pre_export);

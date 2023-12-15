@@ -51,7 +51,8 @@ t_tree *findnext_cmdleaf(t_tree **node)
     return((*node));
 }
 
-
+/*@brief create heredoc file and fill with stdin input. Close before reopen
+to assign fd.*/
 void    ft_heredoc(t_shell_sack *****sack_orig, char *eof)
 {
 	char	*line;
@@ -63,23 +64,18 @@ void    ft_heredoc(t_shell_sack *****sack_orig, char *eof)
 	fd_in = (*sack)->old_pipes[0];
 	while (1)
 	{
-		// write(1, "heredoc> ", 9);
-		line = readline("heredoc>");
-		// line = get_next_line(0);
-        printf("LINE %s\n", line);
+		write(1, "heredoc> ", 9);
+		line = get_next_line(0);
 		if (line == 0)
 			break ;
-		// if (!ft_strncmp(line, eof, ft_strlen(eof))
-		// 	&& (ft_strlen(eof) + 1) == ft_strlen(line))
-			if (!ft_strncmp(line, eof, ft_strlen(eof)))
+		if (!ft_strncmp(line, eof, ft_strlen(eof))
+			&& (1 + ft_strlen(eof)) == ft_strlen(line))
                 break ;
-		// write((*sack)->old_pipes[0], line, ft_strlen(line));
 		write(fd_in, line, ft_strlen(line));
 		free(line);
 	}
 	free(line);
 	close(fd_in);
-	// close((*sack)->old_pipes[0]);
 }
 
 /* @brief assign fd and open attreibutes deppends on redirection */
@@ -92,8 +88,11 @@ int    open_redirect(t_shell_sack ****sack_orig, t_tree *node)
     sack = **sack_orig;
     if (token->type == HEREDOC)
     {
+
         (*sack)->old_pipes[0] = open("tmp/.heredoc", O_RDWR | O_CREAT | O_TRUNC, 0666);
         ft_heredoc(&sack_orig, token->value);
+        (*sack)->old_pipes[0] = open("tmp/.heredoc", O_RDONLY, 0666);
+        (*sack)->heredoc = 1;
     }
     else if (token->type == REDIR_IN)
         (*sack)->old_pipes[0] = open(token->value, O_RDONLY);

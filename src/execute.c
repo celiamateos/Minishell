@@ -74,12 +74,13 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         {
             printf("is builtin\n");
             if (execute_builtin(sack, node))
-                printf("Builtin falló\n");
-            return ; //Aqui no se si retun o que jeje
+                ft_perror_exit("Builtin error", sack_orig);
+            return ;
         }
-
+        printf("TOKEN cmd: %s\n", token->cmds[0]);
 		cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
-        // printf("Pipe heredoc: %d\n", (*sack)->old_pipes[0]);
+        printf("Pipe heredoc: %d\n", (*sack)->old_pipes[0]);
+    
         if ((*sack)->old_pipes[0] != 0 )
             if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1)
                 ft_perror_exit("Dup2 error IN", sack_orig);
