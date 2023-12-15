@@ -46,7 +46,7 @@ void    run_pipe(t_shell_sack ***sack_orig, t_tree *node)
         (*sack)->old_pipes[1] = (*sack)->new_pipes[1];
     }
     if (pipe((*sack)->new_pipes) == -1)
-		ft_perror_exit("Pipe error", sack_orig);
+		perror_free_exit("Pipe error", sack_orig);
     //  printf("Pipe oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
     //  printf("Pipe new_pipes 0 %d 1 %d\n", (*sack)->new_pipes[0], (*sack)->new_pipes[1]);
     
@@ -62,35 +62,32 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
     token = node->content;
     (*sack)->last_pid = fork();
     if ((*sack)->last_pid < 0)
-        ft_perror_exit("Fork error", sack_orig);
+        perror_free_exit("Fork error", sack_orig);
     else if ((*sack)->last_pid == 0)
 	{
         if(check_redirect(&sack, node))
         {
             (*sack)->last_exit = 1; //check error code
-            ft_perror_exit("Open error", sack_orig);
+            perror_free_exit("Open error", sack_orig);
         }
         if (!check_isbuiltin(sack, node))
         {
             printf("is builtin\n");
             if (execute_builtin(sack, node))
-                ft_perror_exit("Builtin error", sack_orig);
+                perror_free_exit("Builtin error", sack_orig);
             return ;
         }
-        printf("TOKEN cmd: %s\n", token->cmds[0]);
 		cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
-        printf("Pipe heredoc: %d\n", (*sack)->old_pipes[0]);
-    
         if ((*sack)->old_pipes[0] != 0 )
             if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1)
-                ft_perror_exit("Dup2 error IN", sack_orig);
+                perror_free_exit("Dup2 error IN", sack_orig);
         if ((*sack)->new_pipes[1] != 1 )
             if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
-                ft_perror_exit("Dup2 error OUT", sack_orig);
+                perror_free_exit("Dup2 error OUT", sack_orig);
         ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
         ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
 		execve(cmd, token->cmds, (*sack)->env->env);
-        ft_perror_exit(cmd, sack_orig); //Free everything?
+        perror_free_exit(cmd, sack_orig); //Free everything?
 		// ft_freematrix(&token->cmds);
         // free(cmd);
     }

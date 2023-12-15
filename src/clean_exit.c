@@ -55,12 +55,12 @@ void    free_token(void *content)
     free(content);
 }
 
-void	ft_perror_exit(char *msj, t_shell_sack ***sack)
+void	perror_free_exit(char *msj, t_shell_sack ***sack)
 {
 	perror(msj);
     //print2D((**sack)->tree_list);
-	if ((**sack)->heredoc)
-        unlink("tmp/.heredoc");
+	// if ((**sack)->heredoc)
+        // unlink("tmp/.heredoc");
     free_sack(&(**sack));
     // ft_free_env((**sack)->env->env);
 	// ft_free_env((**sack)->env->pre_export);

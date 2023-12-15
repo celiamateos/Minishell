@@ -164,7 +164,7 @@ char	*get_path(char *cmd, char **env);
 char	*getcmd_withpath(char *cmd, char **cmds, char **env);
 
 // main_utils 
-void	ft_perror_exit(char *msj, t_shell_sack ***sack); //error handling
+void	perror_free_exit(char *msj, t_shell_sack ***sack); //error handling
 int		wait_exitcode(int last_pid);
 
 //parse
