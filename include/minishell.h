@@ -180,4 +180,8 @@ void    check_open_quotes(t_shell_sack *sack, char *s);
 int	    search_char(char *s, char c, int i);
 char    *get_varcontent(char *var);
 
+// signals
+void    sig_handler(int signum);
+void    sigint_handler(int signum);
+
 #endif
