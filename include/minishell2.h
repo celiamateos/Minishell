@@ -90,7 +90,7 @@ typedef struct s_shell_sack
 	int				old_pipes[2];
 	int				redirs[2];
 	int				heredoc;
-	t_token			*last_token;
+	// t_token			*last_token;
 	int				last_pid;
 	int				last_exit;
 	int				history_fd;

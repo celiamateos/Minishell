@@ -101,11 +101,12 @@ void	ft_dlstclear(t_dlist **lst, void (*del_dlst)(void *));
 void	ft_dlstdelone(t_dlist *lst, void (*del_dlst)(void *));
 void	del_dlst(void *content);
 
-// Frees
+// Clean exit
 void	ft_free_pruebas(t_shell_sack **sack);
 void    free_token(void *content);
 void    free_sack(t_shell_sack **sack);
 void    free_tree(t_tree **node);
+void	perror_free_exit(char *msj, t_shell_sack ***sack); //error handling
 // init_sack
 int	clean_init(t_shell_sack **sack);
 int sack_init(t_shell_sack *sack, char *line);
@@ -164,8 +165,8 @@ char	*get_path(char *cmd, char **env);
 char	*getcmd_withpath(char *cmd, char **cmds, char **env);
 
 // main_utils 
-void	perror_free_exit(char *msj, t_shell_sack ***sack); //error handling
 int		wait_exitcode(int last_pid);
+int	read_exit(char *line);
 
 //parse
 

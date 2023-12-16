@@ -30,11 +30,10 @@ void    free_sack(t_shell_sack **sack)
     {
         if((*sack)->line)
             free((*sack)->line);
-     //   free((*sack)->l_expanded);
         if ((*sack)->token_list)
             ft_dlstclear(&(*sack)->token_list, &free_token);
         if ((*sack)->tree_list)
-        free_tree(&(*sack)->tree_list);
+            free_tree(&(*sack)->tree_list);
     }
 }
 
@@ -49,7 +48,8 @@ void    free_token(void *content)
     {
         if(value != NULL && token->value)
             free(token->value);
-        if (&token->cmds)
+        // if (&token->cmds)
+        // if (token->type == CMD)
             ft_freematrix(&token->cmds);
     }
     free(content);

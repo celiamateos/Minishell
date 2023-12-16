@@ -40,11 +40,11 @@ void    run_pipe(t_shell_sack ***sack_orig, t_tree *node)
      t_shell_sack    **sack;
 
     sack = *sack_orig;
-    if (node->content != (*sack)->last_token)
-    {
+    // if (node->content != (*sack)->last_token)
+    // {
         (*sack)->old_pipes[0] = (*sack)->new_pipes[0];
         (*sack)->old_pipes[1] = (*sack)->new_pipes[1];
-    }
+    // }
     if (pipe((*sack)->new_pipes) == -1)
 		perror_free_exit("Pipe error", sack_orig);
     //  printf("Pipe oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
@@ -72,8 +72,8 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         }
         if (!check_isbuiltin(sack, node))
         {
-            // printf("is builtin\n");
-            if (execute_builtin(sack, node))
+            (*sack)->last_exit = execute_builtin(sack, node);
+            if ((*sack)->last_exit)
                 perror_free_exit("Builtin error", sack_orig);
             return ;
         }
@@ -87,6 +87,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
         ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
 		execve(cmd, token->cmds, (*sack)->env->env);
+        (*sack)->last_exit = 127; //error code for cmd not found
         perror_free_exit(cmd, sack_orig); //Free everything?
 		// ft_freematrix(&token->cmds);
         // free(cmd);
@@ -148,5 +149,6 @@ void	execute(t_shell_sack **sack)
 
     tree = (*sack)->tree_list;
     run_preorder(tree, sack);
+    free_sack(&(*sack));
 }
 
