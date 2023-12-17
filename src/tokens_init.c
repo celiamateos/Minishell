@@ -80,8 +80,8 @@ void	*get_next_token(char *line, int *i)
 	if (aux && !check_emptyorspace(aux))
 	{
 		token = malloc(sizeof(t_token)); // Create new_token function
-		token->value = aux;
-		token->type = get_token_type(token->value);
+		// token->value = aux;
+		token->type = get_token_type(aux);
 		token->value = fix_tokenvalues(&aux);
 		token->oper = 0;
 		return ((void *)token);

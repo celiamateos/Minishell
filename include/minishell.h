@@ -56,10 +56,13 @@ void	ft_dlstclear(t_dlist **lst, void (*del_dlst)(void *));
 void	ft_dlstdelone(t_dlist *lst, void (*del_dlst)(void *));
 void	del_dlst(void *content);
 
-// Frees
+// Clean exit
+void	ft_free_pruebas(t_shell_sack **sack);
+void	ft_clearenv(t_shell_sack *sack);
 void    free_token(void *content);
 void    free_sack(t_shell_sack **sack);
 void    free_tree(t_tree **node);
+void	perror_free_exit(char *msj, t_shell_sack ***sack); //error handling
 // init_sack
 int	clean_init(t_shell_sack **sack);
 int sack_init(t_shell_sack *sack, char *line);
@@ -108,6 +111,7 @@ void    run_oper(t_shell_sack ***sack_orig, t_tree *node);
 void	ft_close(int fd1, int fd2);
 int 	check_redirect(t_shell_sack ***sack, t_tree *node);
 int     open_redirect(t_shell_sack ****sack_orig, t_tree *node);
+void    ft_heredoc(t_shell_sack *****sack_orig, char *eof);
 t_tree *findnext_cmdleaf(t_tree **node);
 int		check_opercondition(t_shell_sack **sack, t_tree **node);
 // cmd_utils from pipex
@@ -117,9 +121,8 @@ char	*get_path(char *cmd, char **env);
 char	*getcmd_withpath(char *cmd, char **cmds, char **env);
 
 // main_utils 
-void	ft_perror_exit(char *msj, t_shell_sack ***sack); //error handling
 int		wait_exitcode(int last_pid);
-void	ft_clearenv(t_shell_sack *sack);
+int	read_exit(char *line); //Change to builtin exit
 
 //parse
 
@@ -132,5 +135,9 @@ int     check_errors_initsack(t_shell_sack *sack);
 void    check_open_quotes(t_shell_sack *sack, char *s);
 int	    search_char(char *s, char c, int i);
 char    *get_varcontent(char *var);
+
+// signals
+void    sig_handler(void);
+void    sigint_handler(int signum);
 
 #endif

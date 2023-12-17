@@ -18,7 +18,7 @@ int	wait_exitcode(int last_pid)
 	int	exit_code;
 	int	status;
 
-	exit_code = -1;
+	exit_code = 0;
 	curr_pid = 0;
 	while (curr_pid != -1)
 	{
@@ -40,4 +40,10 @@ int	wait_exitcode(int last_pid)
 	return (exit_code);	
 }
 
-//void	free_sack(t_shell_sack **sack)
+int	read_exit(char *line)
+{
+	if(!ft_strncmp(line, "exit", 5))
+		return(1);
+	else
+		return (0);
+}
