@@ -60,7 +60,7 @@ void    free_token(void *content)
         if(value != NULL && token->value)
             free(token->value);
         // if (&token->cmds)
-        // if (*token->cmds)
+        // if (token->type == CMD)
             ft_freematrix(&token->cmds);
     }
     free(content);
@@ -75,7 +75,6 @@ void	perror_free_exit(char *msj, t_shell_sack ***sack)
 	// if ((**sack)->heredoc)
         // unlink("tmp/.heredoc");
     free_sack(&(**sack));
-    ft_clearenv((**sack));
     // ft_free_env((**sack)->env->env);
 	// ft_free_env((**sack)->env->pre_export);
 	// free((**sack)->env->env);
