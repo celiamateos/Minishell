@@ -29,7 +29,6 @@ void	ft_free_pruebas(t_shell_sack **sack)
  {
     (void)ac;
     (void)av;
-    (void)envp;
 	t_env		*env;
 	char 		*line;
 	t_shell_sack	*sack;
@@ -43,7 +42,7 @@ void	ft_free_pruebas(t_shell_sack **sack)
 	sack->env = env;
 	while (42)
  	{
-		signal(SIGINT, sig_handler); //check how to use sinal_action
+		sig_handler();
  		line = readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
 	 	if (line == 0)
  			return (0);
