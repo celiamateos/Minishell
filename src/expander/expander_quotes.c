@@ -40,6 +40,10 @@ char *remove_quotes(char *old, char type)
             j++;
         new[i++] = old[j++];
     }
+	// while (new[i++])
+	// 	write (1, &new[i], 1);
+	// new[i] = '\0';
+	// printf("remove_quotes:%s\n", new);
     return (new);
 }
 

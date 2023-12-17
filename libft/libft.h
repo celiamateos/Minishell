@@ -94,5 +94,7 @@ int     ft_strposchr(const char *s, int c);
 int     ft_isspace(int c);
 void    ft_print_strarray (char **array);
 void	ft_freematrix(char ***matrix);
+char	**ft_sarrcpy(char **arr);
+
 
 #endif

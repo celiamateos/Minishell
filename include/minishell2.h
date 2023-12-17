@@ -64,6 +64,13 @@ typedef struct s_tree
 	struct s_token	*content;
 }	t_tree;
 
+typedef struct s_expander
+{
+    int inicio;
+    int fin;
+}				t_expander;
+
+
 typedef struct s_env
 {
 	char	**pre_export; //Export list

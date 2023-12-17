@@ -52,7 +52,7 @@ void    free_sack(t_shell_sack **sack)
         // if ((*sack)->env);
         //     ft_clearenv((*sack));
         // if ((*sack)->tree_list)
-        free_tree(&(*sack)->tree_list);
+        free_tree(&(*sack)->tree_list); //ESTA LINEA LA HA COMENTADO CELIA PARA PROBAR SOLUCION DE ERRORES.
     }
 }
 
