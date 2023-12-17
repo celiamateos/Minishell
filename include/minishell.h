@@ -16,51 +16,6 @@
 
 #include "minishell2.h"
 
-
-// typedef struct s_token
-// {
-// 	char		*value;
-// 	char		**cmds;
-// 	int			type;
-// 	int			oper;
-// }					t_token;
-
-// typedef struct s_tree
-// {
-// 	struct s_tree	*right;
-// 	struct s_tree	*left;
-// 	struct s_token	*content;
-// }	t_tree;
-
-// typedef struct s_env
-// {
-// 	char	**pre_export; //Export list
-// 	char	**env; //El enviroment
-// 	size_t	env_elements;
-// 	size_t	pre_export_elements;
-// 	char	*order; //print_cmd_export. Falta incluir fd para pipex
-// 	size_t		index;
-// 	size_t	count;
-// 	size_t		i;
-// }					t_env;
-
-// typedef struct s_shell_sack
-// {
-// 	char			*line;
-// 	char			*l_expanded;
-// 	struct s_dlist	*token_list;
-// 	struct s_tree	*tree_list;
-// 	int				new_pipes[2];
-// 	int				old_pipes[2];
-// 	int				redirs[2];
-// 	t_token			*last_token;
-// 	int				last_pid;
-// 	int				last_exit;
-// 	int				history_fd;
-// 	char			**envp; //Usar t_env *env en su lugar
-// 	struct s_env			*env; //Usar t_env *env en su lugar
-// }	t_shell_sack;
-
 int		main(int ac, char **av, char **envp);
 //ENVIROMENT
 int	init_env(char **envp, t_env *env);
@@ -103,6 +58,7 @@ void	del_dlst(void *content);
 
 // Clean exit
 void	ft_free_pruebas(t_shell_sack **sack);
+void	ft_clearenv(t_shell_sack *sack);
 void    free_token(void *content);
 void    free_sack(t_shell_sack **sack);
 void    free_tree(t_tree **node);
@@ -166,15 +122,15 @@ char	*getcmd_withpath(char *cmd, char **cmds, char **env);
 
 // main_utils 
 int		wait_exitcode(int last_pid);
-int	read_exit(char *line);
+int	read_exit(char *line); //Change to builtin exit
 
 //parse
 
 //expander
-char *remove_quotes(char *old, char c);
+char    *remove_quotes(char *old, char c);
 int     expand_line(t_shell_sack *sack);
-int expand_dolar(t_shell_sack *sack);
-int	expand_quotes(t_shell_sack *sack);
+int     expand_dolar(t_shell_sack *sack);
+int	    expand_quotes(t_shell_sack *sack);
 int     check_errors_initsack(t_shell_sack *sack);
 void    check_open_quotes(t_shell_sack *sack, char *s);
 int	    search_char(char *s, char c, int i);

@@ -70,6 +70,6 @@ void	ft_free_pruebas(t_shell_sack **sack)
 	sack->new_pipes[0] = 0;
 	sack->new_pipes[1] = 1;
 	}
-	ft_free_pruebas(&sack);
+	ft_clearenv(sack);
     return (0);
  }

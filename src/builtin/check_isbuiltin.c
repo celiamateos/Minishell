@@ -21,7 +21,7 @@ int  execute_builtin(t_shell_sack **sack, t_tree *node)
     if (!ft_strncmp(cmd, "cd", ft_strlen(cmd)))
         return (cd(*sack, node->content->cmds[1]));
     if (!ft_strncmp(cmd, "pwd", ft_strlen(cmd)))
-        return (get_pwd);
+        return (get_pwd());
     if (!ft_strncmp(cmd, "export", ft_strlen(cmd)))
         return(export((*sack)->env, node->content->cmds[1]));
     if (!ft_strncmp(cmd, "env", ft_strlen(cmd)))
@@ -34,6 +34,7 @@ int  execute_builtin(t_shell_sack **sack, t_tree *node)
     // if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
 
     // printf("PUTO node: %s", node->content->cmds[1]);
+    exit (0);
     return (0);
 }
 
@@ -55,10 +56,8 @@ int  check_isbuiltin(t_shell_sack **sack, t_tree *node)
          return (0);
     else if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
          return (0);
-    else
-        return (1);
+    return (1);
     // if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
 
     // printf("PUTO node: %s", node->content->cmds[1]);
-    return (0);
 }
