@@ -11,6 +11,17 @@
 /* ************************************************************************** */
 #include"../include/minishell.h"
 
+void	ft_clearenv(t_shell_sack *sack)
+{
+    if (sack->env->pwd)
+        free(sack->env->pwd);
+     if (sack->env->oldpwd)
+        free(sack->env->oldpwd);
+	ft_free_env(sack->env->env);
+	ft_free_env(sack->env->pre_export);
+	free(sack->env);
+}
+
 void    free_tree(t_tree **node) 
 {
 	if (*node != NULL && node != NULL) 

@@ -149,8 +149,8 @@ int	expand_line(t_shell_sack *sack)
 {
 
 
-	if (expand_quotes(sack))
-		return(1);
+	// if (expand_quotes(sack))
+	// 	return(1);
 	if (expand_dolar(sack))
 		return (1);
 
@@ -159,6 +159,7 @@ int	expand_line(t_shell_sack *sack)
 	// if (!sack->line)
 	// 	return (1); //Proteger de errores ?
 	// free (sack->l_expanded);
+
 	return (0);
 }
 
@@ -171,12 +172,11 @@ int	sack_init(t_shell_sack *sack, char *line)
 	// printf("sack line antes: %s\n", sack->line);
 	if (expand_line(sack))
 		return (1); //liberar ??
-	//printf("sack->l_expanded:%s\n", sack->l_expanded);
+	printf("sack->l_expanded:%s\n", sack->l_expanded);
 	// free (line);
+	if (sack->l_expanded == NULL || sack->l_expanded[0] == '\0')
+		return (free(sack->l_expanded), 1);
 	line = ft_strdup(sack->l_expanded);
-	// line = ft_substr(sack->l_expanded, 0, ft_strlen(sack->l_expanded));
-		// return (1);
-	// line = sack->l_expanded;
 	free (sack->l_expanded);
 	sack->token_list = init_tokens(line); // enviar linea expandida y verificada de errores
 	get_cmd_args(&sack);

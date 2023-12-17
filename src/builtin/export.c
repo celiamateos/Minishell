@@ -121,6 +121,6 @@ int export(t_env *env, char *new)
         if (!env->env)
             return (1); //ft_error malloc en realloc_export_add // liberar t_env
     }
-    free (new);
+    // free (new);
     return (0);
 }

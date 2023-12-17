@@ -13,7 +13,16 @@
 
 int cmd_echo(t_shell_sack *sack, char *line)
 {
-    ft_putstr_fd(line, 1);
-    ft_putstr_fd("\n", 1);
+    if (line)
+    {
+        ft_putstr_fd("\n", 1);  
+        ft_putstr_fd(line, 1);  
+    }
+    else
+    {
+        ft_putstr_fd("\n", 1); 
+        exit (1); 
+    }
+
     return (0);
 }

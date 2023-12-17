@@ -57,29 +57,62 @@ int	search_char(char *s, char c, int i)
 	return (0);
 }
 
+// int	expand_quotes(t_shell_sack *sack)
+// {
+// 	int i = -1;
+// 	char *temp;
+
+// 	int pos;
+// 	while (sack->line[++i])
+// 	{
+// 		if (sack->line[i] == '\"')
+// 		{
+// 			while ()
+
+// 		}
+// 	}
+
+// }
+
+
 int	expand_quotes(t_shell_sack *sack)
 {
 	int i = -1;
+	char *temp;
+
+	int pos;
+
 	if (ft_strchr(sack->line, '\"') || ft_strchr(sack->line, '\''))
 	{
 		while (sack->line[++i])
 		{
 			if (sack->line[i] == '\"')
 			{
-				sack->l_expanded = remove_quotes(sack->line, '\"');
+				temp = remove_quotes(sack->line, '\"');
+				if (!temp)
+					return (1); //SALIDA DE ERRORES?
+				sack->l_expanded = strdup(temp);
 				if (!sack->l_expanded)
-					return (1);	
+					return (1); //SALIDA DE ERRORES?
+				free (temp);
 			}
 			else if (sack->line[i] == '\'')
 			{
-				sack->l_expanded = remove_quotes(sack->line, '\'');
+				temp = remove_quotes(sack->line, '\'');
 				if (!sack->l_expanded)
-					return (1);	
+					return (1);	 //SALIDA DE ERRORES?
+				// free(sack->l_expanded);
+				sack->l_expanded = strdup(temp);
+				if (!sack->l_expanded)
+					return (1); //SALIDA DE ERRORES?
+				free (temp);
 			}
 		}
 	}
 	else
 		sack->l_expanded = ft_strdup(sack->line);
-	// printf("sack->l_expanded QUOTES: %s\n", sack->l_expanded);
+	if (!sack->l_expanded)
+		return (1); //SALIDA DE ERRORES?
+	printf("sack->l_expanded QUOTES: %s\n", sack->l_expanded);
 	return (0);
 }
