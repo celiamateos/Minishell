@@ -24,6 +24,7 @@ int	clean_init(t_shell_sack **sack)
 	(*sack)->tree_list = NULL;
 	(*sack)->last_exit = 0;
 	(*sack)->history_fd = -1;
+	(*sack)->heredoc = 0;
 	(*sack)->old_pipes[0] = 0;
 	(*sack)->old_pipes[1] = 1;
 	(*sack)->new_pipes[0] = 0;
@@ -170,7 +171,7 @@ int	sack_init(t_shell_sack *sack, char *line)
 	// printf("sack line antes: %s\n", sack->line);
 	if (expand_line(sack))
 		return (1); //liberar ??
-	printf("sack->l_expanded:%s\n", sack->l_expanded);
+	//printf("sack->l_expanded:%s\n", sack->l_expanded);
 	// free (line);
 	line = ft_strdup(sack->l_expanded);
 	// line = ft_substr(sack->l_expanded, 0, ft_strlen(sack->l_expanded));

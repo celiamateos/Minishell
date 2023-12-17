@@ -17,7 +17,8 @@
 void print2DUtil(t_tree *root, int space)
 {
 	t_token	*token;
-	
+	int     i;
+
     // Base case
     if (root == NULL)
         return;
@@ -30,9 +31,13 @@ void print2DUtil(t_tree *root, int space)
  
     // Print current node after space
     // count
-    printf("\n");
-    for (int i = COUNT; i < space; i++)
-        printf(" ");
+    ft_printf("\n");
+    i = COUNT;
+    while (i < space)
+    {
+        ft_printf(" ");
+        i++;
+    }
 	token = root->content;
 	printf("%s\n", token->value);
  

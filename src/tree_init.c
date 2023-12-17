@@ -38,25 +38,30 @@ void	leaf_isoperpipe(t_tree ***root, t_dlist *token_list)
 	}	
 }
 
-void	leaf_isparenthesis_cl(t_tree ***root)
+void	leaf_isparenthesis_cl(t_tree ***root, t_dlist *token_list)
 {
 	t_tree	**tree;
 	t_tree	*aux_leaf;
 	t_tree	*last_parent;
 	t_token	*token;
+	t_token	*aux_token;
+	char	*value;
 	
 	tree = *root;
 	aux_leaf = *tree;
-	token = aux_leaf->content;
+	//token = token_list->content;
+	aux_token = aux_leaf->content;
 	while (aux_leaf->right)
 	{
-		if (token->type == PARENT_OP)
+		if (aux_token->type == PARENT_OP)
 			last_parent = aux_leaf;
 		aux_leaf = aux_leaf->right;
-		token = aux_leaf->content;
+		aux_token = aux_leaf->content;
 	}
-		last_parent->content->type = PARENT_CL;
-		last_parent->content->value = "()";
+	value = last_parent->content->value;
+	last_parent->content->type = PARENT_CL;
+	last_parent->content->value = ft_strdup("()");
+	free(value);
 }
 
 void	leaf_isparenthesis_op(t_tree ***root, t_dlist *token_list)
@@ -171,7 +176,7 @@ void	insert_leaf(t_tree **tree, t_dlist **token_list)
 		else if (token->type == PARENT_OP)
 			leaf_isparenthesis_op(&tree, (*token_list));
 		else if (token->type == PARENT_CL)
-			leaf_isparenthesis_cl(&tree);
+			leaf_isparenthesis_cl(&tree, (*token_list));
 		(*token_list) = (*token_list)->next;
 	}
 }

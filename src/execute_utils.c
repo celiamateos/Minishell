@@ -51,17 +51,51 @@ t_tree *findnext_cmdleaf(t_tree **node)
     return((*node));
 }
 
+/*@brief create heredoc file and fill with stdin input. Close before reopen
+to assign fd.*/
+void    ft_heredoc(t_shell_sack *****sack_orig, char *eof)
+{
+	char	*line;
+	int		fd_in;
+	t_shell_sack **sack;
+
+    sack = ***sack_orig;
+    // (*sack)->old_pipes[0] = open(".heredoc", O_RDWR | O_CREAT | O_TRUNC, 0666);
+	fd_in = (*sack)->old_pipes[0];
+	while (1)
+	{
+		// write(1, "heredoc> ", 9);
+        ft_putstr_fd("\033[0;36mheredoc >\033[0m", 1);
+		// write(1, "\033[0;36mheredoc >\033[0m", 25);
+		line = get_next_line(0);
+		if (line == 0)
+			break ;
+		if (!ft_strncmp(line, eof, ft_strlen(eof))
+			&& (1 + ft_strlen(eof)) == ft_strlen(line))
+                break ;
+		write(fd_in, line, ft_strlen(line));
+		free(line);
+	}
+	free(line);
+	close(fd_in);
+}
+
 /* @brief assign fd and open attreibutes deppends on redirection */
-void    open_redirect(t_shell_sack ****sack_orig, t_tree *node)
+int    open_redirect(t_shell_sack ****sack_orig, t_tree *node)
 {
     t_token *token;
-
-    token = node->content;
     t_shell_sack **sack;
 
+    token = node->content;
     sack = **sack_orig;
     if (token->type == HEREDOC)
-        (*sack)->old_pipes[0] = open("tmp/.heredoc", O_RDWR | O_CREAT | O_TRUNC, 0666);
+    {
+
+        (*sack)->old_pipes[0] = open(".heredoc", O_RDWR | O_CREAT | O_TRUNC, 0666);
+        ft_heredoc(&sack_orig, token->value);
+        (*sack)->old_pipes[0] = open(".heredoc", O_RDONLY, 0666);
+        (*sack)->heredoc = 1;
+    }
     else if (token->type == REDIR_IN)
         (*sack)->old_pipes[0] = open(token->value, O_RDONLY);
     else if (token->type == REDIR_OUT)
@@ -69,10 +103,9 @@ void    open_redirect(t_shell_sack ****sack_orig, t_tree *node)
     else if (token->type == APPEND_OUT)
         (*sack)->new_pipes[1] = open(token->value, O_RDWR | O_CREAT | O_APPEND, 0666);
     if ((*sack)->old_pipes[0] == -1 || (*sack)->new_pipes[1] == -1)
-        {
-            (*sack)->last_exit = 1; //check error code
-            ft_perror_exit("Open error", (*sack_orig));
-        }
+        return (1);
+    else
+        return (0);
 }
 
 /* @brief check if cmd has redirection, and if it has, calls open_redirect 
@@ -82,23 +115,19 @@ int    check_redirect(t_shell_sack ***sack_orig, t_tree *node)
     t_token         *token;
     t_shell_sack    **sack;
     int             i;
-
-
     
+    i = 0;
 	if (node != NULL) 
 	{	
-        i = 0;
         sack = *sack_orig;
         token = node->content;
         if (node->left && node->left->content->type >= HEREDOC)
         {
-            i = 1;
-            open_redirect(&sack_orig, node->left);
+            i = open_redirect(&sack_orig, node->left);
         }
         if (node->right && node->right->content->type >= HEREDOC)
         {
-            i = 1;
-            open_redirect(&sack_orig, node->right);   
+            i = open_redirect(&sack_orig, node->right);   
         }
         // printf("REDIRECT oldpipes 0 %d 1 %d\n", (*sack)->old_pipes[0], (*sack)->old_pipes[1]);
         // printf("REDIRECT new_pipes 0 %d 1 %d\n", (*sack)->new_pipes[0], (*sack)->new_pipes[1]);

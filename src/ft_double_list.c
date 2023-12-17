@@ -115,8 +115,10 @@ void	ft_dlstdelone(t_dlist *lst, void (*del_dlst)(void *))
 	if (!del_dlst)
 		return ;
 	if (lst)
+	{
 		del_dlst(lst->content);
-	free(lst);
+		free(lst);
+	}	
 }
 
 void	ft_dlstclear(t_dlist **lst, void (*del_dlst)(void *))
@@ -124,8 +126,8 @@ void	ft_dlstclear(t_dlist **lst, void (*del_dlst)(void *))
 	t_dlist	*temp;
 
 	temp = *lst;
-	if (!del_dlst || !*lst)
-		return ;
+	// if (!del_dlst || !*lst)
+	// 	return ;
 	while (*lst && lst)
 	{
 		temp = (*lst)->next;

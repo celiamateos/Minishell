@@ -30,32 +30,43 @@ void    free_sack(t_shell_sack **sack)
     {
         if((*sack)->line)
             free((*sack)->line);
-     //   free((*sack)->l_expanded);
         if ((*sack)->token_list)
-            ft_dlstclear(&(*sack)->token_list,free_token);
-        //print2D((*sack)->tree_list);
-        // if ((*sack)->tree_list)
-        free_tree(&(*sack)->tree_list);
+            ft_dlstclear(&(*sack)->token_list, &free_token);
+        if ((*sack)->tree_list)
+            free_tree(&(*sack)->tree_list);
     }
 }
 
 void    free_token(void *content)
 {
     t_token *token;
+    char    *value;
 
     token = content;
+    value =  token->value;
     if (content)
     {
-        free(token->value);
-        ft_freematrix(&token->cmds);
+        if(value != NULL && token->value)
+            free(token->value);
+        // if (&token->cmds)
+        // if (token->type == CMD)
+            ft_freematrix(&token->cmds);
     }
     free(content);
 }
 
-void	ft_perror_exit(char *msj, t_shell_sack ***sack)
+/*@brief Used to return error message and free everything before exit*/
+void	perror_free_exit(char *msj, t_shell_sack ***sack)
 {
 	perror(msj);
-	if (sack)
-        free_sack(&(**sack));
-	exit(1); //check error code for exit
+    (**sack)->last_exit = 1; //Save it here for all fails?
+    //print2D((**sack)->tree_list);
+	// if ((**sack)->heredoc)
+        // unlink("tmp/.heredoc");
+    free_sack(&(**sack));
+    // ft_free_env((**sack)->env->env);
+	// ft_free_env((**sack)->env->pre_export);
+	// free((**sack)->env->env);
+    // free((**sack));
+    exit((**sack)->last_exit); //check error code for exit
 }

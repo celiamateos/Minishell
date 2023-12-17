@@ -81,14 +81,14 @@ int		ft_puthex(unsigned int nbr, char *hex, int *count);
 int		ft_putun(unsigned int nbr, int *count);
 
 //GET_NEXT_LINE
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
+// # ifndef BUFFER_SIZE
+// #  define BUFFER_SIZE 42
+// # endif
 
 char	*get_next_line(int fd);
-size_t	ft_strlen_gnl(char *str);
-char	*ft_strchr_gnl(char *s, int c);
-char	*ft_strjoin_gnl(char *s1, char *s2);
+// size_t	ft_strlen_gnl(char *str);
+// char	*ft_strchr_gnl(char *s, int c);
+// char	*ft_strjoin_gnl(char *s1, char *s2);
 //size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 int     ft_strposchr(const char *s, int c);
 int     ft_isspace(int c);
