@@ -69,7 +69,11 @@ void    ft_heredoc(t_shell_sack *****sack_orig, char *eof)
 		// write(1, "\033[0;36mheredoc >\033[0m", 25);
 		line = get_next_line(0);
 		if (line == 0)
+        {
+            // printf("\nbash: warning: here-document delimited by \
+                end-of-file (wanted %s)", eof);    
 			break ;
+        }
 		if (!ft_strncmp(line, eof, ft_strlen(eof))
 			&& (1 + ft_strlen(eof)) == ft_strlen(line))
                 break ;

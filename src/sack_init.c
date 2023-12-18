@@ -172,7 +172,7 @@ int	sack_init(t_shell_sack *sack, char *line)
 	// printf("sack line antes: %s\n", sack->line);
 	if (expand_line(sack))
 		return (1); //liberar ??
-	printf("sack->l_expanded:%s\n", sack->l_expanded);
+	// printf("sack->l_expanded:%s\n", sack->l_expanded);
 	// free (line);
 	if (sack->l_expanded == NULL || sack->l_expanded[0] == '\0')
 		return (free(sack->l_expanded), 1);
@@ -184,7 +184,6 @@ int	sack_init(t_shell_sack *sack, char *line)
 	//print_token("Last cmd", sack->last_token);
 	//sack->last_token = get_last_cmd(&sack->token_list);
 	//print_token_args(sack->token_list);
-	free(line); // Creo que para borrarla hay que enviarla con & desde el main	
-	return (0);
+	                  free(line); // Creo que para borrarla hay que enviarla con & desde el main	return (0);
 }
 
