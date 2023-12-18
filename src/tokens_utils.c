@@ -90,25 +90,64 @@ int	find_nextquote(char *str, char quote)
 		return (-1);
 }
 
-int	valid_filename(char *value, int i)
+int	valid_varformat(char *value, int *i)
 {
-	if (ft_isspace(value[i]))
-		while (ft_isspace(value[i]))
-			i++;
-	if (!ft_isalnum(value[i]))
-		return (0); //Deberiamos retornar error?
+	if (ft_isspace(value[*i]))
+		while (ft_isspace(value[*i]))
+			*i = *i + 1;
+	if (!ft_isalpha(value[*i]))
+		return (0);
 	else
-		i++;
-	while (value[i] != '\0')
+		*i = *i + 1;
+	while (value[*i] != '\0')
 	{
-		if (ft_isalnum(value[i]) || value[i] == '.' || value[i] == '_' || value[i] == '-')
-			i++;
-		else if (ft_isspace(value[i]))
+		if (ft_isspace(value[*i]))
+			return (0); 
+		else if (value[*i] == '=')
 			break;
 		else
-			return (0); //Deberiamos retornar error?
+			*i = *i + 1;
 	}
-		return (1);
+	if (value[*i] != '=')
+		return (0);
+	*i = *i + 1;
+	if (ft_isspace(value[*i]))
+		return (0);
+	return (1);
+}
+
+int	valid_varname(char *value, int *i)
+{
+	if (ft_isspace(value[*i]))
+		while (ft_isspace(value[*i]))
+			*i = *i + 1;
+	if (!ft_isalpha(value[*i]))
+		return (0);
+	else
+		*i = *i + 1;
+	while (value[*i] != '\0')
+	{
+		if (ft_isalnum(value[*i]) || value[*i] == '_')
+			*i = *i + 1;
+		else if (value[*i] == '=')
+			return (1);
+		else
+			return (0);
+	}
+	return (0);
+}
+
+int	isvalid_var(char *value)
+{
+	int	i;
+
+	i = 0;
+	if(!valid_varformat(value, &i))
+		return (0);
+	i = 0;
+	if(!valid_varname(value, &i))
+		return (0);
+	return (1);
 }
 
 void	save_redir_filename(char *line, int *i)

@@ -28,11 +28,11 @@
 # include <signal.h>
 
 # define CMD 0
-# define PIPE 1
-# define OPER 2
-# define PARENT_OP 3
-# define PARENT_CL 4
-# define ASSIGN 5
+# define CREATE_VAR 1
+# define PIPE 2
+# define OPER 3
+# define PARENT_OP 4
+# define PARENT_CL 5
 # define HEREDOC 6
 # define REDIR_IN 7
 # define REDIR_OUT 8
