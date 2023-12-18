@@ -76,7 +76,6 @@ int	search_env_pos(char **env, char *word, char limit)
 		j++;
 	if (limit == '\0')
 		j = ft_strlen(word);
-	printf("j:%ld\n", j);
 	while (env[++i])
 	{
 		if (!ft_strncmp(env[i], word, j))
