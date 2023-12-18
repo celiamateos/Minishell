@@ -129,7 +129,7 @@ int	read_exit(char *line); //Change to builtin exit
 //expander
 char    *remove_quotes(char *old, char c);
 int     expand_line(t_shell_sack *sack);
-int     expand_dolar(t_shell_sack *sack);
+char *expand_dolar(t_shell_sack *sack, char *old, int i);
 int	    expand_quotes(t_shell_sack *sack);
 int     check_errors_initsack(t_shell_sack *sack);
 void    check_open_quotes(t_shell_sack *sack, char *s);

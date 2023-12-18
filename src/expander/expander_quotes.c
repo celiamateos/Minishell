@@ -82,6 +82,9 @@ int	expand_quotes(t_shell_sack *sack)
 
 	int pos;
 
+
+	sack->line = ft_strdup(sack->l_expanded);
+	free (sack->l_expanded);
 	if (ft_strchr(sack->line, '\"') || ft_strchr(sack->line, '\''))
 	{
 		while (sack->line[++i])
@@ -113,6 +116,6 @@ int	expand_quotes(t_shell_sack *sack)
 		sack->l_expanded = ft_strdup(sack->line);
 	if (!sack->l_expanded)
 		return (1); //SALIDA DE ERRORES?
-	printf("sack->l_expanded QUOTES: %s\n", sack->l_expanded);
+	// printf("sack->l_expanded QUOTES: %s\n", sack->l_expanded);
 	return (0);
 }
