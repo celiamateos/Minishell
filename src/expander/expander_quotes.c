@@ -82,6 +82,9 @@ int	expand_quotes(t_shell_sack *sack)
 
 	int pos;
 
+
+	sack->line = ft_strdup(sack->l_expanded);
+	free (sack->l_expanded);
 	if (ft_strchr(sack->line, '\"') || ft_strchr(sack->line, '\''))
 	{
 		while (sack->line[++i])

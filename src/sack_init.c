@@ -223,15 +223,16 @@ int check_errors_initsack(t_shell_sack *sack)
 int expand_line(t_shell_sack *sack)
 {
     int		i;
-	int		j;
-	char *temp;
-	int		expander = 1;
-
-	i = 0;
-	while (sack->line[i])
+	char	*temp;
+	int		expander;
+	
+	i = -1;
+	sack->d_quotes = 0;
+	sack->s_quotes = 0;
+	expander = 1;
+	while (sack->line[++i])
 	{
-			sack->d_quotes = 0;
-			sack->s_quotes = 0;
+
 		if (sack->line[i] == '\"')
 		{
 			sack->d_quotes = !sack->d_quotes;
@@ -249,11 +250,13 @@ int expand_line(t_shell_sack *sack)
 			sack->line = ft_strdup(temp);
 			free (temp);
 			i = -1;
-			// break ;
+			sack->d_quotes = 0;
+			sack->s_quotes = 0;
+			expander = 1;
 		}
-		i++;
     }
 	temp = ft_strtrim(sack->line, " \t\v\n\r");
+	free (sack->line);
 	sack->l_expanded = ft_strdup(temp);
 	free (temp);
 	if (!sack->l_expanded)
@@ -271,6 +274,8 @@ int	sack_init(t_shell_sack *sack, char *line)
 	// printf("sack line antes: %s\n", sack->line);
 	if (expand_line(sack))
 		return (1); //liberar ??
+	if (expand_quotes(sack))
+		return (1);
 	printf("sack->l_expanded:%s\n", sack->l_expanded);
 	// free (line);
 	if (sack->l_expanded == NULL || sack->l_expanded[0] == '\0')
