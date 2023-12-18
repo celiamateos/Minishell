@@ -16,13 +16,12 @@ int   get_pwd(void)
 {
     size_t size = 1000;
     char *buffer;
-    char *result;
-
+    
     buffer = (char *)malloc(size);
     if (buffer == NULL) {
         return (perror("Error en la asignación de memoria"), 1);
     }
-    result = getcwd(buffer, size);
+    char *result = getcwd(buffer, size);
     if (result == NULL)
     {
         free(buffer);

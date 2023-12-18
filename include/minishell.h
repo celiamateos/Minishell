@@ -137,7 +137,7 @@ int	    search_char(char *s, char c, int i);
 char    *get_varcontent(char *var);
 
 // signals
-void    main_sig_handler(void);
+void    sig_handler(void);
 void    sigint_handler(int signum);
 
 #endif
