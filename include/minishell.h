@@ -139,5 +139,6 @@ char    *get_varcontent(char *var);
 // signals
 void    main_sig_handler(void);
 void    sigint_handler(int signum);
+void    heredoc_sig_handler(void);
 
 #endif
