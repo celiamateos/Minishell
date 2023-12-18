@@ -39,7 +39,7 @@ int    print_env(char **env);
 //BUILTINS
 int    get_pwd(void);
 int    cd(t_shell_sack *sack, char *pathname);
-int     cmd_echo(t_shell_sack *sack, char *line);
+int     cmd_echo(t_shell_sack *sack, char **line);
 void	ft_free_error_arr(char **mem, long i);
 int     check_isbuiltin(t_shell_sack **sack, t_tree *node);
 int  execute_builtin(t_shell_sack **sack, t_tree *node);

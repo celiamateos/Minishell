@@ -11,18 +11,36 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-int cmd_echo(t_shell_sack *sack, char *line)
+int cmd_echo(t_shell_sack *sack, char **line)
 {
-    if (line)
-    { 
-        ft_putstr_fd(line, 1);  
-        ft_putstr_fd("\n", 1); 
-    }
-    else
+    int flag = 0;
+    int i = 1;
+
+
+    if (!ft_strncmp(line[i], "-n", 2))
     {
-        ft_putstr_fd("\n", 1); 
-        exit (1); 
+        flag = 1;
+        i++;
     }
+
+    if (line[i])
+    { 
+        while (line[i])
+        {
+            if (line[i])
+                ft_putstr_fd(line[i], 1);
+            if (line[i + 1])
+                ft_putstr_fd(" ", 1);
+            i++;
+        }
+
+    }
+    if (flag == 0)
+        ft_putstr_fd("\n", 1); 
+
+    // perror_free_exit("", &sack);
+    // perror_free_exit("", (t_shell_sack***)&sack);
+
 
     return (0);
 }

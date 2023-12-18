@@ -76,7 +76,7 @@ char *expand_dolar(t_shell_sack *sack, char *old, int i)
 		len++;
 		i++;
 	}
-	printf("len:%d\n", len);
+	// printf("len:%d\n", len);
 	temp = ft_substr(old, start, len);
 	printf("expand antes de getvarname:%s\n", temp);
     expand = get_varname(sack, temp);

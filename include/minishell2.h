@@ -43,12 +43,6 @@
 # define COUNT 10 //to check priunt2Dtree
 
 
-# define S_QUOTES 39
-# define D_QUOTES 34
-# define DOLAR 36
-# define WILDCARD 42
-
-
 typedef struct s_dlist
 {
 	void		*content;
@@ -70,9 +64,6 @@ typedef struct s_tree
 	struct s_tree	*left;
 	struct s_token	*content;
 }	t_tree;
-
-
-
 
 typedef struct s_env
 {
@@ -108,7 +99,6 @@ typedef struct s_shell_sack
 	int				is_string;
 	int				d_quotes;
 	int				s_quotes;
-	int				expander;
 	int				len_expand;
 	char			**envp;
 	struct s_env	*env;
