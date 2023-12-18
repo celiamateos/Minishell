@@ -227,18 +227,16 @@ int expand_line(t_shell_sack *sack)
 	char *temp;
 	int		expander = 1;
 
-	sack->d_quotes = 0;
-	sack->s_quotes = 0;
 	i = 0;
-	j = 0;
-
 	while (sack->line[i])
 	{
-		if (sack->line[i] == D_QUOTES)
+			sack->d_quotes = 0;
+			sack->s_quotes = 0;
+		if (sack->line[i] == '\"')
 		{
 			sack->d_quotes = !sack->d_quotes;
 		}
-		if (sack->line[i] == S_QUOTES)
+		if (sack->line[i] == '\'')
 		{
 			if (sack->d_quotes == 0)
 				expander = !expander;
@@ -247,13 +245,19 @@ int expand_line(t_shell_sack *sack)
 		if ((sack->line[i] == '$') && (expander == 1)) // check_valid_expanddolar(parseo) x ejemplo q no haya espacio antes del $
 		{
 			temp = expand_dolar(sack, sack->line, i);
-			break ;
+			free (sack->line);
+			sack->line = ft_strdup(temp);
+			free (temp);
+			i = -1;
+			// break ;
 		}
 		i++;
     }
-	// sack->l_expanded = ft_strdup(temp);
-	// if (!sack->l_expanded)
-	// 	return (1);
+	temp = ft_strtrim(sack->line, " \t\v\n\r");
+	sack->l_expanded = ft_strdup(temp);
+	free (temp);
+	if (!sack->l_expanded)
+		return (1);
     return (0);
 }
 

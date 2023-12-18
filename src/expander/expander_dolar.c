@@ -51,7 +51,7 @@ char *get_varname(t_shell_sack *sack, char *old)
 			return (NULL); //proteger aqui
 	}
 	 else
-		return (ft_strdup(""));
+		new_var = ft_strdup("");
 
     return (new_var);
 }
@@ -67,9 +67,7 @@ char *expand_dolar(t_shell_sack *sack, char *old, int i)
 
 	if (i > 0)
 	{
-		// len = ft_strposchr(old, '$') - 1;
-		pre_expand = ft_substr(old, 0, i);
-		
+		pre_expand = ft_substr(old, 0, i);	
 	}
 	start = ++i;
 	len = 0;
@@ -84,7 +82,7 @@ char *expand_dolar(t_shell_sack *sack, char *old, int i)
     expand = get_varname(sack, temp);
 	free (temp);
 
-	if (i < ft_strlen(old) - 1)
+	if (i < ft_strlen(old))
 	{
 		printf("I:%d\n", i);
 		post_expand = ft_substr(old, i, ft_strlen(old));
@@ -99,20 +97,21 @@ char *expand_dolar(t_shell_sack *sack, char *old, int i)
 		temp = ft_strjoin(pre_expand, expand);
 		free (pre_expand);
 		free(expand);
-		sack->l_expanded = ft_strdup(temp);
+		expand = ft_strdup(temp);
 		free (temp);
 	}
 	if (post_expand)
 	{
-		temp = ft_strjoin(sack->l_expanded, post_expand);
-		free (sack->l_expanded);
-		sack->l_expanded = ft_strdup(temp);
+		temp = ft_strjoin(expand, post_expand);
+		free (expand);
+		free (post_expand);
+		expand = ft_strdup(temp);
 		free (temp);
 	}
 
-	printf("new var control:%s\n", sack->l_expanded);
+	printf("new var control:%s\n", expand);
 	// exit(1);
-	return (sack->l_expanded);
+	return (expand);
 
 }
 
