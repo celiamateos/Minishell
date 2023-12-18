@@ -57,6 +57,13 @@ int  check_isbuiltin(t_shell_sack **sack, t_tree *node)
          return (0);
     else if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)) && (ft_strlen(cmd)) == 4)
          return (0);
+    else if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
+    {
+	    free ((*sack)->line);
+        exit(1);
+
+
+    }
     return (1);
     // if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
 

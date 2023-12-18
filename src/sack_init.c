@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/19 19:40:55 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"../include/minishell.h"
+#include "../include/minishell.h"
 
 int	clean_init(t_shell_sack **sack)
 {
@@ -19,6 +19,7 @@ int	clean_init(t_shell_sack **sack)
 		return (1);
 	(*sack)->line = NULL;
 	(*sack)->l_expanded = NULL;
+	(*sack)->is_string = 0;
 	(*sack)->pos = 0;
 	(*sack)->token_list = NULL;
 	(*sack)->tree_list = NULL;
@@ -124,10 +125,66 @@ void check_open_quotes(t_shell_sack *sack, char *s)
 	}
 }
 
+int	check_emptystr(t_shell_sack *sack, int i)
+{
+    if (!sack->line || i > ft_strlen(sack->line))
+        return (-1);
+
+    while (sack->line[i])
+    {
+        if (sack->line[i] == '\'' && sack->line[i + 1] == '\'')
+            return (i);
+        if (sack->line[i] == '\"' && sack->line[i + 1] == '\"')
+            return (i);
+        i++;
+    }
+    return (-1);
+}
+
+/*@brief ALOCA MEMORIA.
+Recibe una string y aloca memoria para una copia
+en la que elimina una parte de la string
+@param start inicio de la parte a eliminar
+@param lenn final de la parte a eliminar*/
+char *remove_partofstr(const char *s, int start, int len)
+{
+    size_t	original_len;
+	size_t	i;
+	size_t	j;
+	char*	new;
+
+    if (!s || len < 0)
+        return (NULL);
+	original_len = ft_strlen(s);
+    if (start < 0 || start >= original_len || (start + len) > original_len)
+        return (NULL);
+    new = (char *)malloc((original_len - len + 1) * sizeof(char));
+    if (!new)
+        return NULL;
+	i = 0;
+	j = 0;
+    while (s[i] != '\0')
+    {
+        if (i >= start && i < (start + len))
+            i++;
+        else
+            new[j++] = s[i++];
+    }
+    new[j] = '\0';
+    return new;
+}
+
+
 int check_errors_initsack(t_shell_sack *sack)
 {
 	char *s;
-	
+	char	*temp;
+	// int start;
+	// int	i = 0;
+	// int	is_str = 0;
+	// int	is_str2 = 0;
+	// s = ft_strdup(sack->line);
+
 	s = sack->line;
 	check_open_quotes(sack, s);
 	if (sack->d_quotes != 0 || sack->s_quotes != 0)
@@ -137,46 +194,95 @@ int check_errors_initsack(t_shell_sack *sack)
 		ft_putstr_fd("Input invalid, found open quotes\n", 2);
 		return (1);
 	}
+	// start = check_emptystr(sack, 0);
+	// while (s[i])
+	// {
+	// 	if (s[i] == '\'') // && s[i + 1] != '\'' )
+	// 		is_str = !is_str;
+	// 	if (s[i] == '\"')// && s[i + 1] != '\"') 
+	// 		is_str2 = !is_str2;
+	// 	start = check_emptystr(sack, i);
+	// 	if ((start > -1) && (is_str == 0 && is_str2 == 0))
+	// 	{
 
-	// if (d_quotes != 0)
-	// 	printf("Error, OPEN D_QUOTES\n");
-	// if (s_quotes != 0)
-	// 	printf("Error, OPEN S_QUOTES\n");
+	// 		temp = remove_partofstr(sack->line, start, 2);
+	// 		if (!temp)
+	// 			return (printf("YA LA ESTAS CAGANDO"), 1);
+	// 		free(sack->line);
+	// 		sack->line = strdup(temp);
+	// 		free (temp);
+	// 		i = start;
+	// 	}
+	// 	i++;
+	// }
+	// free (s);
+	// printf("sack_line en errorinit:%s\n", sack->line);
 	return (0);
 }
 
-int	expand_line(t_shell_sack *sack)
+int expand_line(t_shell_sack *sack)
 {
+    int		i;
+	char	*temp;
+	int		expander;
+	
+	i = -1;
+	sack->d_quotes = 0;
+	sack->s_quotes = 0;
+	expander = 1;
+	while (sack->line[++i])
+	{
 
-
-	// if (expand_quotes(sack))
-	// 	return(1);
-	if (expand_dolar(sack))
+		if (sack->line[i] == '\"')
+		{
+			sack->d_quotes = !sack->d_quotes;
+		}
+		if (sack->line[i] == '\'')
+		{
+			if (sack->d_quotes == 0)
+				expander = !expander;
+			sack->s_quotes = !sack->s_quotes;
+		}
+		if ((sack->line[i] == '$') && (expander == 1)) // check_valid_expanddolar(parseo) x ejemplo q no haya espacio antes del $
+		{
+			temp = expand_dolar(sack, sack->line, i);
+			free (sack->line);
+			sack->line = ft_strdup(temp);
+			free (temp);
+			i = -1;
+			sack->d_quotes = 0;
+			sack->s_quotes = 0;
+			expander = 1;
+		}
+    }
+	temp = ft_strtrim(sack->line, " \t\v\n\r");
+	sack->l_expanded = ft_strdup(temp);
+	free (temp);
+	if (!sack->l_expanded)
 		return (1);
-
-
-	// sack->line = ft_strdup(sack->l_expanded);
-	// if (!sack->line)
-	// 	return (1); //Proteger de errores ?
-	// free (sack->l_expanded);
-
-	return (0);
+    return (0);
 }
 
 int	sack_init(t_shell_sack *sack, char *line)
 {
 	//free(sack->line);
+	// print_env(sack->env->env);
 	sack->line = ft_strtrim(line, " \t\v\n\r");
 	if (check_errors_initsack(sack))
 		return (1); //no se si aqui hay q liberar yo creo q si
 	// printf("sack line antes: %s\n", sack->line);
 	if (expand_line(sack))
 		return (1); //liberar ??
+	// if (expand_quotes(sack))
+	// 	return (1);
 	// printf("sack->l_expanded:%s\n", sack->l_expanded);
+
 	// free (line);
 	if (sack->l_expanded == NULL || sack->l_expanded[0] == '\0')
 		return (free(sack->l_expanded), 1);
 	line = ft_strdup(sack->l_expanded);
+	free (sack->line);
+	sack->line = ft_strdup(sack->l_expanded);
 	free (sack->l_expanded);
 	sack->token_list = init_tokens(line); // enviar linea expandida y verificada de errores
 	get_cmd_args(&sack);

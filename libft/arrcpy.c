@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   arrcpy.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/10 01:57:07 by cmateos-          #+#    #+#             */
-/*   Updated: 2023/12/10 01:57:08 by cmateos-         ###   ########.fr       */
+/*   Created: 2023/12/14 11:52:58 by cmateos-          #+#    #+#             */
+/*   Updated: 2023/12/14 11:53:22 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../../include/minishell.h"
+#include "libft.h"
+#include "../include/minishell.h"
 
-int cmd_echo(t_shell_sack *sack, char *line)
+//Copy one string array
+char	**ft_sarrcpy(char **arr)
 {
-    if (line)
-    { 
-        ft_putstr_fd(line, 1);  
-        ft_putstr_fd("\n", 1); 
-    }
-    else
-    {
-        ft_putstr_fd("\n", 1); 
-        exit (1); 
-    }
+	int		i;
+	char	**new_arr;
 
-    return (0);
+	if (!arr)
+		return (NULL);
+	new_arr = malloc(sizeof(char *) * (ft_arraylen(arr) + 1));
+	i = -1;
+	while (arr[++i])
+		new_arr[i] = ft_strdup(arr[i]);
+	new_arr[i] = NULL;
+	return (new_arr);
 }
+
