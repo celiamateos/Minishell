@@ -40,10 +40,6 @@ char *remove_quotes(char *old, char type)
             j++;
         new[i++] = old[j++];
     }
-	// while (new[i++])
-	// 	write (1, &new[i], 1);
-	// new[i] = '\0';
-	// printf("remove_quotes:%s\n", new);
     return (new);
 }
 
@@ -117,6 +113,6 @@ int	expand_quotes(t_shell_sack *sack)
 		sack->l_expanded = ft_strdup(sack->line);
 	if (!sack->l_expanded)
 		return (1); //SALIDA DE ERRORES?
-	printf("sack->l_expanded QUOTES: %s\n", sack->l_expanded);
+	// printf("sack->l_expanded QUOTES: %s\n", sack->l_expanded);
 	return (0);
 }

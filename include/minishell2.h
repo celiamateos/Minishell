@@ -40,8 +40,14 @@
 # define FN_ERROR 10
 # define AND 21
 # define OR 22
-
 # define COUNT 10 //to check priunt2Dtree
+
+
+# define S_QUOTES 39
+# define D_QUOTES 34
+# define DOLAR 36
+# define WILDCARD 42
+
 
 typedef struct s_dlist
 {
@@ -65,11 +71,7 @@ typedef struct s_tree
 	struct s_token	*content;
 }	t_tree;
 
-typedef struct s_expander
-{
-    int inicio;
-    int fin;
-}				t_expander;
+
 
 
 typedef struct s_env
@@ -103,8 +105,11 @@ typedef struct s_shell_sack
 	int				last_pid;
 	int				last_exit;
 	int				history_fd;
+	int				is_string;
 	int				d_quotes;
 	int				s_quotes;
+	int				expander;
+	int				len_expand;
 	char			**envp;
 	struct s_env	*env;
 }	t_shell_sack;

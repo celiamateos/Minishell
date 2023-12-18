@@ -14,9 +14,9 @@
 int cmd_echo(t_shell_sack *sack, char *line)
 {
     if (line)
-    {
-        ft_putstr_fd("\n", 1);  
+    { 
         ft_putstr_fd(line, 1);  
+        ft_putstr_fd("\n", 1); 
     }
     else
     {

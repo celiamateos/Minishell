@@ -9,8 +9,8 @@
 /*   Updated: 2023/07/03 23:56:11 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"get_next_line_bonus.h"
-
+#include "get_next_line_bonus.h"
+#include "libft.h"
 void	ft_free(char **str)
 {
 	if (*str)
