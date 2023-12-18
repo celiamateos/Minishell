@@ -24,6 +24,7 @@ void    free_cd(char *s1, char*s2, char *s3)
 int cd_root(t_shell_sack *sack, char *pwd, char *old_pwd)
 {
     char    *temp;
+    char    *aux;
 
     temp = get_varcontent(pwd);
     if (!temp)
@@ -32,38 +33,46 @@ int cd_root(t_shell_sack *sack, char *pwd, char *old_pwd)
     if (!sack->env->oldpwd)
         return (free_cd(pwd, old_pwd, temp), 1);
     free (temp);
+    aux = sack->env->pwd;
     sack->env->pwd = ft_strjoin("PWD=", "/");
+    free (aux);
     if (!sack->env->pwd)
         return (free_cd(pwd, old_pwd, temp), 1);
     return (0);
 }
 
-int cd_path(t_shell_sack *sack,  char *pathname, char *pwd, char *old_pwd)
+int cd_path(t_shell_sack **sack,  char *pathname, char *pwd, char **old_pwd)
 {
     char    *temp;
+    char    *aux;
 
     temp = get_varcontent(pwd);
     if (!temp)
-        return (free_cd(pwd, old_pwd, temp), 1);
-    sack->env->oldpwd = ft_strjoin("OLDPWD=", temp);
-    if (!sack->env->oldpwd)
-        return (free_cd(pwd, old_pwd, temp), 1);
+        return (free_cd(pwd, *old_pwd, temp), 1);
+    // aux = (*sack)->env->oldpwd;
+    (*sack)->env->oldpwd = ft_strjoin("OLDPWD=", temp);
+    // free(aux);
+    if (!(*sack)->env->oldpwd)
+        return (free_cd(pwd, *old_pwd, temp), 1);
     free (temp);
-    sack->env->pwd = ft_strjoin(pwd, "/");
-    if (!sack->env->pwd)
-        return (free_cd(pwd, old_pwd, temp), 1);
-    temp = ft_strjoin(sack->env->pwd, pathname);
+    aux = (*sack)->env->pwd;
+    (*sack)->env->pwd = ft_strjoin(pwd, "/");
+    free(aux);
+    if (!(*sack)->env->pwd)
+        return (free_cd(pwd, *old_pwd, temp), 1);
+    temp = ft_strjoin((*sack)->env->pwd, pathname);
     if (!temp)
-        return (free_cd(pwd, old_pwd, temp), free(sack->env->pwd), 1);
-    free (sack->env->pwd);
-    sack->env->pwd = ft_strdup(temp);
-    if (!sack->env->pwd)
-        return (free_cd(pwd, old_pwd, temp), 1);
+        return (free_cd(pwd, *old_pwd, temp), free((*sack)->env->pwd), 1);
+    free ((*sack)->env->pwd);
+    (*sack)->env->pwd = ft_strdup(temp);
+    if (!(*sack)->env->pwd)
+        return (free_cd(pwd, *old_pwd, temp), 1);
     free (temp);
+    // free (*old_pwd);
     return (0);
 }
 
-int cd_back(t_shell_sack *sack, char *pwd, char *old_pwd)
+int cd_back(t_shell_sack *sack, char *pwd, char **old_pwd)
 {
     char    *temp;
     int     pos;
@@ -71,12 +80,11 @@ int cd_back(t_shell_sack *sack, char *pwd, char *old_pwd)
 
     temp = get_varcontent(pwd);
     if (!temp)
-        return (free_cd(pwd, old_pwd, temp), 1);
+        return (free_cd(pwd, *old_pwd, temp), 1);
     sack->env->oldpwd = ft_strjoin("OLDPWD=", temp);
     if (!sack->env->oldpwd)
-        return (free_cd(pwd, old_pwd, temp), 1);
+        return (free_cd(pwd, *old_pwd, temp), 1);
     free (temp);
-
     pos = ft_strlen(pwd);
     while (pwd[pos] != '/' && pwd[pos]);
         pos--;
@@ -84,7 +92,10 @@ int cd_back(t_shell_sack *sack, char *pwd, char *old_pwd)
     temp = ft_substr(pwd, 0, pos);
     if (!temp) 
         return(1); //SALIDA DE ERRORES-.-
+    //  sack->env->pwd = temp;
     pwd = temp;
+    free (temp);
+    free (*old_pwd);
     return (0);
 }
 
@@ -107,26 +118,29 @@ char *remove_slash(char *path)
 int    cd(t_shell_sack *sack, char *path)
 {
     int     ret;
-    char    *pwd = ft_strdup(sack->env->pwd);
-    char    *old_pwd = ft_strdup(sack->env->oldpwd);
+    char    *pwd;
+    char    *old_pwd;
     char    *pathname;
 
     if (chdir(path) == -1)
         return (ft_putstr_fd("cd: No such file or directory\n", 2), 1);
+    pwd = ft_strdup(sack->env->pwd);
+    if (sack->env->oldpwd)
+        old_pwd = ft_strdup(sack->env->oldpwd);
     if (!path)
         cd_root(sack, pwd, old_pwd);
     else if (!ft_strncmp(path, "..", 1))
-        cd_back(sack, pwd, old_pwd);
+        cd_back(sack, pwd, &old_pwd);
     else
     {   
         pathname = remove_slash(path); 
-        cd_path(sack, pathname, pwd, old_pwd);
+        cd_path(&sack, pathname, pwd, &old_pwd);
+        free(pathname);
     }
-    // printf("PWD: %s\n", sack->env->pwd);
+    //  printf("PWD: %s\n", sack->env->pwd);
     // printf("OLDPWD: %s\n", sack->env->oldpwd);
     export(sack->env, sack->env->pwd);
     export(sack->env, sack->env->oldpwd);
     free (pwd);
-    free (old_pwd);
     return (0);
 }
