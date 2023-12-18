@@ -34,8 +34,7 @@ int  execute_builtin(t_shell_sack **sack, t_tree *node)
     // if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
 
     // printf("PUTO node: %s", node->content->cmds[1]);
-    perror_free_exit("Builtin error", &sack);
-    // exit (0);
+    exit (0);
     return (0);
 }
 

@@ -42,7 +42,7 @@ void	ft_free_pruebas(t_shell_sack **sack)
 	sack->env = env;
 	while (42)
  	{
-		main_sig_handler();
+		sig_handler();
  		line = readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
 	 	if (line == 0)
  			return (0);
