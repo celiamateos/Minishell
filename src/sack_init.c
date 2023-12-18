@@ -256,7 +256,6 @@ int expand_line(t_shell_sack *sack)
 		}
     }
 	temp = ft_strtrim(sack->line, " \t\v\n\r");
-	free (sack->line);
 	sack->l_expanded = ft_strdup(temp);
 	free (temp);
 	if (!sack->l_expanded)
@@ -274,15 +273,16 @@ int	sack_init(t_shell_sack *sack, char *line)
 	// printf("sack line antes: %s\n", sack->line);
 	if (expand_line(sack))
 		return (1); //liberar ??
-
-	if (expand_quotes(sack))
-		return (1);
+	// if (expand_quotes(sack))
+	// 	return (1);
 	printf("sack->l_expanded:%s\n", sack->l_expanded);
 
 	// free (line);
 	if (sack->l_expanded == NULL || sack->l_expanded[0] == '\0')
 		return (free(sack->l_expanded), 1);
 	line = ft_strdup(sack->l_expanded);
+	free (sack->line);
+	sack->line = ft_strdup(sack->l_expanded);
 	free (sack->l_expanded);
 	sack->token_list = init_tokens(line); // enviar linea expandida y verificada de errores
 	get_cmd_args(&sack);
