@@ -16,15 +16,13 @@ int cmd_echo(t_shell_sack *sack, char **line)
     int flag = 0;
     int i = 1;
 
-
-    if (!ft_strncmp(line[i], "-n", 2))
+    if (line && line[i])
     {
-        flag = 1;
-        i++;
-    }
-
-    if (line[i])
-    { 
+        if (!ft_strncmp(line[i], "-n", 2))
+        {
+            flag = 1;
+            i++;
+        }
         while (line[i])
         {
             if (line[i])
@@ -37,10 +35,6 @@ int cmd_echo(t_shell_sack *sack, char **line)
     }
     if (flag == 0)
         ft_putstr_fd("\n", 1); 
-
-    // perror_free_exit("", &sack);
-    // perror_free_exit("", (t_shell_sack***)&sack);
-
 
     return (0);
 }

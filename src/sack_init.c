@@ -275,7 +275,7 @@ int	sack_init(t_shell_sack *sack, char *line)
 		return (1); //liberar ??
 	// if (expand_quotes(sack))
 	// 	return (1);
-	printf("sack->l_expanded:%s\n", sack->l_expanded);
+	// printf("sack->l_expanded:%s\n", sack->l_expanded);
 	// free (line);
 	if (sack->l_expanded == NULL || sack->l_expanded[0] == '\0')
 		return (free(sack->l_expanded), 1);
