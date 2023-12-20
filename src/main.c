@@ -44,7 +44,7 @@ int		main(int ac, char **av, char **envp)
 			if (!sack_init(sack, line))
 			{
 				init_tree(&sack);
-				print_tokenlist(sack->token_list);
+				// print_tokenlist(sack->token_list);
 				execute(&sack);
 				// print2D(sack->tree_list);
 			}
