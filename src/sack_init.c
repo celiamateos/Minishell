@@ -289,7 +289,7 @@ int	sack_init(t_shell_sack *sack, char *line)
 	//print_token("Last cmd", sack->last_token);
 	//sack->last_token = get_last_cmd(&sack->token_list);
 	//print_token_args(sack->token_list);
-	free(line); // Creo que para borrarla hay que enviarla con & desde el main
+	free(line); // Creo que para borrarla hay que enviarla con & desde el main	
 	return (0);
 }
 

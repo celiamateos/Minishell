@@ -32,6 +32,8 @@ int	get_token_type(char *value)
 		return (PARENT_OP);	
 	else if (value[i] == ')')
 		return (PARENT_CL);	
+	// else if (isvalid_var(value))
+	// 	return (CREATE_VAR);
 	else
 		return (CMD);
 }

@@ -34,13 +34,13 @@ char *get_varname(t_shell_sack *sack, char *old)
 	int pos;
 
 	// new_var = ft_strtrim(old, "$\'\"");
-	printf("old:%s\n", old);
+	// printf("old:%s\n", old);
 	// printf("FldLo:%s\n", sack->env->env[0]);
 	// print_env(sack->env->env);
 	// exit(1);
 	pos = search_env_pos(sack->env->env, old, '=');
 	// free (new_var);
-	printf("pos: %d\n", pos);
+	// printf("pos: %d\n", pos);
 	// exit(1);
 	if (pos >= 0)
 	{
@@ -78,20 +78,19 @@ char *expand_dolar(t_shell_sack *sack, char *old, int i)
 	}
 	// printf("len:%d\n", len);
 	temp = ft_substr(old, start, len);
-	printf("expand antes de getvarname:%s\n", temp);
+	// printf("expand antes de getvarname:%s\n", temp);
     expand = get_varname(sack, temp);
 	free (temp);
 
 	if (i < ft_strlen(old))
 	{
-		printf("I:%d\n", i);
 		post_expand = ft_substr(old, i, ft_strlen(old));
 
 	}
 
-	printf("pre_expand:%s\n", pre_expand);
-	printf("expand:%s\n", expand);
-	printf("post_expand:%s\n", post_expand);
+	// printf("pre_expand:%s\n", pre_expand);
+	// printf("expand:%s\n", expand);
+	// printf("post_expand:%s\n", post_expand);
 	if (pre_expand)
 	{
 		temp = ft_strjoin(pre_expand, expand);
@@ -109,7 +108,7 @@ char *expand_dolar(t_shell_sack *sack, char *old, int i)
 		free (temp);
 	}
 
-	printf("new var control:%s\n", expand);
+	// printf("new var control:%s\n", expand);
 	// exit(1);
 	return (expand);
 

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
+<<<<<<< HEAD
 int cmd_echo(t_shell_sack *sack, char **line)
 {
     int flag = 0;
@@ -32,6 +33,28 @@ int cmd_echo(t_shell_sack *sack, char **line)
             i++;
         }
 
+=======
+int cmd_echo(t_shell_sack ****sack_orig, char *line)
+{
+    t_shell_sack    **sack;
+    
+    sack = (**sack_orig);
+    if ((*sack)->new_pipes[1] != 1 )
+        if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
+            perror_free_exit("Dup2 error echo OUT", &(**sack_orig));
+    if (line)
+    { 
+        // ft_putstr_fd(line, 1);  
+        // ft_putstr_fd("\n", 1); 
+        ft_putstr_fd(line, (*sack)->new_pipes[1]);  
+        ft_putstr_fd("\n", (*sack)->new_pipes[1]); 
+    }
+    else
+    {
+        ft_putstr_fd("\n", (*sack)->new_pipes[1]); 
+        // ft_putstr_fd("\n", 1); 
+        // exit (1); 
+>>>>>>> origin/david
     }
     if (flag == 0)
         ft_putstr_fd("\n", 1); 

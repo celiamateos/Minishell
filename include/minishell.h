@@ -16,10 +16,8 @@
 
 #include "minishell2.h"
 
-int		main(int ac, char **av, char **envp);
 //ENVIROMENT
 int	init_env(char **envp, t_env *env);
-
 int export(t_env *env, char *new);
 char **realloc_export_exchange(t_env *env, char *new, size_t pos);
 char **realloc_export_add(t_env *env, char *new);
@@ -39,10 +37,10 @@ int    print_env(char **env);
 //BUILTINS
 int    get_pwd(void);
 int    cd(t_shell_sack *sack, char *pathname);
-int     cmd_echo(t_shell_sack *sack, char **line);
+int     cmd_echo(t_shell_sack ****sack_orig, char *line);
 void	ft_free_error_arr(char **mem, long i);
 int     check_isbuiltin(t_shell_sack **sack, t_tree *node);
-int  execute_builtin(t_shell_sack **sack, t_tree *node);
+int  execute_builtin(t_shell_sack ***sack, t_tree *node);
 
 
 //FUNCIONES LISTAS
@@ -63,28 +61,34 @@ void    free_token(void *content);
 void    free_sack(t_shell_sack **sack);
 void    free_tree(t_tree **node);
 void	perror_free_exit(char *msj, t_shell_sack ***sack); //error handling
+
 // init_sack
 int	clean_init(t_shell_sack **sack);
 int sack_init(t_shell_sack *sack, char *line);
 // char	*expand_line(char *line, char **envp);
 // char	*expand_var(char *line, int i, char **envp);
 // char	*get_varname(char *expanded, int i);
+
 // init_tokens
 t_dlist	*init_tokens(char *line);
 void	*get_next_token(char *line, int *i);
 int		ft_isoperator(char	c, int *quotes);
 int		get_token_type(char *value);
+
 // token_utils
 void	print_tokenlist(t_dlist *list);
 void	print_token(char *msj, t_token	*token);
 void	print_token_args(t_dlist *token_list);
 int		check_emptyorspace(char *str);
-int		valid_filename(char *value, int i);
 void	save_redir_filename(char *line, int *i);
 void	get_cmd_args(t_shell_sack **sack);
 void 	*get_last_cmd(t_dlist **token_list);
 char	*fix_tokenvalues(char **value);
 void	ft_cpypipes(int *old_pipe, int *new_pipe);
+int     valid_varname(char *value, int *i);
+int	valid_varformat(char *value, int *i);
+int	isvalid_var(char *value);
+
 // init_tree
 void    init_tree(t_shell_sack **sack);
 void	insert_leaf(t_tree **tree, t_dlist **token_list);
@@ -137,7 +141,8 @@ int	    search_char(char *s, char c, int i);
 char    *get_varcontent(char *var);
 
 // signals
-void    sig_handler(void);
+void    main_sig_handler(void);
 void    sigint_handler(int signum);
+void    heredoc_sig_handler(void);
 
 #endif

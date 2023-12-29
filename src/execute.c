@@ -72,23 +72,29 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         }
         if (!check_isbuiltin(sack, node))
         {
-            (*sack)->last_exit = execute_builtin(sack, node);
+            (*sack)->last_exit = execute_builtin(&sack, node);
             if ((*sack)->last_exit)
-                perror_free_exit("Builtin error", sack_orig);
-            return ;
+                perror_free_exit("Builtin error", &(*sack_orig));
+            ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
+            ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+            exit(0) ;
         }
-		cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
-        if ((*sack)->old_pipes[0] != 0 )
-            if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1)
-                perror_free_exit("Dup2 error IN", sack_orig);
-        if ((*sack)->new_pipes[1] != 1 )
-            if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
-                perror_free_exit("Dup2 error OUT", sack_orig);
+        else
+        {
+            // printf("AQUI\n");
+            cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
+            if ((*sack)->old_pipes[0] != 0 )
+                if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1)
+                    perror_free_exit("Dup2 error IN", sack_orig);
+            if ((*sack)->new_pipes[1] != 1 )
+                if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
+                    perror_free_exit("Dup2 error OUT", sack_orig);
         ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
         ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
 		execve(cmd, token->cmds, (*sack)->env->env);
         (*sack)->last_exit = 127; //error code for cmd not found
         perror_free_exit(cmd, sack_orig); //Free everything?
+        }
 		// ft_freematrix(&token->cmds);
         // free(cmd);
     }
