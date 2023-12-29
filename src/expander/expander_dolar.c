@@ -22,7 +22,7 @@ char *get_varcontent(char *var)
 	var_expanded = ft_substr(var, (i + 1), (ft_strlen(var) - i));
 	if (!var_expanded)
 		return (NULL);
-	printf("var_expandIO:%s\n", var_expanded);
+	// printf("var_expandIO:%s\n", var_expanded);
 	return (var_expanded);
 }
 
