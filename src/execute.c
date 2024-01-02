@@ -21,6 +21,7 @@ void    run_oper(t_shell_sack ***sack_orig, t_tree *node)
     t_token         *token;
     t_tree          *aux_node;
 
+
     sack = *sack_orig;
     token = (node)->content;
     aux_node = findnext_cmdleaf(&node->right);
@@ -37,6 +38,7 @@ Protect to not allow pipe in last node to not change std.
     (DAVID -I have tocheck thath)*/
 void    run_pipe(t_shell_sack ***sack_orig, t_tree *node)
 {
+    (void)node;
      t_shell_sack    **sack;
 
     sack = *sack_orig;
@@ -150,7 +152,7 @@ void    run_preorder(t_tree *node, t_shell_sack **sack)
 
 void	execute(t_shell_sack **sack)
 {
-    t_token *token;
+    // t_token *token;
     t_tree  *tree;
 
     tree = (*sack)->tree_list;

@@ -43,10 +43,11 @@ void	leaf_isparenthesis_cl(t_tree ***root, t_dlist *token_list)
 	t_tree	**tree;
 	t_tree	*aux_leaf;
 	t_tree	*last_parent;
-	t_token	*token;
+	// t_token	*token;
 	t_token	*aux_token;
 	char	*value;
 	
+	(void)token_list;
 	tree = *root;
 	aux_leaf = *tree;
 	//token = token_list->content;

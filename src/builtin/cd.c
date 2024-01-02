@@ -79,8 +79,8 @@ int cd_path(t_shell_sack **sack,  char *pathname, char *pwd)
 int cd_back(t_shell_sack *sack)
 {
     char    *temp;
-    int     pos;
-    int     time;
+    // int     pos;
+    // int     time;
     char    curr_dir[256];
 
     temp = getcwd(curr_dir, sizeof(curr_dir));
@@ -109,7 +109,7 @@ int cd_back(t_shell_sack *sack)
 /*@brief ALOCA MEMORIA*/
 char *remove_slash(char *path)
 {
-    char    *temp;
+    // char    *temp;
     char    *pathname;
 
     if (path[ft_strlen(path) - 1] != '/')
@@ -124,7 +124,7 @@ char *remove_slash(char *path)
 //@brief Intenta acceder a la ruta pasada como parametro, en caso de error muestra un mensaje.
 int    cd(t_shell_sack *sack, char *path)
 {
-    int     ret;
+    // int     ret;
     char    *pwd;
     char    *temp;
 

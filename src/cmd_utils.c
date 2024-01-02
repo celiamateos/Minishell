@@ -68,6 +68,7 @@ char	*getcmd_withpath(char *cmd, char **cmds, char **env)
 	char	*path_cmd;
 	char	*aux;
 
+	(void)cmds; // esto no se usa
 	path_cmd = NULL;
 
 	if (check_route(cmd) == 1)

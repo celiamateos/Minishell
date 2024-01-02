@@ -72,8 +72,8 @@ void    ft_heredoc(t_shell_sack *****sack_orig, char *eof)
         {
             ft_putstr_fd("\nbash: warning: here-document delimited by \
             end-of-file (wanted eof)\n", 2);
-            // printf("\nbash: warning: here-document delimited by \
-                end-of-file (wanted %s)", eof);    
+            // printf("\nbash: warning: here-document delimited by 
+                // end-of-file (wanted %s)", eof);
 			break ;
         }
 		if (!ft_strncmp(line, eof, ft_strlen(eof))

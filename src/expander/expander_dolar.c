@@ -30,7 +30,7 @@ char *get_varcontent(char *var)
 char *get_varname(t_shell_sack *sack, char *old)
 {
 	char *new_var;
-	char *temp;
+	// char *temp;
 	int pos;
 
 	// new_var = ft_strtrim(old, "$\'\"");
@@ -82,7 +82,7 @@ char *expand_dolar(t_shell_sack *sack, char *old, int i)
     expand = get_varname(sack, temp);
 	free (temp);
 
-	if (i < ft_strlen(old))
+	if ((size_t)i < ft_strlen(old))
 	{
 		post_expand = ft_substr(old, i, ft_strlen(old));
 

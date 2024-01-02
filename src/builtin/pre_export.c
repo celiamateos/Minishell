@@ -92,7 +92,7 @@ char **realloc_add_pre_export_list(t_env *env, char *line)
 void pre_export_new_variable(t_env *env, char *line)
 {
     char **temp;
-	size_t i;
+	int i;
 
     if (!env || !line)
         return ;
@@ -109,7 +109,6 @@ void pre_export_new_variable(t_env *env, char *line)
         i++;
     }
     i = search_env_pos(env->pre_export, line, '=');
-    printf("%ld", i);
     if (i != -1)
     {
          temp = realloc_exchange_pre_export(env, line, i);

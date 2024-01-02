@@ -125,7 +125,7 @@ void check_open_quotes(t_shell_sack *sack, char *s)
 	}
 }
 
-int	check_emptystr(t_shell_sack *sack, int i)
+int	check_emptystr(t_shell_sack *sack, size_t i)
 {
     if (!sack->line || i > ft_strlen(sack->line))
         return (-1);
@@ -146,7 +146,7 @@ Recibe una string y aloca memoria para una copia
 en la que elimina una parte de la string
 @param start inicio de la parte a eliminar
 @param lenn final de la parte a eliminar*/
-char *remove_partofstr(const char *s, int start, int len)
+char *remove_partofstr(const char *s, size_t start, size_t len)
 {
     size_t	original_len;
 	size_t	i;
@@ -178,7 +178,7 @@ char *remove_partofstr(const char *s, int start, int len)
 int check_errors_initsack(t_shell_sack *sack)
 {
 	char *s;
-	char	*temp;
+	// char	*temp;
 	// int start;
 	// int	i = 0;
 	// int	is_str = 0;

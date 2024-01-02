@@ -18,7 +18,7 @@
 char *remove_quotes(char *old, char type)
 {
     char *new;
-    int  i = 0;
+    size_t  i = 0;
     int j = 0;
     int quotes = 0;
 
@@ -80,7 +80,7 @@ int	expand_quotes(t_shell_sack *sack)
 	int i = -1;
 	char *temp;
 
-	int pos;
+	// int pos;
 
 
 	sack->line = ft_strdup(sack->l_expanded);

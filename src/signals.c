@@ -29,6 +29,7 @@ void    heredoc_sig_handler(void)
 /*@brief Manage signal Interrupt —usually the result of CTRL-C being hit.*/
 void    sigint_handler(int signum)
 {
+    (void)signum; //unused
     write(1, "\n", 1);
     rl_on_new_line();
     // rl_replace_line("", 0);

@@ -24,7 +24,7 @@ int		main(int ac, char **av, char **envp)
 	char 		*line;
 	t_shell_sack	*sack;
 
-	atexit(leaks);
+	// atexit(leaks);
 	sack = NULL;
 	env = ft_calloc(1, sizeof(t_env));
 	if (init_env(envp, env))
