@@ -20,11 +20,11 @@ int is_valid_to_export(char *s)
 	int i;
 
     i = 0;
-	if (!ft_isalpha(s[i]) && !s[i] != '_')
+	if ((!ft_isalpha(s[i])) && (s[i] != '_'))
 		return (1);
 	while (s[i] && s[i] != '=')
 	{
-		if (!ft_isalpha(s[i]) && !ft_isalnum(s[i]) && s[i] != '_')
+		if ((!ft_isalpha(s[i])) && (!ft_isalnum(s[i])) && (s[i] != '_'))
 			return (ft_putstr_fd("export: not a valid identifier", 2), 1);
 		i++;
 	}

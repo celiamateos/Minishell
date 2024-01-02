@@ -28,6 +28,7 @@ int already_added_pre_export_list(t_env *env, char *new, long pos)
     }
     else
         return (ft_putstr_fd("export: not a valid identifier", 2), 0);
+    return (0);
 }
 
 char **realloc_exchange_pre_export(t_env *env, char *new, size_t pos)
@@ -97,7 +98,7 @@ void pre_export_new_variable(t_env *env, char *line)
         return ;
     i = 0;
     // printf("ffff");
-	if (!ft_isalpha(line[i]) && !line[i] != '_')
+	if (!ft_isalpha(line[i]) && line[i] != '_')
 		return (ft_putstr_fd(line, 2), ft_putstr_fd("command not found", 2));
 	i++;
     while (line[i] && line[i] != '=')

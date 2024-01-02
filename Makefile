@@ -27,8 +27,8 @@ PURPLE = \x1b[1;35m
 
 NAME = minishell
 CC = gcc
-CFLAGS = -g3 -fsanitize=address #-Werror -Wextra -Wall
-CCLANG = -lreadline
+CFLAGS = -g3 -fsanitize=address -Werror -Wextra -Wall
+CCLANG = -lreadline -L .brew/opt/readline/lib -I .brew/opt/readline/include
 RM = rm -f
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a

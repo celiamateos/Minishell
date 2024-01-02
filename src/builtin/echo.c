@@ -11,29 +11,31 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-<<<<<<< HEAD
-int cmd_echo(t_shell_sack *sack, char **line)
-{
-    int flag = 0;
-    int i = 1;
+// <<<<<<< HEAD
+// int cmd_echo(t_shell_sack *sack, char **line)
+// {
+//     int flag = 0;
+//     int i = 1;
 
-    if (line && line[i])
-    {
-        if (!ft_strncmp(line[i], "-n", 2))
-        {
-            flag = 1;
-            i++;
-        }
-        while (line[i])
-        {
-            if (line[i])
-                ft_putstr_fd(line[i], 1);
-            if (line[i + 1])
-                ft_putstr_fd(" ", 1);
-            i++;
-        }
+//     if (line && line[i])
+//     {
+//         if (!ft_strncmp(line[i], "-n", 2))
+//         {
+//             flag = 1;
+//             i++;
+//         }
+//         while (line[i])
+//         {
+//             if (line[i])
+//                 ft_putstr_fd(line[i], 1);
+//             if (line[i + 1])
+//                 ft_putstr_fd(" ", 1);
+//             i++;
+//         }
+    // if (flag == 0)
+    //     ft_putstr_fd("\n", 1); 
+// =======
 
-=======
 int cmd_echo(t_shell_sack ****sack_orig, char *line)
 {
     t_shell_sack    **sack;
@@ -54,10 +56,6 @@ int cmd_echo(t_shell_sack ****sack_orig, char *line)
         ft_putstr_fd("\n", (*sack)->new_pipes[1]); 
         // ft_putstr_fd("\n", 1); 
         // exit (1); 
->>>>>>> origin/david
     }
-    if (flag == 0)
-        ft_putstr_fd("\n", 1); 
-
     return (0);
 }

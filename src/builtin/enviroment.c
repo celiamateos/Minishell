@@ -37,7 +37,7 @@ char **alloc_first_envp(t_env *env, char **src)
 		result = (char **)malloc(2 * sizeof(char *)); //Aqui hay que crear un enviroment si no existiera envp, al menos con: shlvl, pwd, oldpwd, 
 		if (!result)
 			return (NULL);
-		result[i + 1] = '\0';
+		result[i + 1] = NULL;
 		i += 2;
 	}
 	result[i] = NULL;

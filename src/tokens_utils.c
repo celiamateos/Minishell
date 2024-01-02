@@ -59,7 +59,7 @@ int	check_emptyorspace(char *str)
 		return (1);	
 	while (str[i])
 	{
-		if (isspace(str[i]))
+		if (ft_isspace(str[i]))
 			space++;
 		i++;
 	}
