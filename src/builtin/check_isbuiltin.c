@@ -30,10 +30,14 @@ int  execute_builtin(t_shell_sack ***sack, t_tree *node)
         return (unset((**sack)->env, node->content->cmds[1], 2));
     if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
         return (cmd_echo(&sack, node->content->cmds));
-    
+    if (ft_strchr(cmd, '='))
+    {
+        pre_export_new_variable((**sack)->env, cmd);
+        return (0);
+    }
     // if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
 
-    // printf("PUTO node: %s", node->content->cmds[1]);
+    // printf("PUTO node: %s", node->content->cmds[1]); // ENTONCES EL EXIT K COÑO PASAAAA???
     perror_free_exit("Builtin error", &(*sack));
     // exit (0);
     return (0);
@@ -61,6 +65,10 @@ int  check_isbuiltin(t_shell_sack **sack, t_tree *node)
     {
 	    free ((*sack)->line);
         exit(1);
+    }
+    else if (ft_strchr(cmd, '='))
+    {
+        return (0);
     }
     return (1);
 }

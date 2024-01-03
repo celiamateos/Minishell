@@ -79,7 +79,8 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
                 perror_free_exit("Builtin error", &(*sack_orig));
             ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
             ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-            exit(0) ;
+            return ;
+            exit(0) ; // He cambiado este exit por return por que si no directamente no se guardaba la ejecucion de los builtins. no se si dara pie a leaks.
         }
         else
         {

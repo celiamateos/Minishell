@@ -17,17 +17,17 @@
 #include "minishell2.h"
 
 //ENVIROMENT
-int	init_env(char **envp, t_env *env);
-int export(t_env *env, char *new);
-char **realloc_export_exchange(t_env *env, char *new, size_t pos);
-char **realloc_export_add(t_env *env, char *new);
-int is_valid_to_export(char *s);
-int	search_env_pos(char **env, char *word, char limit);
-char **realloc_unset_pre_export_list(t_env *env, size_t pos);
-char **realloc_add_pre_export_list(t_env *env, char *line);
-void pre_export_new_variable(t_env *env, char *line);
+int     init_env(char **envp, t_env *env);
+int     export(t_env *env, char *new);
+char    **realloc_export_exchange(t_env *env, char *new, size_t pos);
+char    **realloc_export_add(t_env *env, char *new);
+int     is_valid_to_export(char *s);
+int     search_env_pos(char **env, char *word, char limit);
+char    **realloc_unset_pre_export_list(t_env *env, size_t pos);
+char    **realloc_add_pre_export_list(t_env *env, char *line);
+void    pre_export_new_variable(t_env *env, char *line);
 void    print_export_list(t_env *env);
-int 	already_added_pre_export_list(t_env *env, char *new, long pos);
+int 	already_added_pre_export_list(t_env *env, char *new);
 int		unset(t_env *env, char *del, int check);
 char 	**realloc_unset(t_env *env, size_t pos);
 size_t 	ft_arraylen(char **array);

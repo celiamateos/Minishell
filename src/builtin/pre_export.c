@@ -15,10 +15,13 @@
 
 /*@brief sintaxis: export variabale. Busca en pre export si esa variable
 ha sido añadidamete a la lista de pre_export.*/
-int already_added_pre_export_list(t_env *env, char *new, long pos)
+int already_added_pre_export_list(t_env *env, char *new)
 {
+    long pos;
+
     pos = search_env_pos(env->pre_export, new, '\0');
-    printf("\n\n\nPOS%ld", pos);
+    // printf("\n\n\nPOSssss%ld", pos);
+    // printf("\nnew: %s", new);
     if (pos >= 0)
     {
         env->env = realloc_export_add(env, env->pre_export[pos]);
@@ -94,7 +97,8 @@ void pre_export_new_variable(t_env *env, char *line)
     char **temp;
 	int i;
 
-    if (!env || !line)
+  
+    if (!env || !line) // || !ft_strchr(line, '='))
         return ;
     i = 0;
     // printf("ffff");
@@ -126,5 +130,5 @@ void pre_export_new_variable(t_env *env, char *line)
     if (env->pre_export_elements > 0)
         ft_free_env(env->pre_export);
     env->pre_export = temp;
-
+    // print_env(env->pre_export);
 }

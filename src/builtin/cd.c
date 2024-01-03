@@ -128,6 +128,7 @@ int    cd(t_shell_sack *sack, char *path)
     char    *pwd;
     char    *temp;
 
+    // printf("k coño");
     if (!path)
         if (!cd_root(sack))
             return (0); // Aqui no estoy protegiendo malloc
@@ -142,7 +143,6 @@ int    cd(t_shell_sack *sack, char *path)
         return (free(temp), 1);
     free (temp);
     pwd = ft_strdup(sack->env->pwd);
-
     if (!ft_strncmp(path, "..", 1))
         cd_back(sack);
     else
@@ -153,8 +153,8 @@ int    cd(t_shell_sack *sack, char *path)
         cd_path(&sack, temp, pwd);
         free(temp);
     }
-    printf("PWD: %s\n", sack->env->pwd);
-    printf("OLDPWD: %s\n", sack->env->oldpwd);
+    // printf("PWD: %s\n", sack->env->pwd);
+    // printf("OLDPWD: %s\n", sack->env->oldpwd);
     export(sack->env, sack->env->pwd);
     export(sack->env, sack->env->oldpwd);
     return (free (pwd), 0);
