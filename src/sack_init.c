@@ -148,21 +148,21 @@ en la que elimina una parte de la string
 @param lenn final de la parte a eliminar*/
 char *remove_partofstr(const char *s, size_t start, size_t len)
 {
-    size_t	original_len;
+    // size_t	original_len;
 	size_t	i;
 	size_t	j;
 	char*	new;
 
-    if (!s || len < 0)
-        return (NULL);
-	original_len = ft_strlen(s);
-    if (start < 0 || start >= original_len || (start + len) > original_len)
-        return (NULL);
-    new = (char *)malloc((original_len - len + 1) * sizeof(char));
-    if (!new)
-        return NULL;
 	i = 0;
 	j = 0;
+    if (!s || !len)
+        return (NULL);
+	// original_len = ft_strlen(s);
+    if (start >= ft_strlen(s) || (start + len) > ft_strlen(s))
+        return (NULL);
+    new = (char *)malloc((ft_strlen(s) - len + 1) * sizeof(char));
+    if (!new)
+        return NULL;
     while (s[i] != '\0')
     {
         if (i >= start && i < (start + len))

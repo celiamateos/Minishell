@@ -29,7 +29,7 @@ int  execute_builtin(t_shell_sack ***sack, t_tree *node)
     if (!ft_strncmp(cmd, "unset", ft_strlen(cmd)))
         return (unset((**sack)->env, node->content->cmds[1], 2));
     if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
-        return (cmd_echo(&sack, node->content->cmds[1]));
+        return (cmd_echo(&sack, node->content->cmds));
     
     // if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
 

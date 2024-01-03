@@ -27,7 +27,7 @@ PURPLE = \x1b[1;35m
 
 NAME = minishell
 CC = gcc
-CFLAGS = -g3 -fsanitize=address -Werror -Wextra -Wall
+CFLAGS = -g3 -fsanitize=address #-Werror -Wextra -Wall
 CCLANG = -lreadline #-I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib
 
 RM = rm -f

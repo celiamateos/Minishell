@@ -28,13 +28,13 @@ int is_valid_to_export(char *s)
 			return (ft_putstr_fd("export: not a valid identifier", 2), 1);
 		i++;
 	}
+    if (s[i] == '\0')
+        return (1);
 	if (s[i] == '=')
     {
         if (s[i - 1] == ' ' || s[i + 1] == ' ')
 		    return (ft_putstr_fd("export: not a valid identifier", 2), 1);
     }
-    if (s[i] == '\0')
-        return (1);
 	return (0);
 }
 
