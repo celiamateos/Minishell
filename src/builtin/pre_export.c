@@ -18,16 +18,19 @@ ha sido añadidamete a la lista de pre_export.*/
 int already_added_pre_export_list(t_env *env, char *new)
 {
     long pos;
+    int check = 0;
 
     pos = search_env_pos(env->pre_export, new, '\0');
     // printf("\n\n\nPOSssss%ld", pos);
     // printf("\nnew: %s", new);
     if (pos >= 0)
     {
+        if (search_env_pos(env->env, new, '\0') > -1)
+            check = 2;
         env->env = realloc_export_add(env, env->pre_export[pos]);
         if (!env->env)
             return (1);
-        unset(env, new, 0);
+        unset(env, new, check);
     }
     else
         return (ft_putstr_fd("export: not a valid identifier", 2), 0);

@@ -80,7 +80,7 @@ int	search_env_pos(char **env, char *word, char limit)
 	{
 		if (!ft_strncmp(env[i], word, j))
 		{
-			// printf("\nCHAR:%c", env[i][j]);
+			printf("\nCHAR:%c", env[i][j]);
 			if (env[i][j] == '=' || env[i][j] == '\0')
 				return (i);
 		}
