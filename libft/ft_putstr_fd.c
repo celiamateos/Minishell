@@ -22,3 +22,34 @@ void	ft_putstr_fd(char *s, int fd)
 		i++;
 	}
 }
+
+void	ft_putstr_fd_notquotes(char *s, int fd)
+{
+	int	i;
+
+	i = -1;
+	while (s[++i])
+	{
+		if (s[i] == '\'')
+		{
+			i++;
+			while (s[i] && s[i] != '\'')
+			{
+				write (fd, &s[i], 1);
+				i++;
+			}
+		}
+		else if (s[i] == '\"')
+		{
+			i++;
+			while (s[i] != '\0' && s[i] != '\"')
+			{
+				write (fd, &s[i], 1);
+				i++;
+			}
+		}
+		else
+			write (fd, &s[i], 1);
+	}
+}
+

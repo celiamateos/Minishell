@@ -33,7 +33,7 @@ int		main(int ac, char **av, char **envp)
 	sack->env = env;
 	while (42)
  	{
-		main_sig_handler();
+		// main_sig_handler();
  		line = readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
 	 	if (line == 0)
  			return (0);

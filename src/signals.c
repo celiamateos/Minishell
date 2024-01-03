@@ -9,9 +9,8 @@
 /*   Updated: 2023/11/19 19:40:55 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"../include/minishell.h"
-# include <readline/readline.h>
-# include <readline/history.h>
+# include"../include/minishell.h"
+
 /*@brief Handle signals during heredoc execution creating file.
 Give some problems, get stuck on ^C*/
 void	heredoc_sig_handler(void)
@@ -33,7 +32,7 @@ void	sigint_handler(int signum)
 	(void)signum; //unused
 	write(1, "\n", 1);
 	rl_on_new_line();
-	// rl_replace_line("", 0); COMENTO ESTA LINEA PORQUE NO COMPILA EN 42
+	rl_replace_line("", 0); //en 42 esta linea no compila en WSL si. Habrá q instalar puto algo en 42 :)
 	rl_redisplay();
 }
 

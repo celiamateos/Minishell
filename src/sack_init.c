@@ -226,24 +226,32 @@ int expand_line(t_shell_sack *sack)
 	char	*temp;
 	int		expander;
 	
-	i = -1;
+	i = 0;
 	sack->d_quotes = 0;
 	sack->s_quotes = 0;
 	expander = 1;
-	while (sack->line[++i])
+	while (sack->line[i])
 	{
 
 		if (sack->line[i] == '\"')
 		{
 			sack->d_quotes = !sack->d_quotes;
 		}
-		if (sack->line[i] == '\'')
+		else if (sack->line[i] == '\'')
 		{
 			if (sack->d_quotes == 0)
 				expander = !expander;
 			sack->s_quotes = !sack->s_quotes;
 		}
-		if ((sack->line[i] == '$') && (expander == 1)) // check_valid_expanddolar(parseo) x ejemplo q no haya espacio antes del $
+		else if (sack->line[i] == '*' && sack->d_quotes == 0 && sack->s_quotes == 0)
+		{
+			temp = expand_wildcard(sack, sack->line, i);
+			free (sack->line);
+			sack->line = ft_strdup(temp);
+			free (temp);
+			i = 0;
+		}
+		else if ((sack->line[i] == '$') && (expander == 1)) // check_valid_expanddolar(parseo) x ejemplo q no haya espacio antes del $
 		{
 			temp = expand_dolar(sack, sack->line, i);
 			free (sack->line);
@@ -252,8 +260,9 @@ int expand_line(t_shell_sack *sack)
 			i = -1;
 			sack->d_quotes = 0;
 			sack->s_quotes = 0;
-			expander = 1;
+			expander = 0;
 		}
+		i++;
     }
 	temp = ft_strtrim(sack->line, " \t\v\n\r");
 	sack->l_expanded = ft_strdup(temp);

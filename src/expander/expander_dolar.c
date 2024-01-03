@@ -32,8 +32,10 @@ char *get_varname(t_shell_sack *sack, char *old)
 	char *new_var;
 	int pos;
 
+    // echo $? mostrar codigo de error:
+	if (!ft_strncmp(old, "?", ft_strlen(old)))
+		return (new_var = ft_itoa(sack->last_exit));
 	pos = search_env_pos(sack->env->env, old, '=');
-
 	if (pos >= 0)
 	{
 		if (!sack->env->env[pos])
