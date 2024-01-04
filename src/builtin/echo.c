@@ -31,13 +31,13 @@ int cmd_echo(t_shell_sack ****sack_orig, char **line)
         while (line[i])
         {
             if (line[i])
-                ft_putstr_fd_notquotes(line[i], (*sack)->new_pipes[1]);  
+                ft_putstr_fd(line[i], (*sack)->new_pipes[1]);  
             if (line[i + 1])
-            ft_putstr_fd_notquotes(" ", (*sack)->new_pipes[1]); 
+            ft_putstr_fd(" ", (*sack)->new_pipes[1]); 
             i++;
         }
     }
     if (flag == 0)
-        ft_putstr_fd_notquotes("\n", (*sack)->new_pipes[1]); 
+        ft_putstr_fd("\n", (*sack)->new_pipes[1]); 
     return (0);
 }

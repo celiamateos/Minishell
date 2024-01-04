@@ -131,16 +131,16 @@ int	read_exit(char *line); //Change to builtin exit
 //parse
 
 //expander
-char    *remove_quotes(char *old, char c);
+// char    *remove_quotes(char *old, char c);
 int     expand_line(t_shell_sack *sack);
 char    *expand_dolar(t_shell_sack *sack, char *old, int i);
-int	    expand_quotes(t_shell_sack *sack);
+// int	    expand_quotes(t_shell_sack *sack);
 int     check_errors_initsack(t_shell_sack *sack);
 void    check_open_quotes(t_shell_sack *sack, char *s);
 int	    search_char(char *s, char c, int i);
 char    *get_varcontent(char *var);
 char    *expand_wildcard(t_shell_sack *sack, char *old, int i);
-
+char **remove_quotes_cmds(t_shell_sack **sack);
 // signals
 void    main_sig_handler(void);
 void    sigint_handler(int signum);

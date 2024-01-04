@@ -102,6 +102,7 @@ typedef struct s_shell_sack
 	int				len_expand;
 	char			**envp;
 	struct s_env	*env;
+	struct s_token	token;
 }	t_shell_sack;
 
 #endif
