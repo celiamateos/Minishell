@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-int cmd_echo(t_shell_sack ****sack_orig, char **line)
+int echo(t_shell_sack ****sack_orig, char **line)
 {
     t_shell_sack    **sack;
     int             flag = 0;
@@ -31,7 +31,7 @@ int cmd_echo(t_shell_sack ****sack_orig, char **line)
             if (line[i])
                 ft_putstr_fd(line[i], 1);  
             if (line[i + 1])
-            ft_putstr_fd(" ", 1); 
+                ft_putstr_fd(" ", 1); 
             i++;
         }
     }

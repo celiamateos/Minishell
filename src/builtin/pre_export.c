@@ -99,12 +99,10 @@ void pre_export_new_variable(t_env *env, char *line)
 {
     char **temp;
 	int i;
-
   
-    if (!env || !line) // || !ft_strchr(line, '='))
+    if (!env || !line || is_valid_to_export(line))
         return ;
     i = 0;
-    // printf("ffff");
 	if (!ft_isalpha(line[i]) && line[i] != '_')
 		return (ft_putstr_fd(line, 2), ft_putstr_fd("command not found", 2));
 	i++;
@@ -122,7 +120,6 @@ void pre_export_new_variable(t_env *env, char *line)
         if (!temp)
             return ;
     }
-
     else
     {
         temp = realloc_add_pre_export_list(env, line);

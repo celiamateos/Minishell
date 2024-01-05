@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
-
+ 
 char	*fix_tokenvalues(char **value)
 {
 	char	*aux;
@@ -48,25 +48,7 @@ void  *get_last_cmd(t_dlist **token_list)
 	return (aux_list->content);
 }
 
-int	check_emptyorspace(char *str)
-{
-	int	i;
-	int	space;
 
-	i = 0;
-	space = 0;
-	if (!str || str == NULL)
-		return (1);	
-	while (str[i])
-	{
-		if (ft_isspace(str[i]))
-			space++;
-		i++;
-	}
-	if (i == space)
-		return (1);
-	return (0);
-}
 
 int	find_nextquote(char *str, char quote)
 {
@@ -90,65 +72,7 @@ int	find_nextquote(char *str, char quote)
 		return (-1);
 }
 
-int	valid_varformat(char *value, int *i)
-{
-	if (ft_isspace(value[*i]))
-		while (ft_isspace(value[*i]))
-			*i = *i + 1;
-	if (!ft_isalpha(value[*i]))
-		return (0);
-	else
-		*i = *i + 1;
-	while (value[*i] != '\0')
-	{
-		if (ft_isspace(value[*i]))
-			return (0); 
-		else if (value[*i] == '=')
-			break;
-		else
-			*i = *i + 1;
-	}
-	if (value[*i] != '=')
-		return (0);
-	*i = *i + 1;
-	if (ft_isspace(value[*i]))
-		return (0);
-	return (1);
-}
 
-int	valid_varname(char *value, int *i)
-{
-	if (ft_isspace(value[*i]))
-		while (ft_isspace(value[*i]))
-			*i = *i + 1;
-	if (!ft_isalpha(value[*i]))
-		return (0);
-	else
-		*i = *i + 1;
-	while (value[*i] != '\0')
-	{
-		if (ft_isalnum(value[*i]) || value[*i] == '_')
-			*i = *i + 1;
-		else if (value[*i] == '=')
-			return (1);
-		else
-			return (0);
-	}
-	return (0);
-}
-
-int	isvalid_var(char *value)
-{
-	int	i;
-
-	i = 0;
-	if(!valid_varformat(value, &i))
-		return (0);
-	i = 0;
-	if(!valid_varname(value, &i))
-		return (0);
-	return (1);
-}
 
 void	save_redir_filename(char *line, int *i)
 {
@@ -183,36 +107,3 @@ void	get_cmd_args(t_shell_sack **sack)
 	}
 }
 
-void	print_tokenlist(t_dlist *list)
-{
-	t_token	*token;
-
-	while (list)
-	{
-		token = list->content;
-		printf("token->value: %s type: %d\n", token->value, token->type);
-		list = list->next;
-	}
-}
-
-void	print_token(char *msj, t_token	*token)
-{
-	printf("%s: ", msj);
-	printf("token->value: %s type: %d\n", token->value, token->type);
-}
-
-void	print_token_args(t_dlist *token_list)
-{
-	t_token	*token;
-
-	while(token_list)
-	{
-		token = token_list->content;
-		if (token->type == CMD)
-		{
-			printf("token->value: %s type: %d\n", token->value, token->type);
-			ft_print_strarray(token->cmds);
-		}
-		token_list = token_list->next;
-	}
-}

@@ -47,8 +47,8 @@ int print_env(t_shell_sack ****sack_orig)
 	while ((*sack)->env->env[i])
 	{
 		if ((*sack)->env->env[i])
-			ft_putstr_fd((*sack)->env->env[i], 1);
-			// printf("%d  %s\n", i, (*sack)->env->env[i]);
+			// ft_putstr_fd((*sack)->env->env[i], 1);
+			printf("%d  %s\n", i, (*sack)->env->env[i]);
 		i++;
 	}
 	// if ((*sack)->new_pipes[1] != 1 )

@@ -29,7 +29,7 @@ int  execute_builtin(t_shell_sack ***sack, t_tree *node)
     else if (!ft_strncmp(cmd, "unset", ft_strlen(cmd)))
         unset((**sack)->env, node->content->cmds[1], 2);
     else if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
-        cmd_echo(&sack, node->content->cmds);
+        echo(&sack, node->content->cmds);
     else if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
         perror_free_exit("Builtin error", &(*sack));
     else if (ft_strchr(cmd, '='))
@@ -69,8 +69,6 @@ int  check_isbuiltin(t_shell_sack **sack, t_tree *node)
         exit(1);
     }
     else if (ft_strchr(cmd, '='))
-    {
         return (0);
-    }
     return (1);
 }

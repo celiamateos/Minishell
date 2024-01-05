@@ -9,13 +9,35 @@
 /*   Updated: 2023/11/19 20:13:32 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-# include "../../include/minishell.h"
-
-
-
+#include "../../include/minishell.h"
 void	leaks(void)
 {
 	system("leaks -q minishell");
+}
+
+int	clean_init(t_shell_sack **sack)
+{
+	// check to use memset to initialize in one line
+	*sack = (t_shell_sack *)malloc(sizeof(t_shell_sack));
+	if (!*sack)
+		return (1);
+	(*sack)->line = NULL;
+	(*sack)->l_expanded = NULL;
+	(*sack)->is_string = 0;
+	(*sack)->pos = 0;
+	(*sack)->token_list = NULL;
+	(*sack)->tree_list = NULL;
+	(*sack)->last_exit = 0;
+	(*sack)->history_fd = -1;
+	(*sack)->heredoc = 0;
+	(*sack)->old_pipes[0] = 0;
+	(*sack)->old_pipes[1] = 1;
+	(*sack)->new_pipes[0] = 0;
+	(*sack)->new_pipes[1] = 1;
+	(*sack)->env = NULL;
+	(*sack)->d_quotes = 0;
+	(*sack)->s_quotes = 0;
+	return (0);
 }
 
 int		main(int ac, char **av, char **envp)

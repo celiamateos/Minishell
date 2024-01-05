@@ -92,6 +92,7 @@ char	*get_next_line(int fd);
 //size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 int     ft_strposchr(const char *s, int c);
 int     ft_isspace(int c);
+int		check_emptyorspace(char *str);
 void    ft_print_strarray (char **array);
 void	ft_freematrix(char ***matrix);
 char	**ft_sarrcpy(char **arr);
