@@ -143,7 +143,7 @@ char    *expand_wildcard(t_shell_sack *sack, char *old, int i);
 char **remove_quotes_cmds(t_shell_sack **sack);
 // signals
 void    main_sig_handler(void);
-void    sigint_handler(int signum);
-void    heredoc_sig_handler(void);
+// void    sigint_handler(int signum);
+// void    heredoc_sig_handler(void);
 
 #endif

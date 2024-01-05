@@ -15,7 +15,7 @@
 int  execute_builtin(t_shell_sack ***sack, t_tree *node)
 {
     char *cmd;
-
+//LOS BUILTINS TIENEN QUE RETORNAR INT 0 SI TODO VA BIEN, FT_PERROR_FREE_eXIT SI HAY ALGUN FALLO. PENDIENTE
     cmd = node->content->cmds[0];
     
     if (!ft_strncmp(cmd, "cd", ft_strlen(cmd)))
