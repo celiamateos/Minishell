@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/19 19:40:55 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"../include/minishell.h"
+# include "../../include/minishell.h"
 
 // @brief Wait for the PID received to end, and returns exitcode.
 int	wait_exitcode(int last_pid)

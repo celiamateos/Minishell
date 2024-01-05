@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/19 19:40:55 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"../include/minishell.h"
+#include"../../include/minishell.h"
 
 /* @brief When an operator is found on tree node, find next nearest command or
 parenthesis at his right. Then change the value of the paremeter token->oper 
@@ -79,6 +79,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
                 perror_free_exit("Builtin error", &(*sack_orig));
             ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
             ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+             
             return ;
             exit(0) ; // He cambiado este exit por return por que si no directamente no se guardaba la ejecucion de los builtins. no se si dara pie a leaks.
         }

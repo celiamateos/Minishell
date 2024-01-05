@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/19 19:40:55 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+# include "../../include/minishell.h"
 
 int	clean_init(t_shell_sack **sack)
 {
@@ -288,17 +288,17 @@ int	sack_init(t_shell_sack *sack, char *line)
 	// free (line);
 	if (sack->l_expanded == NULL || sack->l_expanded[0] == '\0')
 		return (free(sack->l_expanded), 1);
-	line = ft_strdup(sack->l_expanded);
+	// line = ft_strdup(sack->l_expanded);
 	free (sack->line);
 	sack->line = ft_strdup(sack->l_expanded);
 	free (sack->l_expanded);
-	sack->token_list = init_tokens(line); // enviar linea expandida y verificada de errores
+	sack->token_list = init_tokens(sack->line); // enviar linea expandida y verificada de errores
 	get_cmd_args(&sack);
 	//sack->last_token = get_last_cmd(&sack->token_list); //check if is needed
 	//print_token("Last cmd", sack->last_token);
 	//sack->last_token = get_last_cmd(&sack->token_list);
 	//print_token_args(sack->token_list);
-	free(line); // Creo que para borrarla hay que enviarla con & desde el main	
+	// free(line); // Creo que para borrarla hay que enviarla con & desde el main	
 	return (0);
 }
 

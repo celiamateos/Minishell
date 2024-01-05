@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/20 16:44:58 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	leaf_isoperpipe(t_tree ***root, t_dlist *token_list)
 {

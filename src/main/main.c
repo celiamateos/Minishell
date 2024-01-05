@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/19 20:13:32 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
- #include "../include/minishell.h"
+# include "../../include/minishell.h"
 
 void	leaks(void)
 {
@@ -33,12 +33,13 @@ int		main(int ac, char **av, char **envp)
 	sack->env = env;
 	while (42)
  	{
-		// main_sig_handler();
+		main_sig_handler();
  		line = readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
 	 	if (line == 0)
  			return (0);
 		if (*line && !check_emptyorspace(line))
 		{
+            add_history(line);
 			if (read_exit(line))
 				break;
 			if (!sack_init(sack, line))
@@ -52,9 +53,10 @@ int		main(int ac, char **av, char **envp)
 			// print2D(sack->tree_list);
 			//print_preorder(sack->tree_list);
 		}
-		if (*line)
-            add_history(line);
+		// if (*sack->line)
+        //     add_history(sack->line);
  		free(line);
+		// free(sack->line);
 		//reset sack and free tokens and list?
 		sack->old_pipes[0] = 0;
 		sack->old_pipes[1] = 1;

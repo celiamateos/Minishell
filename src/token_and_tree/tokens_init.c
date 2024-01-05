@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/21 21:59:42 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	get_token_type(char *value)
 {

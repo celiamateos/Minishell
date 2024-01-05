@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/10 19:58:02 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
- # include "../include/minishell.h"
+ # include "../../include/minishell.h"
  //Crea un nuevo nodo con content char *, void *next y void*prev.
 /*@brief ALOCA MEMORIA*/
 t_dlist	*ft_dlstnew(void *content)

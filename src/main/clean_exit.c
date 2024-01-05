@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/19 19:40:55 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"../include/minishell.h"
+# include "../../include/minishell.h"
 
 void	ft_clearenv(t_shell_sack *sack)
 {
@@ -76,9 +76,5 @@ void	perror_free_exit(char *msj, t_shell_sack ***sack)
         // unlink("tmp/.heredoc");
     free_sack(&(**sack));
     ft_clearenv((**sack));
-    // ft_free_env((**sack)->env->env);
-	// ft_free_env((**sack)->env->pre_export);
-	// free((**sack)->env->env);
-    // free((**sack));
     exit((**sack)->last_exit); //check error code for exit
 }

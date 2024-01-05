@@ -114,7 +114,7 @@ int export(t_env *env, char *new)
         return (already_added_pre_export_list(env, new), 0);
 	if (pos >= 0)
     {
-        printf("\npos o ke:%ld", pos);
+        // printf("\npos o ke:%ld", pos);
 		env->env = realloc_export_exchange(env, new, pos);
         if (!env->env)
             return (1); //ft_error malloc en realloc_export_exchange // liberar t_env

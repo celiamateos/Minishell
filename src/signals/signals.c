@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/19 19:40:55 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-# include"../include/minishell.h"
+# include"../../include/minishell.h"
 
 /*@brief Handle signals during heredoc execution creating file.
 Give some problems, get stuck on ^C*/

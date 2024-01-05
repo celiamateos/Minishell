@@ -10,7 +10,7 @@
 /*   Updated: 2023/11/20 16:44:58 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 // Function to print binary tree in 2D
 // It does reverse inorder traversal

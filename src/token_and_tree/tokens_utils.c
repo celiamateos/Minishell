@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/19 19:22:15 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 char	*fix_tokenvalues(char **value)
 {
