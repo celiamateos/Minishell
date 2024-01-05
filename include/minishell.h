@@ -32,7 +32,7 @@ int		unset(t_env *env, char *del, int check);
 char 	**realloc_unset(t_env *env, size_t pos);
 size_t 	ft_arraylen(char **array);
 void    ft_free_env(char **env);
-int    print_env(char **env);
+int print_env(t_shell_sack ****sack_orig);
 
 //BUILTINS
 int    get_pwd(void);
@@ -61,6 +61,7 @@ void    free_token(void *content);
 void    free_sack(t_shell_sack **sack);
 void    free_tree(t_tree **node);
 void	perror_free_exit(char *msj, t_shell_sack ***sack); //error handling
+void    free_exit(t_shell_sack ***sack);
 
 // init_sack
 int	clean_init(t_shell_sack **sack);

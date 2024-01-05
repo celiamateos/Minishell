@@ -78,3 +78,14 @@ void	perror_free_exit(char *msj, t_shell_sack ***sack)
     ft_clearenv((**sack));
     exit((**sack)->last_exit); //check error code for exit
 }
+
+void free_exit(t_shell_sack ***sack)
+{
+    (**sack)->last_exit = EXIT_FAILURE; //Save it here for all fails?
+    //print2D((**sack)->tree_list);
+	// if ((**sack)->heredoc)
+        // unlink("tmp/.heredoc");
+    free_sack(&(**sack));
+    ft_clearenv((**sack));
+    exit((**sack)->last_exit); //che
+}

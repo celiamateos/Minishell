@@ -33,6 +33,7 @@ void    run_oper(t_shell_sack ***sack_orig, t_tree *node)
             aux_node->content->oper = AND;
     }
 }
+
 /*@brief Creates new pipes and backup the old ones. 
 Protect to not allow pipe in last node to not change std.
     (DAVID -I have tocheck thath)*/
@@ -72,21 +73,9 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
             (*sack)->last_exit = 1; //check error code
             perror_free_exit("Open error", sack_orig);
         }
-        if (!check_isbuiltin(sack, node))
-        {
-            ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
-            ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-            (*sack)->last_exit = execute_builtin(&sack, node);
-            if ((*sack)->last_exit)
-                perror_free_exit("Builtin error", &(*sack_orig));
-             
-            // return ;
-            // exit(0) ; // He cambiado este exit por return por que si no directamente no se guardaba la ejecucion de los builtins. no se si dara pie a leaks.
-        }
         else
         {
             // printf("AQUI\n");
-            cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
             if ((*sack)->old_pipes[0] != 0 )
                 if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1)
                     perror_free_exit("Dup2 error IN", sack_orig);
@@ -95,12 +84,20 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
                     perror_free_exit("Dup2 error OUT", sack_orig);
         ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
         ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-		execve(cmd, token->cmds, (*sack)->env->env);
-        (*sack)->last_exit = 127; //error code for cmd not found
-        perror_free_exit(cmd, sack_orig); //Free everything?
+        if (!check_isbuiltin(sack, node))
+        {
+            cmd = token->cmds[0];
+            (*sack)->last_exit = execute_builtin(&sack, node);
+        }
+        else
+        {
+            cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
+    		execve(cmd, token->cmds, (*sack)->env->env);
+            (*sack)->last_exit = 127; //error code for cmd not found
+            perror_free_exit(cmd, sack_orig); //Free everything?
+        }
         }
 		// ft_freematrix(&token->cmds);
-        // free(cmd);
     }
     ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
     (*sack)->last_exit = wait_exitcode((*sack)->last_pid); //Aqui llama a waitpid
