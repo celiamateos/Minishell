@@ -42,6 +42,9 @@
 # define OR 22
 # define COUNT 10 //to check priunt2Dtree
 
+# define D_QUOTES 34
+# define S_QUOTES 39
+
 # define COMANDNOTFOUND 101
 # define PERMISSIONDENIED 102
 # define NOSUCHFILEORDIRECTORY 103

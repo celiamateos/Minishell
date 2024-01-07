@@ -67,20 +67,25 @@ char	*getcmd_withpath(char *cmd, char **cmds, char **env)
 {
 	char	*path_cmd;
 	char	*aux;
-
+	char	*cmd_rmquotes;
 	(void)cmds; // esto no se usa
 	path_cmd = NULL;
 
-	if (check_route(cmd) == 1)
-		path_cmd = cmd;
+	if ((ft_strchr(cmd, D_QUOTES) || ft_strchr(cmd, S_QUOTES)) && !check_open_quotes(NULL, cmd))
+		cmd_rmquotes = remove_quotes_cmd(cmd);
+	else
+		cmd_rmquotes = ft_strdup(cmd);
+	if (check_route(cmd_rmquotes) == 1)
+		path_cmd = cmd_rmquotes;
 	else
 	{
-		aux = get_path(cmd, env);
+		aux = get_path(cmd_rmquotes, env);
 		if (aux)
 		{
-			path_cmd = ft_strjoin(aux, cmd);
+			path_cmd = ft_strjoin(aux, cmd_rmquotes);
 			free(aux);
 		}
 	}
+	free (cmd_rmquotes);
 	return (path_cmd);
 }

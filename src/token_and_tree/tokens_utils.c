@@ -73,7 +73,7 @@ int	find_nextquote(char *str, char quote)
 }
 
 
-
+// Creo que en esta funcion se gestiona que si encuentra ej: < Makefile debe tomarlo como junto.
 void	save_redir_filename(char *line, int *i)
 {
 	*i = *i + 1;

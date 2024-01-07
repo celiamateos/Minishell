@@ -42,18 +42,20 @@ int	clean_init(t_shell_sack **sack)
 
 int	sack_init(t_shell_sack *sack, char *line)
 {
-	sack->line = ft_strtrim(line, " \t\v\n\r");
+	// sack->line = ft_strtrim(line, " \t\v\n\r");
+	sack->line = ft_strdup(line);
+	if(!sack->line)
+		return (free(line), 1);
 	if (check_errors_initsack(sack))
-		return (1); //no se si aqui hay q liberar yo creo q si
+		return (free(sack->line), 1);
 	if (expand_line(sack))
-		return (1); //liberar ??
+		return (free(line), 1);
 	if (sack->l_expanded == NULL || sack->l_expanded[0] == '\0')
-		return (free(sack->l_expanded), 1);
-	// line = ft_strdup(sack->l_expanded);
+		return (free(sack->line), free(line), 1);
 	free (sack->line);
 	sack->line = ft_strdup(sack->l_expanded);
 	free (sack->l_expanded);
-	sack->token_list = init_tokens(sack->line); // enviar linea expandida y verificada de errores
+	sack->token_list = init_tokens(sack->line);
 	get_cmd_args(&sack);
 	return (0);
 }

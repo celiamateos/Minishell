@@ -11,52 +11,65 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 // IN PROCESS.................................................. FUCKINQUOTES
-// char **remove_quotes_cmds(t_shell_sack **sack)
-// {
-// 	char **temp;
-// 	int i;
-// 	int j;
+char *remove_quotes_cmd(char *s)
+{
+	char *cmd;
+	int	i = -1;
 
-// 	temp = ft_calloc(1, ft_arraylen(sack->token->cmds));
-// 	printf("temp:%s", temp[0]);
-// 	return (temp);
-// }
+	// if (!s)
+	// 	return NULL;
+	while (s[++i])
+	{
+		if (s[i] == D_QUOTES)
+		{
+			cmd = remove_quotes(s, D_QUOTES);
+			return (cmd);
+		}
+		else if (s[i] == S_QUOTES)
+		{
+			cmd = remove_quotes(s, S_QUOTES);
+			return (cmd);
+		}
+	}
+	return NULL;
+}
 
 
 
 
 
-// /*@brief aloca memoria para una copia sin comillas
-// @param old la string a copiar
-// @param type el tipo de comillas a eliminar, simples o dobles
-// @return string sin comillas, NULL en caso de error*/
-// char *remove_quotes(char *old, char type)
-// {
-//     char *new;
-//     size_t  i = 0;
-//     int j = 0;
-//     int quotes = 0;
+/*@brief aloca memoria para una copia sin comillas
+@param old la string a copiar
+@param type el tipo de comillas a eliminar, simples o dobles
+@return string sin comillas, NULL en caso de error*/
+char *remove_quotes(char *old, char type)
+{
+    char *new;
+    size_t  i = 0;
+    int j = 0;
+    int quotes = 0;
 
-//     if (!old)
-//         return (NULL);
-//     while (i++ < ft_strlen(old))
-//     {
-//         if (old[i] == type)
-//             quotes++;
-//     }
-//     new = (char *)malloc((i - quotes + 1) * sizeof(char));
-//     if (!new)
-//         return (NULL);
-//     new[i - quotes - 1] = '\0';
-//     i = 0;
-//     while (i < (ft_strlen(old) - quotes))
-//     {
-//         if (old[j] == type)
-//             j++;
-//         new[i++] = old[j++];
-//     }
-//     return (new);
-// }
+    if (!old)
+        return (NULL);
+    while (i++ < ft_strlen(old))
+    {
+        if (old[i] == type)
+            quotes++;
+    }
+    new = (char *)malloc((i - quotes + 1) * sizeof(char));
+    if (!new)
+        return (NULL);
+    new[i - quotes - 1] = '\0';
+    i = 0;
+    while (i < (ft_strlen(old) - quotes))
+    {
+        if (old[j] == type)
+            j++;
+        new[i++] = old[j++];
+    }
+	printf("\nNEW:%s", new);
+    return (new);
+}
 
 int	search_char(char *s, char c, int i)
 {

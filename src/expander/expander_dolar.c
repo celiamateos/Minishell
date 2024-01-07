@@ -63,7 +63,7 @@ char *get_varname(t_shell_sack *sack, char *old)
 
 int	check_expand_dolar(char *old, int i)
 {
-	if (!old[i + 1])
+	if (!old[i + 1] || old[i + 1] == '\"' || old[i + 1] == '\'' || isspace(old[i + 1]))
 		return (1);
 	if ((ft_isalpha(old[i + 1] && ft_isdigit(old[i + 1]) && old[i + 1] != '?' )))
 		return (1);

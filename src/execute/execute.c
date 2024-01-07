@@ -89,7 +89,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
             // cmd = token->cmds[0];
             (*sack)->last_exit = execute_builtin(&sack, node);
             if ((*sack)->last_exit != 0)
-                free_exit(token->cmds[0], &sack, 0); //Free everything?
+                free_exit(token->cmds, &sack, 0); //Free everything?
 
         }
         else
@@ -97,7 +97,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
             cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
     		execve(cmd, token->cmds, (*sack)->env->env);
             (*sack)->last_exit = 127; //error code for cmd not found
-            free_exit(token->cmds[0], sack_orig, COMANDNOTFOUND); //Free everything?
+            free_exit(token->cmds, sack_orig, COMANDNOTFOUND); //Free everything?
         }
         }
 		// ft_freematrix(&token->cmds);

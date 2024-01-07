@@ -21,23 +21,24 @@
 int sack_init(t_shell_sack *sack, char *line);
 
 /* ---------------------- PARSE ------------------------*/
-
+int     check_errors_initsack(t_shell_sack *sack);
+int     check_open_quotes(t_shell_sack *sack, char *s);
 
 
 
 
 /* ---------------------- EXPANDER ------------------------*/
-// char    *remove_quotes(char *old, char c);
+char    *remove_quotes(char *old, char c);
 int     expand_line(t_shell_sack *sack);
 char    *expand_dolar(t_shell_sack *sack, char *old, int i);
 int	check_expand_dolar(char *old, int i);
 // int	    expand_quotes(t_shell_sack *sack);
-int     check_errors_initsack(t_shell_sack *sack);
-void    check_open_quotes(t_shell_sack *sack, char *s);
+
 int	    search_char(char *s, char c, int i);
 char    *get_varcontent(char *var);
 char    *expand_wildcard(t_shell_sack *sack, char *old, int i);
-char **remove_quotes_cmds(t_shell_sack **sack);
+char *remove_quotes_cmd(char *s);
+
 // signals
 void    main_sig_handler(void);
 // void    sigint_handler(int signum);
@@ -133,7 +134,7 @@ int		wait_exitcode(int last_pid);
 int     read_exit(char *line); //Change to builtin exit
 void	perror_free_exit(char *msj, t_shell_sack ***sack);
 
-void    free_exit(char *cmd, t_shell_sack ***sack, int msj);
+void    free_exit(char **cmds, t_shell_sack ***sack, int msj);
 void	ft_pustr_msjerror(int n, char *cmd);
 
 /* ---------------------- LISTS ------------------------*/

@@ -74,17 +74,17 @@ void	ft_pustr_msjerror(int n, char *cmd)
 	else if (n == COMANDNOTFOUND)
 	{
 		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd_noquotes(cmd, 2);
 	}
 	else if (n == PERMISSIONDENIED)
 	{
 		ft_putstr_fd("minishell: permission denied: ", 2);
-		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd_noquotes(cmd, 2);
 	}
 	else if (n == NOSUCHFILEORDIRECTORY)
 	{
 		ft_putstr_fd("minishell: no such file or directory: ", 2);
-		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd_noquotes(cmd, 2);
 	}
     else
         perror(cmd);
@@ -92,10 +92,12 @@ void	ft_pustr_msjerror(int n, char *cmd)
 }
 
 /*VERSION MEJORADA perror_free_exit*/
-void free_exit(char *cmd, t_shell_sack ***sack, int msj)
+void free_exit(char **cmds, t_shell_sack ***sack, int msj)
 {
     int exitcode;
+    char *cmd;
 
+    cmd = ft_arrtostr(cmds);
     exitcode = (**sack)->last_exit;
     if (msj != 0)
         ft_pustr_msjerror(msj, cmd);
@@ -108,12 +110,16 @@ void free_exit(char *cmd, t_shell_sack ***sack, int msj)
 void	perror_free_exit(char *msj, t_shell_sack ***sack)
 {
 	perror(msj);
+    int exitcode;
+
+    exitcode = (**sack)->last_exit;
+
     // (**sack)->last_exit = 1; //Save it here for all fails?
     //print2D((**sack)->tree_list);
 	// if ((**sack)->heredoc)
         // unlink("tmp/.heredoc");
     free_sack(&(**sack));
     ft_clearenv((**sack));
-    exit(EXIT_FAILURE); //check error code for exit
+    exit(exitcode); //check error code for exit
 }
 

@@ -96,6 +96,6 @@ int		check_emptyorspace(char *str);
 void    ft_print_strarray (char **array);
 void	ft_freematrix(char ***matrix);
 char	**ft_sarrcpy(char **arr);
-// void	ft_putstr_fd_notquotes(char *s, int fd);
-
+void	ft_putstr_fd_noquotes(char *s, int fd);
+char *ft_arrtostr(char **arr);
 #endif

@@ -33,14 +33,14 @@ int	get_token_type(char *value)
 	else if (value[i] == ')')
 		return (PARENT_CL);	
 	// else if (isvalid_var(value))
-	// 	return (CREATE_VAR);
+	// 	return (CREATE_VAR); //Ahora me entero que aqui pensabas meter lo de var=content jeje lo meti en builtins
 	else
 		return (CMD);
 }
 
 int	ft_isoperator(char	c, int *quotes)
 {
-	if (c == '"' && !quotes[1])
+	if (c == '\"' && !quotes[1])
 		quotes[0] = !quotes[0];
 	else if (c == '\'' && !quotes[0])
 		quotes[1] = !quotes[1];

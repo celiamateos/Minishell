@@ -12,33 +12,6 @@
 #include"../include/minishell.h"
 
 
-void check_open_quotes(t_shell_sack *sack, char *s)
-{
-	int i;
-	
-	i = -1;
-	if (!s || s[i + 1] == '\0')
-		return ; //No se si hay que proteger aqui.
-	while (s[++i])
-	{
-		if (s[i] == '\"')
-		{
-			sack->d_quotes = !sack->d_quotes;
-			if (!search_char(s, '\"', i + 1))
-				break ;
-			i = search_char(s, '\"', i + 1);
-			sack->d_quotes = !sack->d_quotes;
-		}
-		else if (s[i] == '\'')
-		{
-			sack->s_quotes = !sack->s_quotes;
-			if (!search_char(s, '\'', i + 1))
-				break ;
-			i = search_char(s, '\'', i + 1);
-			sack->s_quotes = !sack->s_quotes;
-		}
-	}
-}
 
 int	check_emptystr(t_shell_sack *sack, size_t i)
 {
@@ -89,6 +62,38 @@ char *remove_partofstr(const char *s, size_t start, size_t len)
     return new;
 }
 
+int check_open_quotes(t_shell_sack *sack, char *s)
+{
+	int i;
+	int	d_quotes = 0;
+	int	s_quotes = 0;
+	
+	i = -1;
+	if (!s || s[i + 1] == '\0')
+		return (1); //No se si hay que proteger aqui.
+	while (s[++i])
+	{
+		if (s[i] == D_QUOTES)
+		{
+			d_quotes = !d_quotes;
+			if (!search_char(s, D_QUOTES, i + 1))
+				break ;
+			i = search_char(s, D_QUOTES, i + 1);
+			d_quotes = !d_quotes;
+		}
+		else if (s[i] == S_QUOTES)
+		{
+			s_quotes = !s_quotes;
+			if (!search_char(s, S_QUOTES, i + 1))
+				break ;
+			i = search_char(s, S_QUOTES, i + 1);
+			s_quotes = !s_quotes;
+		}
+	}
+	if (d_quotes != 0 || s_quotes != 0)
+		return (1);
+	return (0);
+}
 
 int check_errors_initsack(t_shell_sack *sack)
 {
@@ -101,14 +106,9 @@ int check_errors_initsack(t_shell_sack *sack)
 	// s = ft_strdup(sack->line);
 
 	s = sack->line;
-	check_open_quotes(sack, s);
-	if (sack->d_quotes != 0 || sack->s_quotes != 0)
-	{
-		sack->d_quotes = 0;
-		sack->s_quotes = 0;
-		ft_putstr_fd("Input invalid, found open quotes\n", 2);
-		return (1);
-	}
+	if (check_open_quotes(sack, s))
+		return (ft_putstr_fd("Input invalid, found open quotes\n", 2), 1);
+
 	// start = check_emptystr(sack, 0);
 	// while (s[i])
 	// {
