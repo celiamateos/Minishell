@@ -32,7 +32,7 @@ char *get_varname(t_shell_sack *sack, char *old)
 	char *new_var;
 	int pos;
 
-    // echo $? mostrar codigo de error:
+
 	if (!ft_strncmp(old, "?", ft_strlen(old)))
 		return (new_var = ft_itoa(sack->last_exit));
 	pos = search_env_pos(sack->env->env, old, '=');
@@ -60,7 +60,16 @@ char *get_varname(t_shell_sack *sack, char *old)
 	}
     return (new_var);
 }
- 
+
+int	check_expand_dolar(char *old, int i)
+{
+	if (!old[i + 1])
+		return (1);
+	if ((ft_isalpha(old[i + 1] && ft_isdigit(old[i + 1]) && old[i + 1] != '?' )))
+		return (1);
+	return (0);
+}
+
 char *expand_dolar(t_shell_sack *sack, char *old, int i)
 {
     char *pre_expand = NULL;
@@ -70,10 +79,9 @@ char *expand_dolar(t_shell_sack *sack, char *old, int i)
 	int start;
 	int len = 0;
 
+
 	if (i > 0)
-	{
 		pre_expand = ft_substr(old, 0, i);	
-	}
 	start = ++i;
 	len = 0;
 	while (old[i] && old[i] != ' ' && old[i] != '\"' && old[i] != '\'')
@@ -82,7 +90,7 @@ char *expand_dolar(t_shell_sack *sack, char *old, int i)
 		i++;
 	}
 	temp = ft_substr(old, start, len);
-    expand = get_varname(sack, temp);
+   	expand = get_varname(sack, temp);
 	free (temp);
 	if ((size_t)i < ft_strlen(old))
 	{

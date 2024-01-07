@@ -72,21 +72,20 @@ int	init_pwd(t_env *env)
 // Gestionar error si SHVL es mayor de 1000 (creo) da el siguiente error:
 // bash: warning: shell level (1000) too high, resetting to 1
 //@return 1 en caso de error
-int	init_env(char **envp, t_env *env)
+int	env_init(t_shell_sack *sack, char **envp)
 {
-	if (!env)
+	sack->env = ft_calloc(1, sizeof(t_env));
+	if (!sack->env)
 		return (1);
 	if (envp)
 	{
-		// printf("\nENV ORIGINAL:\n");
-		// print_env(envp);
-		env->env = alloc_first_envp(env, envp);
-		if (!env->env)
+		sack->env->env = alloc_first_envp(sack->env, envp);
+		if (!sack->env->env)
 			return (1);
-		env->pre_export_elements = 0;
-		if (init_pwd(env))
+		sack->env->pre_export_elements = 0;
+		if (init_pwd(sack->env))
 			return (1);
-		// print_env(env->env);
 	}
 	return (0);
 }
+

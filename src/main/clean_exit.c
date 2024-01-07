@@ -66,26 +66,54 @@ void    free_token(void *content)
     free(content);
 }
 
+
+void	ft_pustr_msjerror(int n, char *cmd)
+{
+	if (n == STANDAR)
+		ft_putstr_fd(strerror(errno), 2);
+	else if (n == COMANDNOTFOUND)
+	{
+		ft_putstr_fd("minishell: command not found: ", 2);
+		ft_putstr_fd(cmd, 2);
+	}
+	else if (n == PERMISSIONDENIED)
+	{
+		ft_putstr_fd("minishell: permission denied: ", 2);
+		ft_putstr_fd(cmd, 2);
+	}
+	else if (n == NOSUCHFILEORDIRECTORY)
+	{
+		ft_putstr_fd("minishell: no such file or directory: ", 2);
+		ft_putstr_fd(cmd, 2);
+	}
+    else
+        perror(cmd);
+	ft_putstr_fd("\n", 2);
+}
+
+/*VERSION MEJORADA perror_free_exit*/
+void free_exit(char *cmd, t_shell_sack ***sack, int msj)
+{
+    int exitcode;
+
+    exitcode = (**sack)->last_exit;
+    if (msj != 0)
+        ft_pustr_msjerror(msj, cmd);
+    free_sack(&(**sack));
+    ft_clearenv((**sack));
+    exit(exitcode); //check error code for exit
+}
+
 /*@brief Used to return error message and free everything before exit*/
 void	perror_free_exit(char *msj, t_shell_sack ***sack)
 {
 	perror(msj);
-    (**sack)->last_exit = 1; //Save it here for all fails?
+    // (**sack)->last_exit = 1; //Save it here for all fails?
     //print2D((**sack)->tree_list);
 	// if ((**sack)->heredoc)
         // unlink("tmp/.heredoc");
     free_sack(&(**sack));
     ft_clearenv((**sack));
-    exit((**sack)->last_exit); //check error code for exit
+    exit(EXIT_FAILURE); //check error code for exit
 }
 
-void free_exit(t_shell_sack ***sack)
-{
-    (**sack)->last_exit = EXIT_FAILURE; //Save it here for all fails?
-    //print2D((**sack)->tree_list);
-	// if ((**sack)->heredoc)
-        // unlink("tmp/.heredoc");
-    free_sack(&(**sack));
-    ft_clearenv((**sack));
-    exit((**sack)->last_exit); //che
-}

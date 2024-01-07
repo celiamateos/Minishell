@@ -40,21 +40,38 @@ int	clean_init(t_shell_sack **sack)
 	return (0);
 }
 
+int	sack_init(t_shell_sack *sack, char *line)
+{
+	sack->line = ft_strtrim(line, " \t\v\n\r");
+	if (check_errors_initsack(sack))
+		return (1); //no se si aqui hay q liberar yo creo q si
+	if (expand_line(sack))
+		return (1); //liberar ??
+	if (sack->l_expanded == NULL || sack->l_expanded[0] == '\0')
+		return (free(sack->l_expanded), 1);
+	// line = ft_strdup(sack->l_expanded);
+	free (sack->line);
+	sack->line = ft_strdup(sack->l_expanded);
+	free (sack->l_expanded);
+	sack->token_list = init_tokens(sack->line); // enviar linea expandida y verificada de errores
+	get_cmd_args(&sack);
+	return (0);
+}
+
+// al sustituir sack->line por line, se arregla el leaks del exit pero aparece otro leaks en builtns | cmds
 int		main(int ac, char **av, char **envp)
 {
     (void)ac;
     (void)av;
-	t_env		*env;
-	char 		*line;
+	char 			*line;
 	t_shell_sack	*sack;
 
 	// atexit(leaks);
 	sack = NULL;
-	env = ft_calloc(1, sizeof(t_env));
-	if (init_env(envp, env))
+	if (clean_init(&sack))
 		return (1);
-	clean_init(&sack);
-	sack->env = env;
+	if (env_init(sack, envp))
+		return (1);
 	while (42)
  	{
 		// main_sig_handler();
@@ -68,25 +85,15 @@ int		main(int ac, char **av, char **envp)
 				break;
 			if (!sack_init(sack, line))
 			{
+ 				free(line);
 				init_tree(&sack);
-				// print_tokenlist(sack->token_list);
 				execute(&sack);
-				// print2D(sack->tree_list);
 			}
-			// free_sack(&sack);
-			// print2D(sack->tree_list);
-			//print_preorder(sack->tree_list);
 		}
-		// if (*sack->line)
-        //     add_history(sack->line);
- 		free(line);
-		// free(sack->line);
-		//reset sack and free tokens and list?
 		sack->old_pipes[0] = 0;
 		sack->old_pipes[1] = 1;
 		sack->new_pipes[0] = 0;
 		sack->new_pipes[1] = 1;
 	}
-	ft_clearenv(sack);
     return (0);
 }

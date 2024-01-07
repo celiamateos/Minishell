@@ -39,7 +39,7 @@ int expand_line(t_shell_sack *sack)
 			free (temp);
 			i = 0;
 		}
-		else if ((sack->line[i] == '$') && (expander == 1)) // check_valid_expanddolar(parseo) x ejemplo q no haya espacio antes del $
+		else if ((sack->line[i] == '$') && (expander == 1) && !check_expand_dolar(sack->line, i)) //pensar en mas casos
 		{
 			temp = expand_dolar(sack, sack->line, i);
 			free (sack->line);

@@ -42,6 +42,11 @@
 # define OR 22
 # define COUNT 10 //to check priunt2Dtree
 
+# define COMANDNOTFOUND 101
+# define PERMISSIONDENIED 102
+# define NOSUCHFILEORDIRECTORY 103
+# define STANDAR 104
+
 
 typedef struct s_dlist
 {
@@ -93,6 +98,7 @@ typedef struct s_shell_sack
 	int				redirs[2];
 	int				heredoc;
 	// t_token			*last_token;
+	int				now_pid; //Celia added
 	int				last_pid;
 	int				last_exit;
 	int				history_fd;

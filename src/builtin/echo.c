@@ -17,7 +17,7 @@ int echo(t_shell_sack ****sack_orig, char **line)
     int             flag = 0;
     int             i = 1;
     
-    sack = (**sack_orig);
+    sack = (**sack_orig);  ///ESTO NO LO ESTOY USANDO
     // printf("new_pipes[1]: %d\n", (*sack)->new_pipes[1]);
     if (line && line[i])
     {

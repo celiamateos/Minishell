@@ -30,6 +30,7 @@ int sack_init(t_shell_sack *sack, char *line);
 // char    *remove_quotes(char *old, char c);
 int     expand_line(t_shell_sack *sack);
 char    *expand_dolar(t_shell_sack *sack, char *old, int i);
+int	check_expand_dolar(char *old, int i);
 // int	    expand_quotes(t_shell_sack *sack);
 int     check_errors_initsack(t_shell_sack *sack);
 void    check_open_quotes(t_shell_sack *sack, char *s);
@@ -90,7 +91,7 @@ char	*getcmd_withpath(char *cmd, char **cmds, char **env);
 
 /* ---------------------- BUILTINS ------------------------*/
 //enviroment.c and //enviroment_utils.c
-int     init_env(char **envp, t_env *env);
+int     env_init(t_shell_sack *sack, char **envp);
 int     search_env_pos(char **env, char *word, char limit);
 size_t 	ft_arraylen(char **array);
 void    ft_free_env(char **env);
@@ -108,9 +109,13 @@ int 	already_added_pre_export_list(t_env *env, char *new);
 //unset.c
 int		unset(t_env *env, char *del, int check);
 //pwd.c
-int     get_pwd(void);
+// int     get_pwd(void);
+int print_pwd(t_shell_sack *sack);
 //cd.c
 int     cd(t_shell_sack *sack, char *pathname);
+//cd_utils.c
+char    *remove_slash(char *path);
+void    cd_mserror(char *cmd);
 //echo.c
 int     echo(t_shell_sack ****sack_orig, char **line);
 //check_isbuiltin.c
@@ -124,11 +129,12 @@ void	ft_clearenv(t_shell_sack *sack);
 void    free_token(void *content);
 void    free_sack(t_shell_sack **sack);
 void    free_tree(t_tree **node);
-void	perror_free_exit(char *msj, t_shell_sack ***sack); //error handling
-void    free_exit(t_shell_sack ***sack);int		wait_exitcode(int last_pid);
+int		wait_exitcode(int last_pid);
 int     read_exit(char *line); //Change to builtin exit
+void	perror_free_exit(char *msj, t_shell_sack ***sack);
 
-
+void    free_exit(char *cmd, t_shell_sack ***sack, int msj);
+void	ft_pustr_msjerror(int n, char *cmd);
 
 /* ---------------------- LISTS ------------------------*/
 t_dlist	*ft_dlstnew(void *content);

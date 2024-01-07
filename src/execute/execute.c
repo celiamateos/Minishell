@@ -86,15 +86,18 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
         if (!check_isbuiltin(sack, node))
         {
-            cmd = token->cmds[0];
+            // cmd = token->cmds[0];
             (*sack)->last_exit = execute_builtin(&sack, node);
+            if ((*sack)->last_exit != 0)
+                free_exit(token->cmds[0], &sack, 0); //Free everything?
+
         }
         else
         {
             cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
     		execve(cmd, token->cmds, (*sack)->env->env);
             (*sack)->last_exit = 127; //error code for cmd not found
-            perror_free_exit(cmd, sack_orig); //Free everything?
+            free_exit(token->cmds[0], sack_orig, COMANDNOTFOUND); //Free everything?
         }
         }
 		// ft_freematrix(&token->cmds);

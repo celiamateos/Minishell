@@ -58,7 +58,6 @@ define print_progress
 endef
 
 # Ejemplo de uso
-
 all:
 	$(call print_progress)
 	$(eval progress := 50)
@@ -66,6 +65,7 @@ all:
 	$(eval progress := 100)
 	$(call print_progress)
 	@echo ""
+
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
