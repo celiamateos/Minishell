@@ -32,22 +32,26 @@ int echo(t_shell_sack ****sack_orig, char **arr_cmd)
         if (!line)
             return (1);
         i++;
-        while (arr_cmd[i])
+        if(arr_cmd[i])
         {
-            // printf("\narr:%s\n", arr_cmd[i]);
-            temp = ft_strjoin(line, " ");
-            if (!temp)
-                return (free(line), 1);
-            free (line);
-            line = ft_strjoin(temp, arr_cmd[i]);
-            if (!line)
-                return (free(temp), 1);
-            free (temp);
-            i++;
+            while (arr_cmd[i])
+            {
+                // printf("\narr:%s\n", arr_cmd[i]);
+                temp = ft_strjoin(line, " ");
+                if (!temp)
+                    return (free(line), 1);
+                free (line);
+                line = ft_strjoin(temp, arr_cmd[i]);
+                if (!line)
+                    return (free(temp), 1);
+                free (temp);
+                i++;
+            }
+
         }
+        ft_putstr_fd_noquotes(line, 1);
+        free (line);
     }
-    ft_putstr_fd_noquotes(line, 1);
-    free (line);
     if (flag == 0)
         ft_putstr_fd("\n", 1); 
     // if ((*sack)->new_pipes[1] != 1 )

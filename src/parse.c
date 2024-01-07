@@ -108,6 +108,8 @@ int check_errors_initsack(t_shell_sack *sack)
 	s = sack->line;
 	if (check_open_quotes(sack, s))
 		return (ft_putstr_fd("Input invalid, found open quotes\n", 2), 1);
+	if (check_emptyorspace(sack->line))
+		return (1);
 
 	// start = check_emptystr(sack, 0);
 	// while (s[i])

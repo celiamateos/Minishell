@@ -74,11 +74,14 @@ int cd_back(t_shell_sack *sack)
 }
 
 //@brief Intenta acceder a la ruta pasada como parametro, en caso de error muestra un mensaje.
-int    cd(t_shell_sack *sack, char *path)
+int    cd(t_shell_sack *sack, char **cmds)
 {
     char    *pwd;
     char    *temp;
+    char    *path = cmds[1];
 
+    if (ft_arraylen(cmds) > 2)
+        return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);
     if (!path)
         if (!cd_root(sack))
             return (0); // Aqui no estoy protegiendo malloc
@@ -96,17 +99,6 @@ int    cd(t_shell_sack *sack, char *path)
     if (!ft_strncmp(path, "..", 1))
     {
         cd_back(sack);
-        // if (!cd_back(sack))
-        // {
-        //     printf("sack->env->pwd:%s", sack->env->pwd);
-        //     temp = ft_strjoin("PWD=", sack->env->pwd);
-        //     if (!temp)
-        //         return (1);
-        //     free (sack->env->pwd);
-        //     sack->env->pwd = ft_strjoin(temp, "/..");
-        //     if (!sack->env->pwd)
-        //         return (1);
-        // }
     }
     else
     {

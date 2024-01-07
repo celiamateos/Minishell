@@ -45,10 +45,11 @@ int expand_line(t_shell_sack *sack)
 			free (sack->line);
 			sack->line = ft_strdup(temp);
 			free (temp);
+			// printf("\nsack->line:%s", sack->line);
 			i = -1;
 			sack->d_quotes = 0;
 			sack->s_quotes = 0;
-			expander = 0;
+			expander = 1;
 		}
 		i++;
     }

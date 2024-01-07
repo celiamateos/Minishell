@@ -31,9 +31,10 @@ int already_added_pre_export_list(t_env *env, char *new)
         if (!env->env)
             return (1);
         unset(env, new, check);
+        return (0);
     }
     else
-        return (ft_putstr_fd("export: not a valid identifier", 2), 0);
+        return (1);
     return (0);
 }
 
@@ -130,5 +131,4 @@ void pre_export_new_variable(t_env *env, char *line)
     if (env->pre_export_elements > 0)
         ft_free_env(env->pre_export);
     env->pre_export = temp;
-    // print_env(env->pre_export);
 }

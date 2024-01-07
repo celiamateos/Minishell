@@ -10,6 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
+void    ft_putpwd_fd(char *s)
+{
+    int i;
+
+    i = 3;
+    while (s[++i])
+    {
+        write (1, &s[i], 1);
+    }
+}
+
 void    pwd_mserror()
 {
     ft_putstr_fd("pwd: ", 2);
@@ -27,8 +38,8 @@ int print_pwd(t_shell_sack *sack)
         pwd_mserror();
         return (sack->last_exit);
     }
-    ft_putstr_fd(sack->env->pwd, 2);
-    ft_putstr_fd("\n", 2);
+    ft_putpwd_fd(sack->env->pwd);
+    ft_putstr_fd("\n", 1);
     return (0);
 }
 

@@ -29,7 +29,7 @@ int is_valid_to_export(char *s)
 		i++;
 	}
     if (s[i] == '\0')
-        return (1);
+        return (0);
 	if (s[i] == '=')
     {
         if (s[i - 1] == ' ' || s[i + 1] == ' ')
@@ -111,7 +111,8 @@ int export(t_env *env, char *new)
     }
 	pos = search_env_pos(env->env, new, '=');
 	if (is_valid_to_export(new))
-        return (already_added_pre_export_list(env, new), 0);
+        if (already_added_pre_export_list(env, new))
+            return (1);
 	if (pos >= 0)
     {
         // printf("\npos o ke:%ld", pos);

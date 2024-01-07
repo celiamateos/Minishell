@@ -33,13 +33,13 @@ char *get_varname(t_shell_sack *sack, char *old)
 	int pos;
 
 
-	if (!ft_strncmp(old, "?", ft_strlen(old)))
-		return (new_var = ft_itoa(sack->last_exit));
+	// printf("\nold:%s\n", temp);
 	pos = search_env_pos(sack->env->env, old, '=');
 	if (pos >= 0)
 	{
+		// printf("PUTO POS:%d", pos);
 		if (!sack->env->env[pos])
-			return NULL;
+			return (NULL);
 		new_var = get_varcontent(sack->env->env[pos]);
 		if (!new_var)
 			return (NULL); //proteger aqui
@@ -70,40 +70,56 @@ int	check_expand_dolar(char *old, int i)
 	return (0);
 }
 
-char *expand_dolar(t_shell_sack *sack, char *old, int i)
+char *expand_dolar(t_shell_sack *sack, char *old, int dolar)
 {
     char *pre_expand = NULL;
 	char *expand = NULL;
     char *post_expand = NULL;
 	char *temp;
+	int i;
 	int start;
-	int len = 0;
-
-
-	if (i > 0)
-		pre_expand = ft_substr(old, 0, i);	
-	start = ++i;
-	len = 0;
-	while (old[i] && old[i] != ' ' && old[i] != '\"' && old[i] != '\'')
+	size_t len = 0;
+	
+	if (dolar > 0)
+		pre_expand = ft_substr(old, 0, dolar);
+	
+	start = dolar + 1;
+	i = dolar;
+	while (old[i] && old[i] != D_QUOTES && old[i] != S_QUOTES
+	&& old[i] != '?' && !ft_isspace(old[i]))
 	{
+		i++;
+		len++;
+	}
+	// if (old[i] == D_QUOTES || old[i] == S_QUOTES)
+	len--;
+	// printf("\nlen:%ld\n", len);
+	temp = ft_substr(old, start, len);
+	if (old[dolar + 1] == '?')
+	{
+		expand = ft_itoa(sack->last_exit);
 		len++;
 		i++;
 	}
-	temp = ft_substr(old, start, len);
-   	expand = get_varname(sack, temp);
+	else
+   		expand = get_varname(sack, temp);
 	free (temp);
+	// printf("\nexpand:%s\n", expand);
 	if ((size_t)i < ft_strlen(old))
 	{
 		post_expand = ft_substr(old, i, ft_strlen(old));
-
+		// printf("\npost_expand:%s\n", post_expand);
 	}
 	if (pre_expand)
 	{
+		// printf("\npre_expand:%s\n", pre_expand);
 		temp = ft_strjoin(pre_expand, expand);
 		free (pre_expand);
 		free(expand);
 		expand = ft_strdup(temp);
 		free (temp);
+		
+		
 	}
 	if (post_expand)
 	{
@@ -113,5 +129,7 @@ char *expand_dolar(t_shell_sack *sack, char *old, int i)
 		expand = ft_strdup(temp);
 		free (temp);
 	}
+	// printf("expand:%s\n", expand);
+	
 	return (expand);
 }

@@ -15,10 +15,8 @@ void    cd_mserror(char *cmd)
 {
     ft_putstr_fd("cd: ", 2);
     ft_putstr_fd(strerror(errno), 2);
-    ft_putstr_fd(": ", 2);
-    if (cmd)
-        ft_putstr_fd(cmd, 2);
-    else
+    ft_putstr_fd("cd: ", 2);
+    if (!cmd)
         ft_putstr_fd("chdir: error retrieving current directory: getcwd:"  
         "cannot access parent directories: No such file or directory", 2);
 

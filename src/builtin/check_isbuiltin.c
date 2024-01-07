@@ -19,26 +19,26 @@ int  execute_builtin(t_shell_sack ***sack, t_tree *node)
     cmd = node->content->cmds[0];
     
     if (!ft_strncmp(cmd, "cd", ft_strlen(cmd)))
-        cd(**sack, node->content->cmds[1]);
+        (**sack)->last_exit = cd(**sack, node->content->cmds);
     else if (!ft_strncmp(cmd, "pwd", ft_strlen(cmd)))
-        print_pwd((**sack));
+        (**sack)->last_exit = print_pwd((**sack));
     else if (!ft_strncmp(cmd, "export", ft_strlen(cmd)))
-        export((**sack)->env, node->content->cmds[1]);
+        (**sack)->last_exit = export((**sack)->env, node->content->cmds[1]);
     else if (!ft_strncmp(cmd, "env", ft_strlen(cmd)))
-        print_env(&sack);
+        (**sack)->last_exit = print_env(&sack);
     else if (!ft_strncmp(cmd, "unset", ft_strlen(cmd)))
-        unset((**sack)->env, node->content->cmds[1], 2);
+        (**sack)->last_exit = unset((**sack)->env, node->content->cmds[1], 2);
     else if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
-        echo(&sack, node->content->cmds);
+        (**sack)->last_exit = echo(&sack, node->content->cmds);
     else if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
-        perror_free_exit("Builtin error", &(*sack));
+        free_exit(node->content->cmds, &(*sack), 0);
     else if (ft_strchr(cmd, '='))
         pre_export_new_variable((**sack)->env, cmd);
     if ((**sack)->new_pipes[1] != 1 )
     	if (dup2((**sack)->new_pipes[1], STDOUT_FILENO) == -1)
 			return (1);
     // printf("PUTO node: %s", node->content->cmds[1]); // ENTONCES EL EXIT K COÑO PASAAAA???
-    return (0);
+    return ((**sack)->last_exit);
 }
 
 int  check_isbuiltin(t_shell_sack **sack, t_tree *node)
