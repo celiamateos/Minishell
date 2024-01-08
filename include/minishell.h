@@ -122,6 +122,8 @@ int     echo(t_shell_sack ****sack_orig, char **line);
 //check_isbuiltin.c
 int     check_isbuiltin(t_shell_sack **sack, t_tree *node);
 int     execute_builtin(t_shell_sack ***sack, t_tree *node);
+//exit.c
+int cmd_exit(t_shell_sack ***sack, char **cmd);
 
 
 /* ---------------------- CLEAN AND EXIT ------------------------*/

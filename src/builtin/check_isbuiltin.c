@@ -31,12 +31,15 @@ int  execute_builtin(t_shell_sack ***sack, t_tree *node)
     else if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
         (**sack)->last_exit = echo(&sack, node->content->cmds);
     else if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
-        free_exit(node->content->cmds, &(*sack), 0);
+    {
+        (**sack)->last_exit = cmd_exit(&(*sack), node->content->cmds);
+        // free_exit(node->content->cmds, &(*sack), 0);
+    }
     else if (ft_strchr(cmd, '='))
         pre_export_new_variable((**sack)->env, cmd);
     if ((**sack)->new_pipes[1] != 1 )
     	if (dup2((**sack)->new_pipes[1], STDOUT_FILENO) == -1)
-			return (1);
+			free_exit(node->content->cmds, sack, 0); //Free everything?
     // printf("PUTO node: %s", node->content->cmds[1]); // ENTONCES EL EXIT K COÑO PASAAAA???
     return ((**sack)->last_exit);
 }

@@ -21,13 +21,14 @@ int echo(t_shell_sack ****sack_orig, char **arr_cmd)
     
     sack = (**sack_orig);  ///ESTO NO LO ESTOY USANDO
     // printf("new_pipes[1]: %d\n", (*sack)->new_pipes[1]);
+        // printf("\nline:%s", arr_cmd[0]);
+    if (arr_cmd[i] && !ft_strncmp(arr_cmd[i], "-n", 2) && ft_strlen(arr_cmd[i]) == 2)
+    {
+        flag = 1;
+        i++;
+    }
     if (arr_cmd && arr_cmd[i])
     {
-        if (!ft_strncmp(arr_cmd[i], "-n", 2))
-        {
-            flag = 1;
-            i++;
-        }
         line = ft_strdup(arr_cmd[i]);
         if (!line)
             return (1);
@@ -36,7 +37,6 @@ int echo(t_shell_sack ****sack_orig, char **arr_cmd)
         {
             while (arr_cmd[i])
             {
-                // printf("\narr:%s\n", arr_cmd[i]);
                 temp = ft_strjoin(line, " ");
                 if (!temp)
                     return (free(line), 1);
@@ -47,15 +47,11 @@ int echo(t_shell_sack ****sack_orig, char **arr_cmd)
                 free (temp);
                 i++;
             }
-
         }
         ft_putstr_fd_noquotes(line, 1);
         free (line);
     }
     if (flag == 0)
         ft_putstr_fd("\n", 1); 
-    // if ((*sack)->new_pipes[1] != 1 )
-    //     if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
-    //         free_exit(&(**sack_orig));
     return (0);
 }

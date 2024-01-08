@@ -71,6 +71,7 @@ char	*getcmd_withpath(char *cmd, char **cmds, char **env)
 	(void)cmds; // esto no se usa
 	path_cmd = NULL;
 
+	printf("\ncmd:%s", cmd);
 	if ((ft_strchr(cmd, D_QUOTES) || ft_strchr(cmd, S_QUOTES)) && !check_open_quotes(NULL, cmd))
 		cmd_rmquotes = remove_quotes_cmd(cmd);
 	else

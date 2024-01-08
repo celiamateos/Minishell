@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 # include "../../include/minishell.h"
 
-
+/// ESTE ES EL DE MI PIPEX PERO SOLO VALE PA DOS JEJE
 // static void	ft_wait_process(int pid1, int pid2)
 // {
 // 	int	status;
@@ -34,10 +34,6 @@
 // }
 
 // @brief Wait for the PID received to end, and returns exitcode.
-
-
-
-
 int	wait_exitcode(int last_pid)
 {
 	int	curr_pid;
@@ -66,29 +62,7 @@ int	wait_exitcode(int last_pid)
 	return (exit_code);	
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//// COPIA DE SEGURIDAD DEL DE DAVID POR SI ME DA POR ROMPERLO JEJE
 // int	wait_exitcode(int last_pid)
 // {
 // 	int	curr_pid;

@@ -87,10 +87,12 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         if (!check_isbuiltin(sack, node))
         {
             // cmd = token->cmds[0];
-            (*sack)->last_exit = execute_builtin(&sack, node);
+            execute_builtin(&sack, node);
             if ((*sack)->last_exit != 0)
+            {
+                printf("\nsack->LAST_EXIT:%d", (*sack)->last_exit);
                 free_exit(token->cmds, &sack, 0); //Free everything?
-
+            }
         }
         else
         {
@@ -104,6 +106,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
     }
     ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
     (*sack)->last_exit = wait_exitcode((*sack)->last_pid); //Aqui llama a waitpid
+
     // printf("EXITCODE: %d\n", (*sack)->last_exit);
 	//waitpid((*sack)->last_pid, NULL, 0);
     ft_cpypipes((*sack)->old_pipes, (*sack)->new_pipes);

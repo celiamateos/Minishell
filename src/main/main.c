@@ -83,8 +83,8 @@ int		main(int ac, char **av, char **envp)
 		if (*line)
 		{
             add_history(line);
-			if (read_exit(line))
-				break;
+			// if (read_exit(line))
+			// 	break;
 			if (!sack_init(sack, line))
 			{
  				free(line);

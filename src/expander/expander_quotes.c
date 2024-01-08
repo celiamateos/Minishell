@@ -13,7 +13,7 @@
 // IN PROCESS.................................................. FUCKINQUOTES
 char *remove_quotes_cmd(char *s)
 {
-	char *cmd;
+	char *cmd = NULL;
 	int	i = -1;
 
 	// if (!s)
@@ -31,7 +31,9 @@ char *remove_quotes_cmd(char *s)
 			return (cmd);
 		}
 	}
-	return NULL;
+	if (!cmd)
+		cmd = ft_strdup(s);
+	return cmd;
 }
 
 

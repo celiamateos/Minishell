@@ -21,11 +21,11 @@ int is_valid_to_export(char *s)
 
     i = 0;
 	if ((!ft_isalpha(s[i])) && (s[i] != '_'))
-		return (1);
+		return (ft_putstr_fd("minishell: export: not a valid identifier\n", 2), 1);
 	while (s[i] && s[i] != '=')
 	{
 		if ((!ft_isalpha(s[i])) && (!ft_isalnum(s[i])) && (s[i] != '_'))
-			return (ft_putstr_fd("export: not a valid identifier\n", 2), 1);
+			return (ft_putstr_fd("minishell: export: not a valid identifier\n", 2), 1);
 		i++;
 	}
     if (s[i] == '\0')
@@ -33,7 +33,7 @@ int is_valid_to_export(char *s)
 	if (s[i] == '=')
     {
         if (s[i - 1] == ' ' || s[i + 1] == ' ')
-		    return (ft_putstr_fd("export: not a valid identifier\n", 2), 1);
+		    return (ft_putstr_fd("minishell: export: not a valid identifier\n", 2), 1);
     }
 	return (0);
 }
