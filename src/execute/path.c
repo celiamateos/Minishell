@@ -76,7 +76,7 @@ char	*getcmd_withpath(char *cmd, char **cmds, char **env)
 		cmd_rmquotes = remove_quotes_cmd(cmd);
 	else
 		cmd_rmquotes = ft_strdup(cmd);
-	if (check_route(cmd_rmquotes) == 1)
+	if (check_route(cmd_rmquotes) == 1) // EXECUTE OTROS PROGRAMAS POR RUTA ABSOLUTA O RELATIVA.
 		path_cmd = cmd_rmquotes;
 	else
 	{
