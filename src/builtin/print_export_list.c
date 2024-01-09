@@ -93,5 +93,5 @@ void    print_export_list(t_env *env)
 			}
 			env->order = env->env[env->i++];
 	}
-	printf("\n");
+	ft_putstr_fd("\n", 1);
 }

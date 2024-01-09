@@ -91,6 +91,8 @@ int		main(int ac, char **av, char **envp)
 				init_tree(&sack);
 				execute(&sack);
 			}
+			else
+				free(line);
 		}
 		sack->old_pipes[0] = 0;
 		sack->old_pipes[1] = 1;

@@ -88,17 +88,12 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         {
             // cmd = token->cmds[0];
             execute_builtin(&sack, node);
-            if ((*sack)->last_exit != 0)
-            {
-                printf("\nsack->LAST_EXIT:%d", (*sack)->last_exit);
-                free_exit(token->cmds, &sack, 0); //Free everything?
-            }
         }
         else
         {
-            cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
-    		execve(cmd, token->cmds, (*sack)->env->env);
-            (*sack)->last_exit = 127; //error code for cmd not found
+            getcmd_withpath((*sack), token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
+    		execve((*sack)->cmd_rmquotes, token->cmds, (*sack)->env->env);
+            // (*sack)->last_exit = 127; //error code for cmd not found
             free_exit(token->cmds, sack_orig, COMANDNOTFOUND); //Free everything?
         }
         }
@@ -106,7 +101,8 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
     }
     ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
     (*sack)->last_exit = wait_exitcode((*sack)->last_pid); //Aqui llama a waitpid
-
+    // if (!ft_strncmp(node->content->cmds[0], "exit", ft_strlen(node->content->cmds[0])))
+    //     cmd_exit(&sack, node->content->cmds);
     // printf("EXITCODE: %d\n", (*sack)->last_exit);
 	//waitpid((*sack)->last_pid, NULL, 0);
     ft_cpypipes((*sack)->old_pipes, (*sack)->new_pipes);

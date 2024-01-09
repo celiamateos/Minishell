@@ -96,6 +96,7 @@ typedef struct s_shell_sack
 	int				pos;
 	struct s_dlist	*token_list;
 	struct s_tree	*tree_list;
+	char			*cmd_rmquotes;
 	int				new_pipes[2];
 	int				old_pipes[2];
 	int				redirs[2];

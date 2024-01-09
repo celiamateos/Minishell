@@ -10,10 +10,42 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include"../../include/minishell.h"
-void	put_syntaxerror(char *cmd)
+
+// int check_errors_opers(t_dlist *list)
+// {
+// 	t_token	*token;
+// 	int		type;
+
+// 	token = list->content;
+// 	type = token->type;
+// 	if (type > 0 && list == NULL)
+// 		return (1);
+// 	list = list->next;
+// 	while (list)
+// 	{
+// 		token = list->content;
+// 		if (type != 0)
+// 			if (token->type != 0)
+// 				return (1);
+// 		// printf("token->value: %s type: %d\n", token->value, token->type);
+// 		type = token->type;
+// 		list = list->next;
+// 	}
+// 	return (0);
+// }
+
+
+///
+void	put_syntaxerror(int cmd)
 {
-	ft_putstr_fd("minishell: syntax error near unexpected token", 2);
+	if (cmd == '|')
+		ft_putstr_fd("minishell: syntax error near unexpected token: '|'\n", 2);
+	if (cmd == '<')
+		ft_putstr_fd("minishell: syntax error near unexpected token: '<'\n", 2);
+	if (cmd == '>')
+		ft_putstr_fd("minishell: syntax error near unexpected token: '>'\n", 2);
 }
+
 
 int	check_isoperator(char c)
 {
@@ -23,22 +55,44 @@ int	check_isoperator(char c)
 	return (0);
 }
 
+int check_iscomand(char c)
+{
+	if (c == '-' || c == '_' || c == '.'
+		|| !ft_isalpha(c) || !ft_isalnum(c)
+		|| c == D_QUOTES || c == S_QUOTES)
+			return (1);
+	return (0);
+}
+
 int	check_validpipe(char *s, int i)
 {
 	int index = i;
 
 	if (ft_strlen(s) < 4)
 		return (1);
-	if (i == 0 || !s[i + 1] || !ft_isspace(s[i - 1]) || !ft_isspace(s[i + 1]))
-		return (1);
-	while (i-- >= 0)
+	if(s[i] == '|')
 	{
-		if (s[i] == '-' || s[i] == '_' || s[i] == '.'
-		|| !ft_isalpha(s[i]) || !ft_isalnum(s[i])
-		|| s[i] == D_QUOTES || s[i] == S_QUOTES)
+		if (i == 0 || !s[i + 1] || !ft_isspace(s[i - 1]) || !ft_isspace(s[i + 1]))
+			return (2);
+	}
+	while (i >= 0)
+	{
+		if (ft_isspace(s[i]) == 1)
+			i--;
+		else if (check_iscomand(s[i]))
+			return (0);	
+		else if (check_isoperator(s[i]))
+			return (2);
+		i--;
+	}                                                           
+	while(s[index++])
+	{
+		if (isspace(s[i]))
+			index++;
+		else if(check_iscomand(s[i]))
 			return (0);
-		if (check_isoperator(s[i]))
-			return (1);
+		else if (check_isoperator(s[i]))
+			return (2);
 	}
 	return (0);
 }	
@@ -54,8 +108,29 @@ int	check_syntaxerrors(t_shell_sack *sack, char *s)
 		if (s[i] == S_QUOTES || s[i] == D_QUOTES)
 			str = !str;
 		if (s[i] == '|' && str == 1)
+		{
 			if (check_validpipe(s, i))
-				return (ft_putstr_fd("minishell: syntax error near unexpected token\n", 2), 1);
+			{
+				sack->last_exit = 2;
+				return (put_syntaxerror('|'), 2);
+			}
+		}
+		if (s[i] == '<' && str == 1)
+		{
+			if (check_validpipe(s, i))
+			{
+				sack->last_exit = 2;
+				return (put_syntaxerror('<'), 2);
+			}
+		}
+		if (s[i] == '>' && str == 1)
+		{
+			if (check_validpipe(s, i))
+			{
+				sack->last_exit = 2;
+				return (put_syntaxerror('>'), 2);
+			}
+		}
 	}
 	return (0);
 }

@@ -23,7 +23,7 @@ int sack_init(t_shell_sack *sack, char *line);
 /* ---------------------- PARSE ------------------------*/
 int     check_errors_initsack(t_shell_sack *sack);
 int     check_open_quotes(t_shell_sack *sack, char *s);
-
+int check_errors_opers(t_dlist *list);
 
 
 
@@ -33,6 +33,7 @@ int     expand_line(t_shell_sack *sack);
 char    *expand_dolar(t_shell_sack *sack, char *old, int i);
 int	check_expand_dolar(char *old, int i);
 // int	    expand_quotes(t_shell_sack *sack);
+char *get_varname(t_shell_sack *sack, char *old);
 
 int	    search_char(char *s, char c, int i);
 char    *get_varcontent(char *var);
@@ -87,7 +88,7 @@ int		check_opercondition(t_shell_sack **sack, t_tree **node);
 int		check_route(char *av);
 int		check_path(char **env);
 char	*get_path(char *cmd, char **env);
-char	*getcmd_withpath(char *cmd, char **cmds, char **env);
+char	*getcmd_withpath(t_shell_sack *sack, char *cmd, char **cmds, char **env);
 
 
 /* ---------------------- BUILTINS ------------------------*/

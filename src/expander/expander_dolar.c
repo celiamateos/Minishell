@@ -27,6 +27,9 @@ char *get_varcontent(char *var)
 	return (var_expanded);
 }
 
+/*@Brief ALOCA MEMORIA JODER
+TOMA UNA PALABRA E INTENTA EXPANDIRLA BUSCANDOLA EN ENVIROMENT Y EN PRE EXPORT
+SI NO LA ENCUENTRA RETORNA UNA STRING VACÍA*/
 char *get_varname(t_shell_sack *sack, char *old)
 {
 	char *new_var;

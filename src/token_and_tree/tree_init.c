@@ -193,4 +193,5 @@ void	init_tree(t_shell_sack **sack)
 	token_list = token_list->next;
 	insert_leaf(&tree, &token_list);	
 	(*sack)->tree_list = tree;
+	// print_preorder((*sack)->tree_list);
 }

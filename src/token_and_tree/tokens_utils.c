@@ -85,7 +85,7 @@ void	save_redir_filename(char *line, int *i)
 		while (ft_isspace(line[*i]) && line[*i] != '\0')
 			*i = *i + 1;
 	}
-	while (ft_isalnum(line[*i]) || line[*i] == '.' || line[*i] == '_' || line[*i] == '-')
+	while (ft_isalnum(line[*i]) || line[*i] == '.' || line[*i] == '_' || line[*i] == '-'|| line[*i] == '/')
 	{
 			*i = *i + 1;
 	}

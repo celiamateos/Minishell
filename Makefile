@@ -51,7 +51,7 @@ $(LIBFT):
 
 CHARS_LEN := 0
 CHARS := 0
-progress := 0
+progress := 4
 
 define print_progress
 	@printf "\r$(COLOR_GREEN)[$(COLOR_GREEN_N) %d%%%*.*s $(COLOR_GREEN)] $(COLOR_PURPLE_N)Minishell $(COLOR_PURPLE)Compiling 🛠️$(COLOR_RESET)" $(progress) $(CHARS_LEN) $(CHARS)
@@ -70,8 +70,9 @@ all:
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c -o $@ $<
-	$(eval progress=$(shell echo $$(($(progress) + 4))))
+	$(eval progress=$(shell echo $$(($(progress) + 3))))
 	$(call print_progress)
+
 # @echo "$(COLOR_BLUE) Created! 😸 $(COLOR_RESET)"
 
 clean:

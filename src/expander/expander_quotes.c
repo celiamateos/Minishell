@@ -69,7 +69,7 @@ char *remove_quotes(char *old, char type)
             j++;
         new[i++] = old[j++];
     }
-	printf("\nNEW:%s", new);
+	// printf("\nNEW:%s", new);
     return (new);
 }
 

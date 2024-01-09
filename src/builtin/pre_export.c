@@ -20,6 +20,7 @@ int already_added_pre_export_list(t_env *env, char *new)
     long pos;
     int check = 0;
 
+    // printf("si");
     pos = search_env_pos(env->pre_export, new, '\0');
     // printf("\n\n\nPOSssss%ld", pos);
     // printf("\nnew: %s", new);
@@ -123,6 +124,7 @@ void pre_export_new_variable(t_env *env, char *line)
     }
     else
     {
+        // printf("\nline:%s", line);
         temp = realloc_add_pre_export_list(env, line);
         if (temp == NULL)
             return ;
@@ -131,4 +133,5 @@ void pre_export_new_variable(t_env *env, char *line)
     if (env->pre_export_elements > 0)
         ft_free_env(env->pre_export);
     env->pre_export = temp;
+    // ft_print_strarray(temp);
 }

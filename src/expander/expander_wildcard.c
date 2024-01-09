@@ -30,21 +30,21 @@ char *expand_wildcard(t_shell_sack *sack, char *old, int i)
 	char *temp;
 	int start;
 	int len = i;
-    printf("\nold[i]:%c", old[i]);
-    printf("\nold:%s", old);
+    // printf("\nold[i]:%c", old[i]);
+    // printf("\nold:%s", old);
     while(len > 0 && !ft_isspace(old[len]))
         len--;
 	temp = ft_substr(old, 0, len);	
     if (!temp)
         return (NULL); 
-    printf("\ntemp:%s\n", temp);
+    // printf("\ntemp:%s\n", temp);
     i = len;
     while (old[len] != '\0' && !ft_isspace(old[len]))
         len++;
     expand = ft_substr(old, i, len);
     if (!expand)
         return (NULL);
-    printf("\nexpand:%s\n", expand);
+    // printf("\nexpand:%s\n", expand);
     
     // if(old[i] == '*')
         // printf("es *");
