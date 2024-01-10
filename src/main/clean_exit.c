@@ -105,8 +105,8 @@ void free_exit(char **cmds, t_shell_sack ***sack, int msj)
     exitcode = (**sack)->last_exit;
     if (msj != 0)
         ft_pustr_msjerror(msj, cmd);
-    free_sack(&(**sack));
     ft_clearenv((**sack));
+    free_sack(&(**sack));
     exit(exitcode); //check error code for exit
 }
 
@@ -122,8 +122,8 @@ void	perror_free_exit(char *msj, t_shell_sack ***sack)
     //print2D((**sack)->tree_list);
 	// if ((**sack)->heredoc)
         // unlink("tmp/.heredoc");
-    free_sack(&(**sack));
     ft_clearenv((**sack));
+    free_sack(&(**sack));
     exit(exitcode); //check error code for exit
 }
 

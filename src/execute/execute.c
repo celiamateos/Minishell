@@ -82,13 +82,10 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
             if ((*sack)->new_pipes[1] != 1 )
                 if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
                     perror_free_exit("Dup2 error OUT", sack_orig);
-        ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
-        ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-        if (!check_isbuiltin(sack, node))
-        {
-            // cmd = token->cmds[0];
+            ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
+            ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+        if (!check_isbuiltin(node))
             execute_builtin(&sack, node);
-        }
         else
         {
             getcmd_withpath((*sack), token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
@@ -157,6 +154,12 @@ void	execute(t_shell_sack **sack)
     t_tree  *tree;
 
     tree = (*sack)->tree_list;
+    // token = tree->content;
+    if (ft_strnstr((*sack)->line, "exit", 4))
+    {
+        // free_sack(&(*sack));
+        cmd_exit(&sack, tree->content->cmds);
+    }
     run_preorder(tree, sack);
     free_sack(&(*sack));
 }

@@ -44,7 +44,7 @@ int  execute_builtin(t_shell_sack ***sack, t_tree *node)
     return ((**sack)->last_exit);
 }
 
-int  check_isbuiltin(t_shell_sack **sack, t_tree *node)
+int  check_isbuiltin(t_tree *node)
 {
     char *cmd;
 

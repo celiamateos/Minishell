@@ -29,7 +29,8 @@ int cd_root(t_shell_sack *sack)
         return (ft_putstr_fd("cd: HOME not set", 2), 1);
     temp = get_varcontent(sack->env->env[pos]);
     if (chdir(temp) == -1)
-        return (cd_mserror(temp), 1);    free (sack->env->pwd);
+        return (cd_mserror(temp), 1);
+    free (sack->env->pwd);
     sack->env->pwd = ft_strdup(temp);
     if (!sack->env->pwd)
         return (free(temp), 1);

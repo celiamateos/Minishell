@@ -24,9 +24,9 @@ COLOR_PURPLE_N = \033[1;35m
 
 NAME = minishell
 CC = gcc
-CFLAGS = -g3 -fsanitize=address #-Werror -Wextra -Wall
+CFLAGS = -g3 #-fsanitize=address #-Werror -Wextra -Wall
 CCLANG = -lreadline #-I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib
-
+#Pa detectar leaks y movidas: valgrind --leak-check=full ./minishell
 RM = rm -f
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a

@@ -61,10 +61,9 @@ int	sack_init(t_shell_sack *sack, char *line)
 }
 
 // al sustituir sack->line por line, se arregla el leaks del exit pero aparece otro leaks en builtns | cmds
-int		main(int ac, char **av, char **envp)
+int		minishell(char *test, char **envp)
 {
-    (void)ac;
-    (void)av;
+    (void)test;
 	char 			*line;
 	t_shell_sack	*sack;
 
@@ -99,5 +98,17 @@ int		main(int ac, char **av, char **envp)
 		sack->new_pipes[0] = 0;
 		sack->new_pipes[1] = 1;
 	}
+	ft_clearenv(sack);
     return (0);
+}
+
+int main(int argc, char **argv, char **envp)
+{
+  // Your code...
+  if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
+  {
+    int exit_status = minishell(argv[2], envp);
+    exit(exit_status);
+  }
+  return 0;
 }
