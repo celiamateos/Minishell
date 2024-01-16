@@ -29,6 +29,7 @@ int echo(t_shell_sack ****sack_orig, char **arr_cmd)
     }
     if (arr_cmd && arr_cmd[i])
     {
+        // printf("\narr_cmd[%d]:%s\n", i,  arr_cmd[i]);
         line = ft_strdup(arr_cmd[i]);
         if (!line)
             return (1);
@@ -37,6 +38,7 @@ int echo(t_shell_sack ****sack_orig, char **arr_cmd)
         {
             while (arr_cmd[i])
             {
+                // printf("\narr_cmd[%d]:%s\n", i, arr_cmd[i]);
                 temp = ft_strjoin(line, " ");
                 if (!temp)
                     return (free(line), 1);

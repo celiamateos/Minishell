@@ -10,7 +10,32 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
-// IN PROCESS.................................................. FUCKINQUOTES
+
+void	remove_quotes_arr_cmds(t_token *token, t_shell_sack **sack)
+{
+	char *temp;
+	int 	i;
+
+	if (!token->cmds)
+		return ;
+	i = 0;
+	while (i < ft_arraylen(token->cmds))
+	{
+		// printf("remove:%s\n", token->cmds[i]);
+		temp = remove_quotes_cmd(token->cmds[i]);
+		if (!temp)
+			return(free_exit(token->cmds, &sack, 0));
+		free(token->cmds[i]);
+		token->cmds[i] = ft_strdup(temp);
+		// printf("temp:%s\n", temp);
+		free (temp);
+		if (!token->cmds[i])
+			return(free_exit(token->cmds, &sack, 0));
+		i++;
+	}
+
+}
+
 char *remove_quotes_cmd(char *s)
 {
 	char *cmd = NULL;

@@ -33,7 +33,7 @@
 // 	return (status);
 // }
 
-//ESTE ES DE LA CHATI Y YO PENSABA QUE FUNCIONABA
+// // ESTE ES DE LA CHATI Y YO PENSABA QUE FUNCIONABA
 // #include <stdio.h>
 // #include <stdlib.h>
 // #include <sys/wait.h>
@@ -57,7 +57,7 @@
 //         if (WIFEXITED(status))
 // 		{
 // 			exit_status = WEXITSTATUS(status);
-//             // printf("El código de salida del hijo fue: %d\n", exit_status);
+//             printf("El código de salida del hijo fue: %d\n", exit_status);
 //         }
 //     }
 //     return (exit_status);

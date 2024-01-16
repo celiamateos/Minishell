@@ -38,7 +38,8 @@ char *get_varname(t_shell_sack *sack, char *old);
 int	    search_char(char *s, char c, int i);
 char    *get_varcontent(char *var);
 char    *expand_wildcard(t_shell_sack *sack, char *old, int i);
-char *remove_quotes_cmd(char *s);
+char    *remove_quotes_cmd(char *s);
+void	remove_quotes_arr_cmds(t_token *token, t_shell_sack **sack);
 
 // signals
 void    main_sig_handler(void);
@@ -88,7 +89,8 @@ int		check_opercondition(t_shell_sack **sack, t_tree **node);
 int		check_route(char *av);
 int		check_path(char **env);
 char	*get_path(char *cmd, char **env);
-char	*getcmd_withpath(t_shell_sack *sack, char *cmd, char **cmds, char **env);
+// char	*getcmd_withpath(t_shell_sack *sack, char *cmd, char **cmds, char **env);
+char	*getcmd_withpath(char *cmd, char **cmds, char **env);
 
 
 /* ---------------------- BUILTINS ------------------------*/

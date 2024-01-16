@@ -88,8 +88,9 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
             execute_builtin(&sack, node);
         else
         {
-            getcmd_withpath((*sack), token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
-    		execve((*sack)->cmd_rmquotes, token->cmds, (*sack)->env->env);
+            remove_quotes_arr_cmds(token, &(*sack));
+            cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
+    		execve(cmd, token->cmds, (*sack)->env->env);
             // (*sack)->last_exit = 127; //error code for cmd not found
             free_exit(token->cmds, sack_orig, COMANDNOTFOUND); //Free everything?
         }
@@ -156,10 +157,7 @@ void	execute(t_shell_sack **sack)
     tree = (*sack)->tree_list;
     // token = tree->content;
     if (ft_strnstr((*sack)->line, "exit", 4))
-    {
-        // free_sack(&(*sack));
-        cmd_exit(&sack, tree->content->cmds);
-    }
+        cmd_exit(&sack, tree->content->cmds); //ESTO CREO QUE FUNCIONA GUACHI :')
     run_preorder(tree, sack);
     free_sack(&(*sack));
 }

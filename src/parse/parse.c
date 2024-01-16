@@ -49,8 +49,7 @@ void	put_syntaxerror(int cmd)
 
 int	check_isoperator(char c)
 {
-	if (c == '|' || c == '<'  || c == '>' 
-	|| c == '&'  || c == '<'  || c == ')')
+	if (c == '|' || c == '<'  || c == '>' || c == ')')
 		return (1);
 	return (0);
 }
@@ -72,7 +71,13 @@ int	check_validpipe(char *s, int i)
 		return (1);
 	if(s[i] == '|')
 	{
-		if (i == 0 || !s[i + 1] || !ft_isspace(s[i - 1]) || !ft_isspace(s[i + 1]))
+		if (i < 2 || !s[i + 1] || (!ft_isspace(s[i - 1]) && s[i - 1] != '|')
+		|| (!ft_isspace(s[i + 1]) && s[i + 1] != '|'))
+			return (2);
+	}
+	if(s[i] == '<' || s[i] == '>')
+	{
+		if (!s[i + 1])
 			return (2);
 	}
 	while (i >= 0)
@@ -94,7 +99,7 @@ int	check_validpipe(char *s, int i)
 		else if (check_isoperator(s[i]))
 			return (2);
 	}
-	return (0);
+	return (2);
 }	
 
 int	check_syntaxerrors(t_shell_sack *sack, char *s)
