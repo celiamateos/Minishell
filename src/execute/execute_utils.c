@@ -118,15 +118,15 @@ int    open_redirect(t_shell_sack ****sack_orig, t_tree *node)
 to assign fds*/
 int    check_redirect(t_shell_sack ***sack_orig, t_tree *node)
 {
-    t_token         *token;
-    t_shell_sack    **sack;
+    // t_token         *token;
+    // t_shell_sack    **sack;
     int             i;
     
     i = 0;
 	if (node != NULL) 
 	{	
-        sack = *sack_orig;
-        token = node->content;
+        // sack = *sack_orig;
+        // token = node->content;
         if (node->left && node->left->content->type >= HEREDOC)
         {
             i = open_redirect(&sack_orig, node->left);

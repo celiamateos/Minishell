@@ -22,81 +22,79 @@ int	check_route(char *av)
 		return (0);
 }
 
-int	check_path(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-			return (i);
-		i++;
-	}
-	return (i);
-}
-
-char	*get_path(char *cmd, char **env)
-{
-	int		i;
-	char	**paths;
-	char	*path;
-	char	*cmd_path;
-
-	i = check_path(env);
-	if (!env[i] || !env)
-		return ("./");
-	else
-		paths = ft_split(env[i] + 5, ':');
-	i = 0;
-	while (paths[i])
-	{
-		path = ft_strjoin(paths[i], "/");
-		cmd_path = ft_strjoin(path, cmd);
-		if (access(cmd_path, X_OK) == 0)
-		{
-			free(cmd_path);
-			return (ft_freematrix(&paths), path);
-		}
-		free(cmd_path);
-		free(path);
-		i++;
-	}
-	return (ft_freematrix(&paths), NULL);
-}
-
-// char	*getcmd_withpath(t_shell_sack *sack, char *cmd, char **cmds, char **env)
+// int	check_path(char **env)
 // {
-// 	char	*aux;
-// 	char 	*tmp;
-// 	(void)cmds; // esto no se usa
+// 	int	i;
 
-// 	ft_print_strarray(cmds);
-
-// 	// printf("\ndespues:");
-// 	// exit(1);
-// 	if ((ft_strchr(cmd, D_QUOTES) || ft_strchr(cmd, S_QUOTES)) && !check_open_quotes(NULL, cmd))
-// 		sack->cmd_rmquotes = remove_quotes_cmd(cmd);
-// 	else
-// 		sack->cmd_rmquotes = ft_strdup(cmd);
-// 	if (check_route(sack->cmd_rmquotes) == 1) // EXECUTE OTROS PROGRAMAS POR RUTA ABSOLUTA O RELATIVA.
-// 		return (sack->cmd_rmquotes);
-// 	else
+// 	i = 0;
+// 	while (env[i])
 // 	{
-// 		aux = get_path(sack->cmd_rmquotes, env);
-// 		if (aux)
-// 		{
-// 			tmp = ft_strjoin(aux, sack->cmd_rmquotes);
-// 			free(sack->cmd_rmquotes);
-// 			sack->cmd_rmquotes = ft_strdup(tmp);
-// 			free(tmp);
-// 			free(aux);
-// 		}
+// 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
+// 			return (i);
+// 		i++;
 // 	}
-	
+// 	return (i);
 // }
 
-char	*getcmd_withpath(char *cmd, char **cmds, char **env)
+// char	*get_path(char *cmd, char **env)
+// {
+// 	int		i;
+// 	char	**paths;
+// 	char	*path;
+// 	char	*cmd_path;
+
+// 	i = check_path(env);
+// 	if (!env[i] || !env)
+// 		return ("./");
+// 	else
+// 		paths = ft_split(env[i] + 5, ':');
+// 	i = 0;
+// 	while (paths[i])
+// 	{
+// 		path = ft_strjoin(paths[i], "/");
+// 		cmd_path = ft_strjoin(path, cmd);
+// 		if (access(cmd_path, X_OK) == 0)
+// 		{
+// 			free(cmd_path);
+// 			return (ft_freematrix(&paths), path);
+// 		}
+// 		free(cmd_path);
+// 		free(path);
+// 		i++;
+// 	}
+// 	return (ft_freematrix(&paths), NULL);
+// }
+
+//sorry david, puse el de mi pipex para atajar un errror
+char	*find_path(char *cmd, char **envp)
+{
+	int		i;
+	char	*path;
+	char	*path2;
+	char	**posibles_path;
+
+	i = 0;
+	while (envp[i] != NULL && ft_strnstr(envp[i], "PATH", 4) == NULL)
+		i++;
+	if (envp[i] == NULL)
+		return (NULL);
+	posibles_path = ft_split(envp[i] + 5, ':');
+	i = -1;
+	while (posibles_path[++i])
+	{
+		path2 = ft_strjoin(posibles_path[i], "/");
+		free(posibles_path[i]);
+		path = ft_strjoin(path2, cmd);
+		free (path2);
+		if (access(path, F_OK) == 0)
+			return (path);
+		free(path);
+	}
+	free(posibles_path);
+	return (NULL);
+}
+
+char	*getcmd_withpath(char *cmd, char **env)
 {
 	char	*path_cmd;
 	char	*aux;
@@ -107,7 +105,7 @@ char	*getcmd_withpath(char *cmd, char **cmds, char **env)
 		path_cmd = cmd;
 	else
 	{
-		aux = get_path(cmd, env);
+		aux = find_path(cmd, env);
 		if (aux)
 		{
 			path_cmd = ft_strjoin(aux, cmd);

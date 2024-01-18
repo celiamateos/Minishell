@@ -28,7 +28,7 @@ int	check_emptystr(t_shell_sack *sack, size_t i)
     return (-1);
 }
 
-int check_open_quotes(t_shell_sack *sack, char *s)
+int check_open_quotes(char *s)
 {
 	int i;
 	int	d_quotes = 0;

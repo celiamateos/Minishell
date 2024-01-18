@@ -15,12 +15,12 @@ void	ft_clearenv(t_shell_sack *sack)
 {
     if (sack->env->pwd)
         free(sack->env->pwd);
-     if (sack->env->oldpwd)
+    if (sack->env->oldpwd)
         free(sack->env->oldpwd);
-     if (sack->env->shlvl)
-        free(sack->env->shlvl);
-	ft_free_env(sack->env->env);
+    // if (sack->env->shlvl)
+    free(sack->env->shlvl);
 	ft_free_env(sack->env->pre_export);
+	ft_free_env(sack->env->env);
 	free(sack->env);
 }
 
@@ -43,6 +43,8 @@ void    free_sack(t_shell_sack **sack)
     {
         if((*sack)->line)
             free((*sack)->line);
+        // if((*sack)->l_expanded)
+        //     free((*sack)->l_expanded);
         // if((*sack)->cmd_rmquotes)
         //     free((*sack)->cmd_rmquotes);
         if ((*sack)->token_list)

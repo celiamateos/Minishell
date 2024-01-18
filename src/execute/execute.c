@@ -15,14 +15,14 @@
 parenthesis at his right. Then change the value of the paremeter token->oper 
 to respective operator.
 @parameters This function receive the sack and current tree node. */
-void    run_oper(t_shell_sack ***sack_orig, t_tree *node)
+void    run_oper(t_tree *node)
 {
-    t_shell_sack    **sack;
+    // t_shell_sack    **sack;
     t_token         *token;
     t_tree          *aux_node;
 
 
-    sack = *sack_orig;
+    // sack = *sack_orig;
     token = (node)->content;
     aux_node = findnext_cmdleaf(&node->right);
     if (aux_node != NULL) // maybe its not possible to get emtpy or should return error
@@ -89,16 +89,17 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         else
         {
             remove_quotes_arr_cmds(token, &(*sack));
-            cmd = getcmd_withpath(token->cmds[0], token->cmds, (*sack)->env->env);// change for our env
+            cmd = getcmd_withpath(token->cmds[0], (*sack)->env->env);// change for our env
     		execve(cmd, token->cmds, (*sack)->env->env);
-            // (*sack)->last_exit = 127; //error code for cmd not found
+            (*sack)->last_exit = 127; //error code for cmd not found
             free_exit(token->cmds, sack_orig, COMANDNOTFOUND); //Free everything?
         }
         }
 		// ft_freematrix(&token->cmds);
     }
     ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
-    (*sack)->last_exit = wait_exitcode((*sack)->last_pid); //Aqui llama a waitpid
+    // (*sack)->last_exit = wait_exitcode((*sack)->last_pid); //Aqui llama a waitpid
+    wait_exitcode((*sack)->last_pid); //Aqui llama a waitpid
     // if (!ft_strncmp(node->content->cmds[0], "exit", ft_strlen(node->content->cmds[0])))
     //     cmd_exit(&sack, node->content->cmds);
     // printf("EXITCODE: %d\n", (*sack)->last_exit);
@@ -134,7 +135,7 @@ void    run_node(t_shell_sack **sack, t_tree **node)
     }
     else if (token->type == OPER)
     {
-        run_oper(&sack, (*node));
+        run_oper((*node));
     }
 }
 

@@ -31,14 +31,14 @@ int expand_line(t_shell_sack *sack)
 				expander = !expander;
 			sack->s_quotes = !sack->s_quotes;
 		}
-		else if (sack->line[i] == '*' && sack->d_quotes == 0 && sack->s_quotes == 0)
-		{
-			temp = expand_wildcard(sack, sack->line, i);
-			free (sack->line);
-			sack->line = ft_strdup(temp);
-			free (temp);
-			i = 0;
-		}
+		// else if (sack->line[i] == '*' && sack->d_quotes == 0 && sack->s_quotes == 0)
+		// {
+		// 	temp = expand_wildcard(sack, sack->line, i);
+		// 	free (sack->line);
+		// 	sack->line = ft_strdup(temp);
+		// 	free (temp);
+		// 	i = 0;
+		// }
 		else if ((sack->line[i] == '$') && (expander == 1) && !check_expand_dolar(sack->line, i)) //pensar en mas casos
 		{
 			temp = expand_dolar(sack, sack->line, i);

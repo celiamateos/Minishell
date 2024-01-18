@@ -49,10 +49,12 @@ int	sack_init(t_shell_sack *sack, char *line)
 	if (check_errors_initsack(sack))
 		return (free(sack->line), 1);
 	if (expand_line(sack))
-		return (free(line), 1);
-	if (sack->l_expanded == NULL || sack->l_expanded[0] == '\0')
-		return (free(sack->line), free(line), 1);
+		return (1);
 	free (sack->line);
+	if (sack->l_expanded == NULL)
+		return (1);
+	else if (sack->l_expanded[0] == '\0')
+		return (free(sack->l_expanded), 1);
 	sack->line = ft_strdup(sack->l_expanded);
 	free (sack->l_expanded);
 	sack->token_list = init_tokens(sack->line);
@@ -60,7 +62,13 @@ int	sack_init(t_shell_sack *sack, char *line)
 	return (0);
 }
 
-// al sustituir sack->line por line, se arregla el leaks del exit pero aparece otro leaks en builtns | cmds
+
+
+/*Una cosa a tener en cuenta es que si tienes los descriptores de archivos de entrada 
+estándar redirigidos a un archivo no terminal, el comando de salida no debe ser impreso. 
+Puede comprobar si un descriptor de archivos es un terminal o no utilizando 
+la función isatty*/
+
 int		minishell(char *test, char **envp)
 {
     (void)test;
@@ -77,9 +85,16 @@ int		minishell(char *test, char **envp)
  	{
 		// main_sig_handler();
  		line = readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
-	 	if (line == 0)
- 			return (0);
-		if (*line)
+		if (!line)
+		{
+			if (isatty(STDIN_FILENO))
+				write(2, "exit\n", 6);
+			ft_clearenv(sack);
+			exit (1);
+		}
+		if (line[0] == '\0')
+			free(line);
+		else if (*line)
 		{
             add_history(line);
 			// if (read_exit(line))
@@ -92,6 +107,7 @@ int		minishell(char *test, char **envp)
 			}
 			else
 				free(line);
+			// if (!ft_strncmp(line, "$EMPTY", 6))   
 		}
 		sack->old_pipes[0] = 0;
 		sack->old_pipes[1] = 1;

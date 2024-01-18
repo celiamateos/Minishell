@@ -29,7 +29,7 @@ int  execute_builtin(t_shell_sack ***sack, t_tree *node)
     else if (!ft_strncmp(cmd, "unset", ft_strlen(cmd)))
         (**sack)->last_exit = unset((**sack)->env, node->content->cmds[1], 2);
     else if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
-        (**sack)->last_exit = echo(&sack, node->content->cmds);
+        (**sack)->last_exit = echo(node->content->cmds);
     else if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
     {
         (**sack)->last_exit = cmd_exit(&(*sack), node->content->cmds);
@@ -37,6 +37,7 @@ int  execute_builtin(t_shell_sack ***sack, t_tree *node)
     }
     else if (ft_strchr(cmd, '='))
         pre_export_new_variable((**sack)->env, cmd);
+    // printf("\nlast_exit:%d\n", (**sack)->last_exit);
     if ((**sack)->new_pipes[1] != 1 )
     	if (dup2((**sack)->new_pipes[1], STDOUT_FILENO) == -1)
 			free_exit(node->content->cmds, sack, 0); //Free everything?

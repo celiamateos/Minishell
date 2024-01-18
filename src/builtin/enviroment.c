@@ -82,8 +82,8 @@ int init_shlvl(t_shell_sack *sack)
 	int		n;
 
 	shlvl = get_varname(sack, "SHLVL");
-	if (shlvl && shlvl[0] == '\0')
-		free (shlvl);
+	// if (shlvl && shlvl[0] == '\0')
+	// 	free (shlvl);
 	if (shlvl)
 	{
 		n = ft_atoi(shlvl);

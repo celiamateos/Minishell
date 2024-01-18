@@ -22,7 +22,7 @@ int sack_init(t_shell_sack *sack, char *line);
 
 /* ---------------------- PARSE ------------------------*/
 int     check_errors_initsack(t_shell_sack *sack);
-int     check_open_quotes(t_shell_sack *sack, char *s);
+int     check_open_quotes(char *s);
 int check_errors_opers(t_dlist *list);
 
 
@@ -37,7 +37,7 @@ char *get_varname(t_shell_sack *sack, char *old);
 
 int	    search_char(char *s, char c, int i);
 char    *get_varcontent(char *var);
-char    *expand_wildcard(t_shell_sack *sack, char *old, int i);
+// char    *expand_wildcard(t_shell_sack *sack, char *old, int i);
 char    *remove_quotes_cmd(char *s);
 void	remove_quotes_arr_cmds(t_token *token, t_shell_sack **sack);
 
@@ -77,7 +77,7 @@ void	print2DUtil(t_tree *root, int space);
 /* ---------------------- EXECUTE -----------------------*/
 // execute.c
 void	execute(t_shell_sack **sack);
-void    run_oper(t_shell_sack ***sack_orig, t_tree *node);
+void    run_oper(t_tree *node);
 // execute_utils
 void	ft_close(int fd1, int fd2);
 int 	check_redirect(t_shell_sack ***sack, t_tree *node);
@@ -90,7 +90,7 @@ int		check_route(char *av);
 int		check_path(char **env);
 char	*get_path(char *cmd, char **env);
 // char	*getcmd_withpath(t_shell_sack *sack, char *cmd, char **cmds, char **env);
-char	*getcmd_withpath(char *cmd, char **cmds, char **env);
+char	*getcmd_withpath(char *cmd, char **env);
 
 
 /* ---------------------- BUILTINS ------------------------*/
@@ -121,7 +121,7 @@ int     cd(t_shell_sack *sack, char **pathname);
 char    *remove_slash(char *path);
 void    cd_mserror(char *cmd);
 //echo.c
-int     echo(t_shell_sack ****sack_orig, char **line);
+int     echo(char **line);
 //check_isbuiltin.c
 int     check_isbuiltin(t_tree *node);
 int     execute_builtin(t_shell_sack ***sack, t_tree *node);

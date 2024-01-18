@@ -14,7 +14,7 @@
 void	remove_quotes_arr_cmds(t_token *token, t_shell_sack **sack)
 {
 	char *temp;
-	int 	i;
+	size_t 	i;
 
 	if (!token->cmds)
 		return ;

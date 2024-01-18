@@ -11,17 +11,13 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-int echo(t_shell_sack ****sack_orig, char **arr_cmd)
+int echo(char **arr_cmd)
 {
-    t_shell_sack    **sack;
     char            *line;
     char            *temp;
     int             flag = 0;
     int             i = 1;
-    
-    sack = (**sack_orig);  ///ESTO NO LO ESTOY USANDO
-    // printf("new_pipes[1]: %d\n", (*sack)->new_pipes[1]);
-        // printf("\nline:%s", arr_cmd[0]);
+
     if (arr_cmd[i] && !ft_strncmp(arr_cmd[i], "-n", 2) && ft_strlen(arr_cmd[i]) == 2)
     {
         flag = 1;

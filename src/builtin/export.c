@@ -18,12 +18,12 @@
 int is_valid_to_export(char *s)
 {
 	int i;
-    int check = 0;
+    // int check = 0;
 
     i = 0;
-    if (!ft_strchr(s, '='))
-        check = 1;
-	if ((!ft_isalpha(s[i])) && (s[i] != '_'))
+    // if (!ft_strchr(s, '='))
+    //     check = 1;
+	if (!ft_isalpha(s[i]) && s[i] != '_')
 		return (ft_putstr_fd("minishell: export: not a valid identifier\n", 2), 1);
 	while (s[i] && s[i] != '=')
 	{
@@ -107,6 +107,7 @@ int export(t_env *env, char *new)
 {
 	long pos;
 
+    pos = -1;
 	if (new == NULL)
     {
         print_export_list(env);
@@ -119,8 +120,10 @@ int export(t_env *env, char *new)
         return (1);
     }
     if (!ft_strchr(new, '='))
+    {
         if (already_added_pre_export_list(env, new))
             return (1);
+    }
 	if (pos >= 0)
     {
         // printf("\npos o ke:%ld", pos);
