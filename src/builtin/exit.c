@@ -18,13 +18,30 @@ void    ms_cmd_exit(char *s)
     ft_putstr_fd(" numeric argument required\n", 1);
 }
 
-int cmd_exit(t_shell_sack ***sack, char **cmd)
+int check_bad_exit(char *s)
 {
-    int exitcode;
-    char *s;
     int i;
 
     i = 0;
+    if (!s)
+        return (1);
+    while (s[i])
+    {
+        if (!ft_isdigit(s[i]) && s[i] != '-' && s[i] != '+')
+        {
+            ft_putstr_fd("minishell: error: numeric argument required\n", 2);
+            return (1);
+        }
+        i++;
+    }
+    return (0);
+}
+
+int cmd_exit(t_shell_sack ***sack, char **cmd)
+{
+    long exitcode = 0;
+    char *s;
+
     if (ft_arraylen(cmd) > 2)
     {
         ft_putstr_fd("minishell: exit: too many arguments\n", 2);
@@ -35,18 +52,14 @@ int cmd_exit(t_shell_sack ***sack, char **cmd)
         s = remove_quotes_cmd(cmd[1]);
         if (!s)
             return (1);
-        while (s[i])
-        {
-            if (!ft_isalnum(s[i]) && s[i] != '-' && s[i] != '+')
-            {
-                ms_cmd_exit(s);
-                return (free(s), 2);
-            }
-            i++;
-        }
-        exitcode = ft_atoi(s);
+        if (check_bad_exit(s) == 1)
+            return(free(s), 2);
+        else
+            exitcode = ft_atoi(s);
         free (s);
     }
+    else
+        exitcode = (**sack)->last_exit;
     ft_clearenv((**sack));
     free_sack(&(**sack));
     exit(exitcode); //check error code for exit

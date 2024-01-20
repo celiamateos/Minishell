@@ -30,11 +30,11 @@ int  execute_builtin(t_shell_sack ***sack, t_tree *node)
         (**sack)->last_exit = unset((**sack)->env, node->content->cmds[1], 2);
     else if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
         (**sack)->last_exit = echo(node->content->cmds);
-    else if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
-    {
-        (**sack)->last_exit = cmd_exit(&(*sack), node->content->cmds);
-        // free_exit(node->content->cmds, &(*sack), 0);
-    }
+    // else if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
+    // {
+    //     (**sack)->last_exit = cmd_exit(&(*sack), node->content->cmds);
+    //     // free_exit(node->content->cmds, &(*sack), 0);
+    // }
     else if (ft_strchr(cmd, '='))
         pre_export_new_variable((**sack)->env, cmd);
     // printf("\nlast_exit:%d\n", (**sack)->last_exit);
@@ -63,8 +63,8 @@ int  check_isbuiltin(t_tree *node)
          return (0);
     else if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
          return (0);
-    else if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
-	    return (0);
+    // else if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
+	//     return (0);
     else if (ft_strchr(cmd, '='))
         return (0);
     return (1);

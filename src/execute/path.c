@@ -22,50 +22,51 @@ int	check_route(char *av)
 		return (0);
 }
 
-// int	check_path(char **env)
-// {
-// 	int	i;
+int	check_path(char **env)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (env[i])
-// 	{
-// 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-// 			return (i);
-// 		i++;
-// 	}
-// 	return (i);
-// }
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], "PATH=", 5) == 0)
+			return (i);
+		i++;
+	}
+	return (i);
+}
 
-// char	*get_path(char *cmd, char **env)
-// {
-// 	int		i;
-// 	char	**paths;
-// 	char	*path;
-// 	char	*cmd_path;
+char	*get_path(char *cmd, char **env)
+{
+	int		i;
+	char	**paths;
+	char	*path;
+	char	*cmd_path;
 
-// 	i = check_path(env);
-// 	if (!env[i] || !env)
-// 		return ("./");
-// 	else
-// 		paths = ft_split(env[i] + 5, ':');
-// 	i = 0;
-// 	while (paths[i])
-// 	{
-// 		path = ft_strjoin(paths[i], "/");
-// 		cmd_path = ft_strjoin(path, cmd);
-// 		if (access(cmd_path, X_OK) == 0)
-// 		{
-// 			free(cmd_path);
-// 			return (ft_freematrix(&paths), path);
-// 		}
-// 		free(cmd_path);
-// 		free(path);
-// 		i++;
-// 	}
-// 	return (ft_freematrix(&paths), NULL);
-// }
+	i = check_path(env);
+	if (!env[i] || !env)
+		return ("./");
+	else
+		paths = ft_split(env[i] + 5, ':');
+	i = 0;
+	while (paths[i])
+	{
+		path = ft_strjoin(paths[i], "/");
+		cmd_path = ft_strjoin(path, cmd);
+		if (access(cmd_path, X_OK) == 0)
+		{
+			free(cmd_path);
+			return (ft_freematrix(&paths), path);
+		}
+		free(cmd_path);
+		free(path);
+		i++;
+	}
+	return (ft_freematrix(&paths), NULL);
+}
 
-//sorry david, puse el de mi pipex para atajar un errror
+//--------------------------
+
 char	*find_path(char *cmd, char **envp)
 {
 	int		i;
@@ -83,14 +84,13 @@ char	*find_path(char *cmd, char **envp)
 	while (posibles_path[++i])
 	{
 		path2 = ft_strjoin(posibles_path[i], "/");
-		free(posibles_path[i]);
 		path = ft_strjoin(path2, cmd);
 		free (path2);
 		if (access(path, F_OK) == 0)
-			return (path);
+			return (ft_free_env(posibles_path), path);
 		free(path);
 	}
-	free(posibles_path);
+	ft_free_env(posibles_path);
 	return (NULL);
 }
 
@@ -103,13 +103,16 @@ char	*getcmd_withpath(char *cmd, char **env)
 
 	if (check_route(cmd) == 1)
 		path_cmd = cmd;
+	// else
+	// 	path_cmd = find_path(cmd, env);
 	else
 	{
-		aux = find_path(cmd, env);
+		aux = get_path(cmd, env);
 		if (aux)
 		{
 			path_cmd = ft_strjoin(aux, cmd);
 			free(aux);
+			// printf("\ncmd:%s\n", path_cmd);
 		}
 	}
 	return (path_cmd);

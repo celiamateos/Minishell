@@ -92,7 +92,7 @@ char	*get_path(char *cmd, char **env);
 // char	*getcmd_withpath(t_shell_sack *sack, char *cmd, char **cmds, char **env);
 char	*getcmd_withpath(char *cmd, char **env);
 
-
+int	execute_cmd(char *cmd, char **envp);
 /* ---------------------- BUILTINS ------------------------*/
 //enviroment.c and //enviroment_utils.c
 int     env_init(t_shell_sack *sack, char **envp);

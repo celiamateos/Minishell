@@ -45,8 +45,8 @@ void    run_pipe(t_shell_sack ***sack_orig, t_tree *node)
     sack = *sack_orig;
     // if (node->content != (*sack)->last_token)
     // {
-        (*sack)->old_pipes[0] = (*sack)->new_pipes[0];
-        (*sack)->old_pipes[1] = (*sack)->new_pipes[1];
+    (*sack)->old_pipes[0] = (*sack)->new_pipes[0];
+    (*sack)->old_pipes[1] = (*sack)->new_pipes[1];
     // }
     if (pipe((*sack)->new_pipes) == -1)
 		perror_free_exit("Pipe error", sack_orig);
@@ -90,7 +90,11 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         {
             remove_quotes_arr_cmds(token, &(*sack));
             cmd = getcmd_withpath(token->cmds[0], (*sack)->env->env);// change for our env
-    		execve(cmd, token->cmds, (*sack)->env->env);
+    		if (cmd)
+            {
+                execve(cmd, token->cmds, (*sack)->env->env);
+                // free(cmd);
+            }
             (*sack)->last_exit = 127; //error code for cmd not found
             free_exit(token->cmds, sack_orig, COMANDNOTFOUND); //Free everything?
         }
@@ -99,7 +103,9 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
     }
     ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
     // (*sack)->last_exit = wait_exitcode((*sack)->last_pid); //Aqui llama a waitpid
-    wait_exitcode((*sack)->last_pid); //Aqui llama a waitpid
+    int exitcode = wait_exitcode((*sack)->last_pid); //Aqui llama a waitpid
+    if ((*sack)->last_exit == 0)
+        (*sack)->last_exit = exitcode;
     // if (!ft_strncmp(node->content->cmds[0], "exit", ft_strlen(node->content->cmds[0])))
     //     cmd_exit(&sack, node->content->cmds);
     // printf("EXITCODE: %d\n", (*sack)->last_exit);
@@ -158,8 +164,9 @@ void	execute(t_shell_sack **sack)
     tree = (*sack)->tree_list;
     // token = tree->content;
     if (ft_strnstr((*sack)->line, "exit", 4))
-        cmd_exit(&sack, tree->content->cmds); //ESTO CREO QUE FUNCIONA GUACHI :')
-    run_preorder(tree, sack);
+        (*sack)->last_exit = cmd_exit(&sack, tree->content->cmds); //ESTO CREO QUE FUNCIONA GUACHI :')
+    else
+        run_preorder(tree, sack);
     free_sack(&(*sack));
 }
 
