@@ -121,7 +121,7 @@ int		minishell(char *test, char **envp)
 //PARA PODER PASAR EL TESTER AÑADÍ ESTO, HAY QUE COMPILAR CON: ./minishell -c -c
 int main(int argc, char **argv, char **envp)
 {
-	(void)argc;
+// 	(void)argc;
 //   if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
 //   {
 //     int exit_status = minishell(argv[2], envp);

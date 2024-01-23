@@ -109,7 +109,7 @@ void free_exit(char **cmds, t_shell_sack ***sack, int msj)
         ft_pustr_msjerror(msj, cmd);
     ft_clearenv((**sack));
     free_sack(&(**sack));
-    printf("exitcode:%d\n", exitcode);
+    // printf("exitcode:%d\n", exitcode);
     exit(exitcode); //check error code for exit
 }
 
@@ -127,7 +127,7 @@ void	perror_free_exit(char *msj, t_shell_sack ***sack)
         // unlink("tmp/.heredoc");
     ft_clearenv((**sack));
     free_sack(&(**sack));
-    printf("exitcode:%d\n", exitcode);
+    // printf("exitcode:%d\n", exitcode);
     exit(exitcode); //check error code for exit
 }
 

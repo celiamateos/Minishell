@@ -63,7 +63,15 @@ int check_iscomand(char c)
 	return (0);
 }
 
-int	check_validpipe(char *s, int i)
+
+// int check_valid_heredoc(char *s, int i)
+// {
+// 	i++;
+// 	if (s[i] + 1)
+// 	while (s[i])
+// }
+
+int	check_validoper(char *s, int i)
 {
 	int index = i;
 
@@ -79,6 +87,11 @@ int	check_validpipe(char *s, int i)
 	{
 		if (!s[i + 1])
 			return (2);
+		// if (s[i] == '<' && s[i + 1] == '<')
+		// {
+		// 	if (check_valid_heredoc(s, i) == 1)
+		// 		return (2);
+		// }
 	}
 	while (i >= 0)
 	{
@@ -114,7 +127,7 @@ int	check_syntaxerrors(t_shell_sack *sack, char *s)
 			str = !str;
 		if (s[i] == '|' && str == 1)
 		{
-			if (check_validpipe(s, i))
+			if (check_validoper(s, i))
 			{
 				sack->last_exit = 2;
 				return (put_syntaxerror('|'), 2);
@@ -122,7 +135,7 @@ int	check_syntaxerrors(t_shell_sack *sack, char *s)
 		}
 		if (s[i] == '<' && str == 1)
 		{
-			if (check_validpipe(s, i))
+			if (check_validoper(s, i))
 			{
 				sack->last_exit = 2;
 				return (put_syntaxerror('<'), 2);
@@ -130,7 +143,7 @@ int	check_syntaxerrors(t_shell_sack *sack, char *s)
 		}
 		if (s[i] == '>' && str == 1)
 		{
-			if (check_validpipe(s, i))
+			if (check_validoper(s, i))
 			{
 				sack->last_exit = 2;
 				return (put_syntaxerror('>'), 2);

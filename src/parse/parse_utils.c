@@ -10,24 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include"../../include/minishell.h"
+ 
 
 
-int	check_emptystr(t_shell_sack *sack, size_t i)
-{
-    if (!sack->line || i > ft_strlen(sack->line))
-        return (-1);
 
-    while (sack->line[i])
-    {
-        if (sack->line[i] == '\'' && sack->line[i + 1] == '\'')
-            return (i);
-        if (sack->line[i] == '\"' && sack->line[i + 1] == '\"')
-            return (i);
-        i++;
-    }
-    return (-1);
-}
 
+
+
+
+
+
+
+
+
+
+// @brief revise if open quotes string
+// @param s string to revise 
+// @return 1 if open quotes
 int check_open_quotes(char *s)
 {
 	int i;
@@ -61,36 +60,53 @@ int check_open_quotes(char *s)
 	return (0);
 }
 
-//NO SE USA PERO VAYA JEJE
-/*@brief ALOCA MEMORIA.
-Recibe una string y aloca memoria para una copia
-en la que elimina una parte de la string
-@param start inicio de la parte a eliminar
-@param lenn final de la parte a eliminar*/
-char *remove_partofstr(const char *s, size_t start, size_t len)
-{
-    // size_t	original_len;
-	size_t	i;
-	size_t	j;
-	char*	new;
+// //NO SE USA PERO VAYA JEJE
+// /*@brief ALOCA MEMORIA.
+// Recibe una string y aloca memoria para una copia
+// en la que elimina una parte de la string
+// @param start inicio de la parte a eliminar
+// @param lenn final de la parte a eliminar*/
+// char *remove_partofstr(const char *s, size_t start, size_t len)
+// {
+//     // size_t	original_len;
+// 	size_t	i;
+// 	size_t	j;
+// 	char*	new;
 
-	i = 0;
-	j = 0;
-    if (!s || !len)
-        return (NULL);
-	// original_len = ft_strlen(s);
-    if (start >= ft_strlen(s) || (start + len) > ft_strlen(s))
-        return (NULL);
-    new = (char *)malloc((ft_strlen(s) - len + 1) * sizeof(char));
-    if (!new)
-        return NULL;
-    while (s[i] != '\0')
-    {
-        if (i >= start && i < (start + len))
-            i++;
-        else
-            new[j++] = s[i++];
-    }
-    new[j] = '\0';
-    return new;
-}
+// 	i = 0;
+// 	j = 0;
+//     if (!s || !len)
+//         return (NULL);
+// 	// original_len = ft_strlen(s);
+//     if (start >= ft_strlen(s) || (start + len) > ft_strlen(s))
+//         return (NULL);
+//     new = (char *)malloc((ft_strlen(s) - len + 1) * sizeof(char));
+//     if (!new)
+//         return NULL;
+//     while (s[i] != '\0')
+//     {
+//         if (i >= start && i < (start + len))
+//             i++;
+//         else
+//             new[j++] = s[i++];
+//     }
+//     new[j] = '\0';
+//     return new;
+// }
+
+// // @brief NO SE USA
+// int	check_emptystr(char *line, size_t i)
+// {
+//     if (!line || i > ft_strlen(line))
+//         return (-1);
+
+//     while (line[i])
+//     {
+//         if (line[i] == '\'' && line[i + 1] == '\'')
+//             return (i);
+//         if (line[i] == '\"' && line[i + 1] == '\"')
+//             return (i);
+//         i++;
+//     }
+//     return (-1);
+// }
