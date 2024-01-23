@@ -15,7 +15,8 @@ char	*fix_tokenvalues(char **value)
 {
 	char	*aux;
 
-	aux = ft_strtrim(*value, "<> \n\t");
+	// aux = ft_strtrim(*value, "<> \n\t");
+	aux = ft_strtrim(*value, "<>"); //intentando arreglar los espacios entre comillas
 	free (*value);
 	return (aux);
 }
@@ -99,10 +100,14 @@ void	get_cmd_args(t_shell_sack **sack)
 	while (token_list)
 	{
 		token = token_list->content;
+		// printf("token_value:%s", token->value);
 		if (token->type == CMD)
-			token->cmds = ft_split(token->value, ' ');
+			token->cmds = ft_split_minishell(token->value);
+			// token->cmds = ft_split(token->value, ' ');
+		// else if (token->type == CMD)
 		else
 			token->cmds = ft_split("NULL", ' ');
+		// ft_print_strarray(token->cmds);
 		token_list = token_list->next;
 	}
 }

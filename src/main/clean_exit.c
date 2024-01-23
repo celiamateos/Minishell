@@ -92,8 +92,8 @@ void	ft_pustr_msjerror(int n, char *cmd)
 		ft_putstr_fd("minishell: no such file or directory: ", 2);
 		ft_putstr_fd_noquotes(cmd, 2);
 	}
-    else
-        perror(cmd);
+    // else
+    //     perror(cmd);
 	ft_putstr_fd("\n", 2);
 }
 
@@ -109,6 +109,7 @@ void free_exit(char **cmds, t_shell_sack ***sack, int msj)
         ft_pustr_msjerror(msj, cmd);
     ft_clearenv((**sack));
     free_sack(&(**sack));
+    printf("exitcode:%d\n", exitcode);
     exit(exitcode); //check error code for exit
 }
 
@@ -126,6 +127,7 @@ void	perror_free_exit(char *msj, t_shell_sack ***sack)
         // unlink("tmp/.heredoc");
     ft_clearenv((**sack));
     free_sack(&(**sack));
+    printf("exitcode:%d\n", exitcode);
     exit(exitcode); //check error code for exit
 }
 

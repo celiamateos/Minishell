@@ -31,7 +31,9 @@ int	get_token_type(char *value)
 	else if (value[i] == '(')
 		return (PARENT_OP);	
 	else if (value[i] == ')')
-		return (PARENT_CL);	
+		return (PARENT_CL);
+	// else if (value[i] == D_QUOTES || value[i] == S_QUOTES)
+	// 	return (STRING);	
 	// else if (isvalid_var(value))
 	// 	return (CREATE_VAR); //Ahora me entero que aqui pensabas meter lo de var=content jeje lo meti en builtins
 	else

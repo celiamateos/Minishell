@@ -38,6 +38,8 @@
 # define REDIR_OUT 8
 # define APPEND_OUT 9
 # define FN_ERROR 10
+# define STRING 11
+
 # define AND 21
 # define OR 22
 # define COUNT 10 //to check priunt2Dtree

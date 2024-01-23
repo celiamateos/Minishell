@@ -17,6 +17,8 @@
 # include <stdio.h>
 # include <string.h>
 # include <stdarg.h>
+# define D_QUOTES 34
+# define S_QUOTES 39
 
 typedef struct s_list
 {
@@ -97,5 +99,6 @@ void    ft_print_strarray (char **array);
 void	ft_freematrix(char ***matrix);
 char	**ft_sarrcpy(char **arr);
 void	ft_putstr_fd_noquotes(char *s, int fd);
-char *ft_arrtostr(char **arr);
+char 	*ft_arrtostr(char **arr);
+char	**ft_split_minishell(char const *s);
 #endif

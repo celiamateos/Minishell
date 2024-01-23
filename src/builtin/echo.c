@@ -11,6 +11,21 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
+int only_n(char *s)
+{
+    int i;
+
+    i = 0;
+    while (s[++i])
+    {
+        if (s[i] != 'n')
+            break ;
+    }
+    if (s[i] != '\0')
+        return (1);
+    return (0);
+}
+
 int echo(char **arr_cmd)
 {
     char            *line;
@@ -18,10 +33,12 @@ int echo(char **arr_cmd)
     int             flag = 0;
     int             i = 1;
 
-    if (arr_cmd[i] && !ft_strncmp(arr_cmd[i], "-n", 2) && ft_strlen(arr_cmd[i]) == 2)
+    if (arr_cmd[i] && !ft_strncmp(arr_cmd[i], "-n", 2) && only_n(arr_cmd[i]) == 0)
     {
-        flag = 1;
         i++;
+        flag = 1;
+        while (arr_cmd[i] && !ft_strncmp(arr_cmd[i], "-n", 2) && only_n(arr_cmd[i]) == 0)
+            i++;
     }
     if (arr_cmd && arr_cmd[i])
     {

@@ -22,10 +22,10 @@ WHITE = \033[0;97m
 
 NAME = libft.a
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -C -Wall -Wextra -Werror
 LIB = ar rc
 SRC = ft_isalpha.c \
-	  ft_isspace.c ft_strposchr.c ft_print_strarray.c arrcpy.c ft_arrtostr.c \
+	  ft_isspace.c ft_strposchr.c ft_print_strarray.c arrcpy.c ft_arrtostr.c ft_split_minishell.c \
 	  ft_freematrix.c \
 	  ft_isdigit.c \
 	  ft_isalnum.c \
