@@ -25,6 +25,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <readline/rlstdc.h>
 # include <signal.h>
 
 # define CMD 0
@@ -52,6 +53,8 @@
 # define NOSUCHFILEORDIRECTORY 103
 # define STANDAR 104
 
+// Declaración de la variable global para señalización
+extern volatile sig_atomic_t received_signal;
 
 typedef struct s_dlist
 {

@@ -55,6 +55,7 @@ void    run_pipe(t_shell_sack ***sack_orig, t_tree *node)
     
 }
 
+
 void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 {
     t_token *token;
@@ -68,6 +69,8 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
         perror_free_exit("Fork error", sack_orig);
     else if ((*sack)->last_pid == 0)
 	{
+        signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
         if(check_redirect(&sack, node))
         {
             (*sack)->last_exit = 1; //check error code
@@ -90,9 +93,9 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
             if (cmd)
             {
                 execve(cmd, token->cmds, (*sack)->env->env);
-                // free(cmd);
+                // free(cmd); // no entiendo por que si libero esto da double free wtf?
             }
-            (*sack)->last_exit = 127; //error code for cmd not found
+            (*sack)->last_exit = errno; //error code for cmd not found
             free_exit(token->cmds, sack_orig, COMANDNOTFOUND); //Free everything?
         }
 
@@ -100,6 +103,8 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
     }
     ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
     // (*sack)->last_exit = wait_exitcode((*sack)->last_pid); //Aqui llama a waitpid
+    signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
     int exitcode = wait_exitcode((*sack)->last_pid); //Aqui llama a waitpid
     if ((*sack)->last_exit == 0)
         (*sack)->last_exit = exitcode;

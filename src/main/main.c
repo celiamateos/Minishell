@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
+
+volatile sig_atomic_t received_signal = 0;
+
 void	leaks(void)
 {
 	system("leaks -q minishell");
@@ -42,7 +45,6 @@ int	clean_init(t_shell_sack **sack)
 
 int	sack_init(t_shell_sack *sack, char *line)
 {
-	// sack->line = ft_strtrim(line, " \t\v\n\r");
 	sack->line = ft_strdup(line);
 	if(!sack->line)
 		return (free(line), 1);
@@ -81,9 +83,11 @@ int		minishell(char *test, char **envp)
 		return (1);
 	if (env_init(sack, envp))
 		return (1);
+	sighandler();
 	while (42)
  	{
 		// main_sig_handler();
+		sighandler();
  		line = readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
 		if (!line)
 		{
@@ -109,6 +113,9 @@ int		minishell(char *test, char **envp)
 				free(line);
 			// if (!ft_strncmp(line, "$EMPTY", 6))   
 		}
+		// if (received_signal != 0) 
+        //     printf("Señal recibida: %d\n", received_signal);
+		received_signal = 0;
 		sack->old_pipes[0] = 0;
 		sack->old_pipes[1] = 1;
 		sack->new_pipes[0] = 0;

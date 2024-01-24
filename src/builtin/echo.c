@@ -33,6 +33,7 @@ int echo(char **arr_cmd)
     int             flag = 0;
     int             i = 1;
 
+    // ft_print_strarray(arr_cmd);
     if (arr_cmd[i] && !ft_strncmp(arr_cmd[i], "-n", 2) && only_n(arr_cmd[i]) == 0)
     {
         i++;

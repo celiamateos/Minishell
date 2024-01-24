@@ -48,17 +48,17 @@ static int	ft_countwords_minishell(char const *s)
 			while (s[i] && s[i] != '\"')
 				i++;
 			i++;
-			while (s[i] && ft_isspace(s[i]) == 1)
-				i++;
+			// while (s[i] && ft_isspace(s[i]) == 1)
+			// 	i++;
 		}
-		if (s[i] == '\'')
+		else if (s[i] == '\'')
 		{
 			i++;
 			while (s[i] && s[i] != '\'')
 				i++;
 			i++;
-			while (s[i] && ft_isspace(s[i]) == 1)
-				i++;
+			// while (s[i] && ft_isspace(s[i]) == 1)
+			// 	i++;
 		}
 		if (s[i] == '\0' || ft_isspace(s[i]) == 1)
 		{

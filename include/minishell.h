@@ -153,4 +153,10 @@ void	ft_dlstclear(t_dlist **lst, void (*del_dlst)(void *));
 void	ft_dlstdelone(t_dlist *lst, void (*del_dlst)(void *));
 void	del_dlst(void *content);
 
+
+
+/*---------------------SIGNALS------------------*/
+void	sighandler(void);
+
+
 #endif

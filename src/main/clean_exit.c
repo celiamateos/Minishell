@@ -100,13 +100,15 @@ void	ft_pustr_msjerror(int n, char *cmd)
 /*VERSION MEJORADA perror_free_exit*/
 void free_exit(char **cmds, t_shell_sack ***sack, int msj)
 {
+    (void)cmds;
+    (void)msj;
     int exitcode;
-    char *cmd;
+    // char *cmd;
 
-    cmd = ft_arrtostr(cmds);
+    // cmd = ft_arrtostr(cmds);
     exitcode = (**sack)->last_exit;
-    if (msj != 0)
-        ft_pustr_msjerror(msj, cmd);
+    // if (msj != 0)
+    //     ft_pustr_msjerror(msj, cmd);
     ft_clearenv((**sack));
     free_sack(&(**sack));
     // printf("exitcode:%d\n", exitcode);
