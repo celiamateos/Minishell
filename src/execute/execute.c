@@ -73,32 +73,29 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
             (*sack)->last_exit = 1; //check error code
             perror_free_exit("Open error", sack_orig);
         }
+        if ((*sack)->old_pipes[0] != 0 )
+            if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1)
+                perror_free_exit("Dup2 error IN", sack_orig);
+        if ((*sack)->new_pipes[1] != 1 )
+            if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
+                perror_free_exit("Dup2 error OUT", sack_orig);
+        ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
+        ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+        if (!check_isbuiltin(node))
+            execute_builtin(&sack, node);
         else
         {
-            // printf("AQUI\n");
-            if ((*sack)->old_pipes[0] != 0 )
-                if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1)
-                    perror_free_exit("Dup2 error IN", sack_orig);
-            if ((*sack)->new_pipes[1] != 1 )
-                if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
-                    perror_free_exit("Dup2 error OUT", sack_orig);
-            ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
-            ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-            if (!check_isbuiltin(node))
-                execute_builtin(&sack, node);
-            else
+            remove_quotes_arr_cmds(token, &(*sack));
+            cmd = getcmd_withpath(token->cmds[0], (*sack)->env->env);// change for our env
+            if (cmd)
             {
-                remove_quotes_arr_cmds(token, &(*sack));
-                cmd = getcmd_withpath(token->cmds[0], (*sack)->env->env);// change for our env
-                if (cmd)
-                {
-                    execve(cmd, token->cmds, (*sack)->env->env);
-                    // free(cmd);
-                }
-                (*sack)->last_exit = 127; //error code for cmd not found
-                free_exit(token->cmds, sack_orig, COMANDNOTFOUND); //Free everything?
+                execve(cmd, token->cmds, (*sack)->env->env);
+                // free(cmd);
             }
+            (*sack)->last_exit = 127; //error code for cmd not found
+            free_exit(token->cmds, sack_orig, COMANDNOTFOUND); //Free everything?
         }
+
 		// ft_freematrix(&token->cmds);
     }
     ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
