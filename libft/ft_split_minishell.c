@@ -48,8 +48,6 @@ static int	ft_countwords_minishell(char const *s)
 			while (s[i] && s[i] != '\"')
 				i++;
 			i++;
-			// while (s[i] && ft_isspace(s[i]) == 1)
-			// 	i++;
 		}
 		else if (s[i] == '\'')
 		{
@@ -57,19 +55,17 @@ static int	ft_countwords_minishell(char const *s)
 			while (s[i] && s[i] != '\'')
 				i++;
 			i++;
-			// while (s[i] && ft_isspace(s[i]) == 1)
-			// 	i++;
 		}
-		if (s[i] == '\0' || ft_isspace(s[i]) == 1)
+		if (s[i] == '\0' || ft_isspace(s[i]) == 1 || s[i] == '\"' || s[i] == '\'')
 		{
 			count++;
 			if (s[i] == '\0')
 				return (count);
 		}
-		i++;
 	}
 	return (count);
 }
+
 
 static int	ft_lenstring_minishell(char const *s, int i)
 {
@@ -86,9 +82,7 @@ static int	ft_lenstring_minishell(char const *s, int i)
 	{
 		while (s[i] && s[i] != '\"' && s[i] != '\'' && ft_isspace(s[i]) == 0)
 			i++;
-		if (s[i] == '\0')
-			return (i - start);
-		if (ft_isspace(s[i]) == 1)
+		if (s[i] == '\0' || ft_isspace(s[i]) == 1)
 			return (i - start);
 		if (s[i] == '\"')
 		{
@@ -96,7 +90,7 @@ static int	ft_lenstring_minishell(char const *s, int i)
 			while (s[i] && s[i] != '\"')
 				i++;
 			i++;
-			while (s[i] && ft_isspace(s[i]) == 0)
+			while (s[i] && ft_isspace(s[i]) == 0 && s[i] != '\"' && s[i] != '\'')
 				i++;
 			return (i - start);
 		}
@@ -106,7 +100,7 @@ static int	ft_lenstring_minishell(char const *s, int i)
 			while (s[i] && s[i] != '\'')
 				i++;
 			i++;
-			while (s[i] && ft_isspace(s[i]) == 0)
+			while (s[i] && ft_isspace(s[i]) == 0 && s[i] != '\"' && s[i] != '\'')
 				i++;
 			return (i - start);
 		}
@@ -114,6 +108,52 @@ static int	ft_lenstring_minishell(char const *s, int i)
 	}
 	return (0);
 }
+
+
+
+// static int	ft_lenstring_minishell(char const *s, int i)
+// {
+// 	int	start;
+
+// 	if (!s)
+// 		return (0);
+// 	while (s[i] && ft_isspace(s[i]) == 1)
+// 		i++;
+// 	if (s[i] == '\0')
+// 		return (0);
+// 	start = i;
+// 	while (s[i])
+// 	{
+// 		while (s[i] && s[i] != '\"' && s[i] != '\'' && ft_isspace(s[i]) == 0)
+// 			i++;
+// 		if (s[i] == '\0')
+// 			return (i - start);
+// 		if (ft_isspace(s[i]) == 1)
+// 			return (i - start);
+// 		if (s[i] == '\"')
+// 		{
+// 			i++;
+// 			while (s[i] && s[i] != '\"')
+// 				i++;
+// 			i++;
+// 			while (s[i] && ft_isspace(s[i]) == 0)
+// 				i++;
+// 			return (i - start);
+// 		}
+// 		if (s[i] == '\'')
+// 		{
+// 			i++;
+// 			while (s[i] && s[i] != '\'')
+// 				i++;
+// 			i++;
+// 			while (s[i] && ft_isspace(s[i]) == 0)
+// 				i++;
+// 			return (i - start);
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 
 //SPLIT_MINISHELL

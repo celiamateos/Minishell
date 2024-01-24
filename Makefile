@@ -47,7 +47,7 @@ progress := 4
 
 all: $(NAME)
 	@if [ "$(CHANGES_MADE)" -eq "0" ]; then \
-		echo "$(COLOR_RED_N)No hay cambios para hacer. $(COLOR_RESET)"; \
+		echo "$(COLOR_RED)No hay cambios para hacer. $(COLOR_RESET)"; \
 	fi
 	$(call print_progress)
 	$(eval progress := 50)

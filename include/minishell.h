@@ -120,6 +120,8 @@ int     cd(t_shell_sack *sack, char **pathname);
 //cd_utils.c
 char    *remove_slash(char *path);
 void    cd_mserror(char *cmd);
+int     check_pathroot(char *path);
+int     update_oldpwd(t_shell_sack *sack);
 //echo.c
 int     echo(char **line);
 //check_isbuiltin.c

@@ -71,9 +71,8 @@ estándar redirigidos a un archivo no terminal, el comando de salida no debe ser
 Puede comprobar si un descriptor de archivos es un terminal o no utilizando 
 la función isatty*/
 
-int		minishell(char *test, char **envp)
+int		minishell( char **envp)
 {
-    (void)test;
 	char 			*line;
 	t_shell_sack	*sack;
 
@@ -121,20 +120,17 @@ int		minishell(char *test, char **envp)
 		sack->new_pipes[0] = 0;
 		sack->new_pipes[1] = 1;
 	}
-	ft_clearenv(sack);
+	// ft_clearenv(sack);
     return (0);
 }
 
-//PARA PODER PASAR EL TESTER AÑADÍ ESTO, HAY QUE COMPILAR CON: ./minishell -c -c
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
-//   if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
-//   {
-//     int exit_status = minishell(argv[2], envp);
-//     exit(exit_status);
-//   }
-    int exit_status = minishell(argv[2], envp);
+	(void)argv;
+	if (!envp || !envp[0]) // Aquí se protege de env -i
+		return (1);
+    int exit_status = minishell(envp);
     exit(exit_status);
-  return 0;
+  return (0);
 }

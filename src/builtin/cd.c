@@ -11,54 +11,6 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-int cd_root(t_shell_sack *sack)
-{
-    char    *temp;
-    int     pos;
-
-    temp = get_varcontent(sack->env->pwd);
-    if (!temp)
-        return (1);
-    free (sack->env->oldpwd);
-    sack->env->oldpwd = ft_strjoin("OLDPWD=", temp);
-    if (!sack->env->oldpwd)
-        return (free(temp), 1);
-    free (temp);
-    pos = search_env_pos(sack->env->env, "HOME", '\0');
-    if (pos < 0)
-        return (ft_putstr_fd("cd: HOME not set", 2), 1);
-    temp = get_varcontent(sack->env->env[pos]);
-    if (chdir(temp) == -1)
-        return (cd_mserror(temp), 1);
-    free (sack->env->pwd);
-    sack->env->pwd = ft_strdup(temp);
-    if (!sack->env->pwd)
-        return (free(temp), 1);
-    free (temp);
-    temp = ft_strjoin("PWD=", sack->env->pwd);
-      free (sack->env->pwd);
-    sack->env->pwd = ft_strdup(temp);
-    free (temp);
-    export(sack->env, sack->env->pwd);
-    export(sack->env, sack->env->oldpwd);
-    return (0);
-}
-
-int cd_path(t_shell_sack **sack,  char *pathname, char *pwd)
-{
-    char    *temp;
-
-    temp = ft_strjoin(pwd, "/");
-    if (!temp)
-        return (1);
-    free ((*sack)->env->pwd);
-    (*sack)->env->pwd = ft_strjoin(temp, pathname);
-    if (!(*sack)->env->pwd)
-        return (free(temp), 1);
-    free (temp);
-    return (0);
-}
-
 int cd_back(t_shell_sack *sack)
 {
     char    *temp;
@@ -71,23 +23,70 @@ int cd_back(t_shell_sack *sack)
     sack->env->pwd = ft_strjoin("PWD=", temp);
     if (!sack->env->pwd)
         return(free(temp), 1);
+    export(sack->env, sack->env->pwd);
+    export(sack->env, sack->env->oldpwd);
     return (0);
 }
 
-//@brief Intenta acceder a la ruta pasada como parametro, en caso de error muestra un mensaje.
-int    cd(t_shell_sack *sack, char **cmds)
+int cd_home(t_shell_sack *sack)
 {
-    char    *pwd;
     char    *temp;
-    char    *path = cmds[1];
+    int     pos;
 
-    if (ft_arraylen(cmds) > 2)
-        return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);
-    if (!path)
-        if (!cd_root(sack))
-            return (0); // Aqui no estoy protegiendo malloc
-    if (chdir(path) == -1)
-        return (cd_mserror(path), 1);
+    update_oldpwd(sack);
+    pos = search_env_pos(sack->env->env, "HOME", '\0');
+    if (pos < 0)
+        return (ft_putstr_fd("cd: HOME not set", 2), 1);
+    temp = get_varcontent(sack->env->env[pos]);
+    if (chdir(temp) == -1)
+        return (cd_mserror(temp), 1);
+    free (sack->env->pwd);
+    sack->env->pwd = ft_strdup(temp);
+    if (!sack->env->pwd)
+        return (free(temp), 1);
+    free (temp);
+    temp = ft_strjoin("PWD=", sack->env->pwd);
+    free (sack->env->pwd);
+    sack->env->pwd = ft_strdup(temp);
+    free (temp);
+    export(sack->env, sack->env->pwd);
+    export(sack->env, sack->env->oldpwd);
+    return (0);
+}
+
+int cd_path(t_shell_sack **sack,  char *path)
+{
+    char    *temp;
+    char    *pathname;
+
+    if (ft_strncmp(path, "/", 1))
+    {
+        free ((*sack)->env->pwd);
+        (*sack)->env->pwd = ft_strdup(path);
+        if (!(*sack)->env->pwd)
+            return (1);
+        return (0);
+    }
+    pathname = remove_slash(path); 
+    if (!pathname)
+        return (1);
+    temp = ft_strjoin((*sack)->env->pwd, "/");
+    if (!temp)
+        return (1);
+    free ((*sack)->env->pwd);
+    (*sack)->env->pwd = ft_strjoin(temp, pathname);
+    free (pathname);
+    if (!(*sack)->env->pwd)
+        return (free(temp), 1);
+    free (temp);
+    return (0);
+}
+
+
+int update_oldpwd(t_shell_sack *sack)
+{
+    char *temp;
+
     temp = get_varcontent(sack->env->pwd);
     if (!temp)
         return (1);
@@ -96,20 +95,30 @@ int    cd(t_shell_sack *sack, char **cmds)
     if (!sack->env->oldpwd)
         return (free(temp), 1);
     free (temp);
-    pwd = ft_strdup(sack->env->pwd);
-    if (!ft_strncmp(path, "..", 1))
-    {
-        cd_back(sack);
-    }
+    return (0);
+}
+
+//@brief Intenta acceder a la ruta pasada como parametro, en caso de error muestra un mensaje.
+int    cd(t_shell_sack *sack, char **cmds)
+{
+    char    *path = cmds[1];
+
+    if (ft_arraylen(cmds) > 2)
+        return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);
+    if (!path)
+        return (cd_home(sack));
+    if (chdir(path) == -1 && check_pathroot(path) == 1)
+        return (cd_mserror(path), 1);
+    if (update_oldpwd(sack) == 1)
+        return (1);
+    if (!ft_strncmp(path, "..", 2) && ft_strlen(path) == 2)
+        return (cd_back(sack) == 1);
     else
     {
-        temp = remove_slash(path); 
-        if (!temp)
-            return (free(pwd), 1);
-        cd_path(&sack, temp, pwd);
-        free(temp);
+        if (cd_path(&sack, path) == 1)
+            return (1);
     }
     export(sack->env, sack->env->pwd);
     export(sack->env, sack->env->oldpwd);
-    return (free (pwd), 0);
+    return (0);
 }

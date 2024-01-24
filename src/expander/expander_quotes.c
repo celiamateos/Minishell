@@ -21,7 +21,7 @@ void	remove_quotes_arr_cmds(t_token *token, t_shell_sack **sack)
 	i = 0;
 	while (i < ft_arraylen(token->cmds))
 	{
-		// printf("remove:%s\n", token->cmds[i]);
+		// printf("to remove:%s\n", token->cmds[i]);
 		temp = remove_quotes_cmd(token->cmds[i]);
 		if (!temp)
 			return(free_exit(token->cmds, &sack, 0));
@@ -73,7 +73,7 @@ char *remove_quotes(char *old, char type)
 {
     char *new;
     size_t  i = 0;
-    int j = 0;
+    size_t j = 0;
     int quotes = 0;
 
     if (!old)
@@ -92,7 +92,8 @@ char *remove_quotes(char *old, char type)
     {
         if (old[j] == type)
             j++;
-        new[i++] = old[j++];
+		else
+		    new[i++] = old[j++];
     }
 	// printf("\nNEW:%s", new);
     return (new);

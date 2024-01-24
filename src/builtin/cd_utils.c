@@ -37,3 +37,16 @@ char *remove_slash(char *path)
     return (pathname);
 }
 
+int check_pathroot(char *path)
+{
+    int i;
+
+    i = 0;
+    while (path[i])
+    {
+        if (path[i] != '/')
+            return (1);
+        i++;
+    }
+    return (0);
+}
