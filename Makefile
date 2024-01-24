@@ -28,20 +28,22 @@ COLOR_PURPLE_N = \033[1;35m
 NAME = minishell
 CC = gcc
 CFLAGS = -g3 -fsanitize=address -Werror -Wextra -Wall
-CCLANG = -lreadline 
-#-I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib
 #Pa detectar leaks y movidas: valgrind --leak-check=full ./minishell
+CCLANG = -lreadline 
+#Esta mierda creo que hace falta pa -lreadline en 42
+#-I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib
 RM = rm -f
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a
-
 SRC_DIR = src
 OBJ_DIR = obj
-
+INCLUDE = include/minishell.h include/minishell2.h
 SRC = $(shell find $(SRC_DIR) -name '*.c')
 OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 CHANGES_MADE = 0
-INCLUDE = include/minishell.h include/minishell2.h
+CHARS_LEN := 0
+CHARS := 0
+progress := 4
 
 all: $(NAME)
 	@if [ "$(CHANGES_MADE)" -eq "0" ]; then \
@@ -54,7 +56,6 @@ all: $(NAME)
 	$(call print_progress)
 	@echo ""
 
-
 $(NAME):$(OBJ) $(LIBFT) $(INCLUDE)
 	@$(CC) $(CFLAGS) $(OBJ) $(CCLANG) $(LIBFT) -o $(NAME)
 	@$(eval CHANGES_MADE=1)
@@ -62,24 +63,15 @@ $(NAME):$(OBJ) $(LIBFT) $(INCLUDE)
 $(LIBFT):
 	@make -C $(LIBFT_DIR) > /dev/null
 
-
-
-CHARS_LEN := 0
-CHARS := 0
-progress := 4
-
 define print_progress
 	@printf "\r$(COLOR_GREEN)[$(COLOR_GREEN_N) %d%%%*.*s $(COLOR_GREEN)] $(COLOR_PURPLE_N)Minishell $(COLOR_PURPLE)Compiling 🛠️$(COLOR_RESET)" $(progress) $(CHARS_LEN) $(CHARS)
 endef
-
-
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c -o $@ $<
 	$(eval progress=$(shell echo $$(($(progress) + 3))))
 	$(call print_progress)
-
 # @echo "$(COLOR_BLUE) Created! 😸 $(COLOR_RESET)"
 
 clean:
