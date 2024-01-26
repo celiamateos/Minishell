@@ -41,7 +41,7 @@ int  execute_builtin(t_shell_sack ***sack, t_tree *node)
     	if (dup2((**sack)->new_pipes[1], STDOUT_FILENO) == -1)
 			free_exit(node->content->cmds, sack, 0); //Free everything?
     // printf("PUTO node: %s", node->content->cmds[1]); // ENTONCES EL EXIT K COÑO PASAAAA???
-    exit((**sack)->last_exit);
+    // exit((**sack)->last_exit);
     return ((**sack)->last_exit);
 }
 

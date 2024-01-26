@@ -117,6 +117,7 @@ int		unset(t_env *env, char *del, int check);
 int print_pwd(t_shell_sack *sack);
 //cd.c
 int     cd(t_shell_sack *sack, char **pathname);
+
 //cd_utils.c
 char    *remove_slash(char *path);
 void    cd_mserror(char *cmd);
