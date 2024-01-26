@@ -35,6 +35,7 @@ void	ft_putstr_fd_noquotes(char *s, int fd)
 			i++;
 			while (s[i] && s[i] != '\'')
 			{
+				// printf("%c", s[i]);
 				write (fd, &s[i], 1);
 				i++;
 			}

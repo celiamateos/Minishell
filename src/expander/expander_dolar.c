@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
-// FUNCIONA PERO HAY QUE PROTEGER LOS MALLOCS Y EXPANDIR LAS COMILLAS JEJE
+// FUNCIONA PERO HAY QUE PROTEGER LOS MALLOCS Y CORTAR PA LA NORMINETTE
 
 /*@brief Alloca memoria. Recibe la variable a expandir ej: USER=cmateos-
 return la variable a expandir. Ej: cmateos- */
@@ -32,10 +32,10 @@ TOMA UNA PALABRA E INTENTA EXPANDIRLA BUSCANDOLA EN ENVIROMENT Y EN PRE EXPORT
 SI NO LA ENCUENTRA RETORNA UNA STRING VACÍA*/
 char *get_varname(t_shell_sack *sack, char *old)
 {
-	char *new_var;
-	int pos;
+	char	*new_var;
+	int		pos;
 
-
+	new_var = NULL;
 	// printf("\nold:%s\n", temp);
 	pos = search_env_pos(sack->env->env, old, '=');
 	if (pos >= 0)
@@ -64,13 +64,25 @@ char *get_varname(t_shell_sack *sack, char *old)
     return (new_var);
 }
 
-int	check_expand_dolar(char *old, int i)
+int	len_expand_dolar(char *old, int i)
 {
-	if (!old[i + 1] || old[i + 1] == '\"' || old[i + 1] == '\'' || isspace(old[i + 1]))
+	int	len;
+
+	len = 0;
+	if (old[i] == '\0')
+		return (len);
+	if (!ft_isalpha(old[i]))
 		return (1);
-	if ((ft_isalpha(old[i + 1] && ft_isdigit(old[i + 1]) && old[i + 1] != '?' )))
-		return (1);
-	return (0);
+	len++;
+	while (old[++i])
+	{
+		if (old[i] == '$')
+			return (len);
+		if (!ft_isalnum(old[i]) && old[i] != '_')
+			return (len);
+		len++;
+	}
+	return (len);
 }
 
 char *expand_dolar(t_shell_sack *sack, char *old, int dolar)
@@ -79,34 +91,27 @@ char *expand_dolar(t_shell_sack *sack, char *old, int dolar)
 	char *expand = NULL;
     char *post_expand = NULL;
 	char *temp;
-	int i;
-	int start;
-	size_t len = 0;
-	
+	int i = 0;
+	int len = 0;
+
 	if (dolar > 0)
 		pre_expand = ft_substr(old, 0, dolar);
-	
-	start = dolar + 1;
-	i = dolar;
-	while (old[i] && old[i] != D_QUOTES && old[i] != S_QUOTES
-	&& old[i] != '?' && !ft_isspace(old[i]))
-	{
-		i++;
-		len++;
-	}
-	// if (old[i] == D_QUOTES || old[i] == S_QUOTES)
-	len--;
-	// printf("\nlen:%ld\n", len);
-	temp = ft_substr(old, start, len);
-	if (old[dolar + 1] == '?')
+	i = dolar + 1;
+	if (old[i] == '?')
 	{
 		expand = ft_itoa(sack->last_exit);
-		len++;
 		i++;
 	}
 	else
-   		expand = get_varname(sack, temp);
-	free (temp);
+	{
+		len = len_expand_dolar(old, i);
+		temp = ft_substr(old, i, len);
+		i += len;
+		// printf("len:%d\n", len);
+		// printf("temp:%s\n", temp);
+		expand = get_varname(sack, temp);
+		free (temp);
+	}
 	// printf("\nexpand:%s\n", expand);
 	if ((size_t)i < ft_strlen(old))
 	{
@@ -121,8 +126,6 @@ char *expand_dolar(t_shell_sack *sack, char *old, int dolar)
 		free(expand);
 		expand = ft_strdup(temp);
 		free (temp);
-		
-		
 	}
 	if (post_expand)
 	{
@@ -133,6 +136,5 @@ char *expand_dolar(t_shell_sack *sack, char *old, int dolar)
 		free (temp);
 	}
 	// printf("expand:%s\n", expand);
-	
 	return (expand);
 }

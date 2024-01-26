@@ -64,7 +64,7 @@ int echo(char **arr_cmd)
                 i++;
             }
         }
-        ft_putstr_fd(line, 1);
+        ft_putstr_fd_noquotes(line, 1);
         free (line);
     }
     if (flag == 0)

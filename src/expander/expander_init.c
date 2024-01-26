@@ -39,7 +39,9 @@ int expand_line(t_shell_sack *sack)
 		// 	free (temp);
 		// 	i = 0;
 		// }
-		else if ((sack->line[i] == '$') && (expander == 1) && !check_expand_dolar(sack->line, i)) //pensar en mas casos
+		else if ((sack->line[i] == '$') && (expander == 1)
+		&& sack->line[i + 1] != '\0' && ft_isspace(sack->line[i + 1]) == 0
+		&& sack->line[i + 1] != D_QUOTES  && sack->line[i + 1] != S_QUOTES) //pensar en mas casos
 		{
 			temp = expand_dolar(sack, sack->line, i);
 			free (sack->line);

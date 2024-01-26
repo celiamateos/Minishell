@@ -76,7 +76,7 @@ static int	ft_lenstring_minishell(char const *s, int i)
 	while (s[i] && ft_isspace(s[i]) == 1)
 		i++;
 	if (s[i] == '\0')
-		return (0);
+		return (-1);
 	start = i;
 	while (s[i])
 	{
@@ -109,53 +109,6 @@ static int	ft_lenstring_minishell(char const *s, int i)
 	return (0);
 }
 
-
-
-// static int	ft_lenstring_minishell(char const *s, int i)
-// {
-// 	int	start;
-
-// 	if (!s)
-// 		return (0);
-// 	while (s[i] && ft_isspace(s[i]) == 1)
-// 		i++;
-// 	if (s[i] == '\0')
-// 		return (0);
-// 	start = i;
-// 	while (s[i])
-// 	{
-// 		while (s[i] && s[i] != '\"' && s[i] != '\'' && ft_isspace(s[i]) == 0)
-// 			i++;
-// 		if (s[i] == '\0')
-// 			return (i - start);
-// 		if (ft_isspace(s[i]) == 1)
-// 			return (i - start);
-// 		if (s[i] == '\"')
-// 		{
-// 			i++;
-// 			while (s[i] && s[i] != '\"')
-// 				i++;
-// 			i++;
-// 			while (s[i] && ft_isspace(s[i]) == 0)
-// 				i++;
-// 			return (i - start);
-// 		}
-// 		if (s[i] == '\'')
-// 		{
-// 			i++;
-// 			while (s[i] && s[i] != '\'')
-// 				i++;
-// 			i++;
-// 			while (s[i] && ft_isspace(s[i]) == 0)
-// 				i++;
-// 			return (i - start);
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
-
 //SPLIT_MINISHELL
 /*@Brief ALOCA MEMORIA pensado para hacer un split por palabras excepto
 si encuentra comillas que entonces tomara ese tramo como una 'palabra'
@@ -164,6 +117,7 @@ partes del codigo, entiendo que bash tokeniza de esta manera*/
 char	**ft_split_minishell(char const *s)
 {
 	char	**arraystr;
+	char 	*temp;
 	int		i;
 	int		row;
 	int		wc;
@@ -172,25 +126,31 @@ char	**ft_split_minishell(char const *s)
 		return (NULL);
 	i = 0;
 	row = 0;
-	wc = ft_countwords_minishell(s);
+	temp = ft_strtrim(s, " \t\v\n\r");
+	if (!temp)
+		return (NULL);
+	wc = ft_countwords_minishell(temp);
 	// printf("countwords:%d\n", wc);
+	// printf("s:%s.", s); //CON UN STRITRIM AKI SE SOLUCIONA :)
+	// printf("temp:%s.", temp); //CON UN STRITRIM AKI SE SOLUCIONA :)
 	arraystr = malloc((wc + 1) * sizeof(char *));
 	if (!arraystr)
 		return (NULL);
 	while (row < wc)
 	{
-		if (s[i] != '\0' && ft_isspace(s[i]) == 0)
+		if (s[i] != '\0' && ft_isspace(temp[i]) == 0)
 		{
-			arraystr[row] = ft_substr(s, i, ft_lenstring_minishell(s, i));
-			// printf("arraystr[%d]:%s      len:%d\n", row, arraystr[row], ft_lenstring_minishell(s, i));
+			arraystr[row] = ft_substr(temp, i, ft_lenstring_minishell(temp, i));
+			// printf("arraystr[%d]:%slen:%d\n", row, arraystr[row], ft_lenstring_minishell(temp, i));
 			if (ft_free_split_mini(arraystr, row++) == 1)
-				return (NULL);
-			i += ft_lenstring_minishell(s, i);
+				return (free(temp), NULL);
+			i += ft_lenstring_minishell(temp, i);
 		}
 		else
 			i++;
 	}
 	arraystr[row] = NULL;
+	free (temp);
 	return (arraystr);
 }
 

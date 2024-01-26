@@ -64,6 +64,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 
     sack = *sack_orig;
     token = node->content;
+    (*sack)->last_exit = 0; //Esto lo he añadido recientemente
     (*sack)->last_pid = fork();
     if ((*sack)->last_pid < 0)
         perror_free_exit("Fork error", sack_orig);
@@ -84,20 +85,20 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
                 perror_free_exit("Dup2 error OUT", sack_orig);
         ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
         ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-        remove_quotes_arr_cmds(token, &(*sack));
         if (!check_isbuiltin(node))
             execute_builtin(&sack, node);
         else
         {
+            remove_quotes_arr_cmds(token, &(*sack));
             cmd = getcmd_withpath(token->cmds[0], (*sack)->env->env);// change for our env
             if (cmd)
             {
                 execve(cmd, token->cmds, (*sack)->env->env);
                 // free(cmd); // no entiendo por que si libero esto da double free wtf?
             }
-            (*sack)->last_exit = errno; //error code for cmd not found
+            (*sack)->last_exit = 127; //error code for cmd not found
             free_exit(token->cmds, sack_orig, COMANDNOTFOUND); //Free everything?
-        }
+        } 
 
 		// ft_freematrix(&token->cmds);
     }
@@ -106,8 +107,8 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
     signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
     int exitcode = wait_exitcode((*sack)->last_pid); //Aqui llama a waitpid
-    if ((*sack)->last_exit == 0)
-        (*sack)->last_exit = exitcode;
+    // if ((*sack)->last_exit == 0)
+    (*sack)->last_exit = exitcode;
     // if (!ft_strncmp(node->content->cmds[0], "exit", ft_strlen(node->content->cmds[0])))
     //     cmd_exit(&sack, node->content->cmds);
     // printf("EXITCODE: %d\n", (*sack)->last_exit);

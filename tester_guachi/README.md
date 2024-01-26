@@ -1,3 +1,13 @@
+# RESUMEN DE CELIA PARA DAVID
+Basicamente si introduces: bash tester
+pasará todos los tester y se te petará el ordenador porque hay muchos jeje
+para filtrar por test: bash tester 'nombre del archivo'
+ejemplo: bash tester pipes
+Se pueden añadir pues tantos archivos como se quiera y modificarlos al gusto
+NOTA IMPORTANTE: Si ejecutas con -fsanitize=address pueden dar segfault en algunos tests que al quitar el fsanitize no dan segfault, supongo que hace interferencia con el tester :)
+
+
+
 <img width="1728" alt="image" src="https://user-images.githubusercontent.com/26127185/175815870-be78bbd5-d1be-4164-954a-982768c6b147.png">
 
 # Installation 
