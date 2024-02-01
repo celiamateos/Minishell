@@ -65,11 +65,6 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
     sack = *sack_orig;
     token = node->content;
     (*sack)->last_exit = 0; //Esto lo he añadido recientemente
-    if (!check_isbuiltin(node))
-    {
-        execute_builtin(&sack, node);
-        return ;
-    }
     (*sack)->last_pid = fork();
     if ((*sack)->last_pid < 0)
         perror_free_exit("Fork error", sack_orig);
@@ -90,7 +85,14 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
                 perror_free_exit("Dup2 error OUT", sack_orig);
         ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
         ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-
+        if (!check_isbuiltin(node))
+        {
+            // printf("aki 1\n");
+            execute_builtin(&sack, node);
+            exit((*sack)->last_exit); //Aqui hay que salir porque si no el hijo no muere pero si el builtin se ingresa sin pipe, se debe ejecutar en el padre
+        }
+        else
+        {
             remove_quotes_arr_cmds(token, &(*sack));
             cmd = getcmd_withpath(token->cmds[0], (*sack)->env->env);// change for our env
             if (cmd)
@@ -98,12 +100,13 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
                 execve(cmd, token->cmds, (*sack)->env->env);
                 // free(cmd); // no entiendo por que si libero esto da double free wtf?
             }
-            (*sack)->last_exit = 127; //error code for cmd not found
+            (*sack)->last_exit = 127; //error code for cmd not found / ESTO ESTÁ INCOMPLETO/
             free_exit(token->cmds, sack_orig, COMANDNOTFOUND); //Free everything?
-        
+        } 
 
 		// ft_freematrix(&token->cmds);
     }
+
     ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
     // (*sack)->last_exit = wait_exitcode((*sack)->last_pid); //Aqui llama a waitpid
     signal(SIGINT, SIG_IGN);
@@ -137,11 +140,13 @@ void    run_node(t_shell_sack **sack, t_tree **node)
     {
         if (check_opercondition(sack, node) || (*node)->content->oper == 0)
         {
+
             run_cmd(&sack, (*node));
         }
     }
     else if (token->type == PIPE)
     {
+        ++(*sack)->pipe_wc;
         run_pipe(&sack, (*node));
     }
     else if (token->type == OPER)
@@ -153,9 +158,31 @@ void    run_node(t_shell_sack **sack, t_tree **node)
 /* @brief Runs executor trough tree. This is the most common way but there's others.*/
 void    run_preorder(t_tree *node, t_shell_sack **sack)
 {
+
 	if (node != NULL) 
 	{	
-        run_node(sack, &node);
+        if (!check_isbuiltin(node) && (*sack)->pipe_wc == 0)
+        {
+
+                if(check_redirect(&sack, node))
+                {
+                    (*sack)->last_exit = 1; //check error code
+                    printf("k koño");
+                    perror_free_exit("Open error", &sack);
+                }
+                if ((*sack)->old_pipes[0] != 0 )
+                    if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1)
+                        perror_free_exit("Dup2 error IN", &sack);
+                if ((*sack)->new_pipes[1] != 1 )
+                    if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
+                        perror_free_exit("Dup2 error OUT", &sack);
+                ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
+                ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+                (*sack)->last_exit = execute_builtin(&sack, node);
+                // return ;
+        }
+        else
+            run_node(sack, &node);
         run_preorder(node->left, sack);
         run_preorder(node->right, sack);
     }
@@ -168,9 +195,9 @@ void	execute(t_shell_sack **sack)
 
     tree = (*sack)->tree_list;
     // token = tree->content;
-    if (ft_strnstr((*sack)->line, "exit", 4))
-        (*sack)->last_exit = cmd_exit(&sack, tree->content->cmds); //ESTO CREO QUE FUNCIONA GUACHI :')
-    else
+    // if (ft_strnstr((*sack)->line, "exit", 4))
+    //     (*sack)->last_exit = cmd_exit(&sack, tree->content->cmds); 
+    // else
         run_preorder(tree, sack);
     free_sack(&(*sack));
 }

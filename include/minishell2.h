@@ -53,7 +53,7 @@
 # define NOSUCHFILEORDIRECTORY 103
 # define STANDAR 104
 
-// Declaración de la variable global para señalización
+// Declaración de la variable global para señalización... Revisar normV3, creo q debe ser _g
 extern volatile sig_atomic_t received_signal;
 
 typedef struct s_dlist
@@ -116,6 +116,7 @@ typedef struct s_shell_sack
 	int				s_quotes;
 	int				len_expand;
 	char			**envp;
+	int				pipe_wc;
 	struct s_env	*env;
 	struct s_token	token;
 }	t_shell_sack;

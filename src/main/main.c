@@ -40,6 +40,8 @@ int	clean_init(t_shell_sack **sack)
 	(*sack)->env = NULL;
 	(*sack)->d_quotes = 0;
 	(*sack)->s_quotes = 0;
+	(*sack)->pipe_wc = 0;
+
 	return (0);
 }
 

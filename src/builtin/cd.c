@@ -65,7 +65,7 @@ int cd_path(t_shell_sack *sack,  char *path)
         sack->env->pwd = ft_strdup(path);
         if (sack->env->pwd == NULL)
             return (1);
-        printf("env->pwd ahorita:%s\n", sack->env->pwd);
+        // printf("env->pwd ahorita:%s\n", sack->env->pwd);
         return (0);
     }
     pathname = remove_slash(path); 

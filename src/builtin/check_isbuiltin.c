@@ -23,6 +23,8 @@ int  execute_builtin(t_shell_sack ***sack, t_tree *node)
     {
         remove_quotes_arr_cmds(node->content, (*sack));
         cmd = node->content->cmds[0];
+        if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
+            (**sack)->last_exit = cmd_exit(sack, node->content->cmds);
         if (!ft_strncmp(cmd, "cd", ft_strlen(cmd)))
             (**sack)->last_exit = cd(**sack, node->content->cmds);
         else if (!ft_strncmp(cmd, "pwd", ft_strlen(cmd)))
@@ -51,6 +53,8 @@ int  check_isbuiltin(t_tree *node)
 
     cmd = node->content->cmds[0];
 
+    if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
+        return (0);
     if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
         return (0);
     else if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
