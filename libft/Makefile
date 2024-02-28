@@ -22,7 +22,8 @@ WHITE = \033[0;97m
 
 NAME = libft.a
 CC = gcc
-CFLAGS = -C -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
+#CFLAGS = -C -Wall -Wextra -Werror // error con -c en MAC
 LIB = ar rc
 SRC = ft_isalpha.c \
 	  ft_isspace.c ft_strposchr.c ft_print_strarray.c arrcpy.c ft_arrtostr.c ft_split_minishell.c \

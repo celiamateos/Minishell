@@ -32,7 +32,6 @@ CFLAGS = -g3 #-Werror -Wextra -Wall
 #Pa detectar leaks y movidas: valgrind --leak-check=full ./minishell
 CCLANG = -lreadline 
 #Esta mierda creo que hace falta pa -lreadline en 42
-#-I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib
 RM = rm -f
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a

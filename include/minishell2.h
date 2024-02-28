@@ -25,7 +25,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-#include <readline/rlstdc.h>
+# include <readline/rlstdc.h>
 # include <signal.h>
 
 # define CMD 0

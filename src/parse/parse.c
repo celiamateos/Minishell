@@ -105,7 +105,7 @@ int	check_validoper(char *s, int i)
 	}                                                           
 	while(s[index++])
 	{
-		if (isspace(s[i]))
+		if (ft_isspace(s[i]))
 			index++;
 		else if(check_iscomand(s[i]))
 			return (0);
