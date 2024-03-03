@@ -21,7 +21,6 @@ void    run_oper(t_tree *node)
     t_token         *token;
     t_tree          *aux_node;
 
-
     // sack = *sack_orig;
     token = (node)->content;
     aux_node = findnext_cmdleaf(&node->right);
@@ -133,16 +132,17 @@ void    run_node(t_shell_sack **sack, t_tree **node)
     token = (*node)->content;
     if (token->type == PARENT_CL)
     {
-        if (!check_opercondition(sack, node))
+        if (token->oper != 0 && !check_opercondition(sack, node))
             (*node)->right = NULL;
     }
     else if (token->type == CMD)
     {
         if (check_opercondition(sack, node) || (*node)->content->oper == 0)
         {
-
             run_cmd(&sack, (*node));
         }
+        else if (token->oper != 0)
+                (*sack)->old_pipes[0] = 0;
     }
     else if (token->type == PIPE)
     {
@@ -152,6 +152,7 @@ void    run_node(t_shell_sack **sack, t_tree **node)
     else if (token->type == OPER)
     {
         run_oper((*node));
+      //  (*sack)->old_pipes[0] = 0;
     }
 }
 
