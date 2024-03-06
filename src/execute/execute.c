@@ -200,6 +200,7 @@ void	execute(t_shell_sack **sack)
     //     (*sack)->last_exit = cmd_exit(&sack, tree->content->cmds); 
     // else
         run_preorder(tree, sack);
+        unlink(".heredoc");
     free_sack(&(*sack));
 }
 
