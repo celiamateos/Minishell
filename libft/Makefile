@@ -23,9 +23,10 @@ WHITE = \033[0;97m
 NAME = libft.a
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
+#CFLAGS = -C -Wall -Wextra -Werror // error con -c en MAC
 LIB = ar rc
 SRC = ft_isalpha.c \
-	  ft_isspace.c ft_strposchr.c ft_print_strarray.c arrcpy.c\
+	  ft_isspace.c ft_strposchr.c ft_print_strarray.c arrcpy.c ft_arrtostr.c ft_split_minishell.c \
 	  ft_freematrix.c \
 	  ft_isdigit.c \
 	  ft_isalnum.c \
@@ -90,12 +91,12 @@ OBJ = $(SRC:.c=.o)
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
 PRINTF = printf
 
-SRC_COUNT_TOT := $(shell expr $(shell echo -n 50 | wc -w) - $(shell ls -l $(OBJ_DIR) 2>&1 | grep ".o" | wc -l) + 1)
-ifeq ($(shell test $(SRC_COUNT_TOT) -le 0; echo $$?),0)
-	SRC_COUNT_TOT := $(shell echo -n $(SRC) | wc -w)
-endif
-SRC_COUNT := 0
-SRC_PCT = $(shell expr 100 \* $(SRC_COUNT) / $(SRC_COUNT_TOT))
+# SRC_COUNT_TOT := $(shell expr $(shell echo -n 50 | wc -w) - $(shell ls -l $(OBJ_DIR) 2>&1 | grep ".o" | wc -l) + 1)
+# ifeq ($(shell test $(SRC_COUNT_TOT) -le 0; echo $$?),0)
+# 	SRC_COUNT_TOT := $(shell echo -n $(SRC) | wc -w)
+# endif
+# SRC_COUNT := 0
+# SRC_PCT = $(shell expr 100 \* $(SRC_COUNT) / $(SRC_COUNT_TOT))
 
 all: $(NAME)
 
@@ -107,9 +108,9 @@ bonus: $(OBJ) $(OBJ_BONUS)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c -o $@ $<
-	@$(eval SRC_COUNT = $(shell expr $(SRC_COUNT) + 1))
-	@$(PRINTF) "\r%100s\r[ %d/%d (%d%%) ] Compiling libft $(BLUE)$<$(DEFAULT)..." "" $(SRC_COUNT) $(SRC_COUNT_TOT) $(SRC_PCT)
-	@$(CC) -I ~/.brew/opt/readline/include -I /usr/local/opt/readline/include $(CFLAGS) $(CDEBUG) -c $< -o $@
+# @$(eval SRC_COUNT = $(shell expr $(SRC_COUNT) + 1))
+# @$(PRINTF) "\r%100s\r[ %d/%d (%d%%) ] Compiling libft $(BLUE)$<$(DEFAULT)..." "" $(SRC_COUNT) $(SRC_COUNT_TOT) $(SRC_PCT)
+# @$(CC) -I ~/.brew/opt/readline/include -I /usr/local/opt/readline/include $(CFLAGS) $(CDEBUG) -c $< -o $@
 clean:
 	@rm -rdf $(OBJ)
 	@rm -rdf $(OBJ_BONUS)

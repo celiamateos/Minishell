@@ -18,23 +18,26 @@
 int is_valid_to_export(char *s)
 {
 	int i;
+    // int check = 0;
 
     i = 0;
-	if (!ft_isalpha(s[i]) && !s[i] != '_')
-		return (1);
+    // if (ft_strposchr(s, '=') == -1)
+    //     return (0);
+	if (!ft_isalpha(s[i]) && s[i] != '_')
+		return (ft_putstr_fd("minishell: export: not a valid identifier\n", 2), 1);
 	while (s[i] && s[i] != '=')
 	{
-		if (!ft_isalpha(s[i]) && !ft_isalnum(s[i]) && s[i] != '_')
-			return (ft_putstr_fd("export: not a valid identifier", 2), 1);
+		if ((!ft_isalnum(s[i])) && (s[i] != '_'))
+			return (ft_putstr_fd("minishell: export: not a valid identifier\n", 2), 1);
 		i++;
 	}
+    // if (s[i] == '\0' && check == 1)
+    //     return (0);
 	if (s[i] == '=')
     {
         if (s[i - 1] == ' ' || s[i + 1] == ' ')
-		    return (ft_putstr_fd("export: not a valid identifier", 2), 1);
+		    return (ft_putstr_fd("minishell: export: not a valid identifier\n", 2), 1);
     }
-    if (s[i] == '\0')
-        return (1);
 	return (0);
 }
 
@@ -104,16 +107,26 @@ int export(t_env *env, char *new)
 {
 	long pos;
 
+    pos = -1;
 	if (new == NULL)
     {
         print_export_list(env);
         return 0;
     }
 	pos = search_env_pos(env->env, new, '=');
-	if (is_valid_to_export(new))
-        return (already_added_pre_export_list(env, new, pos), 0);
+	if (is_valid_to_export(new) == 1)
+    {
+        printf("no es valido %s", new);
+        return (1);
+    }
+    if (!ft_strchr(new, '='))
+    {
+        if (already_added_pre_export_list(env, new))
+            return (0);
+    }
 	if (pos >= 0)
     {
+        // printf("\npos o ke:%ld", pos);
 		env->env = realloc_export_exchange(env, new, pos);
         if (!env->env)
             return (1); //ft_error malloc en realloc_export_exchange // liberar t_env
@@ -125,5 +138,6 @@ int export(t_env *env, char *new)
             return (1); //ft_error malloc en realloc_export_add // liberar t_env
     }
     // free (new);
+    // print_env(env->env);
     return (0);
 }

@@ -15,19 +15,28 @@
 
 /*@brief sintaxis: export variabale. Busca en pre export si esa variable
 ha sido añadidamete a la lista de pre_export.*/
-int already_added_pre_export_list(t_env *env, char *new, long pos)
+int already_added_pre_export_list(t_env *env, char *new)
 {
+    long pos;
+    int check = 0;
+
+    // printf("si");
     pos = search_env_pos(env->pre_export, new, '\0');
-    printf("\n\n\nPOS%ld", pos);
+    // printf("\n\n\nPOSssss%ld", pos);
+    // printf("\nnew: %s", new);
     if (pos >= 0)
     {
+        if (search_env_pos(env->env, new, '\0') > -1)
+            check = 2;
         env->env = realloc_export_add(env, env->pre_export[pos]);
         if (!env->env)
             return (1);
-        unset(env, new, 0);
+        unset(env, new, check);
+        return (0);
     }
     else
-        return (ft_putstr_fd("export: not a valid identifier", 2), 0);
+        return (1);
+    return (0);
 }
 
 char **realloc_exchange_pre_export(t_env *env, char *new, size_t pos)
@@ -91,13 +100,12 @@ char **realloc_add_pre_export_list(t_env *env, char *line)
 void pre_export_new_variable(t_env *env, char *line)
 {
     char **temp;
-	size_t i;
-
-    if (!env || !line)
+	int i;
+  
+    if (!env || !line || is_valid_to_export(line))
         return ;
     i = 0;
-    // printf("ffff");
-	if (!ft_isalpha(line[i]) && !line[i] != '_')
+	if (!ft_isalpha(line[i]) && line[i] != '_')
 		return (ft_putstr_fd(line, 2), ft_putstr_fd("command not found", 2));
 	i++;
     while (line[i] && line[i] != '=')
@@ -108,16 +116,15 @@ void pre_export_new_variable(t_env *env, char *line)
         i++;
     }
     i = search_env_pos(env->pre_export, line, '=');
-    printf("%ld", i);
     if (i != -1)
     {
          temp = realloc_exchange_pre_export(env, line, i);
         if (!temp)
             return ;
     }
-
     else
     {
+        // printf("\nline:%s", line);
         temp = realloc_add_pre_export_list(env, line);
         if (temp == NULL)
             return ;
@@ -126,5 +133,5 @@ void pre_export_new_variable(t_env *env, char *line)
     if (env->pre_export_elements > 0)
         ft_free_env(env->pre_export);
     env->pre_export = temp;
-
+    // ft_print_strarray(temp);
 }

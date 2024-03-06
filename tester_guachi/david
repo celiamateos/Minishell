@@ -1,0 +1,26 @@
+cat -e
+<Makefile cat -e
+<Makefile cat -e | cat -e
+<Makefile cat -e | cat -e | cat -e | cat -e
+<Makefile cat -e | ls
+ls | <Makefile cat -e
+ls
+rm out
+<Makefile cat -e | grep NAME | cat -e >out 
+<Makefile cat -e | grep NAME | <Makefile head -1 >out
+<Makefile cat -e | <Makefile head -30  | grep NAME >out
+<Makefile grep NAME && ls | cat -e <out
+<Makefile gsasrep NAME && ls | cat -e <out
+<Makefile grep NAME && (ls | cat -e)
+<Makefile grep NAME && ls | cat -e <Makefile | head -1
+<Makefile grep NAME || ls | cat -e <out
+<Makefile grep NAME || (ls | cat -e)
+<Makefile grsep NAME || (ls | cat -e)
+<Makefile cat -e | <<eof head -3 >>out
+echo hola | cat >out && cat -e <Makefile
+cat -e <tmp/.heredoc
+<<eof cat -e
+<<eof cat -e | head -3 | cat -e >out
+<<eof cat -e | head -3 | cat -e >out && <out cat -e
+
+<Makefile cat -e | cat -e >out | cat -e

@@ -1,0 +1,20 @@
+exit
+exit 123
+exit 298
+exit +100
+exit "+100"
+exit +"100"
+exit -100
+exit "-100"
+exit -"100"
+exit hello
+exit 42 world
+exit 1
+exit -1
+exit 0
+exit 999999
+exit -999999
+exit -42abc
+echo hola | wc | exit
+ls | wc | exit
+ls | wc exit

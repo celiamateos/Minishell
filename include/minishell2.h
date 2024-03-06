@@ -25,6 +25,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <readline/rlstdc.h>
 # include <signal.h>
 
 # define CMD 0
@@ -38,16 +39,22 @@
 # define REDIR_OUT 8
 # define APPEND_OUT 9
 # define FN_ERROR 10
+# define STRING 11
+
 # define AND 21
 # define OR 22
 # define COUNT 10 //to check priunt2Dtree
 
-
-# define S_QUOTES 39
 # define D_QUOTES 34
-# define DOLAR 36
-# define WILDCARD 42
+# define S_QUOTES 39
 
+# define COMANDNOTFOUND 101
+# define PERMISSIONDENIED 102
+# define NOSUCHFILEORDIRECTORY 103
+# define STANDAR 104
+
+// Declaración de la variable global para señalización... Revisar normV3, creo q debe ser _g
+extern volatile sig_atomic_t received_signal;
 
 typedef struct s_dlist
 {
@@ -70,9 +77,6 @@ typedef struct s_tree
 	struct s_tree	*left;
 	struct s_token	*content;
 }	t_tree;
-
-
-
 
 typedef struct s_env
 {
@@ -97,21 +101,24 @@ typedef struct s_shell_sack
 	int				pos;
 	struct s_dlist	*token_list;
 	struct s_tree	*tree_list;
+	char			*cmd_rmquotes;
 	int				new_pipes[2];
 	int				old_pipes[2];
 	int				redirs[2];
 	int				heredoc;
 	// t_token			*last_token;
+	int				now_pid; //Celia added
 	int				last_pid;
 	int				last_exit;
 	int				history_fd;
 	int				is_string;
 	int				d_quotes;
 	int				s_quotes;
-	int				expander;
 	int				len_expand;
 	char			**envp;
+	int				pipe_wc;
 	struct s_env	*env;
+	struct s_token	token;
 }	t_shell_sack;
 
 #endif
