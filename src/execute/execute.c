@@ -168,7 +168,7 @@ void    run_preorder(t_tree *node, t_shell_sack **sack)
                 if(check_redirect(&sack, node))
                 {
                     (*sack)->last_exit = 1; //check error code
-                    printf("k koño");
+                    // printf("k koño");
                     perror_free_exit("Open error", &sack);
                 }
                 if ((*sack)->old_pipes[0] != 0 )
@@ -199,8 +199,8 @@ void	execute(t_shell_sack **sack)
     // if (ft_strnstr((*sack)->line, "exit", 4))
     //     (*sack)->last_exit = cmd_exit(&sack, tree->content->cmds); 
     // else
-        run_preorder(tree, sack);
-        unlink(".heredoc");
+    run_preorder(tree, sack);
+    unlink(".heredoc");
     free_sack(&(*sack));
 }
 

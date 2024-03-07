@@ -113,7 +113,6 @@ int export(t_env *env, char *new)
         print_export_list(env);
         return 0;
     }
-	pos = search_env_pos(env->env, new, '=');
 	if (is_valid_to_export(new) == 1)
     {
         printf("no es valido %s", new);
@@ -121,22 +120,26 @@ int export(t_env *env, char *new)
     }
     if (!ft_strchr(new, '='))
     {
-        if (already_added_pre_export_list(env, new))
+        already_added_pre_export_list(&env, new);
             return (0);
     }
-	if (pos >= 0)
+    pos = search_env_pos(env->env, new, '=');
+    if (pos >= 0)
     {
+        // printf("FOUND");
         // printf("\npos o ke:%ld", pos);
-		env->env = realloc_export_exchange(env, new, pos);
+        env->env = realloc_export_exchange(env, new, pos);
         if (!env->env)
             return (1); //ft_error malloc en realloc_export_exchange // liberar t_env
     }
-	else
+    else
     {
-	    env->env = realloc_export_add(env, new);
+        // printf("NOTFOUND");
+        env->env = realloc_export_add(env, (env)->pre_export[pos]);
         if (!env->env)
             return (1); //ft_error malloc en realloc_export_add // liberar t_env
     }
+
     // free (new);
     // print_env(env->env);
     return (0);

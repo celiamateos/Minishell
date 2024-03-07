@@ -109,7 +109,7 @@ char    **realloc_export_add(t_env *env, char *new);
 void    print_export_list(t_env *env);
 //pre_export.c
 void    pre_export_new_variable(t_env *env, char *line);
-int 	already_added_pre_export_list(t_env *env, char *new);
+int 	already_added_pre_export_list(t_env **env, char *new);
 //unset.c
 int		unset(t_env *env, char *del, int check);
 //pwd.c
