@@ -24,6 +24,7 @@ int already_added_pre_export_list(t_env *env, char *new)
     pos = search_env_pos(env->pre_export, new, '\0');
     // printf("\n\n\nPOSssss%ld", pos);
     // printf("\nnew: %s", new);
+    // printf("\nenv->pre_export[pos]:%s", env->pre_export[pos]);
     if (pos >= 0)
     {
         if (search_env_pos(env->env, new, '\0') > -1)
@@ -32,6 +33,7 @@ int already_added_pre_export_list(t_env *env, char *new)
         if (!env->env)
             return (1);
         unset(env, new, check);
+        // ft_print_strarray(env->env);
         return (0);
     }
     else

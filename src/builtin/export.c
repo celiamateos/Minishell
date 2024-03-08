@@ -66,6 +66,7 @@ char **realloc_export_add(t_env *env, char *new)
     temp[env->env_elements + 1] = NULL;
     env->env_elements++;
     ft_free_env(env->env);
+    // ft_print_strarray(env->env);
     return (temp);
 }
 
@@ -125,18 +126,18 @@ int export(t_env *env, char *new)
         already_added_pre_export_list(env, new);
         return (0);
     }
-        if (pos >= 0)
+    if (pos >= 0)
     {
         // printf("\n k koño");
         // printf("\npos o ke:%ld", pos);
-                env->env = realloc_export_exchange(env, new, pos);
+        env->env = realloc_export_exchange(env, new, pos);
         if (!env->env)
             return (1); //ft_error malloc en realloc_export_exchange // liberar t_env
     }
-        else
+    else
     {
         // printf("\n k koño2");
-            env->env = realloc_export_add(env, new);
+        env->env = realloc_export_add(env, new);
         if (!env->env)
             return (1); //ft_error malloc en realloc_export_add // liberar t_env
     }
