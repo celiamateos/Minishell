@@ -76,7 +76,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
             (*sack)->last_exit = 1; //check error code
             perror_free_exit("Open error", sack_orig);
         }
-        if ((*sack)->old_pipes[0] != 0 )
+        if ((*sack)->old_pipes[0] != 0 ) //Verifica si hay pipe
             if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1)
                 perror_free_exit("Dup2 error IN", sack_orig);
         if ((*sack)->new_pipes[1] != 1 )

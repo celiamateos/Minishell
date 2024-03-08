@@ -59,6 +59,7 @@ char **realloc_export_add(t_env *env, char *new)
         if (!temp[i])
             return(ft_free_error_arr(temp, i), ft_free_env(env->env), NULL);
     }
+    printf("Printed new: %s\n", new);
     temp[i] = ft_strdup(new);
     if (!temp[i])
         return (ft_free_error_arr(temp, i), ft_free_env(env->env), NULL);
@@ -108,38 +109,37 @@ int export(t_env *env, char *new)
 	long pos;
 
     pos = -1;
-	if (new == NULL)
+    if (new == NULL)
     {
         print_export_list(env);
         return 0;
     }
-	if (is_valid_to_export(new) == 1)
+    pos = search_env_pos(env->env, new, '=');
+    if (is_valid_to_export(new) == 1)
     {
-        printf("no es valido %s", new);
+        printf("no es valido %s", new); //Error in english?
         return (1);
     }
     if (!ft_strchr(new, '='))
     {
-        already_added_pre_export_list(&env, new);
-            return (0);
+        already_added_pre_export_list(env, new);
+        return (0);
     }
-    pos = search_env_pos(env->env, new, '=');
-    if (pos >= 0)
+        if (pos >= 0)
     {
-        // printf("FOUND");
+        // printf("\n k koño");
         // printf("\npos o ke:%ld", pos);
-        env->env = realloc_export_exchange(env, new, pos);
+                env->env = realloc_export_exchange(env, new, pos);
         if (!env->env)
             return (1); //ft_error malloc en realloc_export_exchange // liberar t_env
     }
-    else
+        else
     {
-        // printf("NOTFOUND");
-        env->env = realloc_export_add(env, (env)->pre_export[pos]);
+        // printf("\n k koño2");
+            env->env = realloc_export_add(env, new);
         if (!env->env)
             return (1); //ft_error malloc en realloc_export_add // liberar t_env
     }
-
     // free (new);
     // print_env(env->env);
     return (0);

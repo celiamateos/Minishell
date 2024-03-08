@@ -10,18 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
- 
+
+// @brief This function fix the name of the redirection file, 
+//taking off operator and spaces. @return Returns char* with fixed name.
 char	*fix_tokenvalues(char **value)
 {
 	char	*aux;
 
 	// aux = ft_strtrim(*value, "<> \n\t");
-	aux = ft_strtrim(*value, "<>"); //intentando arreglar los espacios entre comillas
+	aux = ft_strtrim(*value, "<> "); //intentando arreglar los espacios entre comillas
 	free (*value);
 	return (aux);
 }
 
-/* check if is neccesary, if not erase cause has segfault when last token is ()*/
+/* check if is neccesary*/
 void  *get_last_cmd(t_dlist **token_list)
 {
 	t_token	*token;
@@ -73,8 +75,8 @@ int	find_nextquote(char *str, char quote)
 		return (-1);
 }
 
-
-// Creo que en esta funcion se gestiona que si encuentra ej: < Makefile debe tomarlo como junto.
+// @brief This function is used to save redirection operator with filename in token value.
+// @return Doesn't return anything because moves the iterator pointer
 void	save_redir_filename(char *line, int *i)
 {
 	*i = *i + 1;
