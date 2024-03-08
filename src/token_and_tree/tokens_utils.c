@@ -42,16 +42,14 @@ void	*get_last_cmd(t_dlist **token_list)
 		else if (!aux_list->next && token->type == CMD)
 			return (aux_list->content);
 		else if (!(aux_list->next)->next && token_next->type \
-		 >= HEREDOC && token->type == CMD)
+		>= HEREDOC && token->type == CMD)
 		{
-		 	return (aux_list->content);
+			return (aux_list->content);
 			aux_list = aux_list->next;
 		}
 	}
 	return (aux_list->content);
 }
-
-
 
 int	find_nextquote(char *str, char quote)
 {
@@ -65,7 +63,7 @@ int	find_nextquote(char *str, char quote)
 		if (str[i] == quote)
 		{
 			closed = 1;
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -75,12 +73,12 @@ int	find_nextquote(char *str, char quote)
 		return (-1);
 }
 
-// @brief This function is used to save redirection operator with filename in token value.
+/* @brief This function is used to save redirection operator with filename in 
+token value. */
 // @return Doesn't return anything because moves the iterator pointer
 void	save_redir_filename(char *line, int *i)
 {
 	*i = *i + 1;
-
 	if (line[*i] == '<' || line[*i] == '>')
 		*i = *i + 1;
 	if (ft_isspace(line[*i]))
@@ -88,11 +86,14 @@ void	save_redir_filename(char *line, int *i)
 		while (ft_isspace(line[*i]) && line[*i] != '\0')
 			*i = *i + 1;
 	}
-	while (ft_isalnum(line[*i]) || line[*i] == '.' || line[*i] == '_' || line[*i] == '-'|| line[*i] == '/' || line[*i] == '\'' || line[*i] == '\"' || line[*i] == '$')
+	while (ft_isalnum(line[*i]) || line[*i] == '.' || line[*i] == '_'
+		|| line[*i] == '-' || line[*i] == '/' || line[*i] == '\''
+		|| line[*i] == '\"' || line[*i] == '$')
 	{
-			*i = *i + 1;
+		*i = *i + 1;
 	}
 }
+
 void	get_cmd_args(t_shell_sack **sack)
 {
 	t_token	*token;
@@ -102,15 +103,10 @@ void	get_cmd_args(t_shell_sack **sack)
 	while (token_list)
 	{
 		token = token_list->content;
-		// printf("token_value:%s", token->value);
 		if (token->type == CMD)
 			token->cmds = ft_split_minishell(token->value);
-			// token->cmds = ft_split(token->value, ' ');
-		// else if (token->type == CMD)
 		else
 			token->cmds = ft_split("NULL", ' ');
-		// ft_print_strarray(token->cmds);
 		token_list = token_list->next;
 	}
 }
-
