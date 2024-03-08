@@ -12,7 +12,8 @@
 #include"../../include/minishell.h"
 
 /* @brief to take off lines on run_node. Check conditions of execution 
-of operators.*/
+of operators. */
+// @return 1 if it can be executed
 int check_opercondition(t_shell_sack **sack, t_tree **node)
 {
    	t_token	*token;

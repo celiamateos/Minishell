@@ -63,6 +63,13 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 
     sack = *sack_orig;
     token = node->content;
+
+                if((node->content)->oper != 0 && !check_opercondition(sack, &node))
+                {
+                    printf("WE ARE HERE");
+                    (*sack)->old_pipes[0] == 0 ;
+                }
+
     (*sack)->last_exit = 0; //Esto lo he añadido recientemente
     (*sack)->last_pid = fork();
     if ((*sack)->last_pid < 0)
@@ -76,7 +83,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
             (*sack)->last_exit = 1; //check error code
             perror_free_exit("Open error", sack_orig);
         }
-        if ((*sack)->old_pipes[0] != 0 ) //Verifica si hay pipe
+        if ((*sack)->old_pipes[0] != 0 && check_isbuiltin(node)) //Verifica si hay pipe y si es builtin no hace dup
             if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1)
                 perror_free_exit("Dup2 error IN", sack_orig);
         if ((*sack)->new_pipes[1] != 1 )
@@ -162,9 +169,9 @@ void    run_preorder(t_tree *node, t_shell_sack **sack)
 
 	if (node != NULL) 
 	{	
-        if (!check_isbuiltin(node) && (*sack)->pipe_wc == 0)
+        
+        if (check_builtinparent(node) && (*sack)->pipe_wc == 0)
         {
-
                 if(check_redirect(&sack, node))
                 {
                     (*sack)->last_exit = 1; //check error code

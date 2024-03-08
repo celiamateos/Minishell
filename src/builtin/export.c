@@ -59,7 +59,6 @@ char **realloc_export_add(t_env *env, char *new)
         if (!temp[i])
             return(ft_free_error_arr(temp, i), ft_free_env(env->env), NULL);
     }
-    printf("Printed new: %s\n", new);
     temp[i] = ft_strdup(new);
     if (!temp[i])
         return (ft_free_error_arr(temp, i), ft_free_env(env->env), NULL);

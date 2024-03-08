@@ -47,6 +47,35 @@ int  execute_builtin(t_shell_sack ***sack, t_tree *node)
     return ((**sack)->last_exit);
 }
 
+// @brief Check if the builtin have to execute in parent process.
+// @return 1 is has to execute in a parent process. 
+int  check_builtinparent(t_tree *node)
+{
+    char *cmd;
+
+    cmd = node->content->cmds[0];
+
+    if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
+        return (1);
+    if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
+        return (1);
+    else if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
+         return (0);
+    else if (!ft_strncmp(cmd, "export", ft_strlen("export")))
+         return (1);
+    else if (!ft_strncmp(cmd, "env", ft_strlen("env")))
+         return (0);
+    else if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
+         return (1);
+    else if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
+         return (1);
+    // else if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
+	//     return (0);
+    else if (ft_strchr(cmd, '='))
+        return (1);
+    return (0);
+}
+
 int  check_isbuiltin(t_tree *node)
 {
     char *cmd;
