@@ -18,7 +18,7 @@ char	*fix_tokenvalues(char **value)
 	char	*aux;
 
 	// aux = ft_strtrim(*value, "<> \n\t");
-	aux = ft_strtrim(*value, "<> "); //intentando arreglar los espacios entre comillas
+	aux = ft_strtrim(*value, "<> \"\'"); //intentando arreglar los espacios entre comillas
 	free (*value);
 	return (aux);
 }
@@ -88,7 +88,7 @@ void	save_redir_filename(char *line, int *i)
 		while (ft_isspace(line[*i]) && line[*i] != '\0')
 			*i = *i + 1;
 	}
-	while (ft_isalnum(line[*i]) || line[*i] == '.' || line[*i] == '_' || line[*i] == '-'|| line[*i] == '/')
+	while (ft_isalnum(line[*i]) || line[*i] == '.' || line[*i] == '_' || line[*i] == '-'|| line[*i] == '/' || line[*i] == '\'' || line[*i] == '\"' || line[*i] == '$')
 	{
 			*i = *i + 1;
 	}
