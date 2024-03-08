@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   tokens_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daviles- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -17,14 +17,14 @@ char	*fix_tokenvalues(char **value)
 {
 	char	*aux;
 
-	// aux = ft_strtrim(*value, "<> \n\t");
-	aux = ft_strtrim(*value, "<> \"\'"); //intentando arreglar los espacios entre comillas
+	// aux = ft_strtrim(*value, "<> "); // si quito las comillas el tester continua
+	aux = ft_strtrim(*value, "<> \"\'");
 	free (*value);
 	return (aux);
 }
 
 /* check if is neccesary*/
-void  *get_last_cmd(t_dlist **token_list)
+void	*get_last_cmd(t_dlist **token_list)
 {
 	t_token	*token;
 	t_token	*token_next;
