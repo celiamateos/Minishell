@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
+
 t_tree	*new_leaf(t_token *token)
 {
 	t_tree	*leaf;
@@ -35,7 +36,7 @@ void	leaf_isoperpipe(t_tree ***root, t_dlist *token_list)
 	if ((*tree)->content->type >= PIPE && (*tree)->content->type <= PARENT_OP)
 	{
 		aux_leaf = *tree;
-		while ((aux_leaf->right)->content->type >= PIPE && (aux_leaf->right)->content->type <= PARENT_OP)
+		while ((aux_leaf->right)->content->type >= PIPE	&& (aux_leaf->right)->content->type <= PARENT_OP)
 			aux_leaf = aux_leaf->right;
 		leaf = new_leaf(token);
 		leaf->left = aux_leaf->right;
@@ -47,7 +48,7 @@ void	leaf_isoperpipe(t_tree ***root, t_dlist *token_list)
 		aux_leaf = *tree;
 		leaf->left = aux_leaf;
 		*tree = leaf;
-	}	
+	}
 }
 
 void	leaf_isparenthesis_cl(t_tree ***root, t_dlist *token_list)
@@ -55,14 +56,12 @@ void	leaf_isparenthesis_cl(t_tree ***root, t_dlist *token_list)
 	t_tree	**tree;
 	t_tree	*aux_leaf;
 	t_tree	*last_parent;
-	// t_token	*token;
 	t_token	*aux_token;
 	char	*value;
-	
+
 	(void)token_list;
 	tree = *root;
 	aux_leaf = *tree;
-	//token = token_list->content;
 	aux_token = aux_leaf->content;
 	while (aux_leaf->right)
 	{

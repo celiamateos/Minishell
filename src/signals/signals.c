@@ -58,7 +58,7 @@
 
 void handle_sigint(int signal)
 {
-   	received_signal = signal;
+   	g_received_signal = signal;
     write(1, "\n", 1);  // Escribe un salto de línea
     rl_on_new_line();  // Reinicia la línea de entrada de la librería readline
     rl_replace_line("", 0);  // Reemplaza la línea actual con una cadena vacía

@@ -69,8 +69,6 @@ int  check_builtinparent(t_tree *node)
          return (1);
     else if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
          return (1);
-    // else if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
-	//     return (0);
     else if (ft_strchr(cmd, '='))
         return (1);
     return (0);

@@ -54,7 +54,7 @@
 # define STANDAR 104
 
 // Declaración de la variable global para señalización... Revisar normV3, creo q debe ser _g
-extern volatile sig_atomic_t received_signal;
+extern volatile sig_atomic_t g_received_signal;
 
 typedef struct s_dlist
 {
