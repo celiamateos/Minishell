@@ -186,6 +186,7 @@ void    run_preorder(t_tree *node, t_shell_sack **sack)
                         perror_free_exit("Dup2 error OUT", &sack);
                 ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
                 ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+                if (check_opercondition(sack, node) || (node)->content->oper == 0)
                 (*sack)->last_exit = execute_builtin(&sack, node);
                 // return ;
         }
