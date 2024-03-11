@@ -10,23 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
+// En principio esto sobra jeje
+// int cd_back(t_shell_sack *sack)
+// {
+//     char    *temp;
+//     char    curr_dir[256];
 
-int cd_back(t_shell_sack *sack)
-{
-    char    *temp;
-    char    curr_dir[256];
-
-    if (chdir("..") == -1)
-        return (cd_mserror(temp), 1);
-    temp = getcwd(curr_dir, sizeof(curr_dir));
-    free (sack->env->pwd);
-    sack->env->pwd = ft_strjoin("PWD=", temp);
-    if (!sack->env->pwd)
-        return(free(temp), 1);
-    export(sack->env, sack->env->pwd);
-    export(sack->env, sack->env->oldpwd);
-    return (0);
-}
+//     if (chdir("..") == -1)
+//         return (cd_mserror(temp), 1);
+//     temp = getcwd(curr_dir, sizeof(curr_dir));
+//     free (sack->env->pwd);
+//     sack->env->pwd = ft_strjoin("PWD=", temp);
+//     if (!sack->env->pwd)
+//         return(free(temp), 1);
+//     export(sack->env, sack->env->pwd);
+//     export(sack->env, sack->env->oldpwd);
+//     return (0);
+// }
 
 int cd_home(t_shell_sack *sack)
 {
@@ -114,8 +114,8 @@ int    cd(t_shell_sack *sack, char **cmds)
         return (cd_mserror(path), 1);
     if (update_oldpwd(sack) == 1)
         return (1);
-    if (!ft_strncmp(path, "..", 2) && ft_strlen(path) == 2)
-        return (cd_back(sack) == 1);
+    // if (!ft_strncmp(path, "..", 2) && ft_strlen(path) == 2)
+    //     return (cd_back(sack) == 1);
     else
     {
         if (cd_path(sack, path) == 1)

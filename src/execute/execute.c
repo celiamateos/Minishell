@@ -11,44 +11,44 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-void	run_cmd_util(t_shell_sack ***sack_orig, t_tree *node)
-{
-	t_token			*token;
-	char			*cmd;
-	t_shell_sack	**sack;
-	int				exitcode;
+// void	run_cmd_util(t_shell_sack ***sack_orig, t_tree *node)
+// {
+// 	t_token			*token;
+// 	char			*cmd;
+// 	t_shell_sack	**sack;
+// 	// int				exitcode;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	if (check_redirect(&sack, node))
-	{
-		(*sack)->last_exit = 1;
-		perror_free_exit("Open error", sack_orig);
-	}
-	if ((*sack)->old_pipes[0] != 0 && check_isbuiltin(node))
-		if (dup2 ((*sack)->old_pipes[0], STDIN_FILENO) == -1)
-			perror_free_exit("Dup2 error IN", sack_orig);
-	if ((*sack)->new_pipes[1] != 1)
-		if (dup2 ((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
-			perror_free_exit("Dup2 error OUT", sack_orig);
-	ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
-	ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-	if (!check_isbuiltin(node))
-	{
-		execute_builtin(&sack, node);
-		exit((*sack)->last_exit);
-	}
-	else
-	{
-		remove_quotes_arr_cmds(token, &(*sack));
-		cmd = getcmd_withpath(token->cmds[0], (*sack)->env->env);
-		if (cmd)
-			execve(cmd, token->cmds, (*sack)->env->env);
-		(*sack)->last_exit = 127; //error code for cmd not found / ESTO ESTÁ INCOMPLETO/
-		free_exit(token->cmds, sack_orig, COMANDNOTFOUND);
-	}
+// 	signal(SIGINT, SIG_DFL);
+// 	signal(SIGQUIT, SIG_DFL);
+// 	if (check_redirect(&sack, node))
+// 	{
+// 		(*sack)->last_exit = 1;
+// 		perror_free_exit("Open error", sack_orig);
+// 	}
+// 	if ((*sack)->old_pipes[0] != 0 && check_isbuiltin(node))
+// 		if (dup2 ((*sack)->old_pipes[0], STDIN_FILENO) == -1)
+// 			perror_free_exit("Dup2 error IN", sack_orig);
+// 	if ((*sack)->new_pipes[1] != 1)
+// 		if (dup2 ((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
+// 			perror_free_exit("Dup2 error OUT", sack_orig);
+// 	ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
+// 	ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+// 	if (!check_isbuiltin(node))
+// 	{
+// 		execute_builtin(&sack, node);
+// 		exit((*sack)->last_exit);
+// 	}
+// 	else
+// 	{
+// 		// remove_quotes_arr_cmds(token, &(*sack));
+// 		cmd = getcmd_withpath(token->cmds[0], (*sack)->env->env);
+// 		if (cmd)
+// 			execve(cmd, token->cmds, (*sack)->env->env);
+// 		(*sack)->last_exit = 127; //error code for cmd not found / ESTO ESTÁ INCOMPLETO/
+// 		free_exit(token->cmds, sack_orig, COMANDNOTFOUND);
+// 	}
 
-}
+// }
 
 void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 {
@@ -139,6 +139,7 @@ void	run_preorder(t_tree *node, t_shell_sack **sack)
 {
 	if (node != NULL)
 	{
+		// printf("pipe_wc:%lc", (*sack)->pipe_wc);
 		if (check_builtinparent(node) && (*sack)->pipe_wc == 0)
 		{
 			if (check_redirect(&sack, node))

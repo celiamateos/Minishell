@@ -148,6 +148,14 @@ int	check_syntaxerrors(t_shell_sack *sack, char *s)
 				return (put_syntaxerror('>'), 2);
 			}
 		}
+		// if (s[i] == ')' && str == 1) arreglar esto pa k no de segfault con )
+		// {
+		// 	if (check_validoper(s, i))
+		// 	{
+		// 		sack->last_exit = 2;
+		// 		return (put_syntaxerror(')'), 2);
+		// 	}
+		// }
 	}
 	return (0);
 }

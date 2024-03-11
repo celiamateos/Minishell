@@ -76,6 +76,7 @@ int	minishell( char **envp)
 	sighandler();
 	while (42)
 	{
+		sack->pipe_wc = 0; // esto tiene que ir dentro de este bucle
 		sighandler();
 		line = readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
 		if (!line)
