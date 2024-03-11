@@ -11,36 +11,21 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-int	get_token_type(char *value)
+void	ft_whileoperator(char *line, int *quotes, int *i)
 {
-	int	i;
-
-	i = 0;
-	if (!ft_strncmp(value, "|", 2))
-		return (PIPE);
-	else if (!ft_strncmp(value, "<<", 2))
-		return (HEREDOC);	
-	else if (value[i] == '<')
-		return (REDIR_IN);	
-	else if (!ft_strncmp(value, ">>", 2))
-		return (APPEND_OUT);	
-	else if (value[i] == '>')
-		return (REDIR_OUT);	
-	else if (!ft_strncmp(value, "&&", 3) || !ft_strncmp(value, "||", 3))
-		return (OPER);
-	else if (value[i] == '(')
-		return (PARENT_OP);	
-	else if (value[i] == ')')
-		return (PARENT_CL);
-	// else if (value[i] == D_QUOTES || value[i] == S_QUOTES)
-	// 	return (STRING);	
-	// else if (isvalid_var(value))
-	// 	return (CREATE_VAR); //Ahora me entero que aqui pensabas meter lo de var=content jeje lo meti en builtins
-	else
-		return (CMD);
+	while (ft_isoperator(line[*i], quotes) && line[*i])
+	{
+		if (line[*i] == '<' || line[*i] == '>')
+		{
+			save_redir_filename(line, i);
+			break ;
+		}
+		else
+			*i = *i + 1;
+	}
 }
 
-int	ft_isoperator(char	c, int *quotes)
+int	ft_isoperator(char c, int *quotes)
 {
 	if (c == '\"' && !quotes[1])
 		quotes[0] = !quotes[0];
@@ -48,9 +33,23 @@ int	ft_isoperator(char	c, int *quotes)
 		quotes[1] = !quotes[1];
 	if (quotes[0] || quotes[1])
 		return (0);
-	if (c == '|' || c == '<' || c == '>' || c == ';' || c == '&' || c == '(' || c == ')')
+	if (c == '|' || c == '<' || c == '>' || c == ';'
+		|| c == '&' || c == '(' || c == ')')
 		return (1);
 	return (0);
+}
+
+t_token	*create_token(char *aux)
+{
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->type = get_token_type(aux);
+	token->value = fix_tokenvalues(&aux);
+	token->oper = 0;
+	return (token);
 }
 
 void	*get_next_token(char *line, int *i)
@@ -64,16 +63,7 @@ void	*get_next_token(char *line, int *i)
 	quotes[1] = 0;
 	start = *i;
 	if (ft_isoperator(line[*i], quotes))
-		while (ft_isoperator(line[*i], quotes) && line[*i])
-		{
-			 if (line[*i] == '<' || line[*i] == '>')
-			 {
-				save_redir_filename(line, i);
-				break;
-			 }
-			else
-				*i = *i + 1;
-		}
+		ft_whileoperator(line, quotes, i);
 	else
 	{
 		*i = *i + 1;
@@ -83,14 +73,10 @@ void	*get_next_token(char *line, int *i)
 	aux = ft_substr(line, start, (size_t)(*i - start));
 	if (aux && !check_emptyorspace(aux))
 	{
-		token = malloc(sizeof(t_token)); // Create new_token function
-		// token->value = aux;
-		token->type = get_token_type(aux);
-		token->value = fix_tokenvalues(&aux);
-		token->oper = 0;
+		token = create_token(aux);
 		return ((void *)token);
 	}
-	else//If is empty free
+	else
 		free(aux);
 	return (NULL);
 }
@@ -111,7 +97,5 @@ t_dlist	*init_tokens(char *line)
 		if (token != NULL)
 			ft_dlstadd_back(&list, ft_dlstnew(token));
 	}
-	// print_tokenlist(list);
 	return (list);
 }
-

@@ -17,38 +17,35 @@ char	*fix_tokenvalues(char **value)
 {
 	char	*aux;
 
-	// aux = ft_strtrim(*value, "<> "); // si quito las comillas el tester continua
-	aux = ft_strtrim(*value, "<> \"\'");
+	aux = ft_strtrim(*value, "<> "); // si quito las comillas el tester continua
+	// aux = ft_strtrim(*value, "<> \"\'");
 	free (*value);
 	return (aux);
 }
 
-/* check if is neccesary*/
-void	*get_last_cmd(t_dlist **token_list)
+int	get_token_type(char *value)
 {
-	t_token	*token;
-	t_token	*token_next;
-	t_dlist	*aux_list;
+	int	i;
 
-	aux_list = *token_list;
-	token_next = NULL;
-	while (aux_list)
-	{
-		token = aux_list->content;
-		if (aux_list->next)
-			token_next = aux_list->next->content;
-		if (!aux_list->next && token->type == CMD)
-			return (aux_list->content);
-		else if (!aux_list->next && token->type == CMD)
-			return (aux_list->content);
-		else if (!(aux_list->next)->next && token_next->type \
-		>= HEREDOC && token->type == CMD)
-		{
-			return (aux_list->content);
-			aux_list = aux_list->next;
-		}
-	}
-	return (aux_list->content);
+	i = 0;
+	if (!ft_strncmp(value, "|", 2))
+		return (PIPE);
+	else if (!ft_strncmp(value, "<<", 2))
+		return (HEREDOC);
+	else if (value[i] == '<')
+		return (REDIR_IN);
+	else if (!ft_strncmp(value, ">>", 2))
+		return (APPEND_OUT);
+	else if (value[i] == '>')
+		return (REDIR_OUT);
+	else if (!ft_strncmp(value, "&&", 3) || !ft_strncmp(value, "||", 3))
+		return (OPER);
+	else if (value[i] == '(')
+		return (PARENT_OP);
+	else if (value[i] == ')')
+		return (PARENT_CL);
+	else
+		return (CMD);
 }
 
 int	find_nextquote(char *str, char quote)

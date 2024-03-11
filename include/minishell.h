@@ -39,16 +39,31 @@ void	remove_quotes_arr_cmds(t_token *token, t_shell_sack **sack);
 void	main_sig_handler(void);
 
 /* ---------------------- TOKENS AND TREE------------------------*/
+//tokens_init.c
 t_dlist	*init_tokens(char *line);
-void	init_tree(t_shell_sack **sack);
+void	*get_next_token(char *line, int *i);
+int		ft_isoperator(char c, int *quotes);
+t_token	*create_token(char *aux);
+void	ft_whileoperator(char *line, int *quotes, int *i);
 
 //tokens_utils.c
-void	save_redir_filename(char *line, int *i);
 void	get_cmd_args(t_shell_sack **sack);
-void	*get_last_cmd(t_dlist **token_list);
+void	save_redir_filename(char *line, int *i);
+int		find_nextquote(char *str, char quote);
+int		get_token_type(char *value);
 char	*fix_tokenvalues(char **value);
-void	ft_cpypipes(int *old_pipe, int *new_pipe);
 
+//tree_init.c
+void	init_tree(t_shell_sack **sack);
+void	insert_leaf(t_tree **tree, t_dlist **token_list);
+void	leaf_iscmd(t_tree ***root, t_dlist *token_list);
+void	auxleaf_iscmd(t_tree ****root, t_dlist *token_list);
+void	leaf_isredirect(t_tree ***root, t_dlist *token_list);
+//tree_utils.c
+void	leaf_isparenthesis_op(t_tree ***root, t_dlist *token_list);
+void	leaf_isparenthesis_cl(t_tree ***root, t_dlist *token_list);
+void	leaf_isoperpipe(t_tree ***root, t_dlist *token_list);
+t_tree	*new_leaf(t_token *token);
 // A estas funciones solamente las llamas en tokens_init.c:35 y está comentado.
 //Si no se va a usar borrar archivo
 int		valid_varname(char *value, int *i);

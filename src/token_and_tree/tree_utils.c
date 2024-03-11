@@ -11,19 +11,6 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-t_tree	*new_leaf(t_token *token)
-{
-	t_tree	*leaf;
-
-	leaf = malloc(sizeof(t_tree));
-	if (!leaf)
-		return (NULL);
-	leaf->content = token;
-	leaf->left = NULL;
-	leaf->right = NULL;
-	return (leaf);
-}
-
 void	leaf_isoperpipe(t_tree ***root, t_dlist *token_list)
 {
 	t_tree	**tree;
@@ -94,4 +81,17 @@ void	leaf_isparenthesis_op(t_tree ***root, t_dlist *token_list)
 			aux_leaf = aux_leaf->right;
 		aux_leaf->right = new_leaf(token);
 	}
+}
+
+t_tree	*new_leaf(t_token *token)
+{
+	t_tree	*leaf;
+
+	leaf = malloc(sizeof(t_tree));
+	if (!leaf)
+		return (NULL);
+	leaf->content = token;
+	leaf->left = NULL;
+	leaf->right = NULL;
+	return (leaf);
 }
