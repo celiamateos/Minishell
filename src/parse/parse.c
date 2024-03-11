@@ -113,7 +113,7 @@ int	check_validoper(char *s, int i)
 	return (2);
 }
 
-int	check_syntaxerrors(t_shell_sack *sack, char *s)
+int	check_syntaxerrors(t_shell_sack ***sack, char *s)
 {
 	int	i;
 	int	str;
@@ -128,7 +128,7 @@ int	check_syntaxerrors(t_shell_sack *sack, char *s)
 		{
 			if (check_validoper(s, i))
 			{
-				sack->last_exit = 2;
+				(**sack)->last_exit = 2;
 				return (put_syntaxerror('|'), 2);
 			}
 		}
@@ -136,7 +136,7 @@ int	check_syntaxerrors(t_shell_sack *sack, char *s)
 		{
 			if (check_validoper(s, i))
 			{
-				sack->last_exit = 2;
+				(**sack)->last_exit = 2;
 				return (put_syntaxerror('<'), 2);
 			}
 		}
@@ -144,10 +144,11 @@ int	check_syntaxerrors(t_shell_sack *sack, char *s)
 		{
 			if (check_validoper(s, i))
 			{
-				sack->last_exit = 2;
+				(**sack)->last_exit = 2;
 				return (put_syntaxerror('>'), 2);
 			}
 		}
+		
 		// if (s[i] == ')' && str == 1) arreglar esto pa k no de segfault con )
 		// {
 		// 	if (check_validoper(s, i))
@@ -160,16 +161,16 @@ int	check_syntaxerrors(t_shell_sack *sack, char *s)
 	return (0);
 }
 
-int check_errors_initsack(t_shell_sack *sack)
+int check_errors_initsack(t_shell_sack **sack)
 {
 	char	*s;
 
-	s = sack->line;
+	s = (*sack)->line;
 	if (check_open_quotes(s))
 		return (ft_putstr_fd("Input invalid, found open quotes\n", 2), 2);
-	if (check_emptyorspace(sack->line))
+	if (check_emptyorspace((*sack)->line))
 		return (1);
-	if (check_syntaxerrors(sack, s))
+	if (check_syntaxerrors(&sack, s))
 		return (1);
 	return (0);
 }

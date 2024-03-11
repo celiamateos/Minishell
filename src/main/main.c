@@ -48,7 +48,7 @@ int	sack_init(t_shell_sack *sack, char *line)
 	sack->line = ft_strdup(line);
 	if (!sack->line)
 		return (free (line), 1);
-	if (check_errors_initsack(sack))
+	if (check_errors_initsack(&sack))
 		return (free(sack->line), 1);
 	if (expand_line(sack))
 		return (1);

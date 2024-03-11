@@ -55,7 +55,7 @@ void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 	t_token			*token;
 	char			*cmd;
 	t_shell_sack	**sack;
-	int				exitcode;
+	// int				exitcode;
 
 	sack = *sack_orig;
 	token = node->content;
@@ -91,15 +91,16 @@ void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 			cmd = getcmd_withpath(token->cmds[0], (*sack)->env->env);
 			if (cmd)
 				execve(cmd, token->cmds, (*sack)->env->env);
-			(*sack)->last_exit = 127; //error code for cmd not found / ESTO ESTÁ INCOMPLETO/
-			free_exit(token->cmds, sack_orig, COMANDNOTFOUND);
+			// (*sack)->last_exit = 127; //error code for cmd not found / ESTO ESTÁ INCOMPLETO/
+			free_exit(token->cmds, sack_orig, COMANDNOTFOUND); ///No siempre es comand not found, si no lo encuentra en ruta es el otro mensaje.....
 		}
 	}
 	ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	exitcode = wait_exitcode((*sack)->last_pid);
-	(*sack)->last_exit = exitcode;
+	(*sack)->last_exit = wait_exitcode((*sack)->last_pid);
+	
+	// (*sack)->last_exit = exitcode;
 	ft_cpypipes((*sack)->old_pipes, (*sack)->new_pipes);
 	(*sack)->new_pipes[1] = 1;
 }

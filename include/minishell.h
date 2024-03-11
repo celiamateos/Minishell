@@ -20,7 +20,7 @@
 int		sack_init(t_shell_sack *sack, char *line);
 
 /* ---------------------- PARSE ------------------------*/
-int		check_errors_initsack(t_shell_sack *sack);
+int		check_errors_initsack(t_shell_sack **sack);
 int		check_open_quotes(char *s);
 int		check_errors_opers(t_dlist *list);
 

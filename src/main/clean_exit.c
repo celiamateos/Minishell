@@ -92,7 +92,7 @@ void	ft_pustr_msjerror(int n, char *cmd)
 		ft_putstr_fd(strerror(errno), 2);
 	else if (n == COMANDNOTFOUND)
 	{
-		ft_putstr_fd("minishell: command not found: ", 2);
+		ft_putstr_fd("minishell: command not found:", 2);
 		ft_putstr_fd_noquotes(cmd, 2);
 	}
 	else if (n == PERMISSIONDENIED)
