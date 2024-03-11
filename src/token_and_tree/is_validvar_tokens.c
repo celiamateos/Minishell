@@ -13,10 +13,6 @@
 
 int	valid_varformat(char *value, int *i)
 {
-	// int	quotes[2];
-
-	// quotes[0] = 0;
-	// quotes[1] = 0; //Creo que aqui se puede gestionar lo de las comillas.
 	if (ft_isspace(value[*i]))
 		while (ft_isspace(value[*i]))
 			*i = *i + 1;
@@ -27,9 +23,9 @@ int	valid_varformat(char *value, int *i)
 	while (value[*i] != '\0')
 	{
 		if (ft_isspace(value[*i]))
-			return (0); 
+			return (0);
 		else if (value[*i] == '=')
-			break;
+			break ;
 		else
 			*i = *i + 1;
 	}
@@ -67,10 +63,10 @@ int	isvalid_var(char *value)
 	int	i;
 
 	i = 0;
-	if(!valid_varformat(value, &i))
+	if (!valid_varformat(value, &i))
 		return (0);
 	i = 0;
-	if(!valid_varname(value, &i))
+	if (!valid_varname(value, &i))
 		return (0);
 	return (1);
 }

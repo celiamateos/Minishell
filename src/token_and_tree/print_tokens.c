@@ -9,7 +9,6 @@
 /*   Updated: 2024/01/05 22:48:40 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../../include/minishell.h"
 
 void	print_tokenlist(t_dlist *list)
@@ -34,7 +33,7 @@ void	print_token_args(t_dlist *token_list)
 {
 	t_token	*token;
 
-	while(token_list)
+	while (token_list)
 	{
 		token = token_list->content;
 		if (token->type == CMD)

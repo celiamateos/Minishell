@@ -76,8 +76,8 @@ void	print_token(char *msj, t_token	*token);
 void	print_token_args(t_dlist *token_list);
 // print_tree.c
 void	print_preorder(t_tree *node);
-void	print2D(t_tree *root);
-void	print2DUtil(t_tree *root, int space);
+void	print2d(t_tree *root);
+void	print2d_util(t_tree *root, int space);
 
 /* ---------------------- EXECUTE -----------------------*/
 // execute.c
@@ -157,11 +157,13 @@ void	ft_pustr_msjerror(int n, char *cmd);
 void	reset_pipes(int *old_pipes, int *new_pipes);
 
 /* ---------------------- LISTS ------------------------*/
+//ft_double_list.c
 t_dlist	*ft_dlstnew(void *content);
 void	ft_dlstadd_back(t_dlist **lst, t_dlist *new);
 void	ft_dlstadd_front(t_dlist **lst, t_dlist *new);
 t_dlist	*ft_dlstlast(t_dlist *lst);
 t_dlist	*ft_dlstfirst(t_dlist *lst);
+//ft_double_list_utils.c
 int		ft_dlstsize(t_dlist *lst);
 void	ft_dlstclear(t_dlist **lst, void (*del_dlst)(void *));
 void	ft_dlstdelone(t_dlist *lst, void (*del_dlst)(void *));

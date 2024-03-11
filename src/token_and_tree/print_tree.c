@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -14,53 +13,42 @@
 
 // Function to print binary tree in 2D
 // It does reverse inorder traversal
-void print2DUtil(t_tree *root, int space)
+void	print2d_util(t_tree *root, int space)
 {
 	t_token	*token;
-	int     i;
+	int		i;
 
-    // Base case
-    if (root == NULL)
-        return;
- 
-    // Increase distance between levels
-    space += COUNT;
- 
-    // Process right child first
-    print2DUtil(root->right, space);
- 
-    // Print current node after space
-    // count
-    ft_printf("\n");
-    i = COUNT;
-    while (i < space)
-    {
-        ft_printf(" ");
-        i++;
-    }
+	if (root == NULL)
+		return ;
+	space += COUNT;
+	print2d_util(root->right, space);
+	ft_printf("\n");
+	i = COUNT;
+	while (i < space)
+	{
+		ft_printf(" ");
+		i++;
+	}
 	token = root->content;
 	printf("%s\n", token->value);
- 
-    // Process left child
-    print2DUtil(root->left, space);
-}
- 
-// Wrapper over print2DUtil()
-void print2D(t_tree* root)
-{
-    // Pass initial space count as 0
-    print2DUtil(root, 0);
+	print2d_util(root->left, space);
 }
 
-void print_preorder(t_tree *node) 
+// Wrapper over print2d_util()
+void	print2d(t_tree *root)
+{
+	print2d_util(root, 0);
+}
+
+void	print_preorder(t_tree *node)
 {
 	t_token	*token;
 
-	if (node != NULL) 
+	if (node != NULL)
 	{
 		token = node->content;
-       		printf("%s\n", token->value);
-	        print_preorder(node->left);
-	        print_preorder(node->right);
-    	}
+		printf("%s\n", token->value);
+		print_preorder(node->left);
+		print_preorder(node->right);
+	}
 }

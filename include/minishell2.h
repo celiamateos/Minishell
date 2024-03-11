@@ -9,9 +9,9 @@
 /*   Updated: 2023/12/06 00:45:15 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MINISHELL_FUN_H
+#ifndef MINISHELL2_H
 
-# define MINISHELL_FUN_H
+# define MINISHELL2_H
 
 # include <unistd.h>
 # include <stdio.h>
@@ -53,12 +53,12 @@
 # define NOSUCHFILEORDIRECTORY 103
 # define STANDAR 104
 
-// Declaración de la variable global para señalización... Revisar normV3, creo q debe ser _g
-extern volatile sig_atomic_t g_received_signal;
+// Declaración de la variable global para señalización... 
+extern volatile sig_atomic_t	g_received_signal;
 
 typedef struct s_dlist
 {
-	void		*content;
+	void			*content;
 	struct s_dlist	*next;
 	struct s_dlist	*prev;
 }					t_dlist;
@@ -97,7 +97,7 @@ typedef struct s_shell_sack
 {
 	char			*line;
 	char			*l_expanded;
-	char 			**split_line;
+	char			**split_line;
 	int				pos;
 	struct s_dlist	*token_list;
 	struct s_tree	*tree_list;
@@ -106,8 +106,7 @@ typedef struct s_shell_sack
 	int				old_pipes[2];
 	int				redirs[2];
 	int				heredoc;
-	// t_token			*last_token;
-	int				now_pid; //Celia added
+	int				now_pid;
 	int				last_pid;
 	int				last_exit;
 	int				history_fd;

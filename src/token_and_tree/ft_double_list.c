@@ -9,8 +9,9 @@
 /*   Updated: 2023/11/10 19:58:02 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
- # include "../../include/minishell.h"
- //Crea un nuevo nodo con content char *, void *next y void*prev.
+#include "../../include/minishell.h"
+
+//Crea un nuevo nodo con content char *, void *next y void*prev.
 /*@brief ALOCA MEMORIA*/
 t_dlist	*ft_dlstnew(void *content)
 {
@@ -24,7 +25,8 @@ t_dlist	*ft_dlstnew(void *content)
 	node->prev = NULL;
 	return (node);
 }
- //Añade un nodo al final de la lista
+
+//Añade un nodo al final de la lista
 void	ft_dlstadd_back(t_dlist **lst, t_dlist *new)
 {
 	t_dlist	*temp;
@@ -57,7 +59,9 @@ void	ft_dlstadd_front(t_dlist **lst, t_dlist *new)
 		*lst = new;
 	}
 }
- //Recibe un nodo y recorre la lista hacia alante, retorna el último nodo de la lista
+
+//Recibe un nodo y recorre la lista hacia alante, 
+//retorna el último nodo de la lista
 t_dlist	*ft_dlstlast(t_dlist *lst)
 {
 	t_dlist	*lastnode;
@@ -70,10 +74,12 @@ t_dlist	*ft_dlstlast(t_dlist *lst)
 	}
 	return (lastnode);
 }
- //Recibe un nodo y recorre la lista hacia atras, retorna el primer nodo de la lista
-t_dlist *ft_dlstfirst(t_dlist *lst)
+
+//Recibe un nodo y recorre la lista hacia atras, 
+//retorna el primer nodo de la lista
+t_dlist	*ft_dlstfirst(t_dlist *lst)
 {
-	t_dlist *first_node;
+	t_dlist	*first_node;
 
 	first_node = lst;
 	if (first_node)
@@ -82,56 +88,4 @@ t_dlist *ft_dlstfirst(t_dlist *lst)
 			first_node = first_node->prev;
 	}
 	return (first_node);
-}
- //Recibe el primer nodo de una lista y retorna el número de nodos total de la lista.
-int	ft_dlstsize(t_dlist *lst)
-{
-	int		i;
-	t_dlist	*temp;
-
-	temp = lst;
-	i = 0;
-	if (temp)
-	{
-		while (temp->next != NULL)
-		{
-			temp = temp->next;
-			i++;
-		}
-		if (temp->next == NULL)
-			i++;
-	}
-	return (i);
-}
-
-void	del_dlst(void *content)
-{
-	if (content)
-		free (content);
-}
-
-void	ft_dlstdelone(t_dlist *lst, void (*del_dlst)(void *))
-{
-	if (!del_dlst)
-		return ;
-	if (lst)
-	{
-		del_dlst(lst->content);
-		free(lst);
-	}	
-}
-
-void	ft_dlstclear(t_dlist **lst, void (*del_dlst)(void *))
-{
-	t_dlist	*temp;
-
-	temp = *lst;
-	// if (!del_dlst || !*lst)
-	// 	return ;
-	while (*lst && lst)
-	{
-		temp = (*lst)->next;
-		ft_dlstdelone(*lst, del_dlst);
-		*lst = temp;
-	}
 }
