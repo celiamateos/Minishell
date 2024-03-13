@@ -119,6 +119,7 @@ typedef struct s_shell_sack
 	int				pipe_wc;
 	struct s_env	*env;
 	struct s_token	token;
+	int				oper_state;
 }	t_shell_sack;
 
 #endif

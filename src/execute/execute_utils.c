@@ -14,19 +14,26 @@
 /* @brief to take off lines on run_node. Check conditions of execution 
 of operators. */
 // @return 1 if it can be executed
-int	check_opercondition(t_shell_sack **sack, t_tree **node)
+int	check_opercondition(t_shell_sack ***sack, t_tree **node)
 {
 	t_token	*token;
 
 	token = (*node)->content;
-	if (token->oper == AND && (*sack)->last_exit == 0)
+	if ((*node)->content->oper != 0)
+	{
+		(**sack)->oper_state = (*node)->content->oper;
+	}
+	printf("Oper Stat %d\n", (**sack)->oper_state);
+	if ((**sack)->oper_state == AND && (**sack)->last_exit == 0)
 	{
 		return (1);
 	}
-	else if (token->oper == OR && (*sack)->last_exit != 0)
+	else if ((**sack)->oper_state == OR && (**sack)->last_exit != 0)
 	{
 		return (1);
 	}
+	else if ((**sack)->oper_state == 0)
+		return (1);
 	else
 		return (0);
 }
