@@ -52,6 +52,7 @@
 # define PERMISSIONDENIED 102
 # define NOSUCHFILEORDIRECTORY 103
 # define STANDAR 104
+# define ISDIRECTORY 105
 
 // Declaración de la variable global para señalización... 
 extern volatile sig_atomic_t	g_received_signal;

@@ -91,7 +91,6 @@ void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 			cmd = getcmd_withpath(token->cmds[0], (*sack)->env->env);
 			if (cmd)
 				execve(cmd, token->cmds, (*sack)->env->env);
-			// (*sack)->last_exit = 127; //error code for cmd not found / ESTO ESTÁ INCOMPLETO/
 			free_exit(token->cmds, sack_orig, COMANDNOTFOUND); ///No siempre es comand not found, si no lo encuentra en ruta es el otro mensaje.....
 		}
 	}

@@ -68,7 +68,7 @@ int  check_builtinparent(t_tree *node)
     else if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
          return (1);
     else if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
-         return (1);
+         return (0);
     else if (ft_strchr(cmd, '='))
         return (1);
     return (0);
