@@ -62,7 +62,7 @@ void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 	(*sack)->last_exit = 0;
 	(*sack)->last_pid = fork();
 	if ((*sack)->last_pid < 0)
-		perror_free_exit("Fork error", sack_orig);
+		perror_free_exit("Fork error", &sack);
 	else if ((*sack)->last_pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -70,15 +70,14 @@ void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 		if (check_redirect(&sack, node))
 		{
 			(*sack)->last_exit = 1;
-			perror_free_exit("Open error", sack_orig);
+			perror_free_exit("Open error", &sack);
 		}
 		if ((*sack)->old_pipes[0] != 0 && check_isbuiltin(node))
 			if (dup2 ((*sack)->old_pipes[0], STDIN_FILENO) == -1)
-				perror_free_exit("Dup2 error IN", sack_orig);
+				perror_free_exit("Dup2 error IN", &sack);
 		if ((*sack)->new_pipes[1] != 1)
 			if (dup2 ((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
-				perror_free_exit("Dup2 error OUT", sack_orig);
-		printf("OLD: %d NEW: %d\n", (*sack)->old_pipes[0],(*sack)->new_pipes[1]);
+				perror_free_exit("Dup2 error OUT", &sack);
 		ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
 		ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
 		if (!check_isbuiltin(node))
@@ -99,7 +98,6 @@ void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	(*sack)->last_exit = wait_exitcode((*sack)->last_pid);
-	// (*sack)->last_exit = exitcode;
 	ft_cpypipes((*sack)->old_pipes, (*sack)->new_pipes);
 	(*sack)->new_pipes[1] = 1;
 }
@@ -112,65 +110,13 @@ void	run_node(t_shell_sack **sack, t_tree **node)
 	token = (*node)->content;
 	if (token->type == PARENT_CL)
 	{
-		// if ((*sack)->oper_state != 0 && !check_opercondition(sack, node))
 		if (!check_opercondition(&sack, node))
 			(*node)->right = NULL;
 	}
 	else if (token->type == CMD)
 	{
-		if ((*node)->content->oper != 0)
-		{
-			//reset fds
-			printf("AQUI\n");
-			// if (dup2 (0, STDIN_FILENO) == -1)
-			// 	perror_free_exit("Dup2 error IN", &sack);
-			// if ((*sack)->old_pipes[0] == 0)
-			// {
-			// 	ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-			// 	(*sack)->old_pipes[0] = 0;
-			// if (dup2 (0, STDIN_FILENO) == -1)
-			// 	perror_free_exit("Dup2 error IN", &sack);
-			// }
-			// if ((*sack)->new_pipes[1] != 1)
-			// {
-			// 	ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
-			// 	(*sack)->new_pipes[1] = 1;
-			// if (dup2 (1, STDOUT_FILENO) == -1)
-			// 	perror_free_exit("Dup2 error OUT", &sack);
-			// }
-		}
-		// if ((*sack)->oper_state == 0 || check_opercondition(sack, node))
 		if (check_opercondition(&sack, node))
-		{
-			// printf("AQUI\n");
 			run_cmd(&sack, (*node));
-		}
-		else if ((*sack)->oper_state != 0)
-		{
-						// printf("AQUINO\n");
-
-			// t_token	*token;
-			// t_tree	*aux_node;
-
-			// token = (*node)->content;
-			// aux_node = goto_nextoper(&node->right);
-			// if (aux_node != NULL)
-			// {
-			// 	(*node) = aux_node;
-			// }
-			// printf("AAOLD: %d AANEW: %d\n", (*sack)->old_pipes[0],(*sack)->new_pipes[1]);
-			// if ((*sack)->old_pipes[0] != 0)
-			// {
-			// 	ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-			// 	(*sack)->old_pipes[0] = 0;
-			// }
-			// if ((*sack)->new_pipes[1] != 1)
-			// {
-			// 	ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
-			// 	(*sack)->new_pipes[1] = 1;
-			// }
-
-		}
 	}
 	else if (token->type == PIPE)
 	{
@@ -189,7 +135,6 @@ void	run_preorder(t_tree *node, t_shell_sack **sack)
 {
 	if (node != NULL)
 	{
-		// printf("pipe_wc:%lc", (*sack)->pipe_wc);
 		if (check_builtinparent(node) && (*sack)->pipe_wc == 0)
 		{
 			if (check_redirect(&sack, node))

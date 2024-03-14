@@ -20,18 +20,11 @@ int	check_opercondition(t_shell_sack ***sack, t_tree **node)
 
 	token = (*node)->content;
 	if ((*node)->content->oper != 0)
-	{
 		(**sack)->oper_state = (*node)->content->oper;
-	}
-	printf("Oper Stat %d\n", (**sack)->oper_state);
 	if ((**sack)->oper_state == AND && (**sack)->last_exit == 0)
-	{
 		return (1);
-	}
 	else if ((**sack)->oper_state == OR && (**sack)->last_exit != 0)
-	{
 		return (1);
-	}
 	else if ((**sack)->oper_state == 0)
 		return (1);
 	else
