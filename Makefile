@@ -90,7 +90,7 @@
 
 # .PHONY: all, clean, fclean, re
 
-
+# pa que el puto readline funcione en 42: source ~/.bash_profile
 #MAKEFILE NORMAL: 
 COLOR_RESET = \x1b[0m
 COLOR_RED = \x1b[0;31m

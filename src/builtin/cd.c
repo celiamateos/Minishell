@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 // En principio esto sobra jeje
-int cd_back(t_shell_sack *sack)
+int	cd_back(t_shell_sack *sack)
 {
-	char	*temp = NULL;
+	char	*temp;
 	char	curr_dir[256];
 
+	temp = NULL;
 	chdir("..");
 	temp = getcwd(curr_dir, sizeof(curr_dir));
 	if (!temp)
@@ -28,16 +29,16 @@ int cd_back(t_shell_sack *sack)
 	free (sack->env->pwd);
 	sack->env->pwd = ft_strjoin("PWD=", temp);
 	if (!sack->env->pwd)
-		return(free(temp), 1);
+		return (free(temp), 1);
 	export(sack->env, sack->env->pwd);
 	export(sack->env, sack->env->oldpwd);
 	return (0);
 }
 
-int cd_home(t_shell_sack *sack)
+int	cd_home(t_shell_sack *sack)
 {
-	char    *temp;
-	int     pos;
+	char	*temp;
+	int		pos;
 
 	update_oldpwd(sack);
 	pos = search_env_pos(sack->env->env, "HOME", '\0');
@@ -60,10 +61,10 @@ int cd_home(t_shell_sack *sack)
 	return (0);
 }
 
-int cd_path(t_shell_sack *sack,  char *path)
+int	cd_path(t_shell_sack *sack,  char *path)
 {
-	char    *temp;
-	char    *pathname;
+	char	*temp;
+	char	*pathname;
 
 	if (path[ft_strlen(path)] == '/')
 	{
@@ -89,9 +90,9 @@ int cd_path(t_shell_sack *sack,  char *path)
 }
 
 
-int update_oldpwd(t_shell_sack *sack)
+int	update_oldpwd(t_shell_sack *sack)
 {
-	char *temp;
+	char	*temp;
 
 	temp = get_varcontent(sack->env->pwd);
 	if (!temp)

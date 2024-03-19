@@ -45,6 +45,7 @@ int	clean_init(t_shell_sack **sack)
 
 int	sack_init(t_shell_sack *sack, char *line)
 {
+	sack->pipe_wc = 0;
 	sack->line = ft_strdup(line);
 	if (!sack->line)
 		return (free (line), 1);
@@ -65,56 +66,102 @@ int	sack_init(t_shell_sack *sack, char *line)
 }
 //atexit(leaks);
 
-int	minishell( char **envp)
+int	minishell(t_shell_sack *sack, char *line)
 {
-	char			*line;
-	t_shell_sack	*sack;
-
-	sack = NULL;
-	if (clean_init(&sack) || env_init(sack, envp))
-		return (1);
 	sighandler();
-	while (42)
+	line = readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
+	if (!line)
 	{
-		sack->pipe_wc = 0; // esto tiene que ir dentro de este bucle
-		sighandler();
-		line = readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
-		if (!line)
+		if (isatty(STDIN_FILENO))
+			write(2, "exit\n", 6);
+		ft_clearenv(sack);
+		exit (1);
+	}
+	if (line[0] == '\0')
+		free(line);
+	else if (*line)
+	{
+		add_history(line);
+		if (!sack_init(sack, line))
 		{
-			if (isatty(STDIN_FILENO))
-				write(2, "exit\n", 6);
-			ft_clearenv(sack);
-			exit (1);
-		}
-		if (line[0] == '\0')
 			free(line);
-		else if (*line)
-		{
-			add_history(line);
-			if (!sack_init(sack, line))
-			{
-				free(line);
-				init_tree(&sack);
-				execute(&sack);
-			}
-			else
-				free(line);
+			init_tree(&sack);
+			execute(&sack);
 		}
-		g_received_signal = 0;
-		reset_pipes(sack->old_pipes, sack->new_pipes);
+		else
+			free(line);
 	}
 	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	exit_status;
+	t_shell_sack	*sack;
+	char			*line;
 
 	(void)argc;
 	(void)argv;
-	if (!envp || !envp[0])
+	line = NULL;
+	sack = NULL;
+	if (clean_init(&sack) || env_init(sack, envp))
 		return (1);
-	exit_status = minishell(envp);
-	exit(exit_status);
+	while (42)
+	{
+		minishell(sack, line);
+		g_received_signal = 0;
+		reset_pipes(sack->old_pipes, sack->new_pipes);
+	}
 	return (0);
 }
+
+// int	minishell( char **envp)
+// {
+// 	char			*line;
+// 	t_shell_sack	*sack;
+
+// 	sack = NULL;
+// 	if (clean_init(&sack) || env_init(sack, envp))
+// 		return (1);
+// 	while (42)
+// 	{
+// 		sighandler();
+// 		line = readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
+// 		if (!line)
+// 		{
+// 			if (isatty(STDIN_FILENO))
+// 				write(2, "exit\n", 6);
+// 			ft_clearenv(sack);
+// 			exit (1);
+// 		}
+// 		if (line[0] == '\0')
+// 			free(line);
+// 		else if (*line)
+// 		{
+// 			add_history(line);
+// 			if (!sack_init(sack, line))
+// 			{
+// 				free(line);
+// 				init_tree(&sack);
+// 				execute(&sack);
+// 			}
+// 			else
+// 				free(line);
+// 		}
+// 		g_received_signal = 0;
+// 		reset_pipes(sack->old_pipes, sack->new_pipes);
+// 	}
+// 	return (0);
+// }
+
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	int	exit_status;
+
+// 	(void)argc;
+// 	(void)argv;
+// 	if (!envp || !envp[0])
+// 		return (1);
+// 	exit_status = minishell(envp);
+// 	exit(exit_status);
+// 	return (0);
+// }
