@@ -50,11 +50,13 @@ void	search_lower_alpha(t_env *env, int *tab)
 
 
 //Con la peculiaridad de k printea el contenido de la variable entre comillas dobles
-ft_putstr_fd_export(char *s, int fd)
+void	ft_putstr_fd_export(char *s, int fd)
 {
 	int	i;
 
 	i = 0;
+	if (!s)
+		return ;
 	ft_putstr_fd("\ndeclare -x ", 1);
 	while (s[i] != '\0')
 	{
@@ -91,5 +93,5 @@ void    print_export_list(t_env *env)
 			}
 			env->order = env->env[env->i++];
 	}
-	printf("\n");
+	ft_putstr_fd("\n", 1);
 }

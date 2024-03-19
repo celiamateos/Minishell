@@ -1,0 +1,80 @@
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo "$ARG"
+
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ ARG=123;
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo "$ARG"
+123
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo '$ARG'
+$ARG
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo ""$ARG""
+123
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo''$ARG''
+echo123: command not found
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo ''$ARG''
+123
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo "'$ARG'"
+'123'
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ 
+
+_____________________________________________-
+
+➜  minishell git:(celia) ✗ echo $
+$
+➜  minishell git:(celia) ✗ echo $a
+
+➜  minishell git:(celia) ✗ echo $1
+ 
+➜  minishell git:(celia) ✗ echo $!
+1190
+➜  minishell git:(celia) ✗ echo $*
+
+➜  minishell git:(celia) ✗ eho $-
+zsh: correct 'eho' to 'who' [nyae]? %                                    
+➜  minishell git:(celia) ✗ echo $_
+echo
+➜  minishell git:(celia) ✗ echo $-
+569JNORXZghiklms
+➜  minishell git:(celia) ✗ echo $$
+1157
+
+
+
+
+
+En Bash, el comando echo $- muestra las opciones de configuración (flags) actualmente activadas para el shell en el que se está ejecutando. Cada letra o carácter en la salida representa una opción específica.
+
+Algunas de las opciones comunes que podrías ver incluyen:
+
+    i: El shell está ejecutándose de forma interactiva.
+    m: El shell activa la opción "monitor" (job control activado).
+    u: Trata las variables no establecidas como errores cuando se expanden.
+    x: Imprime cada comando y su expansión antes de ejecutarlo.
+
+La salida puede variar dependiendo de cómo se haya configurado el shell. Por ejemplo, si ejecutas bash desde otro script, es posible que veas diferentes opciones que si simplemente abres una nueva ventana de terminal.
+
+Aquí hay un ejemplo de lo que podrías ver al ejecutar echo $- en un entorno de shell Bash:
+
+bash
+
+hB
+
+fEn este ejemplo, h indica que el shell está en modo de historial (history enabled), y B indica que es un shell de➜  minishell git:(celia) ✗ ./minishell
+
+
+
+Esto esta mal:
+
+minishell ▸  echo "$USER"
+cmateos-
+minishell ▸ echo '$USER'
+cmateos-
+minishell ▸ echo "'$USER'"
+'$USER'
+minishell ▸
+
+ bash:
+➜  minishell git:(celia) ✗ echo "$USER"
+cmateos-
+➜  minishell git:(celia) ✗ echo "'$USER'"
+'cmateos-'
+➜  minishell git:(celia) ✗ echo '$USER'
+$USER

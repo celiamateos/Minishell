@@ -1,0 +1,8 @@
+ variable=contenido no funciona con pipe o funciona de manera distinta:
+
+
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ variable=3 | echo $variable
+
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ variable=3
+cmateos-@DESKTOP-F0QH8NN:~/42/minishell$ echo $variable
+3

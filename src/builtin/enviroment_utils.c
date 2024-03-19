@@ -35,17 +35,28 @@ void ft_free_env(char **env)
 }
 
 //@brief Print enviroment
-int print_env(char **env)
+int print_env(t_shell_sack ****sack_orig)
 {
-	int i = 0;
+	t_shell_sack    **sack;
+	int 	i;
 
-	if (!env || !env[i])
+    sack = (**sack_orig);
+	i = 0;
+	if (!(*sack)->env->env || !(*sack)->env->env[i])
 		return (1);
-	while (env[i])
+	while ((*sack)->env->env[i])
 	{
-		printf("%d  %s\n", i, env[i]);
+		if ((*sack)->env->env[i])
+		{
+			ft_putstr_fd((*sack)->env->env[i], 1);
+			ft_putstr_fd("\n", 1);
+		}
+			// printf("%d  %s\n", i, (*sack)->env->env[i]);
 		i++;
 	}
+	// if ((*sack)->new_pipes[1] != 1 )
+    // 	if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
+	// 		free_exit(&(**sack_orig));
 	return (0);
 }
 

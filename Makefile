@@ -3,13 +3,95 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: imurugar <imurugar@student.42madrid.com    +#+  +:+       +#+         #
+#    By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/09/01 17:06:22 by cmateos-          #+#    #+#              #
-#    Updated: 2023/11/19 15:40:24 by daviles-         ###   ########.fr        #
+#    Created: 2024/01/05 16:56:46 by cmateos-          #+#    #+#              #
+#    Updated: 2024/01/05 16:56:48 by cmateos-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+
+# # MAKEFILE CON BARRA Y COMPILANDO TO LO QUE SE LE PONE POR DELANTE
+# # Colors
+# COLOR_RESET = \033[0m
+# COLOR_RED = \033[0;31m
+# COLOR_RED_N = \033[1;31m
+# COLOR_GREEN = \033[0;32m
+# COLOR_GREEN_N = \033[1;32m
+# COLOR_YELLOW = \033[0;33m
+# COLOR_YELLOW_N = \033[1;33m
+# COLOR_BLUE = \033[0;34m
+# COLOR_BLUE_N = \033[1;34m
+# COLOR_PURPLE = \033[0;35m
+# COLOR_PURPLE_N = \033[1;35m
+
+# NAME = minishell
+# CC = gcc
+# CFLAGS = -g3 #-Werror -Wextra -Wall
+# #-g3 -fsanitize=address 
+# #Pa detectar leaks y movidas: valgrind --leak-check=full ./minishell
+# CCLANG = -lreadline 
+# #Esta mierda creo que hace falta pa -lreadline en 42
+# RM = rm -f
+# LIBFT_DIR = libft/
+# LIBFT = $(LIBFT_DIR)libft.a
+# SRC_DIR = src
+# OBJ_DIR = obj
+# INCLUDE = include/minishell.h include/minishell2.h
+# SRC = $(shell find $(SRC_DIR) -name '*.c')
+# OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
+# CHANGES_MADE = 0
+# CHARS_LEN := 0
+# CHARS := 0
+# progress := 4
+
+# all: $(NAME)
+# 	@if [ "$(CHANGES_MADE)" -eq "0" ]; then \
+# 		echo "$(COLOR_RED)No hay cambios para hacer. $(COLOR_RESET)"; \
+# 	fi
+# 	$(call print_progress)
+# 	$(eval progress := 50)
+# 	$(call print_progress)
+# 	$(eval progress := 100)
+# 	$(call print_progress)
+# 	@echo ""
+
+# $(NAME):$(OBJ) $(LIBFT) $(INCLUDE)
+# 	@$(CC) $(CFLAGS) $(OBJ) $(CCLANG) $(LIBFT) -o $(NAME)
+# 	@$(eval CHANGES_MADE=1)
+
+# $(LIBFT):
+# 	@make -C $(LIBFT_DIR) > /dev/null
+
+# define print_progress
+# 	@printf "\r$(COLOR_GREEN)[$(COLOR_GREEN_N) %d%%%*.*s $(COLOR_GREEN)] $(COLOR_PURPLE_N)Minishell $(COLOR_PURPLE)Compiling 🛠️$(COLOR_RESET)" $(progress) $(CHARS_LEN) $(CHARS)
+# endef
+
+# $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+# 	@mkdir -p $(dir $@)
+# 	@$(CC) $(CFLAGS) -c -o $@ $<
+# 	$(eval progress=$(shell echo $$(($(progress) + 3))))
+# 	$(call print_progress)
+# # @echo "$(COLOR_BLUE) Created! 😸 $(COLOR_RESET)"
+
+# clean:
+# 	@rm -rf $(OBJ_DIR) $(LIBFT) > /dev/null
+# 	@make clean -C $(LIBFT_DIR) > /dev/null
+
+# fclean: clean
+# 	@rm -f $(NAME)
+# 	@make fclean -C $(LIBFT_DIR) > /dev/null
+# 	@echo "$(COLOR_RED_N) Cleaned all! 🧹 $(COLOR_RESET)"
+
+# normi:
+# 	norminette
+
+# re: fclean all
+
+# .PHONY: all, clean, fclean, re
+
+
+#MAKEFILE NORMAL: 
 COLOR_RESET = \x1b[0m
 COLOR_RED = \x1b[0;31m
 COLOR_RED_N = \x1b[1;31m
@@ -27,22 +109,20 @@ PURPLE = \x1b[1;35m
 
 NAME = minishell
 CC = gcc
-CFLAGS = -g3 -fsanitize=address #-Werror -Wextra -Wall
+CFLAGS = -Werror -Wextra -Wall 
+# -g3 -fsanitize=address
 CCLANG = -lreadline
 RM = rm -f
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a
 
+OBJ_DIR = obj
 SRC_DIR = src
 
-SRC = $(addprefix $(SRC_DIR)/, main.c parse.c ft_double_list.c \
-	  tokens_init.c sack_init.c tokens_utils.c tree_init.c \
-	  builtin/enviroment.c builtin/enviroment_utils.c builtin/unset.c builtin/export.c builtin/print_export_list.c \
-	  builtin/pre_export.c builtin/pwd.c builtin/cd.c tree_utils.c main_utils.c \
-	  execute.c execute_utils.c cmd_utils.c builtin/check_isbuiltin.c builtin/echo.c \
-	  expander/expander_quotes.c expander/expander_dolar.c clean_exit.c signals.c)
 
-OBJ = $(SRC:.c=.o)
+SRC = $(shell find $(SRC_DIR) -name '*.c')
+OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
+
 INCLUDE = include/minishell.h include/minishell2.h
 
 all: $(NAME)
@@ -51,17 +131,20 @@ $(NAME): $(OBJ) $(LIBFT) $(INCLUDE)
 	$(CC) $(CFLAGS) $(OBJ) $(CCLANG) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
-	@echo "${COLOR_BLUE} ◎ $(BROWN)Compiling   ${MAGENTA}→   $(COLOR_YELLOW)$<"
+# @echo "${COLOR_BLUE} ◎ $(BROWN)Compiling   ${MAGENTA}→   $(COLOR_YELLOW)$<"
 	@make -C $(LIBFT_DIR)
-	@echo "$(COLOR_GREEN) Created libft $(COLOR_RESET)"
+# @echo "$(COLOR_GREEN) Created libft $(COLOR_RESET)"
 
-%.o: %.c
-	@echo "${BLANCO_T} ◎ $(BROWN)Compiling 🛠️  ${MAGENTA}→   $(COLOR_CYAN)$< $(COLOR_RESET)"
+# %.o: %.c
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+# @echo "${BLANCO_T} ◎ $(BROWN)Compiling 🛠️  ${MAGENTA}→   $(COLOR_CYAN)$< $(COLOR_RESET)"
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c -o $@ $<
-	@echo "$(COLOR_BLUE) Created! 😸 $(COLOR_RESET)"
+# @echo "$(COLOR_BLUE) Created! 😸 $(COLOR_RESET)"
 
 clean:
-	@rm -f $(OBJ) $(LIBFT)
+	@rm -rf $(OBJ_DIR) $(LIBFT)
 	@make clean -C $(LIBFT_DIR)
 
 fclean: clean
