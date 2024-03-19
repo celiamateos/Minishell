@@ -16,9 +16,6 @@ of operators. */
 // @return 1 if it can be executed
 int	check_opercondition(t_shell_sack ***sack, t_tree **node)
 {
-	t_token	*token;
-
-	token = (*node)->content;
 	if ((*node)->content->oper != 0)
 		(**sack)->oper_state = (*node)->content->oper;
 	if ((**sack)->oper_state == AND && (**sack)->last_exit == 0)
