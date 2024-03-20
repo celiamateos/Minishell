@@ -35,6 +35,9 @@ char **alloc_first_envp(t_env *env, char **src)
 	else
 	{
 		result = (char **)malloc(2 * sizeof(char *)); //Aqui hay que crear un enviroment si no existiera envp, al menos con: shlvl, pwd, oldpwd, 
+// 		_=/usr/bin/env
+// PWD=/Users/cmateos-/Minishells/Minimaster
+// SHLVL=2
 		if (!result)
 			return (NULL);
 		result[i + 1] = NULL;
