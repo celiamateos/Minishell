@@ -125,6 +125,7 @@ void	run_node(t_shell_sack **sack, t_tree **node)
 	}
 	else if (token->type == OPER)
 	{
+			(*sack)->last_exit = wait_exitcode((*sack)->last_pid);
 		run_oper(&sack, (*node));
 	}
 }
@@ -167,6 +168,7 @@ void	execute(t_shell_sack **sack)
 	tree = (*sack)->tree_list;
 	run_preorder(tree, sack);
 	(*sack)->oper_state = 0;
+	// (*sack)->last_exit = wait_exitcode((*sack)->last_pid);
 	unlink(".heredoc");
 	free_sack(&(*sack));
 }
