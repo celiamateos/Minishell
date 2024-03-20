@@ -21,6 +21,10 @@ void	leaf_isredirect(t_tree ***root, t_dlist *token_list)
 	tree = *root;
 	if ((*tree)->right == NULL)
 		(*tree)->right = new_leaf(token);
+	else if ((*tree)->left == NULL && (*tree)->right->content->type >= HEREDOC)
+	{
+		(*tree)->left = new_leaf(token);
+	}
 	else
 	{
 		aux_leaf = *tree;
