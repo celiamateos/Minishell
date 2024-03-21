@@ -39,6 +39,10 @@ int  execute_builtin(t_shell_sack ***sack, t_tree *node)
             pre_export_new_variable((**sack)->env, cmd); //Aqui falta last_exit
     }
     // printf("\nlast_exit:%d\n", (**sack)->last_exit);
+
+
+
+    //CREEMOS SEGUN EL TESTER QUE ESTO NO SIRVE 22/03
     if ((**sack)->new_pipes[1] != 1 )
     	if (dup2((**sack)->new_pipes[1], STDOUT_FILENO) == -1)
 			free_exit(node->content->cmds, sack, 0); //Free everything?
