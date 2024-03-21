@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_minishell.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmateos- <cmateos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/21 12:36:23 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/01/21 12:36:25 by cmateos-         ###   ########.fr       */
+/*   Created: 2024/03/21 13:09:31 by cmateos           #+#    #+#             */
+/*   Updated: 2024/03/21 15:15:58 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 static int	ft_free_split_mini(char **arraystr, int row)
@@ -67,6 +68,51 @@ static int	ft_countwords_minishell(char const *s)
 }
 
 
+// static int	ft_lenstring_minishell(char const *s, int i)
+// {
+// 	int	start;
+
+// 	if (!s)
+// 		return (0);
+// 	while (s[i] && ft_isspace(s[i]) == 1)
+// 		i++;
+// 	if (s[i] == '\0')
+// 		return (-1);
+// 	start = i;
+// 	printf("\ns:%s", s);
+// 	while (s[i])
+// 	{
+// 		while (s[i] && s[i] != '\"' && s[i] != '\'' && ft_isspace(s[i]) == 0)
+// 			i++;
+// 		if (s[i] == '\0' || ft_isspace(s[i]) == 1)
+// 			return (i - start);
+// 		if (s[i] == '\"')
+// 		{
+// 			i++;
+// 			while (s[i] && s[i] != '\"')
+// 				i++;
+// 			i++;
+// 			while (s[i] && ft_isspace(s[i]) == 0 && s[i] != '\"' && s[i] != '\'')			
+// 				i++;
+// 			printf("\npos:%d", (i - start));
+// 			return (i - start);
+// 		}
+// 		if (s[i] == '\'')
+// 		{
+// 			i++;
+// 			while (s[i] && s[i] != '\'')
+// 				i++;
+// 			i++;
+// 			while (s[i] && ft_isspace(s[i]) == 0 && s[i] != '\"' && s[i] != '\'')
+// 				i++;
+// 			return (i - start);
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+
 static int	ft_lenstring_minishell(char const *s, int i)
 {
 	int	start;
@@ -78,6 +124,7 @@ static int	ft_lenstring_minishell(char const *s, int i)
 	if (s[i] == '\0')
 		return (-1);
 	start = i;
+	// printf("\ns:%s", s);
 	while (s[i])
 	{
 		while (s[i] && s[i] != '\"' && s[i] != '\'' && ft_isspace(s[i]) == 0)
@@ -90,8 +137,9 @@ static int	ft_lenstring_minishell(char const *s, int i)
 			while (s[i] && s[i] != '\"')
 				i++;
 			i++;
-			while (s[i] && ft_isspace(s[i]) == 0 && s[i] != '\"' && s[i] != '\'')
+			while (s[i] && ft_isspace(s[i]) == 0)		
 				i++;
+			// printf("\npos:%d", (i - start));
 			return (i - start);
 		}
 		if (s[i] == '\'')
@@ -100,7 +148,7 @@ static int	ft_lenstring_minishell(char const *s, int i)
 			while (s[i] && s[i] != '\'')
 				i++;
 			i++;
-			while (s[i] && ft_isspace(s[i]) == 0 && s[i] != '\"' && s[i] != '\'')
+			while (s[i] && ft_isspace(s[i]) == 0)
 				i++;
 			return (i - start);
 		}
@@ -130,7 +178,7 @@ char	**ft_split_minishell(char const *s)
 	if (!temp)
 		return (NULL);
 	wc = ft_countwords_minishell(temp);
-	// printf("countwords:%d\n", wc);
+	// printf("\ncountwords:%d\n", wc);
 	// printf("s:%s.", s); //CON UN STRITRIM AKI SE SOLUCIONA :)
 	// printf("temp:%s.", temp); //CON UN STRITRIM AKI SE SOLUCIONA :)
 	arraystr = malloc((wc + 1) * sizeof(char *));
@@ -141,23 +189,24 @@ char	**ft_split_minishell(char const *s)
 		if (s[i] != '\0' && ft_isspace(temp[i]) == 0)
 		{
 			arraystr[row] = ft_substr(temp, i, ft_lenstring_minishell(temp, i));
-			// printf("arraystr[%d]:%slen:%d\n", row, arraystr[row], ft_lenstring_minishell(temp, i));
+			// printf("\narraystr[%d]:%s\nlen:%d\n", row, arraystr[row], ft_lenstring_minishell(temp, i));
 			if (ft_free_split_mini(arraystr, row++) == 1)
 				return (free(temp), NULL);
 			i += ft_lenstring_minishell(temp, i);
 		}
 		else
-			i++;
+		i++;
 	}
 	arraystr[row] = NULL;
 	free (temp);
 	return (arraystr);
 }
 
-// int	main()
+// int main()
 // {
-// 	char *s = "echo hola que tal";
-// 	// char *s = "hola que tal ";
+// 	char *s = "echo \"hola\" que \"tal\"";
 // 	ft_split_minishell(s);
-// 	return(0);
+// 	return 0;
 // }
+
+
