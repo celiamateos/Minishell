@@ -23,6 +23,8 @@ int		sack_init(t_shell_sack *sack, char *line);
 int		check_errors_initsack(t_shell_sack **sack);
 int		check_open_quotes(char *s);
 int		check_errors_opers(t_dlist *list);
+int     check_open_parentheses(char *s);
+int 	goto_nextquote(char *s, int i);
 
 /* ---------------------- EXPANDER ------------------------*/
 char	*remove_quotes(char *old, char c);

@@ -47,6 +47,8 @@
 
 # define D_QUOTES 34
 # define S_QUOTES 39
+# define PAR_O 40
+# define PAR_C 41
 
 # define COMANDNOTFOUND 101
 # define PERMISSIONDENIED 102

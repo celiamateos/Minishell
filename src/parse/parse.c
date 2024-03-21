@@ -172,5 +172,7 @@ int check_errors_initsack(t_shell_sack **sack)
 		return (1);
 	if (check_syntaxerrors(&sack, s))
 		return (1);
+	if (check_open_parentheses(s))
+		return (ft_putstr_fd("Input invalid, parentheses doesn't match\n", 2), 2);
 	return (0);
 }
