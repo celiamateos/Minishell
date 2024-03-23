@@ -2,6 +2,8 @@ env | sort | grep -v SHLVL | grep -v ^_
 cat minishell.h | grep ");"$
 export GHOST=123 | env | grep GHOST
 
+<<<<<<< HEAD
+=======
 env | grep "_="
 env | grep "SHLVL"
 echo oui | cat -e
@@ -30,3 +32,4 @@ whereis grep > tmp/file
 whereis grep > tmp/file
 ls -la > tmp/file
 ls -la > tmp/file 
+>>>>>>> origin/david

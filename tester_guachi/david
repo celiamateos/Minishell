@@ -21,6 +21,10 @@ echo hola | cat >out && cat -e <Makefile
 cat -e <tmp/.heredoc
 <<eof cat -e
 <<eof cat -e | head -3 | cat -e >out
+<<<<<<< HEAD
+<<eof cat -e | head -3 | cat -e >out && <out cat -e
+=======
 <<eof cat -e | head -3 | cat -e >out && <out cat -e
 
 <Makefile cat -e | cat -e >out | cat -e
+>>>>>>> origin/david

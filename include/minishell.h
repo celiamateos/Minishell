@@ -20,9 +20,11 @@
 int		sack_init(t_shell_sack *sack, char *line);
 
 /* ---------------------- PARSE ------------------------*/
-int		check_errors_initsack(t_shell_sack *sack);
+int		check_errors_initsack(t_shell_sack **sack);
 int		check_open_quotes(char *s);
 int		check_errors_opers(t_dlist *list);
+int     check_open_parentheses(char *s);
+int 	goto_nextquote(char *s, int i);
 
 /* ---------------------- EXPANDER ------------------------*/
 char	*remove_quotes(char *old, char c);
@@ -90,9 +92,9 @@ int		check_redirect(t_shell_sack ***sack, t_tree *node);
 int		open_redirect(t_shell_sack ****sack_orig, t_tree *node);
 void	ft_heredoc(t_shell_sack *****sack_orig, char *eof);
 t_tree	*findnext_cmdleaf(t_tree **node);
-int		check_opercondition(t_shell_sack **sack, t_tree **node);
+int		check_opercondition(t_shell_sack ***sack, t_tree **node);
 // execute_utils 2
-void	run_oper(t_tree *node);
+void	run_oper(t_shell_sack ***sack_orig, t_tree *node);
 void	run_pipe(t_shell_sack ***sack_orig, t_tree *node);
 void	ft_cpypipes(int *old_pipe, int *new_pipe);
 void	ft_close(int fd1, int fd2);

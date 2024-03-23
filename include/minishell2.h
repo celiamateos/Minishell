@@ -47,11 +47,14 @@
 
 # define D_QUOTES 34
 # define S_QUOTES 39
+# define PAR_O 40
+# define PAR_C 41
 
 # define COMANDNOTFOUND 101
 # define PERMISSIONDENIED 102
 # define NOSUCHFILEORDIRECTORY 103
 # define STANDAR 104
+# define ISDIRECTORY 105
 
 // Declaración de la variable global para señalización... 
 extern volatile sig_atomic_t	g_received_signal;
@@ -118,6 +121,7 @@ typedef struct s_shell_sack
 	int				pipe_wc;
 	struct s_env	*env;
 	struct s_token	token;
+	int				oper_state;
 }	t_shell_sack;
 
 #endif

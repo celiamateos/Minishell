@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 # RESUMEN DE CELIA PARA DAVID
 Basicamente si introduces: bash tester
 pasará todos los tester y se te petará el ordenador porque hay muchos jeje
@@ -8,6 +10,7 @@ NOTA IMPORTANTE: Si ejecutas con -fsanitize=address pueden dar segfault en algun
 
 
 
+>>>>>>> origin/david
 <img width="1728" alt="image" src="https://user-images.githubusercontent.com/26127185/175815870-be78bbd5-d1be-4164-954a-982768c6b147.png">
 
 # Installation 

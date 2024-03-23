@@ -11,58 +11,58 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-void	run_cmd_util(t_shell_sack ***sack_orig, t_tree *node)
-{
-	t_token			*token;
-	char			*cmd;
-	t_shell_sack	**sack;
-	int				exitcode;
+// void	run_cmd_util(t_shell_sack ***sack_orig, t_tree *node)
+// {
+// 	t_token			*token;
+// 	char			*cmd;
+// 	t_shell_sack	**sack;
+// 	// int				exitcode;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	if (check_redirect(&sack, node))
-	{
-		(*sack)->last_exit = 1;
-		perror_free_exit("Open error", sack_orig);
-	}
-	if ((*sack)->old_pipes[0] != 0 && check_isbuiltin(node))
-		if (dup2 ((*sack)->old_pipes[0], STDIN_FILENO) == -1)
-			perror_free_exit("Dup2 error IN", sack_orig);
-	if ((*sack)->new_pipes[1] != 1)
-		if (dup2 ((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
-			perror_free_exit("Dup2 error OUT", sack_orig);
-	ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
-	ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-	if (!check_isbuiltin(node))
-	{
-		execute_builtin(&sack, node);
-		exit((*sack)->last_exit);
-	}
-	else
-	{
-		remove_quotes_arr_cmds(token, &(*sack));
-		cmd = getcmd_withpath(token->cmds[0], (*sack)->env->env);
-		if (cmd)
-			execve(cmd, token->cmds, (*sack)->env->env);
-		(*sack)->last_exit = 127; //error code for cmd not found / ESTO ESTÁ INCOMPLETO/
-		free_exit(token->cmds, sack_orig, COMANDNOTFOUND);
-	}
+// 	signal(SIGINT, SIG_DFL);
+// 	signal(SIGQUIT, SIG_DFL);
+// 	if (check_redirect(&sack, node))
+// 	{
+// 		(*sack)->last_exit = 1;
+// 		perror_free_exit("Open error", sack_orig);
+// 	}
+// 	if ((*sack)->old_pipes[0] != 0 && check_isbuiltin(node))
+// 		if (dup2 ((*sack)->old_pipes[0], STDIN_FILENO) == -1)
+// 			perror_free_exit("Dup2 error IN", sack_orig);
+// 	if ((*sack)->new_pipes[1] != 1)
+// 		if (dup2 ((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
+// 			perror_free_exit("Dup2 error OUT", sack_orig);
+// 	ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
+// 	ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+// 	if (!check_isbuiltin(node))
+// 	{
+// 		execute_builtin(&sack, node);
+// 		exit((*sack)->last_exit);
+// 	}
+// 	else
+// 	{
+// 		// remove_quotes_arr_cmds(token, &(*sack));
+// 		cmd = getcmd_withpath(token->cmds[0], (*sack)->env->env);
+// 		if (cmd)
+// 			execve(cmd, token->cmds, (*sack)->env->env);
+// 		(*sack)->last_exit = 127; //error code for cmd not found / ESTO ESTÁ INCOMPLETO/
+// 		free_exit(token->cmds, sack_orig, COMANDNOTFOUND);
+// 	}
 
-}
+// }
 
 void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 {
 	t_token			*token;
 	char			*cmd;
 	t_shell_sack	**sack;
-	int				exitcode;
+	// int				exitcode;
 
 	sack = *sack_orig;
 	token = node->content;
 	(*sack)->last_exit = 0;
 	(*sack)->last_pid = fork();
 	if ((*sack)->last_pid < 0)
-		perror_free_exit("Fork error", sack_orig);
+		perror_free_exit("Fork error", &sack);
 	else if ((*sack)->last_pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -70,14 +70,14 @@ void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 		if (check_redirect(&sack, node))
 		{
 			(*sack)->last_exit = 1;
-			perror_free_exit("Open error", sack_orig);
+			perror_free_exit("Open error", &sack);
 		}
 		if ((*sack)->old_pipes[0] != 0 && check_isbuiltin(node))
 			if (dup2 ((*sack)->old_pipes[0], STDIN_FILENO) == -1)
-				perror_free_exit("Dup2 error IN", sack_orig);
+				perror_free_exit("Dup2 error IN", &sack);
 		if ((*sack)->new_pipes[1] != 1)
 			if (dup2 ((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
-				perror_free_exit("Dup2 error OUT", sack_orig);
+				perror_free_exit("Dup2 error OUT", &sack);
 		ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
 		ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
 		if (!check_isbuiltin(node))
@@ -91,15 +91,13 @@ void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 			cmd = getcmd_withpath(token->cmds[0], (*sack)->env->env);
 			if (cmd)
 				execve(cmd, token->cmds, (*sack)->env->env);
-			(*sack)->last_exit = 127; //error code for cmd not found / ESTO ESTÁ INCOMPLETO/
-			free_exit(token->cmds, sack_orig, COMANDNOTFOUND);
+			free_exit(token->cmds, sack_orig, COMANDNOTFOUND); ///No siempre es comand not found, si no lo encuentra en ruta es el otro mensaje.....
 		}
 	}
 	ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	exitcode = wait_exitcode((*sack)->last_pid);
-	(*sack)->last_exit = exitcode;
+	(*sack)->last_exit = wait_exitcode((*sack)->last_pid);
 	ft_cpypipes((*sack)->old_pipes, (*sack)->new_pipes);
 	(*sack)->new_pipes[1] = 1;
 }
@@ -112,15 +110,13 @@ void	run_node(t_shell_sack **sack, t_tree **node)
 	token = (*node)->content;
 	if (token->type == PARENT_CL)
 	{
-		if (token->oper != 0 && !check_opercondition(sack, node))
+		if (!check_opercondition(&sack, node))
 			(*node)->right = NULL;
 	}
 	else if (token->type == CMD)
 	{
-		if (check_opercondition(sack, node) || (*node)->content->oper == 0)
+		if (check_opercondition(&sack, node))
 			run_cmd(&sack, (*node));
-		else if (token->oper != 0)
-			(*sack)->old_pipes[0] = 0;
 	}
 	else if (token->type == PIPE)
 	{
@@ -129,7 +125,8 @@ void	run_node(t_shell_sack **sack, t_tree **node)
 	}
 	else if (token->type == OPER)
 	{
-		run_oper((*node));
+			(*sack)->last_exit = wait_exitcode((*sack)->last_pid);
+		run_oper(&sack, (*node));
 	}
 }
 
@@ -154,7 +151,7 @@ void	run_preorder(t_tree *node, t_shell_sack **sack)
 					perror_free_exit("Dup2 error OUT", &sack);
 			ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
 			ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
-			if (check_opercondition(sack, &node) || (node)->content->oper == 0)
+			if (check_opercondition(&sack, &node) || (*sack)->oper_state  == 0)
 				(*sack)->last_exit = execute_builtin(&sack, node);
 		}
 		else
@@ -170,6 +167,8 @@ void	execute(t_shell_sack **sack)
 
 	tree = (*sack)->tree_list;
 	run_preorder(tree, sack);
+	(*sack)->oper_state = 0;
+	// (*sack)->last_exit = wait_exitcode((*sack)->last_pid);
 	unlink(".heredoc");
 	free_sack(&(*sack));
 }

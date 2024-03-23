@@ -63,12 +63,12 @@ int  check_builtinparent(t_tree *node)
          return (0);
     else if (!ft_strncmp(cmd, "export", ft_strlen("export")))
          return (1);
-    else if (!ft_strncmp(cmd, "env", ft_strlen("env")))
+    else if (!ft_strncmp(cmd, "env", ft_strlen("env")) && ft_arraylen(node->content->cmds) == 1 && ft_strlen(cmd) == 3)
          return (0);
     else if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
          return (1);
     else if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
-         return (1);
+         return (0);
     else if (ft_strchr(cmd, '='))
         return (1);
     return (0);
@@ -88,7 +88,7 @@ int  check_isbuiltin(t_tree *node)
          return (0);
     else if (!ft_strncmp(cmd, "export", ft_strlen("export")))
          return (0);
-    else if (!ft_strncmp(cmd, "env", ft_strlen("env")))
+    else if (!ft_strncmp(cmd, "env", ft_strlen("env")) && ft_arraylen(node->content->cmds) == 1 && ft_strlen(cmd) == 3)
          return (0);
     else if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
          return (0);

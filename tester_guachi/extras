@@ -13,6 +13,8 @@ minishell.h
 $
 $?
 README.md
+<<<<<<< HEAD
+=======
 
 
 
@@ -55,3 +57,4 @@ rm -f something
 cat something
 | echo -n oui
 echo -n oui
+>>>>>>> origin/david

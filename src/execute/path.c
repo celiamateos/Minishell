@@ -26,7 +26,18 @@ int	check_route(char *av)
 int	check_path(char **env)
 {
 	int	i;
+	int	exist;
 
+	exist = 0;
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], "PATH=", 5) == 0)
+			exist = 1;
+		i++;
+	}
+	if (!exist)
+		return (-1);
 	i = 0;
 	while (env[i])
 	{
@@ -45,6 +56,8 @@ char	*get_path(char *cmd, char **env)
 	char	*cmd_path;
 
 	i = check_path(env);
+	if (i == -1)
+		return (NULL);
 	if (!env[i] || !env)
 		return ("./");
 	else

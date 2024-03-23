@@ -15,11 +15,12 @@
 parenthesis at his right. Then change the value of the paremeter token->oper 
 to respective operator.
 @parameters This function receive the sack and current tree node. */
-void	run_oper(t_tree *node)
+void	run_oper(t_shell_sack ***sack_orig, t_tree *node)
 {
 	t_token	*token;
 	t_tree	*aux_node;
 
+	(void)sack_orig;
 	token = (node)->content;
 	aux_node = findnext_cmdleaf(&node->right);
 	if (aux_node != NULL)
@@ -37,8 +38,23 @@ Protect to not allow pipe in last node to not change std.
 void	run_pipe(t_shell_sack ***sack_orig, t_tree *node)
 {
 	t_shell_sack	**sack;
-
+	t_tree	*aux_node;
 	(void)node;
+
+	aux_node = findnext_cmdleaf(&node->left);
+	if (aux_node != NULL )
+	{
+		if (aux_node->content->oper != 0)
+		{
+			if ((**sack_orig)->old_pipes[0] != 0)
+			{
+				ft_close((**sack_orig)->old_pipes[0], (**sack_orig)->old_pipes[1]);
+				(**sack_orig)->old_pipes[0] = 0;
+				if (dup2 (0, STDIN_FILENO) == -1)
+					perror_free_exit("Dup2 error IN", &*sack_orig);
+			}
+		}
+	}
 	sack = *sack_orig;
 	(*sack)->old_pipes[0] = (*sack)->new_pipes[0];
 	(*sack)->old_pipes[1] = (*sack)->new_pipes[1];

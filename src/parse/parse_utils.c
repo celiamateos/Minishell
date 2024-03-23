@@ -19,10 +19,50 @@
 
 
 
+int	goto_nextquote(char *s, int i)
+{
+	if (s[i] == D_QUOTES)
+		{
+			while (s[++i] != D_QUOTES && s[i])
+				if (s[i] == D_QUOTES)
+					break ;
+		}
+	else if (s[i] == S_QUOTES)
+	{
+		while (s[++i] != S_QUOTES && s[i])
+			if (s[i] == S_QUOTES)
+				break ;
+	}
+	return (i);
+}
 
-
-
-
+// @brief revise if open parentheses or invalid use of them
+int check_open_parentheses(char *s)
+{
+	int i;
+	int	par_op = 0;
+	int	par_cl = 0;
+	
+	i = -1;
+	if (!s || s[i + 1] == '\0')
+		return (1); //No se si hay que proteger aqui.
+	while (s[++i])
+	{
+		if (s[i] == D_QUOTES || s[i] == S_QUOTES)
+			i = goto_nextquote(s, i);
+		else if (s[i] == PAR_O)
+			par_op++;
+		else if (s[i] == PAR_C)
+		{
+			if (!par_op)
+				return (1);
+			par_cl++;
+		}
+	}
+	if (par_op != par_cl)
+		return (1);
+	return (0);
+}
 
 // @brief revise if open quotes string
 // @param s string to revise 
