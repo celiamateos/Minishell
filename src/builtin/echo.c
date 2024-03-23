@@ -16,15 +16,21 @@ int only_n(char *s)
     int i;
 
     i = 0;
-    while (s[++i])
+    if (s[i] == '\"')
+        i++;
+    if (s[i] == '-')
+        i++;
+    while (s[i])
     {
-        if (s[i] != 'n')
-            break ;
+        if (s[i] != 'n' && s[i] != '\"')
+            return (1);
+        i++;
     }
-    if (s[i] != '\0')
-        return (1);
     return (0);
 }
+
+
+
 
 int echo(char **arr_cmd)
 {
@@ -33,17 +39,16 @@ int echo(char **arr_cmd)
     int             flag = 0;
     int             i = 1;
 
-    // ft_print_strarray(arr_cmd);
-    if (arr_cmd[i] && !ft_strncmp(arr_cmd[i], "-n", 2) && only_n(arr_cmd[i]) == 0)
+    if (arr_cmd[i] && only_n(arr_cmd[i]) == 0)
     {
-        i++;
         flag = 1;
-        while (arr_cmd[i] && !ft_strncmp(arr_cmd[i], "-n", 2) && only_n(arr_cmd[i]) == 0)
+        i++;
+        while (only_n(arr_cmd[i]) == 0)
             i++;
     }
+
     if (arr_cmd && arr_cmd[i])
     {
-        // printf("\narr_cmd[%d]:%s\n", i,  arr_cmd[i]);
         line = ft_strdup(arr_cmd[i]);
         if (!line)
             return (1);
@@ -52,7 +57,6 @@ int echo(char **arr_cmd)
         {
             while (arr_cmd[i])
             {
-                // printf("\narr_cmd[%d]:%s\n", i, arr_cmd[i]);
                 temp = ft_strjoin(line, " ");
                 if (!temp)
                     return (free(line), 1);
@@ -64,10 +68,40 @@ int echo(char **arr_cmd)
                 i++;
             }
         }
-        ft_putstr_fd_noquotes(line, 1);
+        temp = ft_strtrim(line, " ");
+        ft_putstr_fd_noquotes(temp, 1); /// AQUI PASAR EL FD (*sack)->old_pipes[0] PENDIENTE!!!
         free (line);
+        free (temp);
     }
     if (flag == 0)
         ft_putstr_fd("\n", 1); 
     return (0);
 }
+
+// CASI CASI FUNCIONA
+// int echo(char **arr_cmd)
+// {
+//     int             flag = 0;
+//     int             i = 1;
+
+//     if (arr_cmd[i] && only_n(arr_cmd[i]) == 0)
+//     {
+//         flag = 1;
+//         i++;
+//         while (only_n(arr_cmd[i]) == 0)
+//             i++;
+//     }
+
+//     if (arr_cmd[i])
+//     {
+//         ft_putstr_fd_noquotes(arr_cmd[i], 1);
+//         while (arr_cmd[++i] != NULL)
+//         {
+//             ft_putstr_fd_noquotes(" ", 1);
+//             ft_putstr_fd_noquotes(arr_cmd[i], 1);
+//         }
+//     }
+//     if (flag == 0)
+//         ft_putstr_fd("\n", 1); 
+//     return (0);
+// }
