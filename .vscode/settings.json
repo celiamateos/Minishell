@@ -1,7 +1,10 @@
 {
     "files.associations": {
         "minishell.h": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "automata.h": "c",
+        "minishell2.h": "c",
+        "libft.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "cmake.configureOnOpen": true

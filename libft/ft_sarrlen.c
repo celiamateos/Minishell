@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_sarrlen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daviles- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/10 18:42:40 by daviles-          #+#    #+#             */
-/*   Updated: 2023/07/03 23:52:21 by daviles-         ###   ########.fr       */
+/*   Created: 2023/03/27 15:11:28 by daviles-          #+#    #+#             */
+/*   Updated: 2023/04/01 18:41:33 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
+//duplicate an array of strings. If array is null, returns an empty array. 
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
-# endif
+//@brief Return len array.
+size_t	ft_sarrlen(char **array)
+{
+	size_t	i;
 
-# include "../libft.h"
-# include <fcntl.h>
-
-char    *get_next_line(int fd);
-#endif
+	i = 0;
+	if (!array)
+		return (i);
+	while (array[i])
+		i++;
+	return (i);
+}

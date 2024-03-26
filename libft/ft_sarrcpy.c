@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_sarrcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daviles- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/10 18:42:40 by daviles-          #+#    #+#             */
-/*   Updated: 2023/07/03 23:52:21 by daviles-         ###   ########.fr       */
+/*   Created: 2023/03/27 15:11:28 by daviles-          #+#    #+#             */
+/*   Updated: 2023/04/01 18:41:33 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
+//duplicate an array of strings. If array is null, returns NULL. 
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
-# endif
+char	**ft_sarrcpy(char **arr)
+{
+	int		i;
+	char	**new_arr;
 
-# include "../libft.h"
-# include <fcntl.h>
-
-char    *get_next_line(int fd);
-#endif
+	if (!arr)
+		return (NULL);
+	new_arr = malloc(sizeof(char *) * (ft_sarrlen(arr) + 1));
+	if (!new_arr)
+		return (NULL);
+	i = -1;
+	while (arr[++i])
+		new_arr[i] = ft_strdup(arr[i]);
+	new_arr[i] = NULL;
+	return (new_arr);
+}

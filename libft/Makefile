@@ -77,6 +77,9 @@ SRC = ft_isalpha.c \
 	  ./ft_printf/ft_puthex.c \
 	  ./ft_printf/ft_putun.c \
 	  ./gnl-david/get_next_line.c \
+	  ft_sarrlen.c \
+	  ft_sarrcpy.c \
+	  ft_sarradd.c \
 	#   ./get_next_line/get_next_line.c \
 	#   ./get_next_line/get_next_line_utils.c
 SRC_BONUS = ft_lstnew_bonus.c \
