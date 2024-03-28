@@ -23,11 +23,11 @@ char	**ft_sarradd(char **array, char *str)
 		new_arr = (char **) malloc (2 * sizeof(char *));
 		if (!new_arr)
 			return (NULL);
-		new_arr[0] = str;
+		new_arr[0] = ft_strdup(str);
 		new_arr[1] = NULL;
 		return (new_arr);
 	}
-	new_arr = (char **) malloc (ft_sarrlen(array) + 2 * sizeof(char *));
+	new_arr = (char **) malloc ((ft_sarrlen(array) + 2) * sizeof(char *));
 	if (!new_arr)
 		return (NULL);
 	i = -1;

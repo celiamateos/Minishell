@@ -130,8 +130,8 @@ typedef struct s_automata
 {
 	void	*data;
 	t_dlist	**token_list;
-	int		*alphabet[9];
-	// char	**alphabet;
+	// int		*alphabet[9];
+	char	**alphabet;
 	char	**errors;
 	char	*str;
 	int		state;
@@ -147,7 +147,7 @@ typedef struct s_automata
 int		evaluate(t_automata *a);
 void	evaluate_file(t_automata *a, char *dir, void (*f)(t_automata *a, int state));
 
-void	alphabet_init(t_automata **a);
+void	alphabet_init(t_automata *a);
 void	errors_init(t_automata *a);
 int		get_state(int i, int j);
 

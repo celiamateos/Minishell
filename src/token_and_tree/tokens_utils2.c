@@ -14,7 +14,7 @@
 
 void	automata_init(t_automata *a, void *data, t_dlist **token_list)
 {
-	alphabet_init(&a);
+	alphabet_init(a);
 	errors_init(a);
 	sactions_init(a);
 	tactions_init(a);
@@ -24,7 +24,7 @@ void	automata_init(t_automata *a, void *data, t_dlist **token_list)
 }
 
 // @brief This function validates the syntax of cmds, opers and redirs
-void    validate_tokens(t_dlist *token_list)
+int    validate_tokens(t_dlist *token_list)
 {
 	t_automata	a;
 	t_token		info;
@@ -33,27 +33,14 @@ void    validate_tokens(t_dlist *token_list)
 	ft_bzero(&a, sizeof(t_automata));
 	ft_bzero(&info, sizeof(t_token));
 	automata_init(&a, &info, &token_list);
-
 	if (token_list == NULL)
-		return ;
-
+		return (1);
 	finalstate = evaluate(&a);
-	printf("%d\n", finalstate);
-	// while ((*token_list))
-	// {
-	// 	token = (*token_list)->content;
-	// 	a->state = a->get_state(a->state, idx(a->alphabet, (char)token->type));
-
-	// 	if (token->type == CMD)
-	// 		leaf_iscmd(&tree, (*token_list));
-	// 	else if (token->type == PIPE || token->type == OPER)
-	// 		leaf_isoperpipe(&tree, (*token_list));
-	// 	else if (token->type >= HEREDOC)
-	// 		leaf_isredirect(&tree, (*token_list));
-	// 	else if (token->type == PARENT_OP)
-	// 		leaf_isparenthesis_op(&tree, (*token_list));
-	// 	else if (token->type == PARENT_CL)
-	// 		leaf_isparenthesis_cl(&tree, (*token_list));
-	// 	(*token_list) = (*token_list)->next;
-	// }
+	printf("FINAL %d ErrorLEN %d\n",finalstate, a.errorlen);
+	if (finalstate >= a.errorlen)
+	{
+		return (0);
+	}
+	
+	return (finalstate);
 }

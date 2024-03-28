@@ -97,6 +97,7 @@ t_dlist	*init_tokens(char *line)
 		if (token != NULL)
 			ft_dlstadd_back(&list, ft_dlstnew(token));
 	}
-	validate_tokens(list);
+	if (validate_tokens(list))
+		return (ft_dlstclear(&list,del_dlst),NULL);
 	return (list);
 }

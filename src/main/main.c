@@ -61,9 +61,12 @@ int	sack_init(t_shell_sack *sack, char *line)
 	sack->line = ft_strdup(sack->l_expanded);
 	free (sack->l_expanded);
 	sack->token_list = init_tokens(sack->line);
+	if (!sack->token_list)
+		return (free(sack->line), 2);
 	get_cmd_args(&sack);
 	return (0);
 }
+
 //atexit(leaks);
 
 int	minishell(t_shell_sack *sack, char *line)
@@ -86,7 +89,6 @@ int	minishell(t_shell_sack *sack, char *line)
 		{
 			free(line);
 			init_tree(&sack);
-			//print2d(sack->tree_list);
 			execute(&sack);
 		}
 		else
