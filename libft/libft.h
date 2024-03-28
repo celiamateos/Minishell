@@ -104,5 +104,6 @@ char	**ft_split_minishell(char const *s);
 char	**ft_sarradd(char **array, char *str);
 char	**ft_sarrcpy(char **arr);
 size_t	ft_sarrlen(char **array);
+char	**ft_clear_sarradd(char **array, char *str);
 
 #endif

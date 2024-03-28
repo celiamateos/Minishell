@@ -60,9 +60,9 @@ int	sack_init(t_shell_sack *sack, char *line)
 		return (free(sack->l_expanded), 1);
 	sack->line = ft_strdup(sack->l_expanded);
 	free (sack->l_expanded);
-	sack->token_list = init_tokens(sack->line);
+	sack->token_list = init_tokens(sack->line, &sack);
 	if (!sack->token_list)
-		return (free(sack->line), 2);
+		return (free(sack->line), 1);
 	get_cmd_args(&sack);
 	return (0);
 }
@@ -104,6 +104,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	
 	line = NULL;
 	sack = NULL;
 	if (clean_init(&sack) || env_init(sack, envp))

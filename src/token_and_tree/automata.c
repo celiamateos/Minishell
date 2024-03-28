@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokens_utils.c                                     :+:      :+:    :+:   */
+/*   automata.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daviles- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-// automata.c
+// @brief Check type and return char position in states[]
 int	idx(char *alphabet[], char c)
 {
 	int	i;
@@ -29,6 +29,7 @@ int	idx(char *alphabet[], char c)
 	return (i);
 }
 
+// @brief Main function of validation with automata
 int	evaluate(t_automata *a)
 {
 	t_token	*token;
@@ -37,7 +38,6 @@ int	evaluate(t_automata *a)
 
 	a->i = -1;
 	token_list = a->token_list;
-
 	while (*token_list)
 	{
 		token = (*token_list)->content;
@@ -47,45 +47,22 @@ int	evaluate(t_automata *a)
 		(*token_list) = (*token_list)->next;
 
 	}
-	// a->state = a->get_state(a->state, 5);
 	return (a->state);
 }
 
-void	evaluate_file(t_automata *a, char *dir,
-		void (*f)(t_automata *a, int state))
-{
-	int		file;
-	char	*line;
-
-	file = open(dir, O_RDONLY);
-	line = get_next_line(file);
-	while (line)
-	{
-		a->str = line;
-		a->state = 0;
-		f(a, evaluate(a));
-		free (line);
-		line = get_next_line(file);
-	}
-	close(file);
-}
-
-
 // automata_init
-/**
- * 	Alphabet definitions
-**/
+// @brief Alphabet definitions
 void	alphabet_init(t_automata *a)
 {
-	a->alphabet = ft_sarradd(a->alphabet, "0"); //CMD
-	a->alphabet = ft_sarradd(a->alphabet, "1"); //PIPE
-	a->alphabet = ft_sarradd(a->alphabet, "2"); //OPER
-	a->alphabet = ft_sarradd(a->alphabet, "3"); //PARENT_OP
-	a->alphabet = ft_sarradd(a->alphabet, "4"); //PARENT_CL
-	a->alphabet = ft_sarradd(a->alphabet, "5"); //HEREDOC
-	a->alphabet = ft_sarradd(a->alphabet, "6"); //REDIR_IN
-	a->alphabet = ft_sarradd(a->alphabet, "7"); //REDIR_OUT
-	a->alphabet = ft_sarradd(a->alphabet, "8"); //APPEND_OUT
+	a->alphabet = ft_clear_sarradd(a->alphabet, "0"); //CMD
+	a->alphabet = ft_clear_sarradd(a->alphabet, "1"); //PIPE
+	a->alphabet = ft_clear_sarradd(a->alphabet, "2"); //OPER
+	a->alphabet = ft_clear_sarradd(a->alphabet, "3"); //PARENT_OP
+	a->alphabet = ft_clear_sarradd(a->alphabet, "4"); //PARENT_CL
+	a->alphabet = ft_clear_sarradd(a->alphabet, "5"); //HEREDOC
+	a->alphabet = ft_clear_sarradd(a->alphabet, "6"); //REDIR_IN
+	a->alphabet = ft_clear_sarradd(a->alphabet, "7"); //REDIR_OUT
+	a->alphabet = ft_clear_sarradd(a->alphabet, "8"); //APPEND_OUT
 }
 
 int	get_state(int i, int j)
@@ -104,14 +81,10 @@ int	get_state(int i, int j)
 	{6, 3, 4, 9, 8, 10},   // 9 CMD
 	{10, 10, 10, 10, 10, 10},   // 10 Valid input
 	};
-
 	return (states[i][j]);
 }
 
-/**
- * 	Error strings to print when automata finish on a
- * 		non ending state.
-**/
+// @brief Error strings to print when automata finish on a non ending state.
 void	errors_init(t_automata *a)
 {
 	a->errors = NULL;
@@ -124,51 +97,4 @@ void	errors_init(t_automata *a)
 	a->errors = ft_sarradd(a->errors, "Command syntax error");
 	a->errors = ft_sarradd(a->errors, "Invalid input");
 	a->errorlen = ft_sarrlen(a->errors);
-}
-
-/**
- *	Simple actions, they trigger when entering a state.
-**/
-void	sactions_init(t_automata *a)
-{
-	(void)a;
-}
-
-void	print_error(char *msj)
-{
-	if (!msj || msj == NULL)
-		printf("Validation token error: \n");
-	else
-		printf("Validation token error: %s\n", msj);
-}
-
-/**
- *	Transition actions, they trigger when going
- * 		from one state to another.
-**/
-void	tactions_init(t_automata *a)
-{
-	(void)a;
-	// a->fta[0][CMD] = get_token;
-	// a->fta[NOT_OPERATOR][LESS] = get_token;
-	// a->fta[NOT_OPERATOR][GREATER] = get_token;
-	// a->fta[NOT_OPERATOR][AMPER] = get_token;
-	// a->fta[SPACES_BTW][PIPE] = get_token;
-	// a->fta[SPACES_BTW][LESS] = get_token;
-	// a->fta[SPACES_BTW][GREATER] = get_token;
-	// a->fta[SPACES_BTW][AMPER] = get_token;
-	// a->fta[PIPE][SPACES_NW] = get_token;
-	// a->fta[OR][SPACES_NW] = get_token;
-	// a->fta[AND][SPACES_NW] = get_token;
-	// a->fta[LESS][SPACES_NW] = get_token;
-	// a->fta[HEREDOC][SPACES_NW] = get_token;
-	// a->fta[GREATER][SPACES_NW] = get_token;
-	// a->fta[APPEND][SPACES_NW] = get_token;
-	// a->fta[PIPE][NOT_OPERATOR] = get_token;
-	// a->fta[OR][NOT_OPERATOR] = get_token;
-	// a->fta[AND][NOT_OPERATOR] = get_token;
-	// a->fta[LESS][NOT_OPERATOR] = get_token;
-	// a->fta[HEREDOC][NOT_OPERATOR] = get_token;
-	// a->fta[GREATER][NOT_OPERATOR] = get_token;
-	// a->fta[APPEND][NOT_OPERATOR] = get_token;
 }

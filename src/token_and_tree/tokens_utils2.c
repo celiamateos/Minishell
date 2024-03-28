@@ -10,37 +10,37 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
-#include "automata.h"
 
-void	automata_init(t_automata *a, void *data, t_dlist **token_list)
+void	free_automata(t_automata *a)
+{
+	ft_freematrix(&a->alphabet);
+	ft_freematrix(&a->errors);
+	//free(a);
+}
+
+void	automata_init(t_automata *a, t_dlist **token_list)
 {
 	alphabet_init(a);
 	errors_init(a);
-	sactions_init(a);
-	tactions_init(a);
-	a->data = data;
 	a->token_list = token_list;
 	a->get_state = get_state;
 }
 
 // @brief This function validates the syntax of cmds, opers and redirs
-int    validate_tokens(t_dlist *token_list)
+// @return 0 if success, else code error. Check code on errors_init()
+int    validate_tokens(t_dlist *token_list, t_shell_sack ***sack)
 {
 	t_automata	a;
-	t_token		info;
 	int			finalstate;
 
 	ft_bzero(&a, sizeof(t_automata));
-	ft_bzero(&info, sizeof(t_token));
-	automata_init(&a, &info, &token_list);
+	automata_init(&a,  &token_list);
 	if (token_list == NULL)
 		return (1);
 	finalstate = evaluate(&a);
-	printf("FINAL %d ErrorLEN %d\n",finalstate, a.errorlen);
 	if (finalstate >= a.errorlen)
-	{
-		return (0);
-	}
-	
-	return (finalstate);
+		return (free_automata(&a),0);
+	(**sack)->last_exit = 2;
+	perror(a.errors[finalstate]);
+	return (free_automata(&a),finalstate);
 }

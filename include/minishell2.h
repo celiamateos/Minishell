@@ -139,25 +139,9 @@ typedef struct s_automata
 	int		errorlen;
 	int		i;
 	int		j;
-	void	(*fsa[20])(struct s_automata *a, void *data);
-	void	(*fta[20][20])(struct s_automata *a, void *data);
 	int		(*get_state)(int state, int abc_idx);
 }	t_automata;
 
-int		evaluate(t_automata *a);
-void	evaluate_file(t_automata *a, char *dir, void (*f)(t_automata *a, int state));
-
-void	alphabet_init(t_automata *a);
-void	errors_init(t_automata *a);
-int		get_state(int i, int j);
-
-/* Single Actions */
-void	sactions_init(t_automata *a);
-void	get_token(t_automata *a, void *data);
-// void	count_player(t_automata *a, void *data);
-
-/* Transition Actions */
-void	tactions_init(t_automata *a);
 
 
 #endif

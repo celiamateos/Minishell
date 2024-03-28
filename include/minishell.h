@@ -42,7 +42,7 @@ void	main_sig_handler(void);
 
 /* ---------------------- TOKENS AND TREE------------------------*/
 //tokens_init.c
-t_dlist	*init_tokens(char *line);
+t_dlist	*init_tokens(char *line, t_shell_sack **sack);
 void	*get_next_token(char *line, int *i);
 int		ft_isoperator(char c, int *quotes);
 t_token	*create_token(char *aux);
@@ -56,8 +56,13 @@ int		get_token_type(char *value);
 char	*fix_tokenvalues(char **value);
 
 //tokens_utils2.c
-int    validate_tokens(t_dlist *token_list);
-
+int     validate_tokens(t_dlist *token_list, t_shell_sack ***sack);
+void	automata_init(t_automata *a, t_dlist **token_list);
+//automara.c
+int		evaluate(t_automata *a);
+void	alphabet_init(t_automata *a);
+void	errors_init(t_automata *a);
+int		get_state(int i, int j);
 //tree_init.c
 void	init_tree(t_shell_sack **sack);
 void	insert_leaf(t_tree **tree, t_dlist **token_list);

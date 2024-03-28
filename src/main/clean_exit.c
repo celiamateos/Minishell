@@ -139,19 +139,13 @@ void	ft_pustr_msjerror(int n, char *cmd)
 /*@brief Used to return error message and free everything before exit*/
 void	perror_free_exit(char *msj, t_shell_sack ***sack)
 {
-	perror(msj);
 	int exitcode;
 
+	perror(msj);
 	exitcode = (**sack)->last_exit;
-
-	// (**sack)->last_exit = 1; //Save it here for all fails?
-	//print2D((**sack)->tree_list);
-	// if ((**sack)->heredoc)
-		// unlink("tmp/.heredoc");
 	ft_clearenv((**sack));
 	free_sack(&(**sack));
-	// printf("exitcode:%d\n", exitcode);
-	exit(exitcode); //check error code for exit
+	exit(exitcode);
 }
 
 // @brief Reset fds to standar.
