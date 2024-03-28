@@ -56,7 +56,7 @@ int		get_token_type(char *value);
 char	*fix_tokenvalues(char **value);
 
 //tokens_utils2.c
-void    validate_tokens(t_dlist **token_list);
+void    validate_tokens(t_dlist *token_list);
 
 //tree_init.c
 void	init_tree(t_shell_sack **sack);

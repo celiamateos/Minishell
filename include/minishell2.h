@@ -27,20 +27,19 @@
 # include <readline/history.h>
 # include <readline/rlstdc.h>
 # include <signal.h>
-# include "../src/token_and_tree/automata.h"
+// # include "../src/token_and_tree/automata.h"
 
 # define CMD 0
-# define CREATE_VAR 1
-# define PIPE 2
-# define OPER 3
-# define PARENT_OP 4
-# define PARENT_CL 5
-# define HEREDOC 6
-# define REDIR_IN 7
-# define REDIR_OUT 8
-# define APPEND_OUT 9
-# define FN_ERROR 10
-# define STRING 11
+# define PIPE 1
+# define OPER 2
+# define PARENT_OP 3
+# define PARENT_CL 4
+# define HEREDOC 5
+# define REDIR_IN 6
+# define REDIR_OUT 7
+# define APPEND_OUT 8
+# define FN_ERROR 9
+# define STRING 10
 
 # define AND 21
 # define OR 22
@@ -131,7 +130,8 @@ typedef struct s_automata
 {
 	void	*data;
 	t_dlist	**token_list;
-	char	**alphabet;
+	int		*alphabet[9];
+	// char	**alphabet;
 	char	**errors;
 	char	*str;
 	int		state;
@@ -147,7 +147,7 @@ typedef struct s_automata
 int		evaluate(t_automata *a);
 void	evaluate_file(t_automata *a, char *dir, void (*f)(t_automata *a, int state));
 
-void	alphabet_init(t_automata *a);
+void	alphabet_init(t_automata **a);
 void	errors_init(t_automata *a);
 int		get_state(int i, int j);
 

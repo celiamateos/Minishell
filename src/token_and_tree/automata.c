@@ -12,18 +12,29 @@
 #include "../../include/minishell.h"
 
 // automata.c
-int	idx(char *alphabet[], char c)
+int	idx(int alphabet[], int c)
 {
 	int	i;
 
+	// i = -1;
+	// 	while (++i < 9)
+	// {
+	// 	printf("Alfabet %d\n", alphabet[i]);
+	// }
+// printf("TYPE %d\n", c);
 	i = -1;
-	while (alphabet[++i])
-		if (ft_strposchr(alphabet[i], c) != -1)
+	while (++i < 9)
+	{
+	// printf("I  %d\n", i);
+		if (alphabet[i] == c)
 			break ;
-	if (i == 5)
+	}	
+	// printf("I  %d\n", i);
+	if (i == 4)
+		i = 3;
+	else if (i >= 5)
 		i = 4;
-	else if (i >= 6)
-		i = 6;
+	printf("I  %d\n", i);
 	return (i);
 }
 
@@ -35,15 +46,34 @@ int	evaluate(t_automata *a)
 	a->ostate = 0;
 	a->i = -1;
 	token_list = a->token_list;
+
+int alpha[9];
+
+	alpha[0] = 0; //CMD
+	alpha[1] = 1; //PIPE
+	alpha[2] = 2; //OPER
+	alpha[3] = 3; //PARENT_OP
+	alpha[4] = 4; //PARENT_CL
+	alpha[5] = 5; //HEREDOC
+	alpha[6] = 6; //REDIR_IN
+	alpha[7] = 7; //REDIR_OUT
+	alpha[8] = 8; //APPEND_OUT
+
 	while (*token_list)
 	{
 		token = (*token_list)->content;
-		a->state = a->get_state(a->state, idx(a->alphabet, (char)token->type));
-
-		if (a->fsa[a->state])
-			a->fsa[a->state](a, a->data);
-		if (a->fta[a->ostate][a->state])
-			a->fta[a->ostate][a->state](a, a->data);
+		a->state = a->get_state(a->state, idx((alpha), token->type));
+		printf("a->state %d\n", a->state);
+		printf("a->ostate %d\n", a->ostate);
+		if (a->ostate == -1)
+		{
+			printf("CHECK First time conditions");
+			a->ostate = 0;
+		}
+		// if (a->fsa[a->state])
+		// 	a->fsa[a->state](a, a->data);
+		// if (a->fta[a->ostate][a->state])
+		// 	a->fta[a->ostate][a->state](a, a->data);
 		a->ostate = a->state;
 		(*token_list) = (*token_list)->next;
 
@@ -75,35 +105,37 @@ void	evaluate_file(t_automata *a, char *dir,
 /**
  * 	Alphabet definitions
 **/
-void	alphabet_init(t_automata *a)
+void	alphabet_init(t_automata **a)
 {
-	a->alphabet = ft_sarradd(NULL, " ");
-	a->alphabet = ft_sarradd(a->alphabet, "0"); //CMD
-	a->alphabet = ft_sarradd(a->alphabet, "1"); //PIPE
-	a->alphabet = ft_sarradd(a->alphabet, "2"); //OPER
-	a->alphabet = ft_sarradd(a->alphabet, "3"); //PARENT_OP
-	a->alphabet = ft_sarradd(a->alphabet, "4"); //PARENT_CL
-	a->alphabet = ft_sarradd(a->alphabet, "5"); //HEREDOC
-	a->alphabet = ft_sarradd(a->alphabet, "6"); //REDIR_IN
-	a->alphabet = ft_sarradd(a->alphabet, "7"); //REDIR_OUT
-	a->alphabet = ft_sarradd(a->alphabet, "8"); //APPEND_OUT
+	int alpha[9];
+
+	alpha[0] = 0; //CMD
+	alpha[1] = 1; //PIPE
+	alpha[2] = 2; //OPER
+	alpha[3] = 3; //PARENT_OP
+	alpha[4] = 4; //PARENT_CL
+	alpha[5] = 5; //HEREDOC
+	alpha[6] = 6; //REDIR_IN
+	alpha[7] = 7; //REDIR_OUT
+	alpha[8] = 8; //APPEND_OUT
+	*(*a)->alphabet = alpha;
 }
 
 int	get_state(int i, int j)
 {
-	const int states[][8] = {
-//  \S, CMD,  |,  &, (), <>,
-	{ 0, 9, 2, 2, 6, 1, 8},   // 0  Empty input (First input)
-	{ 1, 9, 2, 2, 1, 2, 1},   // 1  Redirs with no cmd
-	{ 2, 2, 2, 2, 2, 2, 2},   // 2  Oper syntax error
-	{ 3, 9, 2, 2, 6, 1, 2},   // 3  Pipe open
-	{ 4, 9, 2, 2, 6, 1, 2},   // 4  Oper (&& ||) open
-	{ 5, 7, 3, 4, 5, 5, 10},   // 5  REDIRS open
-	{ 6, 9, 2, 2, 2, 1, 10},   // 6  Parentheses open
-	{ 7, 7, 7, 7, 7, 7, 7},   // 7 CMD syntax error
-	{ 8, 8, 8, 8, 8, 8, 8},   // 8 Invalid input
-	{ 9, 7, 3, 4, 9, 5, 10},   // 9 CMD
-	{10, 10, 10, 10, 10, 10, 10},   // 10 Valid input
+	const int states[][6] = {
+//  CMD,|, &,(),<>,
+	{9, 2, 2, 6, 1, 8},   // 0  Empty input (First input)
+	{9, 2, 2, 1, 2, 1},   // 1  Redirs with no cmd
+	{2, 2, 2, 2, 2, 2},   // 2  Oper syntax error
+	{9, 2, 2, 6, 1, 2},   // 3  Pipe open
+	{9, 2, 2, 6, 1, 2},   // 4  Oper (&& ||) open
+	{7, 3, 4, 5, 5, 10},   // 5  REDIRS open
+	{9, 2, 2, 2, 1, 10},   // 6  Parentheses open
+	{7, 7, 7, 7, 7, 7},   // 7 CMD syntax error
+	{8, 8, 8, 8, 8, 8},   // 8 Invalid input
+	{7, 3, 4, 9, 5, 10},   // 9 CMD
+	{10, 10, 10, 10, 10, 10},   // 10 Valid input
 	};
 
 	return (states[i][j]);
@@ -154,7 +186,7 @@ void	print_error(char *msj)
 void	tactions_init(t_automata *a)
 {
 	(void)a;
-	// a->fta[CMD][PIPE] = print_error("NULL");
+	// a->fta[0][CMD] = get_token;
 	// a->fta[NOT_OPERATOR][LESS] = get_token;
 	// a->fta[NOT_OPERATOR][GREATER] = get_token;
 	// a->fta[NOT_OPERATOR][AMPER] = get_token;

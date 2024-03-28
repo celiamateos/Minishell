@@ -14,7 +14,7 @@
 
 void	automata_init(t_automata *a, void *data, t_dlist **token_list)
 {
-	alphabet_init(a);
+	alphabet_init(&a);
 	errors_init(a);
 	sactions_init(a);
 	tactions_init(a);
@@ -24,7 +24,7 @@ void	automata_init(t_automata *a, void *data, t_dlist **token_list)
 }
 
 // @brief This function validates the syntax of cmds, opers and redirs
-void    validate_tokens(t_dlist **token_list)
+void    validate_tokens(t_dlist *token_list)
 {
 	t_automata	a;
 	t_token		info;
@@ -32,9 +32,9 @@ void    validate_tokens(t_dlist **token_list)
 
 	ft_bzero(&a, sizeof(t_automata));
 	ft_bzero(&info, sizeof(t_token));
-	automata_init(&a, &info, token_list);
+	automata_init(&a, &info, &token_list);
 
-	if (token_list == NULL || *token_list == NULL)
+	if (token_list == NULL)
 		return ;
 
 	finalstate = evaluate(&a);
