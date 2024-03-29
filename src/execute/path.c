@@ -62,19 +62,15 @@ char	*get_path(char *cmd, char **env)
 		return ("./");
 	else
 		paths = ft_split(env[i] + 5, ':');
-	i = 0;
-	while (paths[i])
+	i = -1;
+	while (paths[++i])
 	{
 		path = ft_strjoin(paths[i], "/");
 		cmd_path = ft_strjoin(path, cmd);
 		if (access(cmd_path, X_OK) == 0)
-		{
-			free(cmd_path);
-			return (ft_freematrix(&paths), path);
-		}
+			return (free(cmd_path), ft_freematrix(&paths), path);
 		free(cmd_path);
 		free(path);
-		i++;
 	}
 	return (ft_freematrix(&paths), NULL);
 }

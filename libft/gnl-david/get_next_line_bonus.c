@@ -20,8 +20,6 @@ void	ft_free(char **str)
 	}
 }
 
-
-
 char	*ft_saveline(char **waste)
 {
 	char		*rln;

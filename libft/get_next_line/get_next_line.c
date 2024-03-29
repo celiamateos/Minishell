@@ -79,7 +79,7 @@ char	*read_line(int fd, char *aux)
 	if (!buffer)
 		return (free(aux), NULL);
 	while (i > 0 && !ft_strchr_gnl(aux, '\n'))
-	{		
+	{
 		i = read(fd, buffer, BUFFER_SIZE);
 		if (i == -1)
 		{
@@ -102,7 +102,7 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, 0, 0) < 0)
-	{	
+	{
 		free(aux);
 		aux = 0;
 		return (0);

@@ -11,6 +11,26 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
+void	getcmd_redirect(t_shell_sack ***sack_orig, t_tree *node)
+{
+	t_shell_sack	**sack;
+
+	sack = *sack_orig;
+	if (check_redirect(&sack, node))
+	{
+		(*sack)->last_exit = 1;
+		perror_free_exit("Open error", &sack);
+	}
+	if ((*sack)->old_pipes[0] != 0 && check_isbuiltin(node))
+		if (dup2 ((*sack)->old_pipes[0], STDIN_FILENO) == -1)
+			perror_free_exit("Dup2 error IN", &sack);
+	if ((*sack)->new_pipes[1] != 1)
+		if (dup2 ((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
+			perror_free_exit("Dup2 error OUT", &sack);
+	ft_close((*sack)->new_pipes[0], (*sack)->new_pipes[1]);
+	ft_close((*sack)->old_pipes[0], (*sack)->old_pipes[1]);
+}
+
 /* @brief When an operator is found on tree node, find next nearest command or
 parenthesis at his right. Then change the value of the paremeter token->oper 
 to respective operator.
@@ -38,8 +58,7 @@ Protect to not allow pipe in last node to not change std.
 void	run_pipe(t_shell_sack ***sack_orig, t_tree *node)
 {
 	t_shell_sack	**sack;
-	t_tree	*aux_node;
-	(void)node;
+	t_tree			*aux_node;
 
 	aux_node = findnext_cmdleaf(&node->left);
 	if (aux_node != NULL )
@@ -48,7 +67,8 @@ void	run_pipe(t_shell_sack ***sack_orig, t_tree *node)
 		{
 			if ((**sack_orig)->old_pipes[0] != 0)
 			{
-				ft_close((**sack_orig)->old_pipes[0], (**sack_orig)->old_pipes[1]);
+				ft_close((**sack_orig)->old_pipes[0],
+					(**sack_orig)->old_pipes[1]);
 				(**sack_orig)->old_pipes[0] = 0;
 				if (dup2 (0, STDIN_FILENO) == -1)
 					perror_free_exit("Dup2 error IN", &*sack_orig);

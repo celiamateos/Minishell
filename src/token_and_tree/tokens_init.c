@@ -99,8 +99,7 @@ t_dlist	*init_tokens(char *line, t_shell_sack **sack)
 	}
 	if (validate_tokens(list, &sack))
 	{
-		//perror_free_exit("", &sack);
-		return (ft_dlstclear(&list,del_dlst),NULL);
+		return (ft_dlstclear(&list, del_dlst), NULL);
 	}
 	return (list);
 }

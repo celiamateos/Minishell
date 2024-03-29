@@ -23,8 +23,8 @@ int		sack_init(t_shell_sack *sack, char *line);
 int		check_errors_initsack(t_shell_sack **sack);
 int		check_open_quotes(char *s);
 int		check_errors_opers(t_dlist *list);
-int     check_open_parentheses(char *s);
-int 	goto_nextquote(char *s, int i);
+int		check_open_parentheses(char *s);
+int		goto_nextquote(char *s, int i);
 
 /* ---------------------- EXPANDER ------------------------*/
 char	*remove_quotes(char *old, char c);
@@ -56,7 +56,7 @@ int		get_token_type(char *value);
 char	*fix_tokenvalues(char **value);
 
 //tokens_utils2.c
-int     validate_tokens(t_dlist *token_list, t_shell_sack ***sack);
+int		validate_tokens(t_dlist *token_list, t_shell_sack ***sack);
 void	automata_init(t_automata *a, t_dlist **token_list);
 //automara.c
 int		evaluate(t_automata *a);
@@ -95,6 +95,7 @@ void	execute(t_shell_sack **sack);
 void	run_preorder(t_tree *node, t_shell_sack **sack);
 void	run_node(t_shell_sack **sack, t_tree **node);
 void	run_cmd(t_shell_sack ***sack_orig, t_tree *node);
+void	run_cmd_util(t_shell_sack ***sack_orig, t_tree *node);
 // execute_utils
 int		check_redirect(t_shell_sack ***sack, t_tree *node);
 int		open_redirect(t_shell_sack ****sack_orig, t_tree *node);
@@ -106,6 +107,7 @@ void	run_oper(t_shell_sack ***sack_orig, t_tree *node);
 void	run_pipe(t_shell_sack ***sack_orig, t_tree *node);
 void	ft_cpypipes(int *old_pipe, int *new_pipe);
 void	ft_close(int fd1, int fd2);
+void	getcmd_redirect(t_shell_sack ***sack_orig, t_tree *node);
 //path.c
 int		check_route(char *av);
 int		check_path(char **env);

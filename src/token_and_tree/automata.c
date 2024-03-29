@@ -45,42 +45,39 @@ int	evaluate(t_automata *a)
 		a->state = a->get_state(a->state, idx((a->alphabet), type));
 		a->ostate = a->state;
 		(*token_list) = (*token_list)->next;
-
 	}
 	return (a->state);
 }
 
-// automata_init
 // @brief Alphabet definitions
 void	alphabet_init(t_automata *a)
 {
-	a->alphabet = ft_clear_sarradd(a->alphabet, "0"); //CMD
-	a->alphabet = ft_clear_sarradd(a->alphabet, "1"); //PIPE
-	a->alphabet = ft_clear_sarradd(a->alphabet, "2"); //OPER
-	a->alphabet = ft_clear_sarradd(a->alphabet, "3"); //PARENT_OP
-	a->alphabet = ft_clear_sarradd(a->alphabet, "4"); //PARENT_CL
-	a->alphabet = ft_clear_sarradd(a->alphabet, "5"); //HEREDOC
-	a->alphabet = ft_clear_sarradd(a->alphabet, "6"); //REDIR_IN
-	a->alphabet = ft_clear_sarradd(a->alphabet, "7"); //REDIR_OUT
-	a->alphabet = ft_clear_sarradd(a->alphabet, "8"); //APPEND_OUT
+	a->alphabet = ft_clear_sarradd(a->alphabet, "0");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "1");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "2");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "3");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "4");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "5");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "6");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "7");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "8");
 }
 
 int	get_state(int i, int j)
 {
-	const int states[][6] = {
-//  CMD,|, &,(),<>,
-	{9, 2, 2, 5, 1, 7},   // 0  Empty input (First input)
-	{9, 2, 2, 1, 2, 1},   // 1  Redirs with no cmd
-	{2, 2, 2, 2, 2, 2},   // 2  Oper syntax error
-	{9, 2, 2, 5, 1, 2},   // 3  Pipe open
-	{9, 2, 2, 5, 1, 2},   // 4  Oper (&& ||) open
-	{9, 2, 2, 2, 1, 10},   // 5  Parentheses open
-	{6, 6, 6, 6, 6, 6},   // 6 CMD syntax error
-	{7, 7, 7, 7, 7, 7},   // 7 Invalid input
-	{6, 3, 4, 8, 8, 10},   // 8  REDIRS open
-	{6, 3, 4, 9, 8, 10},   // 9 CMD
-	{10, 10, 10, 10, 10, 10},   // 10 Valid input
+	const int	states[][6] = {{9, 2, 2, 5, 1, 7},
+	{9, 2, 2, 1, 2, 1},
+	{2, 2, 2, 2, 2, 2},
+	{9, 2, 2, 5, 1, 2},
+	{9, 2, 2, 5, 1, 2},
+	{9, 2, 2, 2, 1, 10},
+	{6, 6, 6, 6, 6, 6},
+	{7, 7, 7, 7, 7, 7},
+	{6, 3, 4, 8, 8, 10},
+	{6, 3, 4, 9, 8, 10},
+	{10, 10, 10, 10, 10, 10},
 	};
+
 	return (states[i][j]);
 }
 

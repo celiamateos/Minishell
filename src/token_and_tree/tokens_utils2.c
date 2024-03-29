@@ -15,7 +15,6 @@ void	free_automata(t_automata *a)
 {
 	ft_freematrix(&a->alphabet);
 	ft_freematrix(&a->errors);
-	//free(a);
 }
 
 void	automata_init(t_automata *a, t_dlist **token_list)
@@ -28,19 +27,20 @@ void	automata_init(t_automata *a, t_dlist **token_list)
 
 // @brief This function validates the syntax of cmds, opers and redirs
 // @return 0 if success, else code error. Check code on errors_init()
-int    validate_tokens(t_dlist *token_list, t_shell_sack ***sack)
+int	validate_tokens(t_dlist *token_list, t_shell_sack ***sack)
 {
 	t_automata	a;
 	int			finalstate;
 
 	ft_bzero(&a, sizeof(t_automata));
-	automata_init(&a,  &token_list);
+	automata_init(&a, &token_list);
 	if (token_list == NULL)
 		return (1);
 	finalstate = evaluate(&a);
 	if (finalstate >= a.errorlen)
-		return (free_automata(&a),0);
+		return (free_automata(&a), 0);
 	(**sack)->last_exit = 2;
-	perror(a.errors[finalstate]);
-	return (free_automata(&a),finalstate);
+	ft_putstr_fd(a.errors[finalstate], 2);
+	ft_putstr_fd("\n", 2);
+	return (free_automata(&a), finalstate);
 }

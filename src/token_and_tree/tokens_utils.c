@@ -17,8 +17,7 @@ char	*fix_tokenvalues(char **value)
 {
 	char	*aux;
 
-	aux = ft_strtrim(*value, "<> "); // si quito las comillas el tester continua
-	// aux = ft_strtrim(*value, "<> \"\'");
+	aux = ft_strtrim(*value, "<> ");
 	free (*value);
 	return (aux);
 }

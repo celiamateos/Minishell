@@ -9,7 +9,7 @@
 /*   Updated: 2023/04/27 20:04:35 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"get_next_line.h"
+#include "get_next_line.h"
 
 void	ft_free(char **str)
 {

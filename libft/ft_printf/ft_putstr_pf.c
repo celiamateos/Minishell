@@ -20,7 +20,7 @@ int	ft_putstr_pf(char *s)
 	count = 0;
 	i = 0;
 	if (s == NULL)
-	count += (ft_putstr_pf("(null)"));
+		count += (ft_putstr_pf("(null)"));
 	if (s)
 	{
 		while (s[i] != '\0')

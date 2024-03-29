@@ -27,4 +27,3 @@ char	**ft_sarrcpy(char **arr)
 	new_arr[i] = NULL;
 	return (new_arr);
 }
-

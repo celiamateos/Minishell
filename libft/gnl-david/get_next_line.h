@@ -19,5 +19,5 @@
 # include "../libft.h"
 # include <fcntl.h>
 
-char    *get_next_line(int fd);
+char	*get_next_line(int fd);
 #endif

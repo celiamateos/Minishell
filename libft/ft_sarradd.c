@@ -38,7 +38,7 @@ char	**ft_sarradd(char **array, char *str)
 	return (new_arr);
 }
 
-//@brief clear array givern as parameter and add a string to the provided array. 
+//@brief clear array givern as parameter and add a string to the provided array.
 //If array is null, creates a new one, add the string and return it.
 char	**ft_clear_sarradd(char **array, char *str)
 {
