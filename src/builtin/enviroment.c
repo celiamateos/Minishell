@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enviroment.c                                       :+:      :+:    :+:   */
+/*   newiroment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,17 +10,36 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
-//@brief  ????? Recibe el envp, alloca memoria exacta para su copia.
-//Si el envp no existe (env -i ./minishell), aloca
-//un char** de size 2, uno para '\0' y otro para el NULL, hay que hacer eso?
-char **alloc_first_envp(t_env *env, char **src)
+//De donde saco el PATH con env -i ???
+char	**create_env(t_env *env)
 {
-	char **result = NULL;
-	size_t i;
+	char	**new;
+
+	new = (char **)malloc(6 * sizeof(char *));
+	if (!new)
+		return (NULL);
+	env->env_elements = 6;
+	new[0] = ft_strdup("_=/minishell");
+	new[1] = ft_strdup("SHLVL=1");
+	new[2] = ft_strdup("PWD=");
+	new[3] = ft_strdup("OLDPWD=");
+	new[4] = ft_strdup("PATH=/home/cmateos-/.local/bin/:"
+			"/home/cmateos-/.local/bin/:/home/cmateos-/bin:/usr/local/bin:"
+			"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:"
+			"/usr/games:/usr/local/games:/snap/bin");
+	new[5] = NULL;
+	//proteger aqui joder y liberar
+	return (new);
+}
+
+char	**alloc_first_envp(t_env *env, char **src)
+{
+	char	**result = NULL;
+	size_t	i;
 
 	env->env_elements = ft_arraylen(src);
 	i = -1;
-	if (src)
+	if (env->env_elements > 1)
 	{
 		result = (char **)malloc((env->env_elements + 1) * sizeof(char *));
 		if (!result)
@@ -31,25 +50,16 @@ char **alloc_first_envp(t_env *env, char **src)
 			if (!result)
 				return (NULL);
 		}
+		result[i] = NULL;
 	}
 	else
-	{
-		result = (char **)malloc(2 * sizeof(char *)); //Aqui hay que crear un enviroment si no existiera envp, al menos con: shlvl, pwd, oldpwd, 
-// 		_=/usr/bin/env
-// PWD=/Users/cmateos-/Minishells/Minimaster
-// SHLVL=2
-		if (!result)
-			return (NULL);
-		result[i + 1] = NULL;
-		i += 2;
-	}
-	result[i] = NULL;
+		result = create_env(env);
 	return (result);
 }
 
 int	init_pwd(t_env *env)
 {
-	int pos;
+	int	pos;
 
 	pos = search_env_pos(env->env, "PWD=", '=');
 	if (pos >= 0)
@@ -68,9 +78,10 @@ int	init_pwd(t_env *env)
 	return (0);
 }
 
-int insert_shlvlenv(t_shell_sack *sack, char *new)
+int	insert_shlvlenv(t_shell_sack *sack, char *new)
 {
-	char *aux;
+	char	*aux;
+
 	aux = ft_strjoin("SHLVL=", new);
 	if (!aux)
 		return (1);
@@ -79,7 +90,8 @@ int insert_shlvlenv(t_shell_sack *sack, char *new)
 	return (0);
 }
 
-int init_shlvl(t_shell_sack *sack)
+//Acortar esta función y revisar seguridad de mallocs
+int	init_shlvl(t_shell_sack *sack)
 {
 	char	*shlvl;
 	int		n;
@@ -94,7 +106,8 @@ int init_shlvl(t_shell_sack *sack)
 			n = -1;
 		else if (n >= 999)
 		{
-			ft_putstr_fd("minishell: warning: shell level (1000) too high, resetting to 1\n", 2);
+			ft_putstr_fd("minishell: warning: shell level (1000) too high,"
+				"resetting to 1\n", 2);
 			n = 0;
 		}
 		n++;
@@ -102,7 +115,6 @@ int init_shlvl(t_shell_sack *sack)
 		shlvl = ft_itoa(n);
 		if (!shlvl)
 			return (1);
-		// printf("\nshlvl:%s\n", shlvl);
 	}
 	else
 	{
@@ -135,4 +147,3 @@ int	env_init(t_shell_sack *sack, char **envp)
 	}
 	return (0);
 }
-

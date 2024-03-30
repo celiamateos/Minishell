@@ -16,16 +16,16 @@
 */
 void	ft_free_error_arr(char **mem, long i)
 {
-    while (i > 0)
-        free(mem[--i]);
-    free(mem);
+	while (i > 0)
+		free(mem[--i]);
+	free(mem);
 }
 
 //@brief libera el array pasado por parametro
-void ft_free_env(char **env)
+void	ft_free_env(char **env)
 {
-	int i;
-	
+	int	i;
+
 	i = -1;
 	if (!env)
 		return ;
@@ -35,12 +35,12 @@ void ft_free_env(char **env)
 }
 
 //@brief Print enviroment
-int print_env(t_shell_sack ****sack_orig)
+int	print_env(t_shell_sack ****sack_orig)
 {
-	t_shell_sack    **sack;
-	int 	i;
+	t_shell_sack	**sack;
+	int				i;
 
-    sack = (**sack_orig);
+	sack = (**sack_orig);
 	i = 0;
 	if (!(*sack)->env->env || !(*sack)->env->env[i])
 		return (1);
@@ -51,12 +51,8 @@ int print_env(t_shell_sack ****sack_orig)
 			ft_putstr_fd((*sack)->env->env[i], 1);
 			ft_putstr_fd("\n", 1);
 		}
-			// printf("%d  %s\n", i, (*sack)->env->env[i]);
 		i++;
 	}
-	// if ((*sack)->new_pipes[1] != 1 )
-    // 	if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
-	// 		free_exit(&(**sack_orig));
 	return (0);
 }
 
