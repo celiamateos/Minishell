@@ -12,7 +12,7 @@
 #include "libft.h"
 //duplicate an array of strings. If array is null, returns NULL. 
 
-char	**ft_sarrcpy(char **arr)
+char	**ft_arrcpy(char **arr)
 {
 	int		i;
 	char	**new_arr;

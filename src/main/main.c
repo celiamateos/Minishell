@@ -107,7 +107,7 @@ int	main(int argc, char **argv, char **envp)
 	
 	line = NULL;
 	sack = NULL;
-	if (clean_init(&sack) || env_init(sack, envp))
+	if (clean_init(&sack) == 1 || env_init(sack, envp) == 1)
 		return (1);
 	while (42)
 	{

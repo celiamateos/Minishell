@@ -85,56 +85,99 @@ int	len_expand_dolar(char *old, int i)
 	return (len);
 }
 
+// @brief ALOCATE MEMORY
+// @param line to expand
+// @param position of dolar symbol
 char *expand_dolar(t_shell_sack *sack, char *old, int dolar)
 {
-    char *pre_expand = NULL;
-	char *expand = NULL;
-    char *post_expand = NULL;
-	char *temp;
-	int i = 0;
-	int len = 0;
+	char	*expand = NULL;
+	int		start;
+	// int		post_expand;
+	char	*temp;
 
-	if (dolar > 0)
-		pre_expand = ft_substr(old, 0, dolar);
-	i = dolar + 1;
-	if (old[i] == '?')
+	start = dolar;
+	if (old[++dolar] == '?')
 	{
 		expand = ft_itoa(sack->last_exit);
-		i++;
+		dolar++;
 	}
 	else
 	{
-		len = len_expand_dolar(old, i);
-		temp = ft_substr(old, i, len);
-		i += len;
-		// printf("len:%d\n", len);
-		// printf("temp:%s\n", temp);
+		temp = ft_substr(old, dolar, len_expand_dolar(old, dolar));
+		dolar += len_expand_dolar(old, dolar);
 		expand = get_varname(sack, temp);
 		free (temp);
 	}
-	// printf("\nexpand:%s\n", expand);
-	if ((size_t)i < ft_strlen(old))
+	// expand = realloc_expand_dolar();
+	if (start > 0)
 	{
-		post_expand = ft_substr(old, i, ft_strlen(old));
-		// printf("\npost_expand:%s\n", post_expand);
-	}
-	if (pre_expand)
-	{
-		// printf("\npre_expand:%s\n", pre_expand);
-		temp = ft_strjoin(pre_expand, expand);
-		free (pre_expand);
+		temp = ft_strjoin(ft_substr(old, 0, start), expand);
 		free(expand);
 		expand = ft_strdup(temp);
 		free (temp);
 	}
-	if (post_expand)
+	// post_expand = dolar;
+	if ((size_t)dolar < ft_strlen(old))
 	{
-		temp = ft_strjoin(expand, post_expand);
+		temp = ft_strjoin(expand, ft_substr(old, dolar, ft_strlen(old)));
+		//Habria que comprobar si este substr se desmalokea con el free temp. probar en 42 con los rompe mallocs
 		free (expand);
-		free (post_expand);
 		expand = ft_strdup(temp);
 		free (temp);
 	}
-	// printf("expand:%s\n", expand);
 	return (expand);
 }
+
+// char *init_expand_dolar(t_shell_sack *sack, char *old, int dolar)
+// {
+//     char *pre_expand = NULL;
+// 	char *expand = NULL;
+//     char *post_expand = NULL;
+// 	char *temp;
+// 	int i = 0;
+// 	int len = 0;
+
+// 	if (dolar > 0)
+// 		pre_expand = ft_substr(old, 0, dolar);
+// 	i = dolar + 1;
+// 	if (old[i] == '?')
+// 	{
+// 		expand = ft_itoa(sack->last_exit);
+// 		i++;
+// 	}
+// 	else
+// 	{
+// 		len = len_expand_dolar(old, i);
+// 		temp = ft_substr(old, i, len);
+// 		i += len;
+// 		// printf("len:%d\n", len);
+// 		// printf("temp:%s\n", temp);
+// 		expand = get_varname(sack, temp);
+// 		free (temp);
+// 	}
+// 	// printf("\nexpand:%s\n", expand);
+// 	if ((size_t)i < ft_strlen(old))
+// 	{
+// 		post_expand = ft_substr(old, i, ft_strlen(old));
+// 		// printf("\npost_expand:%s\n", post_expand);
+// 	}
+// 	if (pre_expand)
+// 	{
+// 		// printf("\npre_expand:%s\n", pre_expand);
+// 		temp = ft_strjoin(pre_expand, expand);
+// 		free (pre_expand);
+// 		free(expand);
+// 		expand = ft_strdup(temp);
+// 		free (temp);
+// 	}
+// 	if (post_expand)
+// 	{
+// 		temp = ft_strjoin(expand, post_expand);
+// 		free (expand);
+// 		free (post_expand);
+// 		expand = ft_strdup(temp);
+// 		free (temp);
+// 	}
+// 	// printf("expand:%s\n", expand);
+// 	return (expand);
+// }

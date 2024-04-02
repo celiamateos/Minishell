@@ -90,12 +90,11 @@ int		ft_isspace(int c);
 int		check_emptyorspace(char *str);
 void	ft_print_strarray(char **array);
 void	ft_freematrix(char ***matrix);
-char	**ft_sarrcpy(char **arr);
 void	ft_putstr_fd_noquotes(char *s, int fd);
 char	*ft_arrtostr(char **arr);
 char	**ft_split_minishell(char const *s);
 char	**ft_sarradd(char **array, char *str);
-char	**ft_sarrcpy(char **arr);
+char	**ft_arrcpy(char **arr);
 size_t	ft_sarrlen(char **array);
 char	**ft_clear_sarradd(char **array, char *str);
 

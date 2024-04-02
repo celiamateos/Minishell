@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
-/*@brief Libera las lineas previas malokeadas en caso de error.
-@param mem array a liberar
-@param i linea donde ocurrió el error
-*/
+
+//@brief Free previous allocated if error
+//@param mem array to free
+//@param i line where it was error
 void	ft_free_error_arr(char **mem, long i)
 {
 	while (i > 0)
@@ -21,7 +21,7 @@ void	ft_free_error_arr(char **mem, long i)
 	free(mem);
 }
 
-//@brief libera el array pasado por parametro
+//@brief free array
 void	ft_free_env(char **env)
 {
 	int	i;
@@ -56,27 +56,16 @@ int	print_env(t_shell_sack ****sack_orig)
 	return (0);
 }
 
-//@brief Return len array.
-size_t ft_arraylen(char **array)
-{
-	size_t i;
-
-	i = 0;
-	if (!array)
-		return(i);
-	while (array[i])
-		i++;
-	return (i);
-}
-
-//@brief Busca si una variable existe en el enviroment
-//@param limit delimitador (caracter) hasta el cual comparar si existe (limit inclusive)
-//@return El número de línea en la que aparece la variable, -1 si no la encuentra.
+//@brief shearch if one variable is into enviroment
+//@param limit delimiter up to which to compare if any
+//@return the number of the line on which the variable appears, -1 if not found.
 int	search_env_pos(char **env, char *word, char limit)
 {
-	size_t i = -1;
-	size_t j = 0;
+	size_t	i;
+	size_t	j;
 
+	i = -1;
+	j = 0;
 	if (!env || !word || word[0] == '\0')
 		return (-1);
 	while ((word[j] && word[j] != limit))
@@ -87,11 +76,9 @@ int	search_env_pos(char **env, char *word, char limit)
 	{
 		if (!ft_strncmp(env[i], word, j))
 		{
-			// printf("\nCHAR:%c", env[i][j]);
 			if (env[i][j] == '=' || env[i][j] == '\0')
 				return (i);
 		}
 	}
 	return (-1);
 }
- 

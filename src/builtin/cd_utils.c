@@ -21,17 +21,18 @@ void	cd_mserror(char *cmd)
 	ft_putstr_fd("\n", 2);
 }
 
-/*@brief ALOCA MEMORIA*/
+/*@brief ALOCATE MEMORY*/
 char	*remove_slash(char *path)
 {
 	char	*pathname;
 
-	if (path[ft_strlen(path) - 1] != '/')
+	if (path[ft_strlen(path) - 1] != '/'
+		|| !ft_strncmp("/", path, ft_strlen(path)))
 		pathname = ft_strdup(path);
 	else
 		pathname = ft_strtrim(path, "/");
 	if (!pathname)
-		return (NULL); //SALIDA DE ERRORES? 
+		return (NULL);
 	return (pathname);
 }
 
