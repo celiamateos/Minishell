@@ -122,7 +122,8 @@ int		search_env_pos(char **env, char *word, char limit);
 // size_t	ft_arraylen(char **array);
 void	ft_free_env(char **env);
 int		print_env(t_shell_sack ****sack_orig);
-void	ft_free_error_arr(char **mem, long i);
+int     ft_free_error_arr(char **mem, long row);
+
 //export.c
 int		export(t_env *env, char *new);
 int		is_valid_to_export(char *s);

@@ -15,10 +15,10 @@ char	**create_env(t_env *env)
 {
 	char	**new;
 
-	new = (char **)malloc(6 * sizeof(char *));
+	new = (char **)ft_calloc(6 * sizeof(char *), 1);
 	if (!new)
 		return (NULL);
-	env->env_elements = 6;
+	env->env_elements = 5;
 	new[0] = ft_strjoin("PWD=", env->pwd);
 	if (!new[0])
 		return (ft_free_error_arr(new, 0), ft_free_env(new), NULL);

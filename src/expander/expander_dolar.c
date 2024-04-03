@@ -147,11 +147,17 @@ char *expand_dolar(t_shell_sack *sack, char *old, int dolar)
 	if (!sack->expanded)
 		return (NULL);
 	sack->expanded[0] = previous_expand_dolar(sack, old, dolar);
+	if (!sack->expanded[0])
+		return (ft_free_error_arr(sack->expanded, 0), NULL);
 	i = run_expand_dolar(sack, old, dolar);
+	if (!sack->expanded[1])
+		return (ft_free_error_arr(sack->expanded, 1), NULL);
 	if ((size_t)i < ft_strlen(old))
 		sack->expanded[2] = ft_substr(old, i, ft_strlen(old));
 	else
 		sack->expanded[2] = ft_strdup("\0");
+	if (!sack->expanded[2])
+		return (ft_free_error_arr(sack->expanded, 2), NULL);
 	sack->expanded[3] = NULL;
 	expand = arr_join_not_spaces(sack);
 	ft_free_env(sack->expanded);
@@ -159,60 +165,3 @@ char *expand_dolar(t_shell_sack *sack, char *old, int dolar)
 		return (NULL);
 	return (expand);
 }
-
-
-
-
-// char *init_expand_dolar(t_shell_sack *sack, char *old, int dolar)
-// {
-//     char *pre_expand = NULL;
-// 	char *expand = NULL;
-//     char *post_expand = NULL;
-// 	char *temp;
-// 	int i = 0;
-// 	int len = 0;
-
-// 	if (dolar > 0)
-// 		pre_expand = ft_substr(old, 0, dolar);
-// 	i = dolar + 1;
-// 	if (old[i] == '?')
-// 	{
-// 		expand = ft_itoa(sack->last_exit);
-// 		i++;
-// 	}
-// 	else
-// 	{
-// 		len = len_expand_dolar(old, i);
-// 		temp = ft_substr(old, i, len);
-// 		i += len;
-// 		// printf("len:%d\n", len);
-// 		// printf("temp:%s\n", temp);
-// 		expand = get_varname(sack, temp);
-// 		free (temp);
-// 	}
-// 	// printf("\nexpand:%s\n", expand);
-// 	if ((size_t)i < ft_strlen(old))
-// 	{
-// 		post_expand = ft_substr(old, i, ft_strlen(old));
-// 		// printf("\npost_expand:%s\n", post_expand);
-// 	}
-// 	if (pre_expand)
-// 	{
-// 		// printf("\npre_expand:%s\n", pre_expand);
-// 		temp = ft_strjoin(pre_expand, expand);
-// 		free (pre_expand);
-// 		free(expand);
-// 		expand = ft_strdup(temp);
-// 		free (temp);
-// 	}
-// 	if (post_expand)
-// 	{
-// 		temp = ft_strjoin(expand, post_expand);
-// 		free (expand);
-// 		free (post_expand);
-// 		expand = ft_strdup(temp);
-// 		free (temp);
-// 	}
-// 	// printf("expand:%s\n", expand);
-// 	return (expand);
-// }

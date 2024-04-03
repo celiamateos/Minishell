@@ -14,11 +14,22 @@
 //@brief Free previous allocated if error
 //@param mem array to free
 //@param i line where it was error
-void	ft_free_error_arr(char **mem, long i)
+int	ft_free_error_arr(char **mem, long row)
 {
-	while (i > 0)
-		free(mem[--i]);
-	free(mem);
+	int	i;
+
+	i = 0;
+	if (mem[row] == NULL)
+	{
+		while (i < row)
+		{
+			free(mem[i]);
+			i++;
+		}
+		free(mem);
+		return (1);
+	}
+	return (0);
 }
 
 //@brief free array

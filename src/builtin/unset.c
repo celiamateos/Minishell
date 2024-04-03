@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-//@brief ALOCA MEMORIA!
-//Realloc array env and delete position line
+// //@brief ALOCA MEMORIA!
+// //Realloc array env and delete position line
 char	**realloc_unset_env(t_env *env, size_t pos)
 {
 	char	**temp;
@@ -50,9 +50,9 @@ void	unset_env(t_env *env, char *del)
 		temp = realloc_unset_env(env, pos);
 		if (temp)
 		{
-			free(env->env);
+			ft_freematrix(&env->env);
 			env->env = ft_arrcpy(temp);
-			free (temp);
+			ft_freematrix(&temp);
 			env->env_elements -= 1;
 		}
 	}
@@ -99,9 +99,9 @@ void	unset_pre_export_list(t_env *env, char *del)
 		temp = realloc_unset_pre_export_list(env, pos);
 		if (temp)
 		{
-			free(env->pre_export);
+			ft_freematrix(&env->pre_export);
 			env->pre_export = ft_arrcpy(temp);
-			free (temp);
+			ft_freematrix(&temp);
 			env->pre_export_elements -= 1;
 		}
 	}
@@ -117,3 +117,4 @@ int	unset(t_env *env, char *del, int check)
 		unset_pre_export_list(env, del);
 	return (0);
 }
+
