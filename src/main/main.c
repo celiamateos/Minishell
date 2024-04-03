@@ -45,6 +45,9 @@ int	clean_init(t_shell_sack **sack)
 
 int	sack_init(t_shell_sack *sack, char *line)
 {
+	t_shell_sack **sack2;
+
+	sack2 = &sack;
 	sack->pipe_wc = 0;
 	sack->line = ft_strdup(line);
 	if (!sack->line)
@@ -61,13 +64,15 @@ int	sack_init(t_shell_sack *sack, char *line)
 	sack->line = ft_strdup(sack->l_expanded);
 	free (sack->l_expanded);
 	sack->token_list = init_tokens(sack->line, &sack);
-	if (!sack->token_list)
-		return (free(sack->line), 1);
+	if (validate_tokens(sack->token_list, &sack))
+	{
+		free(sack->line);
+		ft_dlstclear(&sack->token_list, &free_token_noargs);
+		return (1);
+	}
 	get_cmd_args(&sack);
 	return (0);
 }
-
-//atexit(leaks);
 
 int	minishell(t_shell_sack *sack, char *line)
 {

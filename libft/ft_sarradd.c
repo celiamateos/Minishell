@@ -13,6 +13,7 @@
 
 //@brief add a string to the provided array. 
 //I array is null, creates a new one, add the string and return it.
+//Free the given array
 char	**ft_sarradd(char **array, char *str)
 {
 	char	**new_arr;
@@ -35,6 +36,7 @@ char	**ft_sarradd(char **array, char *str)
 		new_arr[i] = ft_strdup(array[i]);
 	new_arr[i++] = ft_strdup(str);
 	new_arr[i] = NULL;
+	ft_freematrix(&array);
 	return (new_arr);
 }
 

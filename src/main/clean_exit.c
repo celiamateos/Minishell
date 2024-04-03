@@ -46,6 +46,21 @@ void	free_sack(t_shell_sack **sack)
 	}
 }
 
+void	free_token_noargs(void *content)
+{
+	t_token	*token;
+	char	*value;
+
+	token = content;
+	value = token->value;
+	if (content)
+	{
+		if (value != NULL && token->value)
+			free(token->value);
+	}
+	free(content);
+}
+
 void	free_token(void *content)
 {
 	t_token	*token;

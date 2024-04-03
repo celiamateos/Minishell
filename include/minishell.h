@@ -56,12 +56,12 @@ int		get_token_type(char *value);
 char	*fix_tokenvalues(char **value);
 
 //tokens_utils2.c
-int		validate_tokens(t_dlist *token_list, t_shell_sack ***sack);
+int		validate_tokens(t_dlist *token_list, t_shell_sack **sack);
 void	automata_init(t_automata *a, t_dlist **token_list);
 //automara.c
 int		evaluate(t_automata *a);
-void	alphabet_init(t_automata *a);
-void	errors_init(t_automata *a);
+void	alphabet_init(t_automata **a);
+void	errors_init(t_automata **a);
 int		get_state(int i, int j);
 //tree_init.c
 void	init_tree(t_shell_sack **sack);
@@ -158,6 +158,7 @@ int		cmd_exit(t_shell_sack ***sack, char **cmd);
 void	ft_free_pruebas(t_shell_sack **sack);
 void	ft_clearenv(t_shell_sack *sack);
 void	free_token(void *content);
+void	free_token_noargs(void *content);
 void	free_sack(t_shell_sack **sack);
 void	free_tree(t_tree **node);
 int		wait_exitcode(int last_pid);
