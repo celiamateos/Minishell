@@ -50,17 +50,17 @@ int	evaluate(t_automata *a)
 }
 
 // @brief Alphabet definitions
-void	alphabet_init(t_automata *a)
+void	alphabet_init(t_automata **a)
 {
-	a->alphabet = ft_clear_sarradd(a->alphabet, "0");
-	a->alphabet = ft_clear_sarradd(a->alphabet, "1");
-	a->alphabet = ft_clear_sarradd(a->alphabet, "2");
-	a->alphabet = ft_clear_sarradd(a->alphabet, "3");
-	a->alphabet = ft_clear_sarradd(a->alphabet, "4");
-	a->alphabet = ft_clear_sarradd(a->alphabet, "5");
-	a->alphabet = ft_clear_sarradd(a->alphabet, "6");
-	a->alphabet = ft_clear_sarradd(a->alphabet, "7");
-	a->alphabet = ft_clear_sarradd(a->alphabet, "8");
+	(*a)->alphabet = ft_clear_sarradd((*a)->alphabet, "0");
+	(*a)->alphabet = ft_clear_sarradd((*a)->alphabet, "1");
+	(*a)->alphabet = ft_clear_sarradd((*a)->alphabet, "2");
+	(*a)->alphabet = ft_clear_sarradd((*a)->alphabet, "3");
+	(*a)->alphabet = ft_clear_sarradd((*a)->alphabet, "4");
+	(*a)->alphabet = ft_clear_sarradd((*a)->alphabet, "5");
+	(*a)->alphabet = ft_clear_sarradd((*a)->alphabet, "6");
+	(*a)->alphabet = ft_clear_sarradd((*a)->alphabet, "7");
+	(*a)->alphabet = ft_clear_sarradd((*a)->alphabet, "8");
 }
 
 int	get_state(int i, int j)
@@ -82,16 +82,20 @@ int	get_state(int i, int j)
 }
 
 // @brief Error strings to print when automata finish on a non ending state.
-void	errors_init(t_automata *a)
+void	errors_init(t_automata **a)
 {
-	a->errors = NULL;
-	a->errors = ft_sarradd(NULL, "Empty string.");
-	a->errors = ft_sarradd(a->errors, "Redirections with no cmd");
-	a->errors = ft_sarradd(a->errors, "Operator syntax error");
-	a->errors = ft_sarradd(a->errors, "Operator syntax error near '|'");
-	a->errors = ft_sarradd(a->errors, "Operator syntax error near '|| &&'");
-	a->errors = ft_sarradd(a->errors, "Operator syntax error near '()'");
-	a->errors = ft_sarradd(a->errors, "Command syntax error");
-	a->errors = ft_sarradd(a->errors, "Invalid input");
-	a->errorlen = ft_sarrlen(a->errors);
+	(*a)->errors = NULL;
+	(*a)->errors = ft_clear_sarradd(NULL, "Empty string.");
+	(*a)->errors = ft_clear_sarradd(&(*(*a)->errors),
+			"Redirections with no cmd");
+	(*a)->errors = ft_clear_sarradd(&(*(*a)->errors), "Operator syntax error");
+	(*a)->errors = ft_clear_sarradd(&(*(*a)->errors),
+			"Operator syntax error near '|'");
+	(*a)->errors = ft_clear_sarradd((*a)->errors,
+			"Operator syntax error near '|| &&'");
+	(*a)->errors = ft_clear_sarradd((*a)->errors,
+			"Operator syntax error near '()'");
+	(*a)->errors = ft_clear_sarradd((*a)->errors, "Command syntax error");
+	(*a)->errors = ft_clear_sarradd((*a)->errors, "Invalid input");
+	(*a)->errorlen = ft_sarrlen((*a)->errors);
 }

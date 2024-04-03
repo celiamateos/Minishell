@@ -97,9 +97,10 @@ t_dlist	*init_tokens(char *line, t_shell_sack **sack)
 		if (token != NULL)
 			ft_dlstadd_back(&list, ft_dlstnew(token));
 	}
-	// if (validate_tokens(list, &sack))
-	// {
-	// 	return (ft_dlstclear(&list, del_dlst), NULL);
-	// }
+	if (validate_tokens(list, &sack))
+	{
+		ft_dlstclear(&list, &free_token_noargs);
+		return (NULL);
+	}
 	return (list);
 }

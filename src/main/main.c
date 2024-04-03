@@ -63,12 +63,13 @@ int	sack_init(t_shell_sack *sack, char *line)
 	free (sack->l_expanded);
 	sack->token_list = init_tokens(sack->line, &sack);
 	if (!sack->token_list)
-		return (free(sack->line), 1);
+	{
+		free(sack->line);
+		return (1);
+	}
 	get_cmd_args(&sack);
 	return (0);
 }
-
-//atexit(leaks);
 
 int	minishell(t_shell_sack *sack, char *line)
 {
@@ -105,7 +106,6 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	
 	line = NULL;
 	sack = NULL;
 	if (clean_init(&sack) == 1 || env_init(sack, envp) == 1)
