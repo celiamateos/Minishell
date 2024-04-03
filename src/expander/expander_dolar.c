@@ -85,48 +85,83 @@ int	len_expand_dolar(char *old, int i)
 	return (len);
 }
 
-// @brief ALOCATE MEMORY
-// @param line to expand
-// @param position of dolar symbol
-char *expand_dolar(t_shell_sack *sack, char *old, int dolar)
+char *arr_join_not_spaces(t_shell_sack *sack)
 {
-	char	*expand = NULL;
-	int		start;
-	// int		post_expand;
-	char	*temp;
+	char *temp = NULL;
+	char *expand;
 
-	start = dolar;
-	if (old[++dolar] == '?')
+	if (sack->expanded[0] && sack->expanded[0][0] != '\0')
+		temp = ft_strjoin (sack->expanded[0], sack->expanded[1]);
+	if (temp)
+		expand = ft_strjoin(temp, sack->expanded[2]);
+	else
+		expand = ft_strdup(temp);
+	if (temp)
+		free (temp);
+	return (expand);
+		// pre_expand = ft_strdup(sack->expand[0]);
+	
+}
+
+char *previous_expand_dolar(t_shell_sack *sack, char *old, int dolar)
+{
+	if (dolar > 0)
+		sack->expanded[0] = ft_substr(old, 0, dolar);
+	else
+		sack->expanded[0] = ft_strdup("\0");
+	if (!sack->expanded[0])
+		return (NULL);
+	return (sack->expanded[0]);
+}
+
+int	run_expand_dolar(t_shell_sack *sack, char *old, int dolar)
+{
+	int	i;
+	char *temp;
+	char *expand;
+
+	expand = NULL;
+	temp = NULL;
+	i = dolar + 1;
+	if (old[i] == '?')
 	{
-		expand = ft_itoa(sack->last_exit);
-		dolar++;
+		sack->expanded[1] = ft_itoa(sack->last_exit);
+		i++;
 	}
 	else
 	{
-		temp = ft_substr(old, dolar, len_expand_dolar(old, dolar));
-		dolar += len_expand_dolar(old, dolar);
-		expand = get_varname(sack, temp);
+		temp = ft_substr(old, i, len_expand_dolar(old, i));
+		i += len_expand_dolar(old, i);
+		sack->expanded[1] = get_varname(sack, temp);
 		free (temp);
 	}
-	// expand = realloc_expand_dolar();
-	if (start > 0)
-	{
-		temp = ft_strjoin(ft_substr(old, 0, start), expand);
-		free(expand);
-		expand = ft_strdup(temp);
-		free (temp);
-	}
-	// post_expand = dolar;
-	if ((size_t)dolar < ft_strlen(old))
-	{
-		temp = ft_strjoin(expand, ft_substr(old, dolar, ft_strlen(old)));
-		//Habria que comprobar si este substr se desmalokea con el free temp. probar en 42 con los rompe mallocs
-		free (expand);
-		expand = ft_strdup(temp);
-		free (temp);
-	}
+	return (i);
+}
+
+char *expand_dolar(t_shell_sack *sack, char *old, int dolar)
+{
+	char *expand = NULL;
+	int i;
+
+	sack->expanded = malloc(4 * sizeof(char *));
+	if (!sack->expanded)
+		return (NULL);
+	sack->expanded[0] = previous_expand_dolar(sack, old, dolar);
+	i = run_expand_dolar(sack, old, dolar);
+	if ((size_t)i < ft_strlen(old))
+		sack->expanded[2] = ft_substr(old, i, ft_strlen(old));
+	else
+		sack->expanded[2] = ft_strdup("\0");
+	sack->expanded[3] = NULL;
+	expand = arr_join_not_spaces(sack);
+	ft_free_env(sack->expanded);
+	if (!expand)
+		return (NULL);
 	return (expand);
 }
+
+
+
 
 // char *init_expand_dolar(t_shell_sack *sack, char *old, int dolar)
 // {

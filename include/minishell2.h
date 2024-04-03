@@ -104,6 +104,7 @@ typedef struct s_shell_sack
 	char			*line;
 	char			*l_expanded;
 	char			**split_line;
+	char			**expanded;
 	int				pos;
 	struct s_dlist	*token_list;
 	struct s_tree	*tree_list;

@@ -86,7 +86,7 @@ t_dlist	*init_tokens(char *line, t_shell_sack **sack)
 	int		i;
 	t_dlist	*list;
 	t_token	*token;
-
+	(void)sack;
 	i = 0;
 	token = get_next_token(line, &i);
 	if (token != NULL)
@@ -97,9 +97,9 @@ t_dlist	*init_tokens(char *line, t_shell_sack **sack)
 		if (token != NULL)
 			ft_dlstadd_back(&list, ft_dlstnew(token));
 	}
-	if (validate_tokens(list, &sack))
-	{
-		return (ft_dlstclear(&list, del_dlst), NULL);
-	}
+	// if (validate_tokens(list, &sack))
+	// {
+	// 	return (ft_dlstclear(&list, del_dlst), NULL);
+	// }
 	return (list);
 }

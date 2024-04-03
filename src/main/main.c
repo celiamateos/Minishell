@@ -40,6 +40,7 @@ int	clean_init(t_shell_sack **sack)
 	(*sack)->d_quotes = 0;
 	(*sack)->s_quotes = 0;
 	(*sack)->pipe_wc = 0;
+	(*sack)->expanded = NULL;
 	return (0);
 }
 
@@ -49,8 +50,8 @@ int	sack_init(t_shell_sack *sack, char *line)
 	sack->line = ft_strdup(line);
 	if (!sack->line)
 		return (free (line), 1);
-	if (check_errors_initsack(&sack))
-		return (free(sack->line), 1);
+	// if (check_errors_initsack(&sack))
+	// 	return (free(sack->line), 1);
 	if (expand_line(sack))
 		return (1);
 	free (sack->line);
