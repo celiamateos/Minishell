@@ -20,7 +20,7 @@ int	execute_builtin(t_shell_sack ***sack, t_tree *node)
 
 	cmd = node->content->cmds[0];
 	if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
-		(**sack)->last_exit = echo(node->content->cmds);
+		(**sack)->last_exit = echo(&sack, node->content->cmds);
 	else
 	{
 		remove_quotes_arr_cmds(node->content, (*sack));
@@ -42,10 +42,10 @@ int	execute_builtin(t_shell_sack ***sack, t_tree *node)
     		(**sack)->last_exit = pre_export_new_variable((**sack)->env, cmd);
 	}
 	// printf("\nlast_exit:%d\n", (**sack)->last_exit);
+	// if ((**sack)->new_pipes[1] != 1 )
+	// 	if (dup2((**sack)->new_pipes[1], STDOUT_FILENO) == -1)
+	// 		free_exit(node->content->cmds, sack, 0); //Free everything?
     //CREEMOS SEGUN EL TESTER QUE ESTO NO SIRVE 22/03
-	if ((**sack)->new_pipes[1] != 1 )
-		if (dup2((**sack)->new_pipes[1], STDOUT_FILENO) == -1)
-			free_exit(node->content->cmds, sack, 0); //Free everything?
     //printf("PUTO node: %s", node->content->cmds[1]); // ENTONCES EL EXIT K COÑO PASAAAA???
     //exit((**sack)->last_exit);
 	return ((**sack)->last_exit);

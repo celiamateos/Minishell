@@ -117,4 +117,3 @@ int	unset(t_env *env, char *del, int check)
 		unset_pre_export_list(env, del);
 	return (0);
 }
-

@@ -131,7 +131,7 @@ char	**realloc_export_add(t_env *env, char *new);
 //print_export_list.c
 void	print_export_list(t_env *env);
 //pre_export.c
-int	pre_export_new_variable(t_env *env, char *line);
+int     pre_export_new_variable(t_env *env, char *line);
 int		already_added_pre_export_list(t_env *env, char *new);
 //unset.c
 int		unset(t_env *env, char *del, int check);
@@ -147,7 +147,7 @@ void	cd_mserror(char *cmd);
 int		check_pathroot(char *path);
 int		update_oldpwd(t_shell_sack *sack);
 //echo.c
-int		echo(char **line);
+int		echo(t_shell_sack ****sack, char **line);
 //check_isbuiltin.c
 int		check_isbuiltin(t_tree *node);
 int		execute_builtin(t_shell_sack ***sack, t_tree *node);
