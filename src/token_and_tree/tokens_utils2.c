@@ -27,13 +27,11 @@ void	automata_init(t_automata *a, t_dlist **token_list)
 
 // @brief This function validates the syntax of cmds, opers and redirs
 // @return 0 if success, else code error. Check code on errors_init()
-int	validate_tokens(t_dlist *token_list, t_shell_sack **sack_o)
+int	validate_tokens(t_dlist *token_list, t_shell_sack ***sack)
 {
 	t_automata	a;
 	int			finalstate;
-	t_shell_sack	***sack;
 
-	sack = &sack_o;
 	ft_bzero(&a, sizeof(t_automata));
 	automata_init(&a, &token_list);
 	if (token_list == NULL)

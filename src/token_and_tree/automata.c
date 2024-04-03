@@ -84,15 +84,18 @@ int	get_state(int i, int j)
 // @brief Error strings to print when automata finish on a non ending state.
 void	errors_init(t_automata **a)
 {
-
 	(*a)->errors = NULL;
-	(*a)->errors = ft_sarradd(NULL, "Empty string.");
-	(*a)->errors = ft_sarradd(&(*(*a)->errors), "Redirections with no cmd");
-	(*a)->errors = ft_sarradd(&(*(*a)->errors), "Operator syntax error");
-	(*a)->errors = ft_sarradd(&(*(*a)->errors), "Operator syntax error near '|'");
-	(*a)->errors = ft_sarradd((*a)->errors, "Operator syntax error near '|| &&'");
-	(*a)->errors = ft_sarradd((*a)->errors, "Operator syntax error near '()'");
-	(*a)->errors = ft_sarradd((*a)->errors, "Command syntax error");
-	(*a)->errors = ft_sarradd((*a)->errors, "Invalid input");
+	(*a)->errors = ft_clear_sarradd(NULL, "Empty string.");
+	(*a)->errors = ft_clear_sarradd(&(*(*a)->errors),
+			"Redirections with no cmd");
+	(*a)->errors = ft_clear_sarradd(&(*(*a)->errors), "Operator syntax error");
+	(*a)->errors = ft_clear_sarradd(&(*(*a)->errors),
+			"Operator syntax error near '|'");
+	(*a)->errors = ft_clear_sarradd((*a)->errors,
+			"Operator syntax error near '|| &&'");
+	(*a)->errors = ft_clear_sarradd((*a)->errors,
+			"Operator syntax error near '()'");
+	(*a)->errors = ft_clear_sarradd((*a)->errors, "Command syntax error");
+	(*a)->errors = ft_clear_sarradd((*a)->errors, "Invalid input");
 	(*a)->errorlen = ft_sarrlen((*a)->errors);
 }

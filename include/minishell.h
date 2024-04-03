@@ -56,7 +56,7 @@ int		get_token_type(char *value);
 char	*fix_tokenvalues(char **value);
 
 //tokens_utils2.c
-int		validate_tokens(t_dlist *token_list, t_shell_sack **sack);
+int		validate_tokens(t_dlist *token_list, t_shell_sack ***sack);
 void	automata_init(t_automata *a, t_dlist **token_list);
 //automara.c
 int		evaluate(t_automata *a);
