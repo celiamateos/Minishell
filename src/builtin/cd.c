@@ -51,7 +51,7 @@ int	cd_path(t_shell_sack *sack)
 		if (!path)
 			return (1);
 	}
-	pathname = remove_slash(path); 
+	pathname = remove_slash(path);
 	if (!pathname)
 		return (1);
 	free (sack->env->pwd);

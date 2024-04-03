@@ -16,16 +16,13 @@
 int	execute_builtin(t_shell_sack ***sack, t_tree *node)
 {
 	char	*cmd;
-	char 	*cmd2;
 
-	cmd = node->content->cmds[0];
-	if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
+	if (!ft_strncmp(cmd, "echo", ft_strlen(node->content->cmds[0])))
 		(**sack)->last_exit = echo(node->content->cmds);
 	else
 	{
 		remove_quotes_arr_cmds(node->content, (*sack));
 		cmd = node->content->cmds[0];
-		cmd2 = node->content->cmds[1];
 		if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
 			(**sack)->last_exit = cmd_exit(sack, node->content->cmds);
 		if (!ft_strncmp(cmd, "cd", ft_strlen(cmd)))
@@ -37,17 +34,11 @@ int	execute_builtin(t_shell_sack ***sack, t_tree *node)
 		else if (!ft_strncmp(cmd, "env", ft_strlen(cmd)))
 			(**sack)->last_exit = print_env(&sack);
 		else if (!ft_strncmp(cmd, "unset", ft_strlen(cmd)))
-			(**sack)->last_exit = unset((**sack)->env, cmd2, 2);
+			(**sack)->last_exit = unset((**sack)->env,
+					node->content->cmds[1], 2);
 		else if (ft_strchr(cmd, '='))
-    		(**sack)->last_exit = pre_export_new_variable((**sack)->env, cmd);
+			(**sack)->last_exit = pre_export_new_variable((**sack)->env, cmd);
 	}
-	// printf("\nlast_exit:%d\n", (**sack)->last_exit);
-	// if ((**sack)->new_pipes[1] != 1 )
-	// 	if (dup2((**sack)->new_pipes[1], STDOUT_FILENO) == -1)
-	// 		free_exit(node->content->cmds, sack, 0); //Free everything?
-    //CREEMOS SEGUN EL TESTER QUE ESTO NO SIRVE 22/03
-    //printf("PUTO node: %s", node->content->cmds[1]); // ENTONCES EL EXIT K COÑO PASAAAA???
-    //exit((**sack)->last_exit);
 	return ((**sack)->last_exit);
 }
 

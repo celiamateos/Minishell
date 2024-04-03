@@ -11,30 +11,6 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-// int check_errors_opers(t_dlist *list)
-// {
-// 	t_token	*token;
-// 	int		type;
-
-// 	token = list->content;
-// 	type = token->type;
-// 	if (type > 0 && list == NULL)
-// 		return (1);
-// 	list = list->next;
-// 	while (list)
-// 	{
-// 		token = list->content;
-// 		if (type != 0)
-// 			if (token->type != 0)
-// 				return (1);
-// 		// printf("token->value: %s type: %d\n", token->value, token->type);
-// 		type = token->type;
-// 		list = list->next;
-// 	}
-// 	return (0);
-// }
-///
-
 void	put_syntaxerror(int cmd)
 {
 	if (cmd == '|')
@@ -61,13 +37,6 @@ int	check_iscomand(char c)
 	return (0);
 }
 
-// int check_valid_heredoc(char *s, int i)
-// {
-// 	i++;
-// 	if (s[i] + 1)
-// 	while (s[i])
-// }
-
 int	check_validoper(char *s, int i)
 {
 	int	index;
@@ -85,11 +54,6 @@ int	check_validoper(char *s, int i)
 	{
 		if (!s[i + 1])
 			return (2);
-		// if (s[i] == '<' && s[i + 1] == '<')
-		// {
-		// 	if (check_valid_heredoc(s, i) == 1)
-		// 		return (2);
-		// }
 	}
 	while (i >= 0)
 	{
@@ -148,15 +112,6 @@ int	check_syntaxerrors(t_shell_sack ***sack, char *s)
 				return (put_syntaxerror('>'), 2);
 			}
 		}
-		
-		// if (s[i] == ')' && str == 1) arreglar esto pa k no de segfault con )
-		// {
-		// 	if (check_validoper(s, i))
-		// 	{
-		// 		sack->last_exit = 2;
-		// 		return (put_syntaxerror(')'), 2);
-		// 	}
-		// }
 	}
 	return (0);
 }
@@ -164,14 +119,18 @@ int	check_syntaxerrors(t_shell_sack ***sack, char *s)
 int check_errors_initsack(t_shell_sack **sack)
 {
 	char	*s;
+	int	d_quotes = 0;
+	int	s_quotes = 0;
 
 	s = (*sack)->line;
-	if (check_open_quotes(s))
+	if (!s || s[0] == '\0')
+		return (1);
+	if (check_open_quotes(s, d_quotes, s_quotes))
 		return (ft_putstr_fd("Input invalid, found open quotes\n", 2), 2);
 	if (check_emptyorspace((*sack)->line))
 		return (1);
-	if (check_syntaxerrors(&sack, s))
-		return (1);
+	// if (check_syntaxerrors(&sack, s))
+	// 	return (1);
 	if (check_open_parentheses(s))
 		return (ft_putstr_fd("Input invalid, parentheses doesn't match\n", 2), 2);
 	return (0);

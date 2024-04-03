@@ -21,7 +21,7 @@ int		sack_init(t_shell_sack *sack, char *line);
 
 /* ---------------------- PARSE ------------------------*/
 int		check_errors_initsack(t_shell_sack **sack);
-int		check_open_quotes(char *s);
+int		check_open_quotes(char *s, int d_quotes, int s_quotes);
 int		check_errors_opers(t_dlist *list);
 int		check_open_parentheses(char *s);
 int		goto_nextquote(char *s, int i);
@@ -32,6 +32,7 @@ int		expand_line(t_shell_sack *sack);
 char	*expand_dolar(t_shell_sack *sack, char *old, int dolar);
 int		check_expand_dolar(t_shell_sack *sack, int i);
 char	*get_varname(t_shell_sack *sack, char *old);
+char	*get_varname_pre_export(t_shell_sack *sack, char *old);
 int		search_char(char *s, char c, int i);
 char	*get_varcontent(char *var);
 char	*remove_quotes_cmd(char *s);

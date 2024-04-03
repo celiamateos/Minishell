@@ -12,6 +12,7 @@ echo hi <
 cat    <| ls
 echo hi | >
 echo hi | > >>
+echo hi | > >> tres
 echo hi | < |
 echo hi |   |
 echo hi |  "|"

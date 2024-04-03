@@ -65,7 +65,8 @@ void	alphabet_init(t_automata **a)
 
 int	get_state(int i, int j)
 {
-	const int	states[][6] = {{9, 2, 2, 5, 1, 7},
+	const int	states[][6] = {
+	{9, 2, 2, 5, 1, 7},
 	{9, 2, 2, 1, 2, 1},
 	{2, 2, 2, 2, 2, 2},
 	{9, 2, 2, 5, 1, 2},

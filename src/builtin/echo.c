@@ -53,6 +53,6 @@ int	echo(char **arr_cmd)
 		}
 	}
 	if (flag == 0)
-		ft_putstr_fd("\n", 1); 
+		ft_putstr_fd("\n", 1);
 	return (0);
 }
