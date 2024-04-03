@@ -20,7 +20,7 @@ int	execute_builtin(t_shell_sack ***sack, t_tree *node)
 
 	cmd = node->content->cmds[0];
 	if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
-		(**sack)->last_exit = echo(&sack, node->content->cmds);
+		(**sack)->last_exit = echo(node->content->cmds);
 	else
 	{
 		remove_quotes_arr_cmds(node->content, (*sack));

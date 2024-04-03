@@ -147,7 +147,7 @@ void	cd_mserror(char *cmd);
 int		check_pathroot(char *path);
 int		update_oldpwd(t_shell_sack *sack);
 //echo.c
-int		echo(t_shell_sack ****sack, char **line);
+int		echo(char **line);
 //check_isbuiltin.c
 int		check_isbuiltin(t_tree *node);
 int		execute_builtin(t_shell_sack ***sack, t_tree *node);

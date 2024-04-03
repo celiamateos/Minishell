@@ -29,12 +29,10 @@ int	only_n(char *s)
 	return (0);
 }
 
-// CASI CASI FUNCIONA. EL TESTER CREO QUE ESTÁ. falta reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeedir pipes al fd
-int	echo(t_shell_sack ****sack, char **arr_cmd)
+int	echo(char **arr_cmd)
 {
 	int	flag;
 	int	i;
-	(void)sack;
 
 	flag = 0;
 	i = 1;
