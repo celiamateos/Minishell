@@ -26,7 +26,7 @@ int		check_errors_opers(t_dlist *list);
 int		check_open_parentheses(char *s);
 int		goto_nextquote(char *s, int i);
 void	put_syntaxerror(int cmd);
-int     check_isoperator(char c);
+int		check_isoperator(char c);
 
 /* ---------------------- EXPANDER ------------------------*/
 char	*remove_quotes(char *old, char c, int quotes);
@@ -134,7 +134,7 @@ char	**realloc_export_add(t_env *env, char *new);
 //print_export_list.c
 void	print_export_list(t_env *env);
 //pre_export.c
-int     pre_export_new_variable(t_env *env, char *line);
+int		pre_export_new_variable(t_env *env, char *line);
 int		already_added_pre_export_list(t_env *env, char *new);
 //unset.c
 int		unset(t_env *env, char *del, int check);
