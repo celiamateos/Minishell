@@ -90,6 +90,7 @@ int	minishell(t_shell_sack *sack, char *line)
 		{
 			free(line);
 			init_tree(&sack);
+			// print2d(sack->tree_list);
 			execute(&sack);
 		}
 		else
