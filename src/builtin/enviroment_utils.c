@@ -10,22 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
-/*@brief Libera las lineas previas malokeadas en caso de error.
-@param mem array a liberar
-@param i linea donde ocurrió el error
-*/
-void	ft_free_error_arr(char **mem, long i)
+
+//@brief Free previous allocated if error
+//@param mem array to free
+//@param i line where it was error
+int	ft_free_error_arr(char **mem, long row)
 {
-    while (i > 0)
-        free(mem[--i]);
-    free(mem);
+	int	i;
+
+	i = 0;
+	if (mem[row] == NULL)
+	{
+		while (i < row)
+		{
+			free(mem[i]);
+			i++;
+		}
+		free(mem);
+		return (1);
+	}
+	return (0);
 }
 
-//@brief libera el array pasado por parametro
-void ft_free_env(char **env)
+//@brief free array
+void	ft_free_env(char **env)
 {
-	int i;
-	
+	int	i;
+
 	i = -1;
 	if (!env)
 		return ;
@@ -35,12 +46,12 @@ void ft_free_env(char **env)
 }
 
 //@brief Print enviroment
-int print_env(t_shell_sack ****sack_orig)
+int	print_env(t_shell_sack ****sack_orig)
 {
-	t_shell_sack    **sack;
-	int 	i;
+	t_shell_sack	**sack;
+	int				i;
 
-    sack = (**sack_orig);
+	sack = (**sack_orig);
 	i = 0;
 	if (!(*sack)->env->env || !(*sack)->env->env[i])
 		return (1);
@@ -51,36 +62,21 @@ int print_env(t_shell_sack ****sack_orig)
 			ft_putstr_fd((*sack)->env->env[i], 1);
 			ft_putstr_fd("\n", 1);
 		}
-			// printf("%d  %s\n", i, (*sack)->env->env[i]);
 		i++;
 	}
-	// if ((*sack)->new_pipes[1] != 1 )
-    // 	if (dup2((*sack)->new_pipes[1], STDOUT_FILENO) == -1)
-	// 		free_exit(&(**sack_orig));
 	return (0);
 }
 
-//@brief Return len array.
-size_t ft_arraylen(char **array)
-{
-	size_t i;
-
-	i = 0;
-	if (!array)
-		return(i);
-	while (array[i])
-		i++;
-	return (i);
-}
-
-//@brief Busca si una variable existe en el enviroment
-//@param limit delimitador (caracter) hasta el cual comparar si existe (limit inclusive)
-//@return El número de línea en la que aparece la variable, -1 si no la encuentra.
+//@brief shearch if one variable is into enviroment
+//@param limit delimiter up to which to compare if any
+//@return the number of the line on which the variable appears, -1 if not found.
 int	search_env_pos(char **env, char *word, char limit)
 {
-	size_t i = -1;
-	size_t j = 0;
+	size_t	i;
+	size_t	j;
 
+	i = -1;
+	j = 0;
 	if (!env || !word || word[0] == '\0')
 		return (-1);
 	while ((word[j] && word[j] != limit))
@@ -91,11 +87,9 @@ int	search_env_pos(char **env, char *word, char limit)
 	{
 		if (!ft_strncmp(env[i], word, j))
 		{
-			// printf("\nCHAR:%c", env[i][j]);
 			if (env[i][j] == '=' || env[i][j] == '\0')
 				return (i);
 		}
 	}
 	return (-1);
 }
- 

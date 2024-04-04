@@ -26,7 +26,8 @@ CFLAGS = -Wall -Wextra -Werror
 #CFLAGS = -C -Wall -Wextra -Werror // error con -c en MAC
 LIB = ar rc
 SRC = ft_isalpha.c \
-	  ft_isspace.c ft_strposchr.c ft_print_strarray.c arrcpy.c ft_arrtostr.c ft_split_minishell.c \
+	  ft_isspace.c ft_strposchr.c ft_print_strarray.c ft_arrtostr.c \
+	  ft_split_minishell.c  ft_split_minishell_utils.c \
 	  ft_freematrix.c \
 	  ft_isdigit.c \
 	  ft_isalnum.c \

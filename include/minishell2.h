@@ -56,6 +56,9 @@
 # define STANDAR 104
 # define ISDIRECTORY 105
 
+# define MSERROR1 "minishell: export: not a valid identifier\n"
+# define MSERROR2 "command not found\n"
+
 // Declaración de la variable global para señalización... 
 extern volatile sig_atomic_t	g_received_signal;
 
@@ -101,6 +104,7 @@ typedef struct s_shell_sack
 	char			*line;
 	char			*l_expanded;
 	char			**split_line;
+	char			**expanded;
 	int				pos;
 	struct s_dlist	*token_list;
 	struct s_tree	*tree_list;
@@ -116,6 +120,7 @@ typedef struct s_shell_sack
 	int				is_string;
 	int				d_quotes;
 	int				s_quotes;
+	int				expander;
 	int				len_expand;
 	char			**envp;
 	int				pipe_wc;

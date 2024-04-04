@@ -21,17 +21,20 @@ int		sack_init(t_shell_sack *sack, char *line);
 
 /* ---------------------- PARSE ------------------------*/
 int		check_errors_initsack(t_shell_sack **sack);
-int		check_open_quotes(char *s);
+int		check_open_quotes(char *s, int d_quotes, int s_quotes);
 int		check_errors_opers(t_dlist *list);
 int		check_open_parentheses(char *s);
 int		goto_nextquote(char *s, int i);
+void	put_syntaxerror(int cmd);
+int     check_isoperator(char c);
 
 /* ---------------------- EXPANDER ------------------------*/
-char	*remove_quotes(char *old, char c);
+char	*remove_quotes(char *old, char c, int quotes);
 int		expand_line(t_shell_sack *sack);
-char	*expand_dolar(t_shell_sack *sack, char *old, int i);
-int		check_expand_dolar(char *old, int i);
+char	*expand_dolar(t_shell_sack *sack, char *old, int dolar);
+int		check_expand_dolar(t_shell_sack *sack, int i);
 char	*get_varname(t_shell_sack *sack, char *old);
+char	*get_varname_pre_export(t_shell_sack *sack, char *old);
 int		search_char(char *s, char c, int i);
 char	*get_varcontent(char *var);
 char	*remove_quotes_cmd(char *s);
@@ -122,7 +125,8 @@ int		search_env_pos(char **env, char *word, char limit);
 size_t	ft_arraylen(char **array);
 void	ft_free_env(char **env);
 int		print_env(t_shell_sack ****sack_orig);
-void	ft_free_error_arr(char **mem, long i);
+int     ft_free_error_arr(char **mem, long row);
+
 //export.c
 int		export(t_env *env, char *new);
 int		is_valid_to_export(char *s);
@@ -130,7 +134,7 @@ char	**realloc_export_add(t_env *env, char *new);
 //print_export_list.c
 void	print_export_list(t_env *env);
 //pre_export.c
-void	pre_export_new_variable(t_env *env, char *line);
+int     pre_export_new_variable(t_env *env, char *line);
 int		already_added_pre_export_list(t_env *env, char *new);
 //unset.c
 int		unset(t_env *env, char *del, int check);
@@ -153,6 +157,8 @@ int		execute_builtin(t_shell_sack ***sack, t_tree *node);
 int		check_builtinparent(t_tree *node);
 //exit.c
 int		cmd_exit(t_shell_sack ***sack, char **cmd);
+int		init_shlvl(t_shell_sack *sack);
+int		insert_shlvlenv(t_shell_sack *sack, char *new);
 
 /* ---------------------- CLEAN AND EXIT ------------------------*/
 void	ft_free_pruebas(t_shell_sack **sack);

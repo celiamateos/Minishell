@@ -15,3 +15,9 @@ echo hi | > >>
 echo hi | < |
 echo hi |   |
 echo hi |  "|"
+< |
+( |
+<<FIN |
+ls > out > out2
+ls > out | ls > out2
+ls & | ls

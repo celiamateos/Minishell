@@ -94,6 +94,7 @@ char	**ft_sarrcpy(char **arr);
 void	ft_putstr_fd_noquotes(char *s, int fd);
 char	*ft_arrtostr(char **arr);
 char	**ft_split_minishell(char const *s);
+int		ft_lenstring_minishell(char const *s, int i);
 char	**ft_sarradd(char **array, char *str);
 char	**ft_sarrcpy(char **arr);
 size_t	ft_sarrlen(char **array);
