@@ -39,6 +39,9 @@ int	execute_builtin(t_shell_sack ***sack, t_tree *node)
 		else if (ft_strchr(cmd, '='))
 			(**sack)->last_exit = pre_export_new_variable((**sack)->env, cmd);
 	}
+		// if ((**sack)->new_pipes[1] != 1 )
+		// 	if (dup2((**sack)->new_pipes[1], STDOUT_FILENO) == -1)
+		// 		free_exit(node->content->cmds, sack, 0); //Free everything?
 	return ((**sack)->last_exit);
 }
 
@@ -55,7 +58,9 @@ int	check_builtinparent(t_tree *node)
 		return (1);
 	else if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
 		return (0);
-	else if (!ft_strncmp(cmd, "export", ft_strlen("export")))
+	else if (!ft_strncmp(cmd, "export", ft_strlen("export") && ft_sarrlen(node->content->cmds) < 2))
+		return (0);
+	else if (!ft_strncmp(cmd, "export", ft_strlen("export") && ft_sarrlen(node->content->cmds) > 2))
 		return (1);
 	else if (!ft_strncmp(cmd, "env", ft_strlen("env"))
 		&& ft_sarrlen(node->content->cmds) == 1 && ft_strlen(cmd) == 3)

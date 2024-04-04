@@ -1,21 +1,31 @@
 <<FIN | cat
-<<<<<<< HEAD
+cd culo 2>/dev/null
+.echo.
+choE
+/
+..
+.
+/Users
+<<
+~
+||||||||
+echo > <
+test
 =======
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> origin/david
+README.md
+$?
+$
+minishell.h
+/test_files
+./test_files
+test_files
+"aaa"
+missing.out
+./missing.out
+$EMPTY
+$PWD
+cat <minishell.h|ls 
+cat <minishell.h>./outfiles/outfile
+echo hi | echo >>./outfiles/outfile01 bye >./test_files/invalid_permission
+echo hi | echo bye >>./test_files/invalid_permission
+echo hi >>./test_files/invalid_permission >./outfiles/outfile01 | echo bye 
