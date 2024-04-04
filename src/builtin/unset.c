@@ -11,102 +11,109 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-//@brief ALOCA MEMORIA!
-//Realloca el array env, omitiendo la línea que se desea eliminar.
-//Retorna NULL en caso de fallo en la reserva de memoria, liberando lo alocado previamente en esta función.
-char **realloc_unset(t_env *env, size_t pos)
+// //@brief ALOCA MEMORIA!
+// //Realloc array env and delete position line
+char	**realloc_unset_env(t_env *env, size_t pos)
 {
-    char **temp;
-    size_t i;
-    size_t j;
+	char	**temp;
+	size_t	i;
+	size_t	j;
 
-    if(!env)
-        return (NULL);
-    i = -1;
-    j = 0;
-    temp = (char **)malloc(env->env_elements * sizeof(char *));
-    if (!temp)
-        return(ft_free_env(env->env), NULL);
-    while (++i < env->env_elements - 1)
-    {
-       if (i == pos)
-            j++;
-        temp[i] = ft_substr(env->env[j], 0, ft_strlen(env->env[j]));
-        if (!temp[i])
-            return(ft_free_error_arr(temp, i), ft_free_env(env->env), NULL);
-        j++;
-    }
-    temp[i] = NULL;
-    env->env_elements -= 1;
-    ft_free_env(env->env);
-    return (temp);
+	if (!env)
+		return (NULL);
+	i = -1;
+	j = 0;
+	temp = (char **)malloc(env->env_elements * sizeof(char *));
+	if (!temp)
+		return (NULL);
+	while (++i < env->env_elements - 1)
+	{
+		if (i == pos)
+			j++;
+		temp[i] = ft_substr(env->env[j], 0, ft_strlen(env->env[j]));
+		if (!temp[i])
+			return (ft_free_error_arr(temp, i), NULL);
+		j++;
+	}
+	temp[i] = NULL;
+	return (temp);
 }
 
-/*@brief ALOCA MEMORIA!
-Realloca el array pre_export, omitiendo la línea que se desea eliminar.
-@return NULL en caso de fallo en la reserva de memoria, liberando lo alocado previamente en esta función.
-*/
-char **realloc_unset_pre_export_list(t_env *env, size_t pos)
+void	unset_env(t_env *env, char *del)
 {
-    char **temp;
-    size_t i;
-    size_t j;
+	long	pos;
+	char	**temp;
 
-    if(!env)
-        return (NULL);
-    i = -1;
-    j = 0;
-    temp = (char **)malloc(env->pre_export_elements * sizeof(char *));
-    if (!temp)
-        return(ft_free_env(env->pre_export), NULL);
-    while (++i < env->pre_export_elements - 1)
-    {
-       if (i == pos)
-            j++;
-        temp[i] = ft_substr(env->pre_export[j], 0, ft_strlen(env->pre_export[j]));
-        if (!temp[i])
-            return(ft_free_error_arr(temp, i), ft_free_env(env->pre_export), NULL);
-        j++;
-    }
-    temp[i] = NULL;
-    env->pre_export_elements -= 1;
-    ft_free_env(env->pre_export);
-    return (temp);
+	pos = search_env_pos(env->env, del, '\0');
+	if (pos >= 0)
+	{
+		temp = realloc_unset_env(env, pos);
+		if (temp)
+		{
+			ft_freematrix(&env->env);
+			env->env = ft_sarrcpy(temp);
+			ft_freematrix(&temp);
+			env->env_elements -= 1;
+		}
+	}
 }
 
-/*
-@brief Revisa si la posicion de la linea que quieres borrar existe. 
-Retorna 1 en caso de fallo en alguna reserva de memoria.  
-Habría que liberar env struct si esta funcion retorna 1. 
-@param del La linea a borrar
-@return 1 en caso de error, 0 si todo ok
-@param check es un indicador para saber si hay que hacer unset en char **env (1) o en char **pre_export (0) o en ambas (2);
-Esto es util porque al usar el comando unset a secas, elimina la variable de las 2 listas,
-pero se puede reutilizar esta funcion para el uso de: VARIABLE="hola"; export VARIABLE;
-VARIABLE se añade primero a pre_export, despues se mueve de pre_export a env y se elimina de pre_export. */
-int unset(t_env *env, char *del, int check)
+//@brief ALOCATE MEMORY
+//Realloc arr pre_export, delet position line.
+char	**realloc_unset_pre_export_list(t_env *env, size_t pos)
 {
-	long pos;
+	char	**temp;
+	size_t	i;
+	size_t	j;
+	size_t	len;
 
-    if (env->env && (check == 2 || check == 1))
-    {
-        pos = search_env_pos(env->env, del, '\0');
-	    if (pos >= 0)
-        {
-            env->env = realloc_unset(env, pos);
-            if (!env->env)
-                return (1);
-        }
-    }
-    if (env->pre_export && (check == 2 || check == 0))
-    {
-        pos = search_env_pos(env->pre_export, del, '\0');
-	    if (pos >= 0)
-        {
-            env->pre_export = realloc_unset_pre_export_list(env, pos);
-            if (!env->pre_export)
-                return (1);
-        }
-    }
-    return (0);
+	if (!env)
+		return (NULL);
+	i = -1;
+	j = 0;
+	temp = (char **)malloc(env->pre_export_elements * sizeof(char *));
+	if (!temp)
+		return (NULL);
+	while (++i < env->pre_export_elements - 1)
+	{
+		if (i == pos)
+			j++;
+		len = ft_strlen(env->pre_export[j]);
+		temp[i] = ft_substr(env->pre_export[j], 0, len);
+		if (!temp[i])
+			return (ft_free_error_arr(temp, i), NULL);
+		j++;
+	}
+	temp[i] = NULL;
+	return (temp);
+}
+
+void	unset_pre_export_list(t_env *env, char *del)
+{
+	long	pos;
+	char	**temp;
+
+	pos = search_env_pos(env->pre_export, del, '\0');
+	if (pos >= 0)
+	{
+		temp = realloc_unset_pre_export_list(env, pos);
+		if (temp)
+		{
+			ft_freematrix(&env->pre_export);
+			env->pre_export = ft_sarrcpy(temp);
+			ft_freematrix(&temp);
+			env->pre_export_elements -= 1;
+		}
+	}
+}
+
+// @brief Unset var "del" to enviroment and/or pre_export_list.
+// Revisa si la posicion de la linea que quieres borrar existe.
+int	unset(t_env *env, char *del, int check)
+{
+	if (env->env && (check == 2 || check == 1))
+		unset_env(env, del);
+	if (env->pre_export && (check == 2 || check == 0))
+		unset_pre_export_list(env, del);
+	return (0);
 }

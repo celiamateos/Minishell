@@ -11,9 +11,21 @@
 /* ************************************************************************** */
 #include "libft.h"
 //duplicate an array of strings. If array is null, returns an empty array. 
-
 //@brief Return len array.
 size_t	ft_sarrlen(char **array)
+{
+	size_t	i;
+
+	i = 0;
+	if (!array)
+		return (i);
+	while (array[i])
+		i++;
+	return (i);
+}
+
+//@brief Return len array.
+size_t	ft_arraylen(char **array)
 {
 	size_t	i;
 

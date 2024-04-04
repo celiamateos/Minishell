@@ -72,3 +72,4 @@ echo $PWD/file
 echo "$PWD/file"
 echo "text" "text$USER" ... "$USER"
 echo $PWD
+echo "hola's"'"'pereza$bla+
