@@ -27,7 +27,6 @@ void	free_token(void *content)
 	free(content);
 }
 
-/*VERSION MEJORADA perror_free_exit*/
 void	free_exit(char **cmds, t_shell_sack ***sack, int msj)
 {
 	int		exitcode;

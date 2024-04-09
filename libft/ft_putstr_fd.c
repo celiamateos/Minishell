@@ -39,7 +39,7 @@ void	ft_putstr_fd_noquotes(char *s, int fd)
 	int	i;
 
 	i = -1;
-	while (s[++i])
+	while (s[++i] != '\0')
 	{
 		if (s[i] == '\'')
 			i = ft_putstr_fd_noquotes_iter(s, fd, i, '\'');

@@ -23,6 +23,7 @@ void	run_cmd_util(t_shell_sack ***sack_orig, t_tree *node)
 	if (!check_isbuiltin(node))
 	{
 		execute_builtin(&sack, node);
+
 		exit((*sack)->last_exit);
 	}
 	else

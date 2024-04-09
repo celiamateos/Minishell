@@ -18,7 +18,18 @@ int	execute_builtin(t_shell_sack ***sack, t_tree *node)
 	char	*cmd;
 
 	if (!ft_strncmp(node->content->cmds[0], "echo\0", 5))
+	{
 		(**sack)->last_exit = echo(node->content->cmds);
+	//  	ft_close((**sack)->old_pipes[0], (**sack)->new_pipes[1]);
+	//  if ((**sack)->new_pipes[1] != 1 )
+	//  		exit((**sack)->last_exit);
+
+    // 	// if (dup2((**sack)->new_pipes[1], STDOUT_FILENO) == -1)
+	// 	// 	{
+	// 	// 		ft_close((**sack)->old_pipes[0], (**sack)->new_pipes[1]);
+	// 	// 		printf("HOL\n");
+	// 	// 		perror_free_exit("Dup2 error OUT", &(*sack));			}
+	}
 	else
 	{
 		remove_quotes_arr_cmds(node->content, (*sack));
