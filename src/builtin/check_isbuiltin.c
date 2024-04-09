@@ -17,23 +17,23 @@ int	execute_builtin(t_shell_sack ***sack, t_tree *node)
 {
 	char	*cmd;
 
-	if (!ft_strncmp(cmd, "echo", ft_strlen(node->content->cmds[0])))
+	if (!ft_strncmp(node->content->cmds[0], "echo\0", 5))
 		(**sack)->last_exit = echo(node->content->cmds);
 	else
 	{
 		remove_quotes_arr_cmds(node->content, (*sack));
 		cmd = node->content->cmds[0];
-		if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
+		if (!ft_strncmp(cmd, "exit\0", 5))
 			(**sack)->last_exit = cmd_exit(sack, node->content->cmds);
-		if (!ft_strncmp(cmd, "cd", ft_strlen(cmd)))
+		else if (!ft_strncmp(cmd, "cd\0", 3))
 			(**sack)->last_exit = cd(**sack, node->content->cmds);
-		else if (!ft_strncmp(cmd, "pwd", ft_strlen(cmd)))
+		else if (!ft_strncmp(cmd, "pwd\0", 4))
 			(**sack)->last_exit = print_pwd((**sack));
-		else if (!ft_strncmp(cmd, "export", ft_strlen(cmd)))
+		else if (!ft_strncmp(cmd, "export\0", 7))
 			(**sack)->last_exit = export((**sack)->env, node->content->cmds[1]);
-		else if (!ft_strncmp(cmd, "env", ft_strlen(cmd)))
+		else if (!ft_strncmp(cmd, "env\0", 4))
 			(**sack)->last_exit = print_env(&sack);
-		else if (!ft_strncmp(cmd, "unset", ft_strlen(cmd)))
+		else if (!ft_strncmp(cmd, "unset\0", 6))
 			(**sack)->last_exit = unset((**sack)->env,
 					node->content->cmds[1], 2);
 		else if (ft_strchr(cmd, '='))
@@ -48,22 +48,23 @@ int	check_builtinparent(t_tree *node)
 {
 	char	*cmd;
 
+// printf("check_builtinPARENT\n");
 	cmd = node->content->cmds[0];
-	if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
+	if (!ft_strncmp(cmd, "exit\0", 5))
 		return (1);
-	if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
+	else if (!ft_strncmp(cmd, "cd\0", 3))
 		return (1);
-	else if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
+	else if (!ft_strncmp(cmd, "pwd\0", 4))
 		return (0);
-	else if (!ft_strncmp(cmd, "export", ft_strlen("export")
+	else if (!ft_strncmp(cmd, "export\0", 7
 			&& ft_sarrlen(node->content->cmds) < 2))
-		return (0);
-	else if (!ft_strncmp(cmd, "env", ft_strlen("env"))
+		return (1);
+	else if (!ft_strncmp(cmd, "env\0", 4)
 		&& ft_sarrlen(node->content->cmds) == 1 && ft_strlen(cmd) == 3)
 		return (0);
-	else if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
+	else if (!ft_strncmp(cmd, "unset\0", 6))
 		return (1);
-	else if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
+	else if (!ft_strncmp(cmd, "echo\0", 5))
 		return (0);
 	else if (ft_strchr(cmd, '=') && !is_valid_to_export(cmd))
 		return (1);
@@ -74,21 +75,22 @@ int	check_isbuiltin(t_tree *node)
 {
 	char	*cmd;
 
+// printf("check_isbuiltin\n");
 	cmd = node->content->cmds[0];
-	if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
+	if (!ft_strncmp(cmd, "exit\0", 5))
 		return (0);
-	if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
+	else if (!ft_strncmp(cmd, "cd\0", 3))
 		return (0);
-	else if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
+	else if (!ft_strncmp(cmd, "pwd\0", 4))
 		return (0);
-	else if (!ft_strncmp(cmd, "export", ft_strlen("export")))
+	else if (!ft_strncmp(cmd, "export\0", 7))
 		return (0);
-	else if (!ft_strncmp(cmd, "env", ft_strlen("env"))
+	else if (!ft_strncmp(cmd, "env\0", 4)
 		&& ft_sarrlen(node->content->cmds) == 1 && ft_strlen(cmd) == 3)
 		return (0);
-	else if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
+	else if (!ft_strncmp(cmd, "unset\0", 6))
 		return (0);
-	else if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
+	else if (!ft_strncmp(cmd, "echo\0", 5))
 		return (0);
 	else if (ft_strchr(cmd, '=') && !is_valid_to_export(cmd))
 		return (0);

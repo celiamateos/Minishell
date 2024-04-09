@@ -42,6 +42,7 @@ void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 	sack = *sack_orig;
 	(*sack)->last_exit = 0;
 	(*sack)->last_pid = fork();
+
 	if ((*sack)->last_pid < 0)
 		perror_free_exit("Fork error", &sack);
 	else if ((*sack)->last_pid == 0)

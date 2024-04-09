@@ -74,8 +74,8 @@ int	check_syntaxerrors(t_shell_sack ***sack, char *s)
 	{
 		if (s[i] == S_QUOTES || s[i] == D_QUOTES)
 			str = !str;
-		if (s[i] == '|' && str == 1 && check_validoper(s, i))
-			return (put_syntaxerror('|'), 2);
+		// if (s[i] == '|' && str == 1 && check_validoper(s, i))
+		// 	return (put_syntaxerror('|'), 2);
 		if (s[i] == '<' && str == 1 && check_validoper(s, i))
 			return (put_syntaxerror('<'), 2);
 		if (s[i] == '>' && str == 1 && check_validoper(s, i))
