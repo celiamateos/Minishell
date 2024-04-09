@@ -48,24 +48,18 @@ int	check_builtinparent(t_tree *node)
 {
 	char	*cmd;
 
-// printf("check_builtinPARENT\n");
+	if (check_isbuiltin(node))
+		return (0);
 	cmd = node->content->cmds[0];
 	if (!ft_strncmp(cmd, "exit\0", 5))
 		return (1);
 	else if (!ft_strncmp(cmd, "cd\0", 3))
 		return (1);
-	else if (!ft_strncmp(cmd, "pwd\0", 4))
-		return (0);
 	else if (!ft_strncmp(cmd, "export\0", 7
 			&& ft_sarrlen(node->content->cmds) < 2))
 		return (1);
-	else if (!ft_strncmp(cmd, "env\0", 4)
-		&& ft_sarrlen(node->content->cmds) == 1 && ft_strlen(cmd) == 3)
-		return (0);
 	else if (!ft_strncmp(cmd, "unset\0", 6))
 		return (1);
-	else if (!ft_strncmp(cmd, "echo\0", 5))
-		return (0);
 	else if (ft_strchr(cmd, '=') && !is_valid_to_export(cmd))
 		return (1);
 	return (0);
@@ -75,7 +69,6 @@ int	check_isbuiltin(t_tree *node)
 {
 	char	*cmd;
 
-// printf("check_isbuiltin\n");
 	cmd = node->content->cmds[0];
 	if (!ft_strncmp(cmd, "exit\0", 5))
 		return (0);

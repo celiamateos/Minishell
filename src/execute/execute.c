@@ -68,7 +68,10 @@ void	run_node(t_shell_sack **sack, t_tree **node)
 	if (token->type == PARENT_CL)
 	{
 		if (!check_opercondition(&sack, node))
+		{
+			free_tree(&(*node)->right);
 			(*node)->right = NULL;
+		}	
 	}
 	else if (token->type == CMD)
 	{
