@@ -42,7 +42,6 @@ void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 	sack = *sack_orig;
 	(*sack)->last_exit = 0;
 	(*sack)->last_pid = fork();
-
 	if ((*sack)->last_pid < 0)
 		perror_free_exit("Fork error", &sack);
 	else if ((*sack)->last_pid == 0)
@@ -62,28 +61,25 @@ void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 /* @brief Executes appropriate function depends on type of token on tree. */
 void	run_node(t_shell_sack **sack, t_tree **node)
 {
-	t_token	*token;
-
-	token = (*node)->content;
-	if (token->type == PARENT_CL)
+	if (((*node)->content)->type == PARENT_CL)
 	{
 		if (!check_opercondition(&sack, node))
 		{
 			free_tree(&(*node)->right);
 			(*node)->right = NULL;
-		}	
+		}
 	}
-	else if (token->type == CMD)
+	else if (((*node)->content)->type == CMD)
 	{
 		if (check_opercondition(&sack, node))
 			run_cmd(&sack, (*node));
 	}
-	else if (token->type == PIPE)
+	else if (((*node)->content)->type == PIPE)
 	{
 		++(*sack)->pipe_wc;
 		run_pipe(&sack, (*node));
 	}
-	else if (token->type == OPER)
+	else if (((*node)->content)->type == OPER)
 	{
 		(*sack)->last_exit = wait_exitcode((*sack)->last_pid);
 		run_oper(&sack, (*node));

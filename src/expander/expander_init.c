@@ -13,7 +13,7 @@
 
 int	check_expand_dolar(t_shell_sack *sack, int i)
 {
-	if ((sack->line[i] == '$') && (sack->expander == 1)
+	if ((sack->line[i] && sack->line[i] == '$') && (sack->expander == 1)
 		&& sack->line[i + 1] != '\0' && ft_isspace(sack->line[i + 1]) == 0
 		&& sack->line[i + 1] != D_QUOTES && sack->line[i + 1] != S_QUOTES)
 		return (1);
@@ -47,15 +47,15 @@ char	*start_expand_line(t_shell_sack *sack, int i)
 
 	while (sack->line[++i])
 	{
-		if (sack->line[i] == '\"' && sack->s_quotes == 0)
+		if (sack->line[i] && sack->line[i] == '\"' && sack->s_quotes == 0)
 			sack->d_quotes = !sack->d_quotes;
-		else if (sack->line[i] == '\'' && sack->d_quotes == 0)
+		else if (sack->line[i] && sack->line[i] == '\'' && sack->d_quotes == 0)
 		{
 			if (sack->d_quotes == 0)
 				sack->expander = !sack->expander;
 			sack->s_quotes = !sack->s_quotes;
 		}
-		else if (check_expand_dolar(sack, i) == 1)
+		else if (sack->line[i] && check_expand_dolar(sack, i) == 1)
 		{
 			temp = expand_dolar(sack, sack->line, i);
 			if (temp)

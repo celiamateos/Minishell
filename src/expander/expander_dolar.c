@@ -38,12 +38,12 @@ char	*arr_join_not_spaces(t_shell_sack *sack)
 	char	*expand;
 
 	temp = NULL;
-	if (sack->expanded[0] && sack->expanded[0][0] != '\0')
+	if (sack->expanded[0])
 		temp = ft_strjoin (sack->expanded[0], sack->expanded[1]);
 	if (temp)
 		expand = ft_strjoin(temp, sack->expanded[2]);
 	else
-		expand = ft_strdup(temp);
+		expand = ft_strdup("\0");
 	if (temp)
 		free (temp);
 	return (expand);
