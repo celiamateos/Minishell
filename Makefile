@@ -27,7 +27,7 @@ COLOR_PURPLE_N = \033[1;35m
 
 NAME = minishell
 CC = gcc
-CFLAGS = -g3 #-Werror -Wextra -Wall
+CFLAGS = -g3 -Werror -Wextra -Wall
 #-g3 -fsanitize=address 
 #Pa detectar leaks y movidas: valgrind --leak-check=full ./minishell
 CCLANG = -lreadline 

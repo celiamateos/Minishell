@@ -68,6 +68,7 @@ int	check_syntaxerrors(t_shell_sack ***sack, char *s)
 	int	i;
 	int	str;
 
+	(void)sack;
 	str = 1;
 	i = -1;
 	while (s[++i])

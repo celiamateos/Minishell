@@ -37,7 +37,7 @@ int	cd_home(t_shell_sack *sack)
 	return (0);
 }
 
-int	cd_path(t_shell_sack *sack)
+int	cd_path(t_shell_sack *sack, int check)
 {
 	char	*pathname;
 	char	*path;
@@ -50,11 +50,14 @@ int	cd_path(t_shell_sack *sack)
 		path = ft_strjoin(sack->env->pwd, "..");
 		if (!path)
 			return (1);
+		check = 1;
 	}
 	pathname = remove_slash(path);
 	if (!pathname)
 		return (1);
 	free (sack->env->pwd);
+	if (check == 1)
+		free (path);
 	sack->env->pwd = ft_strjoin("PWD=", pathname);
 	free (pathname);
 	if (!sack->env->pwd)
@@ -94,7 +97,7 @@ int	cd(t_shell_sack *sack, char **cmds)
 		return (cd_mserror(path), 1);
 	if (update_oldpwd(sack) == 1)
 		return (1);
-	if (cd_path(sack) == 1)
+	if (cd_path(sack, 0) == 1)
 		return (1);
 	export(sack->env, sack->env->pwd);
 	export(sack->env, sack->env->oldpwd);
