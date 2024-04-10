@@ -11,6 +11,34 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
+/* @brief Find in tree the next cmd token or parenthesis. Used to add
+ operator flag, that in execution it will execute or not depends on exitcode*/
+t_tree	*findright_cmd_redirleaf(t_tree **node)
+{
+	t_token	*token;
+	t_tree	**aux_leaf;
+
+	aux_leaf = node;
+	token = (*aux_leaf)->content;
+	if (token->type != CMD)
+	{
+		while ((*aux_leaf)->right != NULL)
+		{
+			if (((*aux_leaf)->right)->content->type == CMD)
+				return ((*aux_leaf)->right);
+			*aux_leaf = (*aux_leaf)->right;
+		}
+	}
+	// if (((*aux_leaf)->right)->content->type == CMD)
+	// 	return ((*aux_leaf)->right);
+	// else
+	return (*aux_leaf);
+	// else if (((*aux_leaf)->right)->content->type >= HEREDOC)
+	// 	while ((*node)->right != NULL)
+	// 		*node = (*node)->right;
+	// return ((*node)->right);
+}
+
 void	leaf_isredirect(t_tree ***root, t_dlist *token_list)
 {
 	t_tree	**tree;
@@ -19,18 +47,31 @@ void	leaf_isredirect(t_tree ***root, t_dlist *token_list)
 
 	token = token_list->content;
 	tree = *root;
-	if ((*tree)->right == NULL)
-		(*tree)->right = new_leaf(token);
-	else if ((*tree)->left == NULL && (*tree)->right->content->type >= HEREDOC)
-	{
-		(*tree)->left = new_leaf(token);
-	}
-	else
-	{
-		aux_leaf = *tree;
-		while (aux_leaf->right)
-			aux_leaf = aux_leaf->right;
+	aux_leaf = *tree;
+	if (token->type >= REDIR_OUT && aux_leaf->right == NULL)
 		aux_leaf->right = new_leaf(token);
+	else if (token->type >= REDIR_OUT && aux_leaf->right->content->type >= REDIR_OUT)
+	{
+		while (aux_leaf->right)
+			aux_leaf = aux_leaf->right;		
+		aux_leaf->right = new_leaf(token);
+	}
+	else if (token->type >= HEREDOC && aux_leaf->left == NULL)
+		aux_leaf->left = new_leaf(token);
+	else if (token->type >= HEREDOC && aux_leaf->left->content->type >= HEREDOC)
+	{
+		while (aux_leaf->left)
+			aux_leaf = aux_leaf->left;		
+		aux_leaf->left = new_leaf(token);
+	}
+	else if ((aux_leaf->content->type >= PIPE && aux_leaf->content->type <= PARENT_CL) && aux_leaf->right == NULL)
+		aux_leaf->right = new_leaf(token);
+	else if (aux_leaf->content->type >= PIPE && aux_leaf->content->type <= PARENT_CL)
+	{
+		aux_leaf = findright_cmd_redirleaf(tree);
+		tree = &aux_leaf;
+		printf("AAAAA\n");
+		leaf_isredirect(&tree, token_list);
 	}
 }
 

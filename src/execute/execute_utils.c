@@ -114,17 +114,25 @@ to assign fds*/
 int	check_redirect(t_shell_sack ***sack_orig, t_tree *node)
 {
 	int	i;
+	t_tree	*aux_node;
+	t_tree	*aux_node2;
 
 	i = 0;
-	if (node != NULL)
+	aux_node = node;
+	aux_node2 = node;
+	if (aux_node != NULL)
 	{
-		if (node->left && node->left->content->type >= HEREDOC)
+		if (aux_node->left && aux_node->left->content->type >= HEREDOC)
 		{
-			i = open_redirect(&sack_orig, node->left);
+			while (aux_node->left != NULL)
+				aux_node = (aux_node)->left;
+			i = open_redirect(&sack_orig, aux_node);
 		}
-		if (node->right && node->right->content->type >= HEREDOC)
+		if (aux_node2->right && aux_node2->right->content->type >= HEREDOC)
 		{
-			i = open_redirect(&sack_orig, node->right);
+			while (aux_node2->right != NULL)
+				aux_node2 = (aux_node2)->right;
+			i = open_redirect(&sack_orig, aux_node2);
 		}
 	}
 	return (i);
