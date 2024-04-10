@@ -18,18 +18,7 @@ int	execute_builtin(t_shell_sack ***sack, t_tree *node)
 	char	*cmd;
 
 	if (!ft_strncmp(node->content->cmds[0], "echo\0", 5))
-	{
 		(**sack)->last_exit = echo(node->content->cmds);
-	//  	ft_close((**sack)->old_pipes[0], (**sack)->new_pipes[1]);
-	//  if ((**sack)->new_pipes[1] != 1 )
-	//  		exit((**sack)->last_exit);
-
-    // 	// if (dup2((**sack)->new_pipes[1], STDOUT_FILENO) == -1)
-	// 	// 	{
-	// 	// 		ft_close((**sack)->old_pipes[0], (**sack)->new_pipes[1]);
-	// 	// 		printf("HOL\n");
-	// 	// 		perror_free_exit("Dup2 error OUT", &(*sack));			}
-	}
 	else
 	{
 		remove_quotes_arr_cmds(node->content, (*sack));
@@ -62,7 +51,9 @@ int	check_builtinparent(t_tree *node)
 	if (check_isbuiltin(node))
 		return (0);
 	cmd = node->content->cmds[0];
-	if (!ft_strncmp(cmd, "exit\0", 5))
+	if (!ft_strncmp(cmd, "echo\0", 5))
+		return (0);
+	else if (!ft_strncmp(cmd, "exit\0", 5))
 		return (1);
 	else if (!ft_strncmp(cmd, "cd\0", 3))
 		return (1);

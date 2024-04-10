@@ -54,7 +54,7 @@ void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 	ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	(*sack)->last_exit = wait_exitcode((*sack)->last_pid);
+	//(*sack)->last_exit = wait_exitcode((*sack)->last_pid);
 	ft_cpypipes((*sack)->old_pipes, (*sack)->new_pipes);
 	(*sack)->new_pipes[1] = 1;
 }
@@ -126,5 +126,6 @@ void	execute(t_shell_sack **sack)
 	run_preorder(tree, sack);
 	(*sack)->oper_state = 0;
 	unlink(".heredoc");
+	(*sack)->last_exit = wait_exitcode((*sack)->last_pid);
 	free_sack(&(*sack));
 }

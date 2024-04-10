@@ -32,6 +32,8 @@ int	wait_exitcode(int last_pid)
 			else if (WIFSIGNALED(status))
 			{
 				exit_code = WTERMSIG(status) + 128;
+				if (exit_code == 130 || exit_code == 131)
+					write(1, "\n", 1);
 			}
 		}
 	}
