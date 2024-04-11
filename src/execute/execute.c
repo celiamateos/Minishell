@@ -23,7 +23,6 @@ void	run_cmd_util(t_shell_sack ***sack_orig, t_tree *node)
 	if (!check_isbuiltin(node))
 	{
 		execute_builtin(&sack, node);
-
 		exit((*sack)->last_exit);
 	}
 	else
@@ -54,7 +53,6 @@ void	run_cmd(t_shell_sack ***sack_orig, t_tree *node)
 	ft_close((*sack)->old_pipes[0], (*sack)->new_pipes[1]);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	//(*sack)->last_exit = wait_exitcode((*sack)->last_pid);
 	ft_cpypipes((*sack)->old_pipes, (*sack)->new_pipes);
 	(*sack)->new_pipes[1] = 1;
 }

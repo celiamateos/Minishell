@@ -113,7 +113,7 @@ int	open_redirect(t_shell_sack ****sack_orig, t_tree *node)
 to assign fds*/
 int	check_redirect(t_shell_sack ***sack_orig, t_tree *node)
 {
-	int	i;
+	int		i;
 	t_tree	*aux_node;
 	t_tree	*aux_node2;
 

@@ -11,36 +11,6 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-int	leaf_isredirect_aux(t_tree **tree, t_dlist *token_list)
-{
-	t_tree	*aux_leaf;
-	t_token	*token;
-
-	token = token_list->content;
-	aux_leaf = *tree;
-	if (token->type >= REDIR_OUT && aux_leaf->right == NULL)
-		aux_leaf->right = new_leaf(token);
-	else if (token->type >= REDIR_OUT && aux_leaf->right->content->type >= REDIR_OUT)
-	{
-		while (aux_leaf->right)
-			aux_leaf = aux_leaf->right;		
-		aux_leaf->right = new_leaf(token);
-	}
-	else if (token->type >= HEREDOC && aux_leaf->left == NULL)
-		aux_leaf->left = new_leaf(token);
-	else if (token->type >= HEREDOC && aux_leaf->left->content->type >= HEREDOC)
-	{
-		while (aux_leaf->left)
-			aux_leaf = aux_leaf->left;		
-		aux_leaf->left = new_leaf(token);
-	}
-	else if ((aux_leaf->content->type >= PIPE && aux_leaf->content->type <= PARENT_CL) && aux_leaf->right == NULL)
-		aux_leaf->right = new_leaf(token);
-	else if (aux_leaf->content->type >= PIPE && aux_leaf->content->type <= PARENT_CL)
-		return (0);
-	return (1);
-}
-
 void	leaf_isredirect(t_tree ***root, t_dlist *token_list)
 {
 	t_tree	**tree;
@@ -50,13 +20,11 @@ void	leaf_isredirect(t_tree ***root, t_dlist *token_list)
 	token = token_list->content;
 	tree = *root;
 	aux_leaf = *tree;
-
 	if (!leaf_isredirect_aux(&aux_leaf, token_list))
 	{
 		aux_leaf = findright_cmd_redirleaf(&aux_leaf);
 		leaf_isredirect_aux(&aux_leaf, token_list);
 	}
-
 }
 
 void	auxleaf_iscmd(t_tree ****root, t_dlist *token_list)
