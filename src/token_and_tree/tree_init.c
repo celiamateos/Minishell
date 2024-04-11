@@ -11,27 +11,6 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
-/* @brief Find in tree the next cmd token or parenthesis. Used to add
- operator flag, that in execution it will execute or not depends on exitcode*/
-t_tree	*findright_cmd_redirleaf(t_tree **node)
-{
-	t_token	*token;
-	t_tree	**aux_leaf;
-
-	aux_leaf = node;
-	token = (*aux_leaf)->content;
-	if (token->type != CMD)
-	{
-		while ((*aux_leaf)->right != NULL)
-		{
-			if (((*aux_leaf)->right)->content->type == CMD)
-				return ((*aux_leaf)->right);
-			*aux_leaf = (*aux_leaf)->right;
-		}
-	}
-	return (*aux_leaf);
-}
-
 int	leaf_isredirect_aux(t_tree **tree, t_dlist *token_list)
 {
 	t_tree	*aux_leaf;

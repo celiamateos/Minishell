@@ -11,6 +11,27 @@
 /* ************************************************************************** */
 #include "../../include/minishell.h"
 
+/* @brief Find in tree the next cmd token at right of given node. Used to add
+ redirs in cmd leaf*/
+t_tree	*findright_cmd_redirleaf(t_tree **node)
+{
+	t_token	*token;
+	t_tree	**aux_leaf;
+
+	aux_leaf = node;
+	token = (*aux_leaf)->content;
+	if (token->type != CMD)
+	{
+		while ((*aux_leaf)->right != NULL)
+		{
+			if (((*aux_leaf)->right)->content->type == CMD)
+				return ((*aux_leaf)->right);
+			*aux_leaf = (*aux_leaf)->right;
+		}
+	}
+	return (*aux_leaf);
+}
+
 void	leaf_isoperpipe(t_tree ***root, t_dlist *token_list)
 {
 	t_tree	**tree;

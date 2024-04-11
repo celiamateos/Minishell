@@ -77,6 +77,9 @@ void	leaf_isparenthesis_op(t_tree ***root, t_dlist *token_list);
 void	leaf_isparenthesis_cl(t_tree ***root, t_dlist *token_list);
 void	leaf_isoperpipe(t_tree ***root, t_dlist *token_list);
 t_tree	*new_leaf(t_token *token);
+t_tree	*findright_cmd_redirleaf(t_tree **node);
+//tree_utils2.c
+int     leaf_isredirect_aux(t_tree **tree, t_dlist *token_list);
 // A estas funciones solamente las llamas en tokens_init.c:35 y está comentado.
 //Si no se va a usar borrar archivo
 int		valid_varname(char *value, int *i);
